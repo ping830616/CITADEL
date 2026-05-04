@@ -34,9 +34,9 @@ COMPUTE_TOKENS = ("com", "core", "cpu", "uops", "ipc", "cpi", "cycles", "instr",
 
 @dataclass(frozen=True)
 class OperatorCosts:
-    """Add/multiply library costs from Eduardo Ortega's reference script.
+    """Add/multiply library costs from Eduardo Ortega's reference calculation.
 
-    The source script reads ``hw.csv`` and divides the area row by ``1000**2``.
+    The source code reads ``hw.csv`` and divides the area row by ``1000**2``.
     We keep the same conversion here, treating the raw area entries as square
     micrometers even if the legacy CSV label says ``area (mm^2)``.
     """

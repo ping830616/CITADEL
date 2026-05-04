@@ -23,7 +23,7 @@ Rules:
 
 - add large CSVs with Git LFS
 - never edit a snapshot in place
-- store data-cleaning scripts and config next to generated outputs
+- store data-cleaning notebook cells and config next to generated outputs
 - require SHA-256 hashes in every run manifest
 
 ## Running On A New Machine

@@ -39,7 +39,7 @@ This file lists the PNG assets generated for the CITADEL manuscript and gives Ov
 \begin{figure*}[!t]
 \centering
 \includegraphics[width=0.95\textwidth]{figs/fig_citadel_method_repo_map.png}
-\caption{CITADEL methodology and reproducible GitHub artifacts. Each method step maps to a script, configuration file, manifest, or RTL artifact in the repository.}
+\caption{CITADEL methodology and reproducible GitHub artifacts. Each method step maps to a notebook section, configuration file, manifest, or RTL artifact in the repository.}
 \label{fig:citadel_method_repo_map}
 \end{figure*}
 ```

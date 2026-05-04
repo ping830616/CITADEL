@@ -15,7 +15,7 @@ Claims to prove:
 
 Keep yourself on track by requiring every claim to have:
 
-- one script
+- one notebook section
 - one config file
 - one manifest
 - one table or figure
@@ -44,7 +44,7 @@ Actions:
 
 Done when:
 
-- all scripts use repo-relative paths
+- all notebook paths are repo-relative
 - no experiment depends on a local absolute path
 - `run_manifest.json` lists input hashes and the git commit
 
@@ -219,7 +219,7 @@ add:  area raw 1165.234, power 0.178 mW, delay 62.7 ps, cycles 3
 mult: area raw 4532.164, power 0.5146 mW, delay 29.09 ps, cycles 2
 ```
 
-Following the reference script, raw area is divided by `1000**2`.
+Following the reference calculation, raw area is divided by `1000**2`.
 
 STD cost per feature:
 
@@ -348,7 +348,7 @@ Purpose: make the TCAD submission auditable.
 
 Actions:
 
-1. Generate every figure and table from scripts.
+1. Generate every figure and table from the notebook.
 2. Link every figure and table to a manifest.
 3. Rerun the complete pipeline on two environments.
 4. Compare manifests and explain any platform-dependent differences.

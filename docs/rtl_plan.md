@@ -41,7 +41,7 @@ For every synthesis point, report:
 
 Until RTL/FPGA synthesis is complete, the CITADEL ablation table uses Eduardo Ortega's add/multiply cost table in `hardware/hw.csv` and the normalized repo copy in `hardware/cintas_operator_costs.csv`.
 
-The current estimate follows the reference script:
+The current estimate follows the reference calculation:
 
 - add raw area `1165.234`, power `0.178 mW`, delay `62.7 ps`, cycles `3`
 - multiply raw area `4532.164`, power `0.5146 mW`, delay `29.09 ps`, cycles `2`

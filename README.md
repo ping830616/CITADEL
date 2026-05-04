@@ -13,7 +13,7 @@ The code is intentionally portable: Python versions are pinned, runtime seeds an
 
 ## Notebook-Only Workflow
 
-The single supported experiment entry point is `notebooks/exact_tcad_all_experiments.ipynb`. Open that notebook in Jupyter, run the cells from top to bottom, and use its configuration cell to choose smoke or full CITADEL runs. Do not use bash scripts for this project.
+The single supported experiment entry point is `notebooks/exact_tcad_all_experiments.ipynb`. Open that notebook in Jupyter, run the cells from top to bottom, and use its configuration cell to choose smoke or full CITADEL runs.
 
 The notebook automatically locates the tracked telemetry folders:
 
@@ -25,7 +25,6 @@ If the notebook reports that a CSV is a Git LFS pointer, fetch the Git LFS objec
 ## Repository Map
 
 - `exact/`: portable Python reference implementation inherited from EXACT, plus CITADEL ablation orchestration
-- `scripts/`: optional Python utilities retained for maintenance; not the experiment entry point
 - `notebooks/`: the single experiment runner for EXACT reproduction, CITADEL ablation, hardware summaries, and FPGA/RTL integration hooks
 - `configs/`: smoke and full ablation grids
 - `docs/`: start-to-finish methodology, traceability matrix, data schema, reproducibility checklist, and RTL plan

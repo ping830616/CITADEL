@@ -1,1 +1,1 @@
-"""Experiment runners (paper / draft reproduction scripts)."""
+"""Experiment runners used by the CITADEL notebook workflow."""

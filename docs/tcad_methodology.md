@@ -13,7 +13,7 @@ Core flow:
 3. How stable is the benign CITADEL reference when workloads, software, firmware, temperature, voltage policy, or platform observability changes?
 4. Can the fixed-point CINTAS path be verified through RTL simulation and FPGA-oriented synthesis reports?
 
-Every question must map to a script, a manifest, a table or figure, and a short paper interpretation.
+Every question must map to a notebook section, a manifest, a table or figure, and a short paper interpretation.
 
 ## 2. Terms Used Consistently
 
@@ -207,7 +207,7 @@ Figures:
 
 Final gate:
 
-1. Rerun scripts from a clean clone.
+1. Rerun the notebook from a clean clone.
 2. Compare manifests across two environments.
 3. Archive data snapshot IDs.
 4. Freeze paper figures and tables.

@@ -11,19 +11,19 @@ ENV PYTHONHASHSEED=123 \
 WORKDIR /workspace/CITADEL
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends git make \
+    && apt-get install -y --no-install-recommends git git-lfs \
     && rm -rf /var/lib/apt/lists/*
 
-COPY pyproject.toml requirements.txt README.md LICENSE Makefile ./
+COPY pyproject.toml requirements.txt README.md LICENSE ./
 COPY configs ./configs
 COPY docs ./docs
 COPY exact ./exact
 COPY hardware ./hardware
+COPY notebooks ./notebooks
 COPY rtl ./rtl
-COPY scripts ./scripts
 COPY tests ./tests
 
 RUN python -m pip install -U pip \
-    && python -m pip install -e ".[dev]"
+    && python -m pip install -e ".[dev,notebook]"
 
-CMD ["make", "reproduce-smoke"]
+CMD ["python", "-m", "pytest"]
