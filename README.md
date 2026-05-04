@@ -30,6 +30,7 @@ If the notebook reports that a CSV is a Git LFS pointer, fetch the Git LFS objec
 - `docs/`: start-to-finish methodology, traceability matrix, data schema, reproducibility checklist, and RTL plan
 - `docs/figures/`: CITADEL manuscript PNG assets for Overleaf figures and draft table images
 - `rtl/cintas/`: synthesizable CINTAS SystemVerilog starter design and testbench notes
+- `environment.yml`: Conda environment for reproducible laptop/server runs
 - `data/external_sources.json`: versioned registry for external DDR and Apple telemetry sources
 - `data/telemetry/processed/ddr_data/`: DDR4/DDR5 CSV target for CITADEL CINTAS experiments
 - `data/telemetry/raw/apple_data/`: Apple M2 Pro tier-0/1/2 target for observability studies
@@ -42,11 +43,18 @@ Every experiment should be run from the notebook with repo-relative paths. Each 
 
 ## Run For Reproducibility
 
-Use Python 3.11 or 3.12 when possible because GitHub Actions tests both versions. Python 3.13 also works locally, but matching CI is cleaner for paper artifacts.
+Use Python 3.11 or 3.12 when possible because GitHub Actions tests both versions. Python 3.13 also works locally, but matching CI is cleaner for paper artifacts. This repo supports two equivalent setup paths:
+
+- `venv` plus `pip install -e ".[dev,notebook]"`
+- Conda using `environment.yml`
+
+For strict paper reproducibility, use the same path on both machines. The Conda path is recommended for the ASU Linux server when Conda or Mamba is available.
 
 ### Laptop Run
 
-On macOS or Linux, clone the repo, materialize the Git LFS data, create an isolated environment, install the package, and launch the notebook:
+On macOS or Linux, clone the repo, materialize the Git LFS data, create an isolated environment, install the package, and launch the notebook.
+
+Option A uses `venv`:
 
 ```text
 git clone https://github.com/ping830616/CITADEL.git
@@ -57,6 +65,20 @@ python3.11 -m venv .venv
 source .venv/bin/activate
 python -m pip install -U pip
 python -m pip install -e ".[dev,notebook]"
+python -m pytest
+python -m jupyter lab notebooks/exact_tcad_all_experiments.ipynb
+```
+
+Option B uses `environment.yml`:
+
+```text
+git clone https://github.com/ping830616/CITADEL.git
+cd CITADEL
+git lfs install
+git lfs pull
+conda env create -f environment.yml
+conda activate citadel-slm
+python -m pip install -e . --no-deps
 python -m pytest
 python -m jupyter lab notebooks/exact_tcad_all_experiments.ipynb
 ```
@@ -75,7 +97,22 @@ Then run the notebook from top to bottom. The smoke preset is the recommended la
 
 ### ASU Linux Server Run
 
-On an ASU Linux server, use the same repo and notebook. The main differences are environment setup, remote Jupyter access, and optional job allocation if the server is managed by a scheduler.
+On an ASU Linux server, use the same repo and notebook. The main differences are environment setup, remote Jupyter access, and optional job allocation if the server is managed by a scheduler. If Conda or Mamba is available, prefer `environment.yml` so the server receives the same pinned package versions as the laptop.
+
+Conda server setup:
+
+```text
+git clone https://github.com/ping830616/CITADEL.git
+cd CITADEL
+git lfs install
+git lfs pull
+conda env create -f environment.yml
+conda activate citadel-slm
+python -m pip install -e . --no-deps
+python -m pytest
+```
+
+If Conda is not available, use `venv`:
 
 ```text
 git clone https://github.com/ping830616/CITADEL.git
