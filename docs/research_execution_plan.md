@@ -1,6 +1,6 @@
-# Research Execution Plan
+# CITADEL Research Execution Plan
 
-The attached prompt image rendered as an unreadable black strip locally, so this plan follows the visible EXACT flow used in the existing scaffold: benign calibration, causal graph/ranking, top-k feature selection, CINTAS parameter search, benign thresholding, and streaming inference. The plan is written as a standalone research workflow.
+This plan follows the CITADEL flow used in the existing scaffold: benign calibration, causal graph/ranking inherited from EXACT, top-k feature selection, CINTAS parameter search, benign thresholding, streaming inference, benign-drift checks, and hardware validation.
 
 ## Stage 0: Repository And Reproducibility Baseline
 
@@ -11,15 +11,15 @@ The attached prompt image rendered as an unreadable black strip locally, so this
 
 Exit gate: a fresh clone on another machine produces the same smoke-test manifest structure and the same smoke-test metrics.
 
-## Stage 1: ETS Baseline Reproduction
+## Stage 1: EXACT Baseline Reproduction
 
 1. Import the original EXACT telemetry snapshot from `https://github.com/ping830616/EXACT`.
 2. Preserve the raw CSV files under `data/telemetry/raw/<snapshot_id>/`.
 3. Convert to the TCAD schema under `data/telemetry/processed/<snapshot_id>/`.
-4. Run the ETS reproduction script without changing TCAD parameters.
+4. Run the EXACT reproduction script without changing CITADEL parameters.
 5. Compare reproduced tables and figures against the conference paper.
 
-Exit gate: ETS detection and explainability results match the paper within a stated tolerance.
+Exit gate: EXACT detection and explainability results match the paper within a stated tolerance.
 
 ## Stage 2: Data Contract
 
@@ -63,7 +63,7 @@ Exit gate: floating-point and fixed-point reference implementations produce boun
 6. For every grid point, compute detection metrics, latency, feature bandwidth, arithmetic operation count, and fixed-point error.
 7. Rank Pareto-optimal configurations for TCAD figures.
 
-Exit gate: `results/tcad_full/tcad_ablation_summary.csv` supports paper-ready trade-off plots.
+Exit gate: `results/tcad_full/tcad_ablation_summary.csv` supports paper-ready CITADEL trade-off plots.
 
 ## Stage 6: Heterogeneous Platform Validation
 
@@ -75,7 +75,7 @@ Exit gate: `results/tcad_full/tcad_ablation_summary.csv` supports paper-ready tr
 6. Report macOS separately as host-level portability, not as an on-chip hardware-cost claim.
 7. Separate portability failures caused by missing counters, workload shifts, and true model degradation.
 
-Exit gate: the manuscript can state where EXACT transfers directly and where recalibration is required.
+Exit gate: the manuscript can state where CITADEL transfers directly and where recalibration is required.
 
 ## Stage 7: Lifecycle Drift And Digital-Twin Calibration
 

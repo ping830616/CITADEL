@@ -3,14 +3,14 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "exact-tcad"
+name = "citadel-slm"
 version = "0.1.0"
-description = "EXACT-TCAD: reproducible journal-extension workspace for edge causal telemetry and CINTAS RTL studies"
+description = "CITADEL: reproducible journal-extension workspace for causal telemetry, fixed-point CINTAS, and drift-aware SLM studies"
 readme = "README.md"
 requires-python = ">=3.11,<3.14"
 license = {text = "MIT"}
 authors = [
-  {name = "EXACT authors", email = "replace-me@example.com"},
+  {name = "CITADEL authors", email = "replace-me@example.com"},
 ]
 dependencies = [
   "numpy==2.1.3",

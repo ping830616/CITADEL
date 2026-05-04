@@ -1,6 +1,6 @@
-# TCAD Requirements Traceability
+# CITADEL Requirements Traceability
 
-This file maps the paper goals to experiments, code paths, and expected artifacts.
+This file maps the CITADEL paper goals to experiments, code paths, and expected artifacts.
 
 | Research need | Planned experiment | Reproducible artifact |
 | --- | --- | --- |
@@ -13,7 +13,7 @@ This file maps the paper goals to experiments, code paths, and expected artifact
 ## Paper Claim To Evidence Map
 
 1. **Compact detection:** show that selected features can detect anomalies while reducing telemetry bandwidth.
-2. **Design-space trade-off:** plot detection quality versus latency, telemetry bandwidth, arithmetic operations, fixed-point error, area, and power.
+2. **CITADEL design-space trade-off:** plot detection quality versus latency, telemetry bandwidth, arithmetic operations, fixed-point error, area, and power.
 3. **Hardware feasibility:** compare floating-point reference, fixed-point Python, RTL simulation, and FPGA synthesis using the same golden vectors.
 4. **Lifecycle readiness:** show drift-aware benign recalibration lowers false positives while preserving anomaly sensitivity and interpretable top-contributor context.
 5. **Platform realism:** report hardware-counter platforms and host-level macOS telemetry separately so deployment assumptions remain clear.

@@ -1,6 +1,6 @@
-# TCAD Research Methodology
+# CITADEL Research Methodology
 
-This document defines the research plan as a standalone hardware-aware SLM study.
+This document defines the research plan for **CITADEL: Causal In-Field Telemetry Analytics and Drift-Aware Edge Learning for Silicon Lifecycle Management**.
 
 Core flow:
 
@@ -8,9 +8,9 @@ Core flow:
 
 ## 1. Research Questions
 
-1. Can EXACT detect SLM anomalies with a small, explainable telemetry feature set?
+1. Can CITADEL detect SLM anomalies with a small, explainable telemetry feature set inherited from the EXACT causal telemetry flow?
 2. Which CINTAS settings give the best trade-off among detection quality, latency, telemetry bandwidth, fixed-point error, and hardware cost?
-3. How stable is the benign reference when workloads, software, firmware, temperature, voltage policy, or platform observability changes?
+3. How stable is the benign CITADEL reference when workloads, software, firmware, temperature, voltage policy, or platform observability changes?
 4. Can the fixed-point CINTAS path be verified through RTL simulation and FPGA-oriented synthesis reports?
 
 Every question must map to a script, a manifest, a table or figure, and a short paper interpretation.

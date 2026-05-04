@@ -1,12 +1,13 @@
-"""EXACT: Edge-eXplainable Autonomous Causal Telemetry.
+"""CITADEL/EXACT causal telemetry package.
 
-This repository packages the code used to generate the results in the
-ETS 2026 draft (WIP) for EXACT.
+This package preserves the portable EXACT implementation and adds the
+CITADEL journal-extension workflow for hardware-aware SLM experiments.
 
 Key ideas (see docs/draft):
   * Benign-only calibration (mean/std) for telemetry normalization.
   * Causal structure learning / feature ranking (offline).
   * Fixed-point friendly on-device scoring via CINTAS.
+  * CITADEL design-space sweeps, hardware-cost summaries, and drift checks.
 
 """
 

@@ -1,14 +1,14 @@
-# Detailed EXACT-TCAD Methodology
+# Detailed CITADEL Methodology
 
-The image attached in the prompt renders as a black strip in this environment, so the labels below are the explicit methodology I used for the repo. They follow the EXACT/CINTAS flow already encoded in the codebase: raw telemetry, benign calibration, MICI/causal feature selection, CINTAS scoring, decision aggregation, hardware-cost modeling, lifecycle drift, and RTL validation.
+The image attached in the prompt renders as a black strip in this environment, so the labels below are the explicit methodology I used for the repo. They follow the CITADEL flow already encoded in the codebase: raw telemetry, benign calibration, causal feature selection inherited from EXACT, CINTAS scoring, decision aggregation, hardware-cost modeling, benign drift, and RTL validation.
 
 ## 0. Research Target And Claims
 
-Goal: build a complete, hardware-aware SLM research workflow around EXACT and CINTAS.
+Goal: build a complete, hardware-aware SLM research workflow around CITADEL and CINTAS.
 
 Claims to prove:
 
-1. EXACT/CINTAS is portable across heterogeneous CPU-DRAM platforms and broader SLM anomalies.
+1. CITADEL/CINTAS is portable across heterogeneous CPU-DRAM platforms and broader SLM anomalies.
 2. Its design choices have measurable performance, latency, bandwidth, and hardware-cost trade-offs.
 3. CINTAS is feasible as a fixed-point RTL/FPGA block.
 4. Lifecycle calibration can manage benign drift while preserving anomaly sensitivity and explainability.

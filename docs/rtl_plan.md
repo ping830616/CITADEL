@@ -1,4 +1,4 @@
-# CINTAS RTL And FPGA Plan
+# CITADEL CINTAS RTL And FPGA Plan
 
 ## Datapath
 
@@ -45,7 +45,7 @@ For every synthesis point, report:
 
 ## Current Operator-Cost Source
 
-Until RTL/FPGA synthesis is complete, the TCAD ablation table uses Eduardo Ortega's add/multiply cost table in `hardware/hw.csv` and the normalized repo copy in `hardware/cintas_operator_costs.csv`.
+Until RTL/FPGA synthesis is complete, the CITADEL ablation table uses Eduardo Ortega's add/multiply cost table in `hardware/hw.csv` and the normalized repo copy in `hardware/cintas_operator_costs.csv`.
 
 The current estimate follows the reference script:
 
