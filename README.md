@@ -40,6 +40,114 @@ If the notebook reports that a CSV is a Git LFS pointer, fetch the Git LFS objec
 
 Every experiment should be run from the notebook with repo-relative paths. Each notebook run writes `run_manifest.json` files with configuration, package versions, input hashes, and output hashes. Matching manifests across machines mean the same numerical inputs and outputs were used.
 
+## Run For Reproducibility
+
+Use Python 3.11 or 3.12 when possible because GitHub Actions tests both versions. Python 3.13 also works locally, but matching CI is cleaner for paper artifacts.
+
+### Laptop Run
+
+On macOS or Linux, clone the repo, materialize the Git LFS data, create an isolated environment, install the package, and launch the notebook:
+
+```text
+git clone https://github.com/ping830616/CITADEL.git
+cd CITADEL
+git lfs install
+git lfs pull
+python3.11 -m venv .venv
+source .venv/bin/activate
+python -m pip install -U pip
+python -m pip install -e ".[dev,notebook]"
+python -m pytest
+python -m jupyter lab notebooks/exact_tcad_all_experiments.ipynb
+```
+
+In the notebook configuration cell, keep these settings for a reproducible laptop run:
+
+```python
+SEED = 123
+THREADS = 1
+DATA_MODE = "real"
+TCAD_PRESET = "smoke"
+RUN_REPEAT_CHECK = True
+```
+
+Then run the notebook from top to bottom. The smoke preset is the recommended laptop check. It validates the full CITADEL flow without running the largest design-space sweep.
+
+### ASU Linux Server Run
+
+On an ASU Linux server, use the same repo and notebook. The main differences are environment setup, remote Jupyter access, and optional job allocation if the server is managed by a scheduler.
+
+```text
+git clone https://github.com/ping830616/CITADEL.git
+cd CITADEL
+git lfs install
+git lfs pull
+python3.11 -m venv .venv
+source .venv/bin/activate
+python -m pip install -U pip
+python -m pip install -e ".[dev,notebook]"
+python -m pytest
+```
+
+If the server uses environment modules, load Python before creating the virtual environment:
+
+```text
+module avail python
+module load python/3.11
+python3.11 -m venv .venv
+```
+
+If the server requires an interactive compute allocation, request one before launching Jupyter. The exact command depends on the ASU machine policy, but a typical Slurm-style allocation looks like this:
+
+```text
+salloc --time=04:00:00 --cpus-per-task=4 --mem=32G
+```
+
+Start Jupyter on the server without opening a browser:
+
+```text
+python -m jupyter lab --no-browser --ip=127.0.0.1 --port=8888 notebooks/exact_tcad_all_experiments.ipynb
+```
+
+From your laptop, open an SSH tunnel to the server:
+
+```text
+ssh -L 8888:127.0.0.1:8888 ASURITE_ID@SERVER_NAME
+```
+
+Then open the Jupyter URL printed by the server, usually beginning with:
+
+```text
+http://127.0.0.1:8888/lab?token=...
+```
+
+For the server run, keep the same deterministic settings first:
+
+```python
+SEED = 123
+THREADS = 1
+DATA_MODE = "real"
+TCAD_PRESET = "smoke"
+RUN_REPEAT_CHECK = True
+```
+
+After the smoke run matches, change only the preset for the journal-scale run:
+
+```python
+TCAD_PRESET = "full"
+```
+
+### What To Compare Across Machines
+
+After each run, check these outputs:
+
+- `results/notebook_run/ets_baseline/run_manifest.json`
+- `results/notebook_run/tcad_ablation/run_manifest.json`
+- `results/notebook_run/tcad_ablation/tcad_config_resolved.json`
+- `results/notebook_run/tcad_ablation/tcad_ablation_summary.csv`
+
+For strict reproducibility, the resolved config, input hashes, selected-feature files, and summary CSV values should match between the laptop and the ASU server. If they do not match, first check Python version, package versions, Git commit, Git LFS data materialization, `SEED`, `THREADS`, and `TCAD_PRESET`.
+
 ## CITADEL Methodology
 
 The project plan is in `docs/tcad_methodology.md`, `docs/research_execution_plan.md`, and `docs/image_flow_methodology.md`. The cover-letter-to-artifact map is in `docs/tcad_requirements_traceability.md`. Together they turn the cover-letter promises into a complete execution path:
