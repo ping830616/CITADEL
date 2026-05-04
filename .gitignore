@@ -1,0 +1,9 @@
+.DS_Store
+.ipynb_checkpoints/
+.pytest_cache/
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+data/sample/
+results/

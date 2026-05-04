@@ -1,0 +1,5 @@
+operator,bit_width,area_um2,energy_fj,source
+add,16,0,0,replace_with_synthesis_or_library_value
+mul,16,0,0,replace_with_synthesis_or_library_value
+compare,16,0,0,replace_with_synthesis_or_library_value
+abs,16,0,0,replace_with_synthesis_or_library_value
