@@ -1,0 +1,78 @@
+% LaTeX-ready draft for the TCAD journal extension.
+% Citation keys are placeholders. Map them to the keys in the Overleaf .bib file.
+% The style follows the IEEEtran journal template: Abstract, Index Terms,
+% Section I Introduction, and Section II Background.
+
+\begin{abstract}
+Silicon lifecycle management (SLM) depends on telemetry that can detect reliability, safety, and security anomalies after deployment. Modern processors expose many counters and sensors, but practical SLM analytics must run with limited area, power, memory, and bandwidth. A preliminary version of this work introduced EXACT, an edge-only causal telemetry pipeline that learns from benign data, selects a compact set of telemetry signals, and maps them to a fixed-point CINTAS anomaly-scoring engine. That study showed that causal feature selection and integer scoring can detect voltage droop, RowHammer, and Spectre on two CPU--DRAM platforms. This article extends EXACT from a conference prototype into a journal-scale SLM methodology. We first make the design space explicit by sweeping the feature budget, decision-block length, score mixing, aggregation operator, feature weighting, and fixed-point precision. We then expand the evaluation toward heterogeneous platforms, broader SLM anomaly classes, and lifecycle drift. We also connect the software reference to a hardware path by deriving area, power, delay, and cycle estimates from add/multiply operator costs and by exporting fixed-point golden vectors for RTL and FPGA validation. The resulting flow links benign calibration, causal telemetry ranking, compact edge scoring, drift-aware recalibration, and hardware evaluation in one reproducible framework. The goal is not only to improve detection accuracy, but to show which EXACT configurations are practical for deployment and why they remain trustworthy over the silicon lifetime.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Silicon lifecycle management, hardware telemetry, anomaly detection, causal feature selection, fixed-point arithmetic, FPGA, hardware-aware monitoring.
+\end{IEEEkeywords}
+
+\section{Introduction}
+
+Silicon lifecycle management (SLM) extends monitoring and test beyond manufacturing. After a device is deployed, its behavior can change because of workload variation, software updates, voltage and thermal stress, environmental conditions, aging, and security events \cite{slm_survey,self_aware_silicon}. On-chip telemetry gives SLM the raw material for this task. Performance counters, memory counters, voltage sensors, temperature sensors, power monitors, and aging monitors can expose changes in system behavior before they become service failures.
+
+The challenge is that telemetry alone is not a lifecycle solution. A deployed system must collect signals, move them through a telemetry fabric, and turn them into decisions under strict limits on area, power, memory, and latency. These limits are most severe at the edge, where the detector must run close to the device and cannot assume continuous off-chip analysis. Labels are also scarce. Real anomalies are rare, and many lifecycle events have no clear start time. Supervised models therefore require data that are expensive to obtain and hard to maintain across platforms and over time.
+
+Recent SLM engines address parts of this problem. E-SCOUT introduced telemetry-based outlier detection with on-chip support and cloud-assisted diagnosis \cite{escout}. OCTANE advanced this direction by using fixed-point on-chip anomaly scoring and workload-independent feature ranking \cite{octane}. TRACK studied representation similarity for fleet-level monitoring across homogeneous and heterogeneous platforms \cite{track}. DICE used a behavioral micro-twin and conformal calibration for host-side continuous test when only tiered operating-system telemetry is available \cite{dice}. These methods show that telemetry can support detection, diagnosis, and fleet monitoring. They also expose the remaining gap: an SLM detector should be compact enough for edge deployment, stable enough for lifecycle use, and interpretable enough to explain which signals caused an alert.
+
+A preliminary version of this work introduced EXACT, Edge-eXplainable Autonomous Causal Telemetry \cite{exact_ets}. EXACT learns from benign telemetry only. It standardizes telemetry using benign calibration constants, builds a sparse causal telemetry graph, ranks features with causal dependence, and selects a small feature budget for Causal Integrated Anomaly Scoring (CINTAS). CINTAS computes an anomaly score with fixed-point arithmetic over the selected signals. The ETS version showed that a top-15 feature set can detect voltage droop, RowHammer, and Spectre on two CPU--DRAM platforms with low estimated hardware overhead.
+
+That result established feasibility, but it left four questions open. First, the EXACT design choices were fixed. The feature budget, decision-block length, aggregation operator, score weighting, residual-score mixing, and fixed-point precision were not systematically tested. Second, the evaluation was limited to two desktop CPU--DRAM platforms and three anomaly classes. This does not fully show how EXACT behaves on server-class, embedded, or otherwise heterogeneous platforms, nor under broader SLM fault and drift scenarios. Third, CINTAS hardware cost was estimated from fixed-point arithmetic, but it was not tied to an RTL or FPGA validation path. Fourth, lifecycle operation was not studied in enough detail. A practical SLM detector must address benign drift, recalibration, changing workloads, firmware changes, aging proxies, and missing or unmonitored variables.
+
+This article addresses those gaps. We keep the core idea of EXACT: use benign data to define normal behavior, use causal structure to reduce telemetry, and use fixed-point scoring for edge deployment. We then turn the method into a journal-scale framework that evaluates accuracy, latency, bandwidth, arithmetic cost, fixed-point error, and hardware feasibility across a wider design space. The central question is no longer only whether EXACT works. The question is which EXACT configuration should be deployed, under what telemetry and hardware constraints, and how it should be maintained across the device lifetime.
+
+The main contributions of this article are as follows.
+
+\begin{itemize}
+    \item We present a full TCAD extension of EXACT that connects benign calibration, causal telemetry ranking, top-$k$ feature selection, CINTAS scoring, benign thresholding, lifecycle recalibration, and hardware-cost evaluation in one reproducible flow.
+    \item We introduce a design-space ablation for EXACT and CINTAS. The sweep covers feature budget, decision-block length, score mixing, aggregation, feature weighting, and fixed-point precision, and reports detection quality, calibration quality, latency, feature bandwidth, fixed-point error, and arithmetic cost.
+    \item We extend the validation plan beyond the ETS study by targeting heterogeneous platforms and broader SLM anomaly scenarios, including workload-induced variation, firmware or configuration drift, voltage and thermal shifts, and aging-oriented fault proxies.
+    \item We add a hardware-aware CINTAS path. The current model derives area, power, delay, and cycle estimates from add/multiply operator costs, exports fixed-point golden vectors, and prepares the RTL/FPGA flow needed to replace estimates with synthesis and implementation reports.
+    \item We define a lifecycle deployment procedure in which benign calibration can be frozen, monitored for drift, and recalibrated using safe benign windows while preserving feature-rank stability and signal-level context for diagnosis.
+\end{itemize}
+
+The rest of this article is organized as follows. Section II reviews SLM, telemetry-based anomaly detection, hardware-aware SLM engines, and causal or representation-based telemetry analysis. Section III presents the EXACT-TCAD methodology. Section IV describes the experimental setup and reproducibility protocol. Section V reports the design-space, lifecycle, and hardware results. Section VI concludes the article.
+
+\section{Background}
+
+\subsection{Silicon Lifecycle Management and Telemetry}
+
+SLM uses in-silicon and system-level evidence to support a device throughout design, test, deployment, and field operation. During this lifetime, the device may experience workload changes, software updates, voltage and thermal stress, process variation, aging, and security attacks. SLM therefore relies on telemetry that can reveal changes in behavior while the system is running \cite{slm_survey,self_aware_silicon}.
+
+Telemetry sources differ by platform. Some systems expose performance counters, model-specific registers, memory-controller counters, voltage readings, thermal sensors, and power monitors. Other systems expose only operating-system statistics or OS-mediated hardware signals. This difference matters because a detector that assumes privileged counters may not work on every deployed system. It also matters for reproducibility. A paper result must specify which signals were available, how they were sampled, how missing signals were handled, and which signals were used by the detector.
+
+An SLM analytics stack can be viewed as three layers. The first layer senses the device through monitors and counters. The second layer transports and aligns the signals. The third layer converts telemetry streams into decisions. EXACT-TCAD focuses on the third layer while keeping the first two layers explicit. The detector must consume telemetry that is actually available, reduce it to a compact feature set, and report a decision fast enough for online use.
+
+\subsection{Telemetry-Based Anomaly Detection and Diagnosis}
+
+Anomaly detection flags patterns that deviate from expected behavior. In SLM, those deviations may indicate a voltage emergency, a memory disturbance, a security attack, a thermal issue, an aging effect, or a software-induced operating shift. Because field anomalies are rare and labels are expensive, many SLM methods learn from benign data and use unsupervised scoring.
+
+Classical unsupervised detectors include distance-based methods, Isolation Forest, one-class support vector machines, and autoencoders. These methods can work well in software, but they often depend on floating-point computation, memory-heavy models, or offline analysis. They also give limited signal-level context unless extra diagnosis steps are added. This is a problem for SLM, where an alert is more useful when it points to the signals or domains that changed.
+
+E-SCOUT and OCTANE show two important steps toward deployable telemetry analytics. E-SCOUT uses telemetry feature ranking and on-chip outlier detection with cloud-supported diagnosis. OCTANE uses fixed-point arithmetic for on-chip anomaly notification and reduces telemetry to compact anomaly signatures. These systems establish that telemetry-driven SLM can be implemented with hardware awareness. However, they do not fully close the loop between causal signal selection, edge-only detection, lifecycle recalibration, and RTL-validated implementation.
+
+\subsection{Hardware-Aware Edge Analytics}
+
+Hardware-aware SLM analytics must be judged by more than detection metrics. A detector also consumes area, power, memory, feature bandwidth, and decision latency. A model that is accurate but too large to deploy is not useful for edge SLM. A model that requires cloud diagnosis for every alert may not meet latency or privacy requirements. A model that must be retuned per workload may be difficult to maintain in a large fleet.
+
+Fixed-point arithmetic is a practical path for edge deployment. It replaces floating-point operations with scaled integer add, multiply, compare, and shift operations. This makes the detector easier to map to RTL and to synthesize for FPGA or ASIC targets. It also creates a measurable design space. The feature budget affects the number of arithmetic operations. The decision-block length affects latency and energy per decision. The Q format affects numerical error and hardware cost. EXACT-TCAD makes these choices explicit rather than treating them as fixed constants.
+
+\subsection{Causal, Representation, and Digital-Twin Views of Telemetry}
+
+Telemetry signals are not independent. Core activity affects memory traffic. Memory traffic affects power and temperature. Voltage and thermal conditions can change timing margin and performance. A detector that ignores this structure may select redundant features or flag correlations that do not give useful context.
+
+EXACT addresses this issue through causal telemetry analysis. It learns a sparse benign dependency graph, controls false discoveries during feature screening, and ranks signals by both their relation to the anomaly score and their role in the benign telemetry structure. The result is a small feature set that is not only compact but also explainable. When CINTAS raises an alert, the selected signals can be grouped into compute, memory, and sensor domains.
+
+Other recent work takes complementary views. TRACK compares telemetry representations across platforms by using centered kernel alignment, which is useful for fleet-level similarity and cross-platform analysis. DICE uses a behavioral micro-twin to predict expected host-side behavior and calibrates thresholds with benign data. EXACT-TCAD draws on the same lifecycle principle: learn what benign operation looks like, monitor deviations, and recalibrate when the benign reference drifts. The difference is that EXACT-TCAD targets edge-resident causal telemetry and fixed-point deployment.
+
+\subsection{From EXACT to the TCAD Extension}
+
+The ETS version of EXACT answered a first question: can benign-only causal telemetry and fixed-point scoring detect important SLM anomalies with a compact feature set? The answer was yes. EXACT used a top-15 feature budget and CINTAS scoring to detect voltage droop, RowHammer, and Spectre on two CPU--DRAM platforms with low estimated overhead.
+
+The TCAD extension answers the next question: how should EXACT be engineered for deployment? This requires a broader study. The detector must be swept across feature budgets, block lengths, score parameters, and fixed-point precisions. It must be tested against broader platforms and lifecycle shifts. Its hardware cost must be tied to operator-level estimates, RTL simulation, and eventually FPGA or ASIC synthesis. Its calibration must support long-term use, where benign behavior changes but anomaly sensitivity must remain high.
+
+Thus, the advance over the previous EXACT work is methodological as much as numerical. The conference paper proposed the core detector. The journal article turns the detector into a reproducible design and deployment framework for SLM.
