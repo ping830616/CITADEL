@@ -40,7 +40,9 @@ conda activate citadel-slm
 - `docs/`: start-to-finish methodology, traceability matrix, data schema, reproducibility checklist, and RTL plan
 - `docs/figures/`: CITADEL manuscript PNG assets for Overleaf figures and draft table images
 - `rtl/cintas/`: synthesizable CINTAS SystemVerilog starter design and testbench notes
-- `data/telemetry/`: real telemetry snapshot location, tracked with Git LFS when added
+- `data/external_sources.json`: versioned registry for external DDR and Apple telemetry sources
+- `data/telemetry/processed/x_octane_ddr/`: local DDR4/DDR5 CSV target for CITADEL CINTAS experiments, not tracked
+- `data/telemetry/raw/dice_m2pro_tiers/`: local Apple M2 Pro tier-0/1/2 target for observability studies, not tracked
 - `data/sample/`: deterministic generated data for smoke tests, not tracked
 - `results/`: generated tables, plots, and run manifests, not tracked
 
@@ -49,8 +51,9 @@ conda activate citadel-slm
 Every experiment should be runnable from the command line with repo-relative paths:
 
 ```bash
+python scripts/prepare_external_data.py --source x_octane_ddr --download
 python scripts/run_tcad_ablation.py \
-  --data-root data/telemetry \
+  --data-root data/telemetry/processed/x_octane_ddr \
   --out-root results/tcad_full \
   --config configs/tcad_grid_full.json
 ```
@@ -90,11 +93,20 @@ The project plan is in `docs/tcad_methodology.md`, `docs/research_execution_plan
 
 ## Data
 
-Large telemetry CSVs should be added under `data/telemetry/` using Git LFS:
+CITADEL tracks external telemetry through `data/external_sources.json`. Large CSVs are downloaded locally and ignored by git, while each run manifest records the exact input hashes used for the results.
 
 ```bash
-git lfs install
-git lfs track "data/telemetry/*.csv"
+# Hardware-counter data for CITADEL CINTAS experiments.
+python scripts/prepare_external_data.py --source x_octane_ddr --download
+
+# Apple M2 Pro tiered telemetry for limited-observability studies.
+python scripts/prepare_external_data.py --source dice_m2pro_tiers --download
+
+# Small laptop smoke subset of DDR data.
+python scripts/prepare_external_data.py \
+  --source x_octane_ddr \
+  --workloads dft,mm \
+  --download
 ```
 
 The deterministic sample dataset is only for testing the pipeline shape. It is not evidence for the paper.
