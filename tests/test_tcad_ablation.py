@@ -35,4 +35,8 @@ def test_tcad_ablation_smoke_is_reproducible(tmp_path: Path) -> None:
     summary_b = res_b["summary"]
     assert not summary_a.empty
     assert summary_a.equals(summary_b)
+    assert "n_selected_features" in summary_a.columns
+    assert "hw_area_mm2" in summary_a.columns
+    assert "hw_power_mw" in summary_a.columns
+    assert float(summary_a["hw_area_mm2"].min()) > 0.0
     assert (out_a / "run_manifest.json").exists()

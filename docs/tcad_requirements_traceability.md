@@ -6,7 +6,7 @@ This file maps the cover-letter gaps to the journal-extension experiments, code 
 | --- | --- | --- |
 | Limited to two desktop CPU-DRAM platforms and three anomaly types | Add server-class, embedded/edge, and lifecycle-oriented telemetry snapshots; evaluate within-platform and cross-platform transfer | `data/telemetry/raw/<snapshot_id>/`, `data/platforms/<setup>.json`, `results/tcad_full/platform_summary.csv` |
 | Fixed EXACT/CINTAS design choices were not ablated | Sweep feature budget, aggregation operator, decision-block length, score weighting, residual-score mixing, and fixed-point precision | `configs/tcad_grid_full.json`, `scripts/run_tcad_ablation.py`, `results/tcad_full/tcad_ablation_summary.csv` |
-| Hardware cost relied on fixed-point modeling and estimates | Implement bit-true CINTAS, generate golden vectors, run RTL simulation, and synthesize FPGA/ASIC targets | `rtl/cintas/`, `results/rtl_sweep/rtl_resource_summary.csv`, `results/rtl_sweep/precision_cost_summary.csv` |
+| Hardware cost relied on fixed-point modeling and estimates | Start from Eduardo Ortega's add/mult operator table, attach area/power/delay estimates to every TCAD ablation row, then replace or validate them with bit-true CINTAS RTL simulation and FPGA/ASIC synthesis | `hardware/hw.csv`, `hardware/cintas_operator_costs.csv`, `rtl/cintas/`, `results/rtl_sweep/rtl_resource_summary.csv`, `results/rtl_sweep/precision_cost_summary.csv` |
 | Long-term SLM drift, recalibration, and scalability were incomplete | Add benign drift scenarios, recalibration epochs, feature-rank stability checks, and unmonitored-variable diagnosis cases | `results/lifecycle_drift/`, drift/recalibration figures, anomaly-context case studies |
 
 ## Paper Claim To Evidence Map

@@ -12,6 +12,7 @@ import pandas as pd
 from ..causal_corr import build_causal_and_rank_features_for_setup
 from ..cintas import FixedPointCINTAS, FixedPointConfig, fit_cintas_from_benign
 from ..evaluation import run_exact_eval_for_setup
+from ..hardware import estimate_cintas_hardware_cost, format_feature_group_counts
 from ..io import load_telemetry_two_setups
 from ..preprocessing import clean_and_debias_telemetry, drop_constant_features, get_feature_columns
 from ..repro import find_repo_root, write_run_manifest
@@ -87,8 +88,33 @@ def _summarize_fold_results(df: pd.DataFrame) -> pd.DataFrame:
         "top_k",
         "weight_mode",
         "fixed_point_q",
+        "n_selected_features",
     ]
-    metric_cols = ["auc_roc", "auc_pr", "f1", "bal_acc", "mcc", "brier", "ece", "fp_mae", "fp_max_abs"]
+    metric_cols = [
+        "auc_roc",
+        "auc_pr",
+        "f1",
+        "bal_acc",
+        "mcc",
+        "brier",
+        "ece",
+        "fp_mae",
+        "fp_max_abs",
+        "hw_frequency_ghz",
+        "hw_operator_bit_width",
+        "hw_std_area_mm2",
+        "hw_agg_area_mm2",
+        "hw_area_mm2",
+        "hw_power_mw",
+        "hw_setup_b_area_overhead_pct",
+        "hw_idle_power_overhead_pct",
+        "hw_median_workload_power_overhead_pct",
+        "hw_add_count",
+        "hw_mult_count",
+        "hw_estimated_serial_cycles",
+        "hw_add_delay_ps",
+        "hw_mult_delay_ps",
+    ]
     available_metrics = [c for c in metric_cols if c in global_df.columns]
     return (
         global_df.groupby(group_cols, as_index=False)[available_metrics]
@@ -161,6 +187,7 @@ def run_tcad_ablation(
             cfg.fixed_point_q,
         ):
             feats = _selected_features(ranks_by_setup[setup], int(top_k), shared_features)
+            hw_cost = estimate_cintas_hardware_cost(feature_names=feats, frequency_ghz=1.0)
             model = fit_cintas_from_benign(
                 df_setup,
                 feats,
@@ -175,6 +202,8 @@ def run_tcad_ablation(
                 "agg_mode": str(agg_mode),
                 "weight_mode": str(weight_mode),
                 "fixed_point_q": int(q),
+                "n_selected_features": int(hw_cost.feature_count),
+                "feature_group_counts": format_feature_group_counts(hw_cost.group_feature_counts),
                 "features": ",".join(feats),
             })
 
@@ -193,10 +222,13 @@ def run_tcad_ablation(
             if eval_df.empty:
                 continue
             eval_df["top_k"] = int(top_k)
+            eval_df["n_selected_features"] = int(hw_cost.feature_count)
             eval_df["weight_mode"] = str(weight_mode)
             eval_df["fixed_point_q"] = int(q)
             eval_df["fp_mae"] = fp_err["fp_mae"]
             eval_df["fp_max_abs"] = fp_err["fp_max_abs"]
+            for key, value in hw_cost.to_summary_dict().items():
+                eval_df[key] = value
             fold_frames.append(eval_df)
 
     fold_results = pd.concat(fold_frames, ignore_index=True) if fold_frames else pd.DataFrame()

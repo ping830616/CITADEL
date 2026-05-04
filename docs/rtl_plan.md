@@ -42,3 +42,19 @@ For every synthesis point, report:
 - energy per sample
 - energy per decision block
 - numerical error versus floating-point reference
+
+## Current Operator-Cost Source
+
+Until RTL/FPGA synthesis is complete, the TCAD ablation table uses Eduardo Ortega's add/multiply cost table in `hardware/hw.csv` and the normalized repo copy in `hardware/cintas_operator_costs.csv`.
+
+The current estimate follows the reference script:
+
+- add raw area `1165.234`, power `0.178 mW`, delay `62.7 ps`, cycles `3`
+- multiply raw area `4532.164`, power `0.5146 mW`, delay `29.09 ps`, cycles `2`
+- raw area is divided by `1000**2` before reporting `mm^2`
+- STD block cost per feature is `2 * mult + add`
+- STD adder-tree cost is `(n_features - 1) * add`
+- AGG block cost is `2 * mult`
+- power scales linearly with the GHz setting
+
+The model reports Setup B area overhead against `215.25 mm^2` and idle-power overhead against `35.5 W`. These columns are estimates and should be replaced or validated by RTL synthesis reports before final TCAD submission.

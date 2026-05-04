@@ -70,7 +70,7 @@ docker run --rm exact-tcad
 
 ## TCAD Methodology
 
-The project plan is in `docs/tcad_methodology.md` and `docs/research_execution_plan.md`. The cover-letter-to-artifact map is in `docs/tcad_requirements_traceability.md`. Together they turn the cover-letter promises into a complete execution path:
+The project plan is in `docs/tcad_methodology.md`, `docs/research_execution_plan.md`, and `docs/image_flow_methodology.md`. The cover-letter-to-artifact map is in `docs/tcad_requirements_traceability.md`. Together they turn the cover-letter promises into a complete execution path:
 
 1. reproduce the ETS baseline
 2. freeze telemetry schema and platform metadata

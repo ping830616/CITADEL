@@ -1,6 +1,6 @@
 # TCAD Extension Methodology
 
-This document converts the TCAD cover-letter promises into an executable research plan. It is based on the ETS EXACT pipeline and Fig. 3-style flow:
+This document converts the TCAD cover-letter promises into an executable research plan. For the expanded point-by-point methodology used to interpret the attached image, see `docs/image_flow_methodology.md`. It is based on the ETS EXACT pipeline and Fig. 3-style flow:
 
 `benign calibration -> causal graph/ranking -> top-k feature budget -> CINTAS parameter search -> benign threshold -> streaming inference`.
 
