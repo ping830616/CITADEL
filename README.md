@@ -35,6 +35,7 @@ conda activate exact-tcad
 
 - `exact/`: portable Python reference implementation inherited from EXACT, plus TCAD ablation orchestration
 - `scripts/`: command-line entry points for sample data, ETS reproduction, and TCAD sweeps
+- `notebooks/`: single-notebook runner for ETS, TCAD ablation, hardware summaries, and FPGA/RTL integration hooks
 - `configs/`: smoke and full ablation grids
 - `docs/`: start-to-finish methodology, traceability matrix, data schema, reproducibility checklist, and RTL plan
 - `rtl/cintas/`: synthesizable CINTAS SystemVerilog starter design and testbench notes
@@ -59,6 +60,12 @@ For a one-command local smoke reproduction:
 
 ```bash
 make reproduce-smoke
+```
+
+For the single-notebook workflow:
+
+```bash
+jupyter lab notebooks/exact_tcad_all_experiments.ipynb
 ```
 
 For an isolated container run:
