@@ -18,11 +18,13 @@ def _sha256(path: Path) -> str:
 
 def _run_pipeline(data_root: Path, out_root: Path) -> dict:
     from exact.repro import configure_reproducibility
+    from tests.notebook_namespace import load_integrated_notebook_namespace
 
     configure_reproducibility(seed=123, threads=1, matplotlib_backend="Agg")
 
-    from exact.experiments.ets2026 import ETS2026Config, run_ets2026
-
+    ns = load_integrated_notebook_namespace()
+    ETS2026Config = ns["ETS2026Config"]
+    run_ets2026 = ns["run_ets2026"]
     cfg = ETS2026Config(
         window_sizes=(50, 100, 200),
         n_splits=3,

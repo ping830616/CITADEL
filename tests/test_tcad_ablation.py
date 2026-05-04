@@ -9,12 +9,15 @@ if str(REPO_ROOT) not in sys.path:
 
 
 def test_tcad_ablation_smoke_is_reproducible(tmp_path: Path) -> None:
-    from exact.experiments.tcad2026 import TCAD2026Config, run_tcad_ablation
     from exact.sample_data import create_sample_dataset
+    from tests.notebook_namespace import load_integrated_notebook_namespace
 
     data_root = tmp_path / "data"
     create_sample_dataset(data_root, seed=123, n_rows=600)
 
+    ns = load_integrated_notebook_namespace()
+    TCAD2026Config = ns["TCAD2026Config"]
+    run_tcad_ablation = ns["run_tcad_ablation"]
     cfg = TCAD2026Config(
         feature_budgets=(8,),
         window_sizes=(50,),

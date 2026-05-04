@@ -24,7 +24,7 @@ If the notebook reports that a CSV is a Git LFS pointer, fetch the Git LFS objec
 
 ## Repository Map
 
-- `exact/`: portable Python reference implementation inherited from EXACT, plus CITADEL ablation orchestration
+- `exact/`: reusable core library inherited from EXACT, including I/O, preprocessing, CINTAS scoring, metrics, plotting, and hardware-cost helpers; it is not an experiment entry point
 - `notebooks/`: the single experiment runner for EXACT reproduction, CITADEL ablation, hardware summaries, and FPGA/RTL integration hooks
 - `configs/`: smoke and full ablation grids
 - `docs/`: start-to-finish methodology, traceability matrix, data schema, reproducibility checklist, and RTL plan
