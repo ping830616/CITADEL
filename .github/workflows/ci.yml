@@ -32,13 +32,10 @@ jobs:
       - name: Install package
         run: |
           python -m pip install -U pip
-          python -m pip install -e ".[dev]"
+          python -m pip install -e ".[dev,notebook]"
 
-      - name: Reproduce smoke experiment
-        run: make reproduce-smoke PYTHON=python SEED=123 THREADS=1 SAMPLE_ROWS=600
+      - name: Validate integrated notebook
+        run: python -c "import ast,json; from pathlib import Path; nb=json.loads(Path('notebooks/exact_tcad_all_experiments.ipynb').read_text()); [ast.parse(''.join(c.get('source', []))) for c in nb['cells'] if c.get('cell_type') == 'code']; print('notebook code cells compile')"
 
-      - name: Upload smoke manifest
-        uses: actions/upload-artifact@v4
-        with:
-          name: smoke-manifest-py${{ matrix.python-version }}
-          path: results/tcad_smoke/run_manifest.json
+      - name: Run smoke tests
+        run: python -m pytest
