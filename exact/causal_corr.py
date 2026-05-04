@@ -147,7 +147,14 @@ def build_causal_and_rank_features_for_setup(
         "cias_alignment": a_norm,
         "importance_score": imp_norm,
     })
-    ranks_df = nodes_df.sort_values("importance_score", ascending=False).reset_index(drop=True)
+    ranks_df = (
+        nodes_df.sort_values(
+            ["importance_score", "feature"],
+            ascending=[False, True],
+            kind="mergesort",
+        )
+        .reset_index(drop=True)
+    )
 
     causal_dir = Path(out_root) / "causal"
     causal_dir.mkdir(parents=True, exist_ok=True)

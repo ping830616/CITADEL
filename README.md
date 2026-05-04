@@ -43,12 +43,26 @@ Every experiment should be run from the notebook with repo-relative paths. Each 
 
 ## Run For Reproducibility
 
-Use Python 3.11 or 3.12 when possible because GitHub Actions tests both versions. Python 3.13 also works locally, but matching CI is cleaner for paper artifacts. This repo supports two equivalent setup paths:
+Use Python 3.11 or 3.12 when possible because GitHub Actions tests both versions. Python 3.13 also works locally, but matching CI is cleaner for paper artifacts. For final paper numbers, use Python 3.11 with `environment.yml` on every machine.
+
+This repo supports two setup paths:
 
 - `venv` plus `pip install -e ".[dev,notebook]"`
 - Conda using `environment.yml`
 
-For strict paper reproducibility, use the same path on both machines. The Conda path is recommended for the ASU Linux server when Conda or Mamba is available.
+For strict paper reproducibility, use the same path on both machines. Do not mix the `venv` path on one machine with the Conda path on another when generating submission tables. The Conda path is recommended for the ASU Linux server when Conda or Mamba is available.
+
+The notebook sets deterministic seeds and thread counts again inside Python. For startup-level reproducibility, launch Jupyter from a shell where these variables are already fixed:
+
+```text
+export PYTHONHASHSEED=123
+export OMP_NUM_THREADS=1
+export OPENBLAS_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+export NUMEXPR_NUM_THREADS=1
+export VECLIB_MAXIMUM_THREADS=1
+export MPLBACKEND=Agg
+```
 
 ### Laptop Run
 
@@ -66,6 +80,13 @@ source .venv/bin/activate
 python -m pip install -U pip
 python -m pip install -e ".[dev,notebook]"
 python -m pytest
+export PYTHONHASHSEED=123
+export OMP_NUM_THREADS=1
+export OPENBLAS_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+export NUMEXPR_NUM_THREADS=1
+export VECLIB_MAXIMUM_THREADS=1
+export MPLBACKEND=Agg
 python -m jupyter lab notebooks/exact_tcad_all_experiments.ipynb
 ```
 
@@ -80,6 +101,13 @@ conda env create -f environment.yml
 conda activate citadel-slm
 python -m pip install -e . --no-deps
 python -m pytest
+export PYTHONHASHSEED=123
+export OMP_NUM_THREADS=1
+export OPENBLAS_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+export NUMEXPR_NUM_THREADS=1
+export VECLIB_MAXIMUM_THREADS=1
+export MPLBACKEND=Agg
 python -m jupyter lab notebooks/exact_tcad_all_experiments.ipynb
 ```
 
@@ -110,6 +138,18 @@ conda env create -f environment.yml
 conda activate citadel-slm
 python -m pip install -e . --no-deps
 python -m pytest
+```
+
+Before starting Jupyter, set the deterministic runtime variables:
+
+```text
+export PYTHONHASHSEED=123
+export OMP_NUM_THREADS=1
+export OPENBLAS_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+export NUMEXPR_NUM_THREADS=1
+export VECLIB_MAXIMUM_THREADS=1
+export MPLBACKEND=Agg
 ```
 
 If Conda is not available, use `venv`:
@@ -184,6 +224,8 @@ After each run, check these outputs:
 - `results/notebook_run/tcad_ablation/tcad_ablation_summary.csv`
 
 For strict reproducibility, the resolved config, input hashes, selected-feature files, and summary CSV values should match between the laptop and the ASU server. If they do not match, first check Python version, package versions, Git commit, Git LFS data materialization, `SEED`, `THREADS`, and `TCAD_PRESET`.
+
+The manifest records the git commit, dirty-worktree state, Python version, direct package versions, hashes for `pyproject.toml`, `requirements.txt`, `environment.yml`, input CSV hashes, and output artifact hashes. Treat a run with `"git_dirty": true` as a development run, not a paper-submission run.
 
 ## CITADEL Methodology
 

@@ -23,6 +23,7 @@ THREAD_ENV_VARS = (
     "VECLIB_MAXIMUM_THREADS",
 )
 RUNTIME_PACKAGES = (
+    "citadel-slm",
     "numpy",
     "pandas",
     "scikit-learn",
@@ -32,6 +33,11 @@ RUNTIME_PACKAGES = (
     "jupyterlab",
     "nbformat",
     "ipykernel",
+)
+ENVIRONMENT_FILES = (
+    "pyproject.toml",
+    "requirements.txt",
+    "environment.yml",
 )
 
 
@@ -104,6 +110,20 @@ def _git_commit(repo_root: Path) -> str | None:
     return result.stdout.strip() or None
 
 
+def _git_dirty(repo_root: Path) -> bool | None:
+    try:
+        result = subprocess.run(
+            ["git", "status", "--porcelain"],
+            cwd=repo_root,
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+    except Exception:
+        return None
+    return bool(result.stdout.strip())
+
+
 def _safe_relative(path: Path, repo_root: Path) -> str:
     try:
         return str(path.resolve().relative_to(repo_root.resolve()))
@@ -141,14 +161,17 @@ def write_run_manifest(
     else:
         config_payload = {"repr": repr(cfg)}
 
-    data_files = sorted(p for p in data_root.glob("*.csv") if p.is_file())
+    data_files = sorted(p for p in data_root.rglob("*.csv") if p.is_file())
     artifacts = [Path(path).resolve() for path in artifact_paths if Path(path).exists()]
+    environment_files = [repo_root / name for name in ENVIRONMENT_FILES if (repo_root / name).exists()]
 
     payload = {
         "seed": int(seed),
         "python_version": platform.python_version(),
+        "python_implementation": platform.python_implementation(),
         "platform": platform.platform(),
         "git_commit": _git_commit(repo_root),
+        "git_dirty": _git_dirty(repo_root),
         "config": config_payload,
         "environment": {
             key: os.environ.get(key)
@@ -156,6 +179,14 @@ def write_run_manifest(
             if os.environ.get(key) is not None
         },
         "packages": runtime_versions(),
+        "environment_files": [
+            {
+                "path": _safe_relative(path, repo_root),
+                "sha256": sha256_file(path),
+                "size_bytes": path.stat().st_size,
+            }
+            for path in environment_files
+        ],
         "data_root": _safe_relative(data_root, repo_root),
         "data_files": [
             {

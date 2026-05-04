@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+import json
 import sys
 from pathlib import Path
 
@@ -62,6 +63,15 @@ def test_sample_pipeline_runs(tmp_path: Path) -> None:
     assert (out_root / "SETUP_B_EXACT_summary_per_workload.csv").exists()
     assert (out_root / "figures" / "fig4_metrics_vs_window_size.png").exists()
     assert (out_root / "run_manifest.json").exists()
+
+    manifest = json.loads((out_root / "run_manifest.json").read_text(encoding="utf-8"))
+    assert "git_dirty" in manifest
+    assert [entry["path"] for entry in manifest["environment_files"]] == [
+        "pyproject.toml",
+        "requirements.txt",
+        "environment.yml",
+    ]
+    assert len(manifest["data_files"]) == 32
 
 
 def test_sample_pipeline_is_reproducible(tmp_path: Path) -> None:
