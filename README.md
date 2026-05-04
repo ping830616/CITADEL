@@ -28,7 +28,7 @@ For Conda:
 
 ```bash
 conda env create -f environment.yml
-conda activate exact-tcad
+conda activate citadel-slm
 ```
 
 ## Repository Map
@@ -38,6 +38,7 @@ conda activate exact-tcad
 - `notebooks/`: single-notebook runner for EXACT reproduction, CITADEL ablation, hardware summaries, and FPGA/RTL integration hooks
 - `configs/`: smoke and full ablation grids
 - `docs/`: start-to-finish methodology, traceability matrix, data schema, reproducibility checklist, and RTL plan
+- `docs/figures/`: CITADEL manuscript PNG assets for Overleaf figures and draft table images
 - `rtl/cintas/`: synthesizable CINTAS SystemVerilog starter design and testbench notes
 - `data/telemetry/`: real telemetry snapshot location, tracked with Git LFS when added
 - `data/sample/`: deterministic generated data for smoke tests, not tracked

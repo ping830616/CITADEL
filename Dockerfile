@@ -8,7 +8,7 @@ ENV PYTHONHASHSEED=123 \
     VECLIB_MAXIMUM_THREADS=1 \
     MPLBACKEND=Agg
 
-WORKDIR /workspace/EXACT-TCAD
+WORKDIR /workspace/CITADEL
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends git make \

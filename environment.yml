@@ -1,4 +1,4 @@
-name: exact-tcad
+name: citadel-slm
 channels:
   - conda-forge
 dependencies:

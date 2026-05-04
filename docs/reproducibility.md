@@ -29,8 +29,8 @@ Rules:
 ## Running On A New Machine
 
 ```bash
-git clone https://github.com/ping830616/EXACT-TCAD.git
-cd EXACT-TCAD
+git clone https://github.com/ping830616/CITADEL.git
+cd CITADEL
 git lfs install
 git lfs pull
 python -m venv .venv
