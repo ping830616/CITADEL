@@ -6,7 +6,5 @@ __pycache__/
 *.py[cod]
 *.egg-info/
 data/sample/
-data/telemetry/raw/
-data/telemetry/processed/
 data/external_manifests/
 results/
