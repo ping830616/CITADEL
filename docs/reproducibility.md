@@ -28,17 +28,7 @@ Rules:
 
 ## Running On A New Machine
 
-```bash
-git clone https://github.com/ping830616/CITADEL.git
-cd CITADEL
-git lfs install
-git lfs pull
-python -m venv .venv
-source .venv/bin/activate
-pip install -U pip
-pip install -e ".[dev,notebook]"
-python scripts/run_tcad_ablation.py --data-root data/telemetry --out-root results/tcad_full --config configs/tcad_grid_full.json
-```
+Use a Git client with Git LFS enabled so the tracked CSV files are materialized, not left as pointer files. Then open `notebooks/exact_tcad_all_experiments.ipynb` in Jupyter and run it from top to bottom. The notebook is the only experiment entry point.
 
 ## Manifest Check
 

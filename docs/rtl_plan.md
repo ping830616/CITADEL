@@ -23,13 +23,7 @@ CINTAS evaluates selected telemetry features in streaming order:
 
 ## Verification
 
-Generate golden vectors from Python:
-
-```bash
-python scripts/run_tcad_ablation.py --data-root data/sample --out-root results/tcad_smoke --preset smoke
-```
-
-Then add a vector export step for the chosen feature set and compare RTL output bit-for-bit against `exact.cintas.FixedPointCINTAS`.
+Generate golden vectors from the RTL/FPGA section of `notebooks/exact_tcad_all_experiments.ipynb`. Then compare RTL output bit-for-bit against `exact.cintas.FixedPointCINTAS`.
 
 ## Reporting
 

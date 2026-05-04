@@ -5,8 +5,8 @@ This plan follows the CITADEL flow used in the existing scaffold: benign calibra
 ## Stage 0: Repository And Reproducibility Baseline
 
 1. Start every experiment from a clean commit.
-2. Create the pinned Python environment with `make install` or the Docker image.
-3. Run `make reproduce-smoke` and verify that tests pass.
+2. Create the pinned Python environment from `pyproject.toml` or `environment.yml`.
+3. Open `notebooks/exact_tcad_all_experiments.ipynb` and run the smoke configuration.
 4. Record the git commit, package versions, seed, thread counts, input hashes, and output hashes in `run_manifest.json`.
 
 Exit gate: a fresh clone on another machine produces the same smoke-test manifest structure and the same smoke-test metrics.
@@ -16,7 +16,7 @@ Exit gate: a fresh clone on another machine produces the same smoke-test manifes
 1. Import the original EXACT telemetry snapshot from `https://github.com/ping830616/EXACT`.
 2. Preserve the raw CSV files under `data/telemetry/raw/<snapshot_id>/`.
 3. Convert to the TCAD schema under `data/telemetry/processed/<snapshot_id>/`.
-4. Run the EXACT reproduction script without changing CITADEL parameters.
+4. Run the EXACT reproduction section of the notebook without changing CITADEL parameters.
 5. Compare reproduced tables and figures against the conference paper.
 
 Exit gate: EXACT detection and explainability results match the paper within a stated tolerance.
@@ -29,7 +29,7 @@ Exit gate: EXACT detection and explainability results match the paper within a s
 4. Hash every raw and processed CSV.
 5. Freeze the snapshot ID before using it in paper results.
 
-Exit gate: all scripts can run with repo-relative paths and no machine-specific absolute paths.
+Exit gate: the notebook can run with repo-relative paths and no machine-specific absolute paths.
 
 ## Stage 3: Benign Calibration
 
@@ -109,10 +109,10 @@ Exit gate: claims are backed by uncertainty estimates, not only point metrics.
 
 ## Stage 10: Manuscript Assembly
 
-1. Generate every table and figure from scripts.
+1. Generate every table and figure from the single notebook.
 2. Link every table and figure to a run manifest.
 3. Archive raw data snapshot IDs and processed-data hashes.
 4. Tag the exact code release used for submission.
 5. Rerun the full pipeline on at least two environments: local workstation and clean container or server.
 
-Exit gate: a reviewer can reproduce the submitted results from the tagged repository plus the archived telemetry snapshot.
+Exit gate: a reviewer can reproduce the submitted results from the tagged repository and the notebook.
