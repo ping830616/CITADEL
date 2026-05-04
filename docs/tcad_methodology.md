@@ -1,192 +1,214 @@
-# TCAD Extension Methodology
+# TCAD Research Methodology
 
-This document converts the TCAD cover-letter promises into an executable research plan. For the expanded point-by-point methodology used to interpret the attached image, see `docs/image_flow_methodology.md`. It is based on the ETS EXACT pipeline and Fig. 3-style flow:
+This document defines the research plan as a standalone hardware-aware SLM study.
 
-`benign calibration -> causal graph/ranking -> top-k feature budget -> CINTAS parameter search -> benign threshold -> streaming inference`.
+Core flow:
 
-The inline image in the prompt rendered as a black strip in the local view, so this methodology follows the extracted paper pseudocode and the cover letter contents.
+`telemetry snapshot -> benign calibration -> causal feature ranking -> top-k feature budget -> CINTAS scoring -> benign threshold -> streaming inference -> drift check -> hardware validation`.
 
-## 1. Freeze The Research Questions
+## 1. Research Questions
 
-Define the journal paper around four claims:
+1. Can EXACT detect SLM anomalies with a small, explainable telemetry feature set?
+2. Which CINTAS settings give the best trade-off among detection quality, latency, telemetry bandwidth, fixed-point error, and hardware cost?
+3. How stable is the benign reference when workloads, software, firmware, temperature, voltage policy, or platform observability changes?
+4. Can the fixed-point CINTAS path be verified through RTL simulation and FPGA-oriented synthesis reports?
 
-1. EXACT remains accurate and portable across heterogeneous platforms and broader SLM anomaly modes.
-2. The CINTAS design space has quantifiable accuracy, latency, bandwidth, and hardware-cost trade-offs.
-3. Fixed-point CINTAS can be implemented in RTL/FPGA with predictable resource, latency, and energy behavior.
-4. Lifecycle deployment can tolerate benign drift through calibration, periodic recalibration, and interpretable anomaly context.
+Every question must map to a script, a manifest, a table or figure, and a short paper interpretation.
 
-Each claim must map to one or more tables/figures and one reproducible script.
+## 2. Terms Used Consistently
 
-## 2. Reproduce The ETS Baseline
+- **SLM:** silicon lifecycle management; monitoring and decision support across design, test, deployment, and field operation.
+- **Telemetry:** measured hardware or host-system signals.
+- **Benign:** known healthy operation used for calibration.
+- **Anomaly:** a deviation from benign behavior, such as voltage droop, RowHammer, Spectre, workload drift, firmware drift, or an aging proxy.
+- **Feature budget `k`:** the number of telemetry signals selected for runtime scoring.
+- **Decision block `N`:** a fixed group of consecutive samples that produces one anomaly decision.
+- **CINTAS:** Causal Integrated Anomaly Scoring, the fixed-point runtime scoring block.
+- **Fixed-point arithmetic:** scaled integer arithmetic used instead of floating-point arithmetic.
+- **RTL:** register-transfer level hardware description used for cycle-level hardware verification.
+- **FPGA:** field-programmable gate array used to prototype hardware before ASIC implementation.
 
-Goal: lock the baseline before adding journal changes.
+## 3. Data Contract
 
-Steps:
+Required columns for processed telemetry:
 
-1. Clone the original EXACT repo and fetch the telemetry snapshot.
-2. Create the pinned environment from `environment.yml` or `pyproject.toml`.
-3. Run `scripts/run_exact_ets2026.py` on the original telemetry.
-4. Verify that the reproduced metrics match the ETS paper within the allowed tolerance.
-5. Save the run manifest, input hashes, output hashes, and hardware/software metadata.
-
-Deliverables:
-
-- `results/ets_baseline/run_manifest.json`
-- Fig. 4-style decision-block performance
-- Fig. 5-style benign causal networks
-- Fig. 6-style top-ranked feature bars
-- Table III-style hardware overhead comparison
-
-## 3. Define The TCAD Data Contract
-
-Goal: make every machine and server consume the same telemetry schema.
-
-Required columns:
-
-- numeric telemetry features, such as core counters, memory counters, voltage, power, and temperature
-- `setup`: stable platform label, for example `A`, `B`, `SERVER_XEON`, `EMBEDDED_ARM`
-- `scenario`: `BENIGN`, `DROOP`, `RH`, `SPECTRE`, plus new SLM anomaly names
-- `workload`: benchmark or application label
-- `time_idx`: monotonic sample index within each setup/scenario/workload run
+- `setup`: stable platform label, for example `DDR4_DESKTOP`, `DDR5_DESKTOP`, `MACOS_M2_PRO`, `SERVER_XEON`.
+- `scenario`: stable condition label, for example `BENIGN`, `DROOP`, `RH`, `SPECTRE`, `WORKLOAD_DRIFT`, `FIRMWARE_DRIFT`, `AGING_PROXY`.
+- `workload`: benchmark or application label.
+- `time_idx`: monotonic sample index.
+- numeric telemetry features.
 
 Rules:
 
-- store raw data as immutable snapshots under `data/telemetry/raw/<snapshot_id>/`
-- store cleaned, aligned data under `data/telemetry/processed/<snapshot_id>/`
-- never overwrite a snapshot after it appears in a manifest
-- record platform metadata in `data/platforms/<setup>.json`
-- hash every CSV used in an experiment
+1. Store raw immutable data under `data/telemetry/raw/<snapshot_id>/`.
+2. Store processed data under `data/telemetry/processed/<snapshot_id>/`.
+3. Store platform metadata under `data/platforms/<setup>.json`.
+4. Mark missing features explicitly.
+5. Hash every CSV used in an experiment.
 
-## 4. Expand Platforms And Anomaly Classes
+## 4. Platform Plan
 
-Goal: address the cover-letter portability gap.
+Use two experiment lanes.
 
-Minimum platform expansion:
+### Lane A: Hardware-Counter Platforms
 
-- existing desktop DDR4 platform
-- existing desktop DDR5 platform
-- one server-class CPU-DRAM platform
-- one embedded or edge-class platform if available
+Purpose: support CINTAS hardware claims.
 
-Minimum anomaly expansion:
+Include:
 
-- voltage droop
-- RowHammer or memory disturbance
-- Spectre or microarchitectural security anomaly
-- workload-induced benign variation
-- firmware/configuration-induced drift
-- aging-inspired or lifecycle fault proxy
+- desktop DDR4 CPU--DRAM platform
+- desktop DDR5 CPU--DRAM platform
+- server-class CPU--DRAM platform if available
+- embedded or edge-class platform if available
 
-Protocol:
+These platforms should use counters and sensors that map naturally to on-chip or near-sensor deployment. Report hardware cost, add/multiply counts, fixed-point error, RTL vectors, and FPGA/RTL results here.
 
-1. Collect benign calibration traces for every setup and workload.
-2. Collect anomaly traces with the same sampling period and feature schema where possible.
-3. If a feature is unavailable on a platform, mark it as missing in platform metadata rather than silently imputing it.
-4. Run per-platform EXACT calibration using benign-only data.
-5. Evaluate within-platform and cross-platform transfer separately.
+### Lane B: Limited-Observability Host Platform
 
-## 5. Run Design-Space Ablations
+Purpose: test portability when low-level counters are unavailable.
 
-Goal: quantify the choices that were fixed in the ETS paper.
+Recommended platform:
 
-Ablation axes:
+- macOS Apple Silicon data from the ITC/DICE study
 
-- feature budget `k`: examples `5, 8, 10, 15, 20, 30`
-- aggregation operator `Phi`: `max`, `mean`, `median`, and optionally percentile
-- decision-block length `N`: examples `50, 100, 150, 250, 500, 1000`
-- score mixing `lambda_res`: examples `0.0, 0.25, 0.5, 0.75, 1.0`
-- score weighting: uniform, inverse variance, causal-rank proportional
-- fixed-point precision: examples `Q8`, `Q10`, `Q12`, `Q15`, `Q18`
+Use this lane to answer whether benign calibration, compact feature selection, block-level scoring, and drift handling survive with host-level telemetry. Do not merge this lane into the CINTAS area/power table unless a matching hardware implementation path is defined. Report it as limited-observability robustness.
 
-For each grid point, report:
+## 5. Benign Calibration
 
-- MCC, balanced accuracy, F1, AUROC, AUPRC
-- Brier score and ECE for calibration
-- latency in samples and time
-- feature bandwidth
-- integer add/multiply/compare counts
-- fixed-point error versus floating-point reference
-- hardware area and energy estimates
+1. Split each setup into benign calibration windows and evaluation windows.
+2. Estimate benign mean `mu` and reciprocal standard deviation `gamma`.
+3. Normalize each feature with `z_f(t) = (x_f(t) - mu_f) * gamma_f`.
+4. Store `mu`, `gamma`, feature names, and hashes in the run manifest.
+5. Keep anomaly rows out of calibration.
+
+## 6. Causal Feature Ranking
+
+1. Build a benign dependency or causal graph over telemetry signals.
+2. Rank features by graph role and relationship to the CINTAS score.
+3. Group features into `COM`, `MEM`, and `SEN`.
+4. Select the top `k` features.
+5. Save the selected features and group counts.
+
+Feature groups:
+
+- `COM`: compute and execution counters.
+- `MEM`: memory, cache, DRAM, and address-translation counters.
+- `SEN`: power, voltage, temperature, energy, and other sensor signals.
+
+## 7. CINTAS Scoring
+
+For each selected feature:
+
+```text
+E1(t) = sum_f w_f * |z_f(t)|
+E2(t) = sum_f w_f * z_f(t)^2
+score(t) = (1 - lambda_res) * E2(t) + lambda_res * E1(t)
+```
+
+Steps:
+
+1. Sweep `lambda_res`.
+2. Sweep feature weighting, such as uniform and inverse variance.
+3. Sweep fixed-point Q format.
+4. Compare floating-point and fixed-point scores.
+5. Record fixed-point mean absolute error and maximum absolute error.
+
+## 8. Decision-Block Inference
+
+1. Sweep decision-block length `N`.
+2. Sweep aggregation operator, such as max, mean, median, or percentile.
+3. Fit threshold `tau` from benign blocks only.
+4. Emit one decision per block.
+5. Report latency in samples and seconds.
+
+Metrics:
+
+- MCC
+- balanced accuracy
+- F1
+- AUROC
+- AUPRC
+- Brier score
+- expected calibration error
+- false-positive rate
+
+## 9. Design-Space Ablation
+
+Sweep:
+
+- feature budget `k`: `5, 8, 10, 15, 20, 30`
+- decision-block length `N`: `50, 100, 150, 250, 500, 1000`
+- `lambda_res`: `0.0, 0.25, 0.5, 0.75, 1.0`
+- aggregation operator
+- feature weighting
+- fixed-point precision: `Q8, Q10, Q12, Q15, Q18`
+
+Report:
+
+- detection quality
+- latency
+- telemetry bandwidth
+- fixed-point error
+- add/multiply/compare counts
+- area, power, delay, and cycles
+- Pareto-preferred configurations
 
 Primary output:
 
 - `results/tcad_full/tcad_ablation_summary.csv`
 
-## 6. Add Drift-Aware Lifecycle Evaluation
-
-Goal: show SLM readiness over time.
+## 10. Lifecycle Drift And Recalibration
 
 Drift sources:
 
 - workload mix shift
-- firmware or BIOS configuration change
+- firmware or BIOS setting change
 - ambient temperature shift
-- supply-voltage policy change
-- aging proxy by gradual timing, voltage, or thermal feature shift
+- voltage-policy shift
+- aging proxy
+- missing or unmonitored variables
 
-Lifecycle protocol:
+Steps:
 
-1. Fit `mu`, `gamma`, causal graph, selected features, `lambda_res`, and threshold `tau` from initial benign calibration.
-2. Apply the frozen model to later benign windows and anomaly windows.
-3. Measure false-positive drift before recalibration.
-4. Trigger recalibration using benign-only safe windows.
-5. Re-evaluate false positives, anomaly sensitivity, and feature-rank stability.
-6. Report when recalibration changes only thresholds versus when it changes feature selection.
+1. Freeze the initial benign reference.
+2. Apply the frozen detector to later benign and anomaly windows.
+3. Track false-positive rate and score-distribution movement.
+4. Recalibrate using safe benign windows.
+5. Compare threshold-only recalibration with full feature-rank recalibration.
+6. Report feature-rank stability.
 
-Recommended figures:
+## 11. RTL And FPGA Path
 
-- false-positive rate over lifecycle time
-- feature-rank stability across recalibration epochs
-- anomaly score distributions before and after recalibration
+1. Export fixed-point constants and golden vectors from Python.
+2. Simulate the RTL CINTAS module against the golden vectors.
+3. Sweep Q format and feature budget.
+4. Run FPGA or ASIC-oriented synthesis.
+5. Save LUT/FF/DSP/BRAM, timing, area, power, latency, and energy results.
 
-## 7. Implement RTL/FPGA CINTAS
+## 12. Paper Package
 
-Goal: replace estimated hardware cost with implementation evidence.
+Tables:
 
-Implementation scope:
+- platform and telemetry summary
+- anomaly and workload matrix
+- design-space ablation summary
+- limited-observability macOS results
+- hardware-cost and RTL/FPGA resource summary
+- lifecycle recalibration summary
 
-- fixed-point standardization using stored `mu_q` and `gamma_q`
-- absolute-value term `E1`
-- quadratic term `E2`
-- weighted accumulation
-- `lambda_res` mixer
-- streaming block aggregation
-- threshold comparator
-- alert and top-contributor context
+Figures:
 
-Verification:
+- full EXACT workflow
+- feature-ranking and COM/MEM/SEN selection
+- performance versus `N`, `k`, and `lambda_res`
+- fixed-point precision versus hardware cost
+- lifecycle drift and recalibration
+- CINTAS hardware datapath
 
-1. Generate golden vectors from `exact.cintas.FixedPointCINTAS`.
-2. Run RTL simulation and compare bit-exact scores.
-3. Sweep Q formats and feature budgets.
-4. Synthesize for FPGA or ASIC library.
-5. Report LUT/FF/DSP/BRAM or area/power/timing.
+Final gate:
 
-Deliverables:
-
-- `rtl/cintas/cintas_stream.sv`
-- RTL testbench and golden vectors
-- synthesis scripts
-- `results/rtl_sweep/rtl_resource_summary.csv`
-
-## 8. Build The TCAD Paper Package
-
-Every paper table and figure should be generated from tracked scripts:
-
-- Table: platform summary
-- Table: anomaly and workload matrix
-- Table: ablation summary
-- Table: RTL/FPGA resource and latency
-- Figure: extended EXACT pipeline
-- Figure: performance versus `N`, `k`, and `lambda_res`
-- Figure: precision versus hardware cost
-- Figure: drift and recalibration behavior
-- Figure: explainability context for representative anomalies
-
-Before submission:
-
-1. rerun all scripts from a clean clone
-2. compare manifests across two machines or containers
-3. archive the exact telemetry snapshot ID
-4. freeze paper figures and tables
-5. tag the repo release used for TCAD submission
+1. Rerun scripts from a clean clone.
+2. Compare manifests across two environments.
+3. Archive data snapshot IDs.
+4. Freeze paper figures and tables.
+5. Tag the code used for submission.

@@ -1,6 +1,6 @@
 # Research Execution Plan
 
-The attached prompt image rendered as an unreadable black strip locally, so this plan follows the visible EXACT flow used in the existing scaffold: benign calibration, causal graph/ranking, top-k feature selection, CINTAS parameter search, benign thresholding, and streaming inference. It then extends that flow into a complete TCAD journal project.
+The attached prompt image rendered as an unreadable black strip locally, so this plan follows the visible EXACT flow used in the existing scaffold: benign calibration, causal graph/ranking, top-k feature selection, CINTAS parameter search, benign thresholding, and streaming inference. The plan is written as a standalone research workflow.
 
 ## Stage 0: Repository And Reproducibility Baseline
 
@@ -21,7 +21,7 @@ Exit gate: a fresh clone on another machine produces the same smoke-test manifes
 
 Exit gate: ETS detection and explainability results match the paper within a stated tolerance.
 
-## Stage 2: TCAD Data Contract
+## Stage 2: Data Contract
 
 1. Standardize required columns: `setup`, `scenario`, `workload`, `time_idx`, and numeric telemetry features.
 2. Create one platform metadata file per setup under `data/platforms/`.
@@ -68,10 +68,12 @@ Exit gate: `results/tcad_full/tcad_ablation_summary.csv` supports paper-ready tr
 ## Stage 6: Heterogeneous Platform Validation
 
 1. Add server-class and embedded or edge-class platforms when available.
-2. Keep sampling period, workload labels, and anomaly labels consistent when possible.
-3. Evaluate within-platform calibration.
-4. Evaluate cross-platform transfer.
-5. Separate portability failures caused by missing counters, workload shifts, and true model degradation.
+2. Add macOS Apple Silicon as a limited-observability host platform using the ITC/DICE dataset.
+3. Keep sampling period, workload labels, and anomaly labels consistent when possible.
+4. Evaluate within-platform calibration.
+5. Evaluate cross-platform transfer for hardware-counter platforms.
+6. Report macOS separately as host-level portability, not as an on-chip hardware-cost claim.
+7. Separate portability failures caused by missing counters, workload shifts, and true model degradation.
 
 Exit gate: the manuscript can state where EXACT transfers directly and where recalibration is required.
 

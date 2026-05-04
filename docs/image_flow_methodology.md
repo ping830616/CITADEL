@@ -1,10 +1,10 @@
 # Detailed EXACT-TCAD Methodology
 
-The image attached in the prompt renders as a black strip in this environment, so the labels below are the explicit methodology I used for the repo. They follow the EXACT/CINTAS flow already encoded in the codebase and the TCAD cover letter: raw telemetry, benign calibration, MICI/causal feature selection, CINTAS scoring, decision aggregation, hardware-cost modeling, lifecycle drift, and RTL validation.
+The image attached in the prompt renders as a black strip in this environment, so the labels below are the explicit methodology I used for the repo. They follow the EXACT/CINTAS flow already encoded in the codebase: raw telemetry, benign calibration, MICI/causal feature selection, CINTAS scoring, decision aggregation, hardware-cost modeling, lifecycle drift, and RTL validation.
 
 ## 0. Research Target And Claims
 
-Goal: turn the ETS EXACT conference paper into a TCAD journal extension with evidence beyond the conference version.
+Goal: build a complete, hardware-aware SLM research workflow around EXACT and CINTAS.
 
 Claims to prove:
 
@@ -28,6 +28,7 @@ Purpose: make the data portable before doing any modeling.
 Inputs:
 
 - platform label, such as desktop DDR4, desktop DDR5, server CPU-DRAM, embedded or edge platform
+- observability label, such as hardware-counter telemetry or host-level telemetry
 - workload label, such as DFT, DJ, MM, TR, and the expanded workload set
 - scenario label, such as BENIGN, DROOP, RowHammer, Spectre, firmware drift, workload drift, aging proxy
 - monotonic sample index
@@ -131,7 +132,7 @@ Done when:
 
 - each selected feature has a group and rank
 - feature selection is reproducible from benign-only data
-- the journal paper can explain why the final feature budget was chosen
+- the paper can explain why the final feature budget was chosen
 
 ## 5. Top-k Feature Budget
 
@@ -260,25 +261,29 @@ Done when:
 
 ## 9. Heterogeneous Platform Validation
 
-Purpose: prove portability beyond the ETS desktop CPU-DRAM setup.
+Purpose: prove portability beyond the desktop CPU-DRAM setup.
 
 Actions:
 
 1. Add at least one server-class platform.
 2. Add at least one embedded or edge-class platform if available.
-3. Evaluate within-platform calibration.
-4. Evaluate cross-platform transfer.
-5. Separate failures caused by missing counters from failures caused by model drift.
+3. Add macOS Apple Silicon as a limited-observability host platform using the ITC/DICE data.
+4. Evaluate within-platform calibration.
+5. Evaluate cross-platform transfer for hardware-counter platforms.
+6. Report macOS separately because it uses host-level telemetry rather than low-level on-chip counters.
+7. Separate failures caused by missing counters from failures caused by model drift.
 
 Outputs:
 
 - platform summary table
 - anomaly/workload matrix
 - within-platform and cross-platform metric tables
+- macOS limited-observability summary table
 
 Done when:
 
 - the manuscript can state where EXACT transfers directly and where recalibration is required
+- the manuscript does not mix host-level macOS results with on-chip hardware-cost claims
 
 ## 10. Lifecycle Drift And Recalibration
 

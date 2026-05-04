@@ -1,8 +1,8 @@
-# Diagram Recommendations for the TCAD Paper
+# Diagram Recommendations for the Paper
 
 These figures would help the abstract, introduction, and background tell a clear story before the method section.
 
-## Figure 1: EXACT-TCAD Lifecycle Flow
+## Figure 1: EXACT Lifecycle Flow
 
 Purpose: show the full research story in one figure.
 
@@ -15,28 +15,28 @@ Suggested panels:
 5. Lifecycle drift monitoring and benign recalibration.
 6. RTL/FPGA validation path.
 
-This should replace a generic block diagram. It should show how the TCAD paper extends the ETS version.
+This should replace a generic block diagram. It should show the full SLM workflow from data to hardware validation.
 
-## Figure 2: Conference-to-Journal Extension Map
+## Figure 2: Platform and Observability Map
 
-Purpose: make the contribution beyond ETS visually obvious.
+Purpose: make the platform story clear.
 
 Rows:
 
-- ETS EXACT baseline
-- TCAD ablation
-- heterogeneous validation
-- lifecycle drift and recalibration
-- RTL/FPGA validation
+- desktop DDR4 hardware-counter telemetry
+- desktop DDR5 hardware-counter telemetry
+- server or embedded hardware-counter telemetry
+- macOS host-level telemetry
 
 Columns:
 
-- research question
-- experiment
-- output table or figure
-- reproducibility artifact
+- telemetry source
+- available feature groups
+- experiment purpose
+- hardware-cost claim allowed?
+- expected output table
 
-This figure can also support the cover letter.
+This figure prevents confusion between on-chip hardware-counter results and limited-observability macOS results.
 
 ## Figure 3: CINTAS Hardware Datapath
 
@@ -59,7 +59,7 @@ Use a simple left-to-right datapath. Avoid decorative styling.
 
 ## Figure 4: Design-Space Ablation Matrix
 
-Purpose: show what the TCAD paper studies that the ETS paper did not.
+Purpose: show the controlled design variables and measured outputs.
 
 Axes:
 
@@ -96,3 +96,15 @@ Loop:
 7. feature-rank stability check
 
 This figure will help reviewers see that lifecycle drift is not an afterthought.
+
+## Figure 6: Limited-Observability macOS Case
+
+Purpose: show why the macOS data is included and how it differs from hardware-counter platforms.
+
+Panels:
+
+1. macOS host-level telemetry collection.
+2. feature availability mapping to compute, memory, and sensor-like groups.
+3. benign calibration and block-level scoring.
+4. stressor/anomaly evaluation.
+5. separate reporting lane with no on-chip hardware-cost claim.
