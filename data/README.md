@@ -13,18 +13,18 @@ Store real telemetry under `data/telemetry/` through `scripts/prepare_external_d
 The DDR4/DDR5 telemetry source is:
 
 ```bash
-python scripts/prepare_external_data.py --source x_octane_ddr --download
+python scripts/prepare_external_data.py --source ddr_data --download
 ```
 
-It downloads to `data/telemetry/processed/x_octane_ddr/`. This is the path used by the CITADEL CINTAS experiments.
+It downloads to `data/telemetry/processed/ddr_data/`. This is the path used by the CITADEL CINTAS experiments.
 
 The Apple M2 Pro tiered telemetry source is:
 
 ```bash
-python scripts/prepare_external_data.py --source dice_m2pro_tiers --download
+python scripts/prepare_external_data.py --source apple_data --download
 ```
 
-It downloads to `data/telemetry/raw/dice_m2pro_tiers/`. This dataset supports the paper's platform-diversity and limited-observability discussion. Keep its claims separate from hardware-counter CINTAS area and power claims unless a matching hardware-counter schema is added.
+It downloads to `data/telemetry/raw/apple_data/`. This dataset supports the paper's platform-diversity and limited-observability discussion. Keep its claims separate from hardware-counter CINTAS area and power claims unless a matching hardware-counter schema is added.
 
 The DDR4/DDR5 snapshot contains:
 - 78 CSV files total
@@ -53,12 +53,12 @@ For laptop smoke runs on the external DDR data, fetch only a small workload subs
 
 ```bash
 python scripts/prepare_external_data.py \
-  --source x_octane_ddr \
+  --source ddr_data \
   --workloads dft,mm \
   --download
 
 python scripts/run_tcad_ablation.py \
-  --data-root data/telemetry/processed/x_octane_ddr \
+  --data-root data/telemetry/processed/ddr_data \
   --out-root results/citadel_xoctane_smoke \
   --preset smoke
 ```

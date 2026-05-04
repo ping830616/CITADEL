@@ -269,9 +269,9 @@ def main() -> None:
     for source_id in requested:
         spec = registry[source_id]
         files = _source_files(source_id, spec, token)
-        if source_id == "x_octane_ddr":
+        if spec.get("kind") == "hardware_counter":
             files = _filter_x_octane(files, setups=setups, scenarios=scenarios, workloads=workloads)
-        if source_id == "dice_m2pro_tiers":
+        if spec.get("kind") == "limited_observability_host":
             files = _filter_dice_tiers(files, tiers=apple_tiers)
         if args.max_files is not None:
             files = files[: args.max_files]

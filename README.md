@@ -41,8 +41,8 @@ conda activate citadel-slm
 - `docs/figures/`: CITADEL manuscript PNG assets for Overleaf figures and draft table images
 - `rtl/cintas/`: synthesizable CINTAS SystemVerilog starter design and testbench notes
 - `data/external_sources.json`: versioned registry for external DDR and Apple telemetry sources
-- `data/telemetry/processed/x_octane_ddr/`: local DDR4/DDR5 CSV target for CITADEL CINTAS experiments, not tracked
-- `data/telemetry/raw/dice_m2pro_tiers/`: local Apple M2 Pro tier-0/1/2 target for observability studies, not tracked
+- `data/telemetry/processed/ddr_data/`: DDR4/DDR5 CSV target for CITADEL CINTAS experiments
+- `data/telemetry/raw/apple_data/`: Apple M2 Pro tier-0/1/2 target for observability studies
 - `data/sample/`: deterministic generated data for smoke tests, not tracked
 - `results/`: generated tables, plots, and run manifests, not tracked
 
@@ -51,9 +51,9 @@ conda activate citadel-slm
 Every experiment should be runnable from the command line with repo-relative paths:
 
 ```bash
-python scripts/prepare_external_data.py --source x_octane_ddr --download
+python scripts/prepare_external_data.py --source ddr_data --download
 python scripts/run_tcad_ablation.py \
-  --data-root data/telemetry/processed/x_octane_ddr \
+  --data-root data/telemetry/processed/ddr_data \
   --out-root results/tcad_full \
   --config configs/tcad_grid_full.json
 ```
@@ -97,14 +97,14 @@ CITADEL tracks external telemetry through `data/external_sources.json`. Large CS
 
 ```bash
 # Hardware-counter data for CITADEL CINTAS experiments.
-python scripts/prepare_external_data.py --source x_octane_ddr --download
+python scripts/prepare_external_data.py --source ddr_data --download
 
 # Apple M2 Pro tiered telemetry for limited-observability studies.
-python scripts/prepare_external_data.py --source dice_m2pro_tiers --download
+python scripts/prepare_external_data.py --source apple_data --download
 
 # Small laptop smoke subset of DDR data.
 python scripts/prepare_external_data.py \
-  --source x_octane_ddr \
+  --source ddr_data \
   --workloads dft,mm \
   --download
 ```
