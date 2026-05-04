@@ -36,7 +36,7 @@ conda activate exact-tcad
 - `exact/`: portable Python reference implementation inherited from EXACT, plus TCAD ablation orchestration
 - `scripts/`: command-line entry points for sample data, ETS reproduction, and TCAD sweeps
 - `configs/`: smoke and full ablation grids
-- `docs/`: start-to-finish methodology, data schema, reproducibility checklist, and RTL plan
+- `docs/`: start-to-finish methodology, traceability matrix, data schema, reproducibility checklist, and RTL plan
 - `rtl/cintas/`: synthesizable CINTAS SystemVerilog starter design and testbench notes
 - `data/telemetry/`: real telemetry snapshot location, tracked with Git LFS when added
 - `data/sample/`: deterministic generated data for smoke tests, not tracked
@@ -55,9 +55,22 @@ python scripts/run_tcad_ablation.py \
 
 Each run writes `run_manifest.json` files with configuration, package versions, input hashes, and output hashes. Matching manifests across machines mean the same numerical inputs and outputs were used.
 
+For a one-command local smoke reproduction:
+
+```bash
+make reproduce-smoke
+```
+
+For an isolated container run:
+
+```bash
+docker build -t exact-tcad .
+docker run --rm exact-tcad
+```
+
 ## TCAD Methodology
 
-The project plan is in `docs/tcad_methodology.md`. It turns the cover-letter promises into a complete execution path:
+The project plan is in `docs/tcad_methodology.md` and `docs/research_execution_plan.md`. The cover-letter-to-artifact map is in `docs/tcad_requirements_traceability.md`. Together they turn the cover-letter promises into a complete execution path:
 
 1. reproduce the ETS baseline
 2. freeze telemetry schema and platform metadata

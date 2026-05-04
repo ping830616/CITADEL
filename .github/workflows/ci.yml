@@ -1,0 +1,44 @@
+name: exact-tcad-ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    env:
+      PYTHONHASHSEED: "123"
+      OMP_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      NUMEXPR_NUM_THREADS: "1"
+      VECLIB_MAXIMUM_THREADS: "1"
+      MPLBACKEND: Agg
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Install package
+        run: |
+          python -m pip install -U pip
+          python -m pip install -e ".[dev]"
+
+      - name: Reproduce smoke experiment
+        run: make reproduce-smoke PYTHON=python SEED=123 THREADS=1 SAMPLE_ROWS=600
+
+      - name: Upload smoke manifest
+        uses: actions/upload-artifact@v4
+        with:
+          name: smoke-manifest-py${{ matrix.python-version }}
+          path: results/tcad_smoke/run_manifest.json
