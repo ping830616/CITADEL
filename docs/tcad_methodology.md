@@ -155,7 +155,7 @@ Report:
 
 Primary output:
 
-- `results/tcad_full/tcad_ablation_summary.csv`
+- `results/notebook_run/tcad_ablation/tcad_ablation_summary.csv`
 
 ## 10. Lifecycle Drift And Recalibration
 
@@ -171,11 +171,19 @@ Drift sources:
 Steps:
 
 1. Freeze the initial benign reference.
-2. Apply the frozen detector to later benign and anomaly windows.
-3. Track false-positive rate and score-distribution movement.
+2. Apply the frozen detector to later benign windows and anomaly windows.
+3. Track false-positive rate, anomaly true-positive rate, and score-distribution movement.
 4. Recalibrate using safe benign windows.
-5. Compare threshold-only recalibration with full feature-rank recalibration.
+5. Compare threshold-only recalibration with full benign-only feature-rank recalibration.
 6. Report feature-rank stability.
+
+Notebook outputs:
+
+- `results/notebook_run/lifecycle_drift/lifecycle_recalibration_summary.csv`
+- `results/notebook_run/lifecycle_drift/lifecycle_recalibration_by_scenario.csv`
+- `results/notebook_run/lifecycle_drift/lifecycle_feature_rank_stability.csv`
+- `results/notebook_run/lifecycle_drift/run_manifest.json`
+- `results/notebook_run/paper_tbd_replacements.csv`
 
 ## 11. RTL And FPGA Path
 

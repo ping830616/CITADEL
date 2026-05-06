@@ -13,7 +13,7 @@ The experiment code is intentionally contained in one notebook: `notebooks/exact
 
 ## Notebook-Only Workflow
 
-The single supported experiment entry point is `notebooks/exact_tcad_all_experiments.ipynb`. Open that notebook in Jupyter, run the cells from top to bottom, and use its configuration cell to choose smoke or full CITADEL runs. The notebook contains the former helper code inline, so there is no separate Python package or script to run.
+The single supported experiment entry point is `notebooks/exact_tcad_all_experiments.ipynb`. Open that notebook in Jupyter, run the cells from top to bottom, and use its configuration cell to choose smoke or full CITADEL runs. The notebook contains the former helper code inline, so there is no separate Python package or script to run. The same notebook now produces the TCAD ablation metrics, false-positive rate, lifecycle drift/recalibration tables, and paper-ready TBD replacement CSV.
 
 The notebook automatically locates the tracked telemetry folders:
 
@@ -24,7 +24,7 @@ If the notebook reports that a CSV is a Git LFS pointer, fetch the Git LFS objec
 
 ## Repository Map
 
-- `notebooks/`: the single self-contained experiment runner for EXACT reproduction, CITADEL ablation, hardware summaries, and FPGA/RTL integration hooks
+- `notebooks/`: the single self-contained experiment runner for EXACT reproduction, CITADEL ablation, false-positive-rate reporting, lifecycle recalibration, hardware summaries, and FPGA/RTL integration hooks
 - `configs/`: smoke and full ablation grids
 - `docs/`: start-to-finish methodology, traceability matrix, data schema, reproducibility checklist, and RTL plan
 - `docs/figures/`: CITADEL manuscript PNG assets for Overleaf figures and draft table images
@@ -328,8 +328,12 @@ After each run, check these outputs:
 - `results/notebook_run/tcad_ablation/run_manifest.json`
 - `results/notebook_run/tcad_ablation/tcad_config_resolved.json`
 - `results/notebook_run/tcad_ablation/tcad_ablation_summary.csv`
+- `results/notebook_run/lifecycle_drift/run_manifest.json`
+- `results/notebook_run/lifecycle_drift/lifecycle_recalibration_summary.csv`
+- `results/notebook_run/lifecycle_drift/lifecycle_recalibration_by_scenario.csv`
+- `results/notebook_run/paper_tbd_replacements.csv`
 
-For strict reproducibility, the resolved config, input hashes, selected-feature files, and summary CSV values should match between the laptop and the ASU server. If they do not match, first check Python version, package versions, Git commit, Git LFS data materialization, `SEED`, `THREADS`, and `TCAD_PRESET`.
+For strict reproducibility, the resolved config, input hashes, selected-feature files, summary CSV values, lifecycle CSV values, and paper TBD replacement values should match between the laptop and the ASU server. If they do not match, first check Python version, package versions, Git commit, Git LFS data materialization, `SEED`, `THREADS`, and `TCAD_PRESET`.
 
 The manifest records the git commit, dirty-worktree state, Python version, direct package versions, hashes for `requirements.txt`, `environment.yml`, input CSV hashes, and output artifact hashes. Treat a run with `"git_dirty": true` as a development run, not a paper-submission run.
 
@@ -343,7 +347,8 @@ The project plan is in `docs/tcad_methodology.md`, `docs/research_execution_plan
 4. collect and validate additional platforms and anomaly classes
 5. quantify lifecycle drift and benign recalibration
 6. implement and verify fixed-point RTL/FPGA CINTAS
-7. regenerate all CITADEL/TCAD tables and figures from the notebook and its manifests
+7. use `results/notebook_run/paper_tbd_replacements.csv` to replace manuscript TBD values
+8. regenerate all CITADEL/TCAD tables and figures from the notebook and its manifests
 
 ## Data
 

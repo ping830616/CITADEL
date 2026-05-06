@@ -166,6 +166,15 @@ http://127.0.0.1:8888/lab?token=...
 
 Run `TCAD_PRESET = "smoke"` first. After the smoke run matches locally, change only `TCAD_PRESET` to `"full"` for the journal-scale run.
 
+After a complete notebook run, compare the main generated artifacts:
+
+- `results/notebook_run/ets_baseline/run_manifest.json`
+- `results/notebook_run/tcad_ablation/run_manifest.json`
+- `results/notebook_run/tcad_ablation/tcad_ablation_summary.csv`
+- `results/notebook_run/lifecycle_drift/run_manifest.json`
+- `results/notebook_run/lifecycle_drift/lifecycle_recalibration_summary.csv`
+- `results/notebook_run/paper_tbd_replacements.csv`
+
 Copy results back from the server with:
 
 ```text
