@@ -23,7 +23,7 @@ CINTAS evaluates selected telemetry features in streaming order:
 
 ## Verification
 
-Generate golden vectors from the RTL/FPGA section of `notebooks/exact_tcad_all_experiments.ipynb`. Then compare RTL output bit-for-bit against `exact.cintas.FixedPointCINTAS`.
+Generate golden vectors from the RTL/FPGA section of `notebooks/exact_tcad_all_experiments.ipynb`. Then compare RTL output bit-for-bit against the in-notebook `FixedPointCINTAS` reference.
 
 ## Reporting
 

@@ -14,16 +14,14 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends git git-lfs \
     && rm -rf /var/lib/apt/lists/*
 
-COPY pyproject.toml requirements.txt README.md LICENSE ./
+COPY requirements.txt README.md LICENSE ./
 COPY configs ./configs
 COPY docs ./docs
-COPY exact ./exact
 COPY hardware ./hardware
 COPY notebooks ./notebooks
 COPY rtl ./rtl
-COPY tests ./tests
 
 RUN python -m pip install -U pip \
-    && python -m pip install -e ".[dev,notebook]"
+    && python -m pip install -r requirements.txt
 
-CMD ["python", "-m", "pytest"]
+CMD ["python", "-c", "import ast,json; from pathlib import Path; nb=json.loads(Path('notebooks/exact_tcad_all_experiments.ipynb').read_text()); [ast.parse(''.join(c.get('source', []))) for c in nb['cells'] if c.get('cell_type') == 'code']; print('notebook code cells compile')"]

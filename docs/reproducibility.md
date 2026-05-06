@@ -5,8 +5,8 @@ The target is same inputs plus same config plus same environment yields the same
 ## Environment
 
 - Python is pinned to `>=3.11,<3.14`.
-- Package versions are pinned in `pyproject.toml`, `requirements.txt`, and `environment.yml`.
-- Numerical execution is configured through `exact.repro.configure_reproducibility`.
+- Package versions are pinned in `requirements.txt` and `environment.yml`.
+- Numerical execution is configured inside the single notebook.
 - Default runs use `seed=123` and `threads=1`.
 
 ## Data
@@ -60,8 +60,6 @@ git lfs install
 git lfs pull
 conda env create -f environment.yml
 conda activate citadel-slm
-python -m pip install -e . --no-deps
-python -m pytest
 export PYTHONHASHSEED=123
 export OMP_NUM_THREADS=1
 export OPENBLAS_NUM_THREADS=1
@@ -126,7 +124,7 @@ After editing repo files on ASU, keep GitHub current:
 
 ```text
 git status
-git add README.md docs/ exact/ notebooks/ configs/ tests/
+git add README.md docs/ notebooks/ configs/ hardware/ rtl/ data/ environment.yml requirements.txt .github/workflows/ci.yml
 git commit -m "Update CITADEL workflow"
 git push origin main
 ```

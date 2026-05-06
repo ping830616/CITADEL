@@ -5,7 +5,7 @@ This plan follows the CITADEL flow used in the existing scaffold: benign calibra
 ## Stage 0: Repository And Reproducibility Baseline
 
 1. Start every experiment from a clean commit.
-2. Create the pinned Python environment from `pyproject.toml` or `environment.yml`.
+2. Create the pinned Python environment from `requirements.txt` or `environment.yml`.
 3. Open `notebooks/exact_tcad_all_experiments.ipynb` and run the smoke configuration.
 4. Record the git commit, package versions, seed, thread counts, input hashes, and output hashes in `run_manifest.json`.
 5. For ASU Linux validation, connect with `ssh 'asurite\hsiaopin@149.169.30.50'`, run the same notebook in a pinned environment, and compare the ASU manifests against the local manifests.

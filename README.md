@@ -9,11 +9,11 @@ The repository builds on **EXACT**: Edge-eXplainable Autonomous Causal Telemetry
 - FPGA/RTL implementation and cost evaluation for CINTAS
 - drift-aware lifecycle calibration, recalibration, and explainable anomaly context
 
-The code is intentionally portable: Python versions are pinned, runtime seeds and thread counts are fixed, generated artifacts receive SHA-256 manifests, and the smoke-test dataset is deterministic.
+The experiment code is intentionally contained in one notebook: `notebooks/exact_tcad_all_experiments.ipynb`. Python versions are pinned, runtime seeds and thread counts are fixed, generated artifacts receive SHA-256 manifests, and the smoke-test dataset is deterministic.
 
 ## Notebook-Only Workflow
 
-The single supported experiment entry point is `notebooks/exact_tcad_all_experiments.ipynb`. Open that notebook in Jupyter, run the cells from top to bottom, and use its configuration cell to choose smoke or full CITADEL runs.
+The single supported experiment entry point is `notebooks/exact_tcad_all_experiments.ipynb`. Open that notebook in Jupyter, run the cells from top to bottom, and use its configuration cell to choose smoke or full CITADEL runs. The notebook contains the former helper code inline, so there is no separate Python package or script to run.
 
 The notebook automatically locates the tracked telemetry folders:
 
@@ -24,8 +24,7 @@ If the notebook reports that a CSV is a Git LFS pointer, fetch the Git LFS objec
 
 ## Repository Map
 
-- `exact/`: reusable core library inherited from EXACT, including I/O, preprocessing, CINTAS scoring, metrics, plotting, and hardware-cost helpers; it is not an experiment entry point
-- `notebooks/`: the single experiment runner for EXACT reproduction, CITADEL ablation, hardware summaries, and FPGA/RTL integration hooks
+- `notebooks/`: the single self-contained experiment runner for EXACT reproduction, CITADEL ablation, hardware summaries, and FPGA/RTL integration hooks
 - `configs/`: smoke and full ablation grids
 - `docs/`: start-to-finish methodology, traceability matrix, data schema, reproducibility checklist, and RTL plan
 - `docs/figures/`: CITADEL manuscript PNG assets for Overleaf figures and draft table images
@@ -47,7 +46,7 @@ Use Python 3.11 or 3.12 when possible because GitHub Actions tests both versions
 
 This repo supports two setup paths:
 
-- `venv` plus `pip install -e ".[dev,notebook]"`
+- `venv` plus `pip install -r requirements.txt`
 - Conda using `environment.yml`
 
 For strict paper reproducibility, use the same path on both machines. Do not mix the `venv` path on one machine with the Conda path on another when generating submission tables. The Conda path is recommended for the ASU Linux server when Conda or Mamba is available.
@@ -78,8 +77,7 @@ git lfs pull
 python3.11 -m venv .venv
 source .venv/bin/activate
 python -m pip install -U pip
-python -m pip install -e ".[dev,notebook]"
-python -m pytest
+python -m pip install -r requirements.txt
 export PYTHONHASHSEED=123
 export OMP_NUM_THREADS=1
 export OPENBLAS_NUM_THREADS=1
@@ -99,8 +97,6 @@ git lfs install
 git lfs pull
 conda env create -f environment.yml
 conda activate citadel-slm
-python -m pip install -e . --no-deps
-python -m pytest
 export PYTHONHASHSEED=123
 export OMP_NUM_THREADS=1
 export OPENBLAS_NUM_THREADS=1
@@ -158,8 +154,6 @@ git lfs install
 git lfs pull
 conda env create -f environment.yml
 conda activate citadel-slm
-python -m pip install -e . --no-deps
-python -m pytest
 ```
 
 If you manually run `mv ~/CITADEL ...` and it says `No such file or directory`, that is fine. It means there was no old failed clone. Continue with `git clone`.
@@ -205,8 +199,7 @@ git lfs pull
 python3.11 -m venv .venv
 source .venv/bin/activate
 python -m pip install -U pip
-python -m pip install -e ".[dev,notebook]"
-python -m pytest
+python -m pip install -r requirements.txt
 ```
 
 If the server uses environment modules, load Python before creating the virtual environment:
@@ -322,7 +315,7 @@ After making repo changes on ASU, push them back:
 
 ```text
 git status
-git add README.md docs/ exact/ notebooks/ configs/ tests/
+git add README.md docs/ notebooks/ configs/ hardware/ rtl/ data/ environment.yml requirements.txt .github/workflows/ci.yml
 git commit -m "Update CITADEL workflow"
 git push origin main
 ```
@@ -338,7 +331,7 @@ After each run, check these outputs:
 
 For strict reproducibility, the resolved config, input hashes, selected-feature files, and summary CSV values should match between the laptop and the ASU server. If they do not match, first check Python version, package versions, Git commit, Git LFS data materialization, `SEED`, `THREADS`, and `TCAD_PRESET`.
 
-The manifest records the git commit, dirty-worktree state, Python version, direct package versions, hashes for `pyproject.toml`, `requirements.txt`, `environment.yml`, input CSV hashes, and output artifact hashes. Treat a run with `"git_dirty": true` as a development run, not a paper-submission run.
+The manifest records the git commit, dirty-worktree state, Python version, direct package versions, hashes for `requirements.txt`, `environment.yml`, input CSV hashes, and output artifact hashes. Treat a run with `"git_dirty": true` as a development run, not a paper-submission run.
 
 ## CITADEL Methodology
 
@@ -360,4 +353,4 @@ The deterministic sample dataset is only for testing the pipeline shape. It is n
 
 ## Relationship to EXACT
 
-This repo starts from the portable EXACT codebase at `https://github.com/ping830616/EXACT` and adds the CITADEL journal framework: design-space exploration, fixed-point precision analysis, hardware-cost modeling, RTL/FPGA-oriented validation, benign-drift checks, and reproducible result manifests. Keep conference-reproduction code stable; add journal experiments through the single notebook, configs, and result manifests.
+This repo starts from the portable EXACT codebase at `https://github.com/ping830616/EXACT` and adds the CITADEL journal framework: design-space exploration, fixed-point precision analysis, hardware-cost modeling, RTL/FPGA-oriented validation, benign-drift checks, and reproducible result manifests. The research workflow is now notebook-only: add journal experiments through the single notebook, configs, and result manifests.
