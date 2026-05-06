@@ -127,6 +127,24 @@ Then run the notebook from top to bottom. The smoke preset is the recommended la
 
 On an ASU Linux server, use the same repo and notebook. The main differences are environment setup, remote Jupyter access, and optional job allocation if the server is managed by a scheduler. If Conda or Mamba is available, prefer `environment.yml` so the server receives the same pinned package versions as the laptop.
 
+Connect to the ASU server from your laptop with your ASURITE domain login. In `zsh`, either quote the username or escape the backslash:
+
+```text
+ssh 'asurite\hsiaopin@149.169.30.50'
+```
+
+or:
+
+```text
+ssh asurite\\hsiaopin@149.169.30.50
+```
+
+After logging in, start a persistent terminal session so long CITADEL runs survive laptop sleep or network drops:
+
+```text
+tmux new -s citadel
+```
+
 Conda server setup:
 
 ```text
@@ -186,10 +204,16 @@ Start Jupyter on the server without opening a browser:
 python -m jupyter lab --no-browser --ip=127.0.0.1 --port=8888 notebooks/exact_tcad_all_experiments.ipynb
 ```
 
-From your laptop, open an SSH tunnel to the server:
+From your laptop, open an SSH tunnel to the server. Keep this tunnel open while using Jupyter:
 
 ```text
-ssh -L 8888:127.0.0.1:8888 ASURITE_ID@SERVER_NAME
+ssh -L 8888:127.0.0.1:8888 'asurite\hsiaopin@149.169.30.50'
+```
+
+or, without quotes:
+
+```text
+ssh -L 8888:127.0.0.1:8888 asurite\\hsiaopin@149.169.30.50
 ```
 
 Then open the Jupyter URL printed by the server, usually beginning with:
@@ -213,6 +237,14 @@ After the smoke run matches, change only the preset for the journal-scale run:
 ```python
 TCAD_PRESET = "full"
 ```
+
+When the run completes, copy server results back to your laptop if needed:
+
+```text
+rsync -avz 'asurite\hsiaopin@149.169.30.50:~/CITADEL/results/notebook_run/' ./citadel_asu_results/
+```
+
+If port `8888` is already in use, replace every `8888` above with the same unused port, such as `8890`.
 
 ### What To Compare Across Machines
 

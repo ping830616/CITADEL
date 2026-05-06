@@ -30,6 +30,64 @@ Rules:
 
 Use a Git client with Git LFS enabled so the tracked CSV files are materialized, not left as pointer files. Then open `notebooks/exact_tcad_all_experiments.ipynb` in Jupyter and run it from top to bottom. The notebook is the only experiment entry point.
 
+## ASU Linux Server
+
+Use the ASU server for reproducible research runs when you want the same notebook flow on Linux.
+
+Connect from your laptop with either quoted username syntax:
+
+```text
+ssh 'asurite\hsiaopin@149.169.30.50'
+```
+
+or escaped backslash syntax:
+
+```text
+ssh asurite\\hsiaopin@149.169.30.50
+```
+
+On the server:
+
+```text
+tmux new -s citadel
+git clone https://github.com/ping830616/CITADEL.git
+cd CITADEL
+git lfs install
+git lfs pull
+conda env create -f environment.yml
+conda activate citadel-slm
+python -m pip install -e . --no-deps
+python -m pytest
+export PYTHONHASHSEED=123
+export OMP_NUM_THREADS=1
+export OPENBLAS_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+export NUMEXPR_NUM_THREADS=1
+export VECLIB_MAXIMUM_THREADS=1
+export MPLBACKEND=Agg
+python -m jupyter lab --no-browser --ip=127.0.0.1 --port=8888 notebooks/exact_tcad_all_experiments.ipynb
+```
+
+From your laptop, create the Jupyter tunnel:
+
+```text
+ssh -L 8888:127.0.0.1:8888 'asurite\hsiaopin@149.169.30.50'
+```
+
+Open the local URL printed by Jupyter:
+
+```text
+http://127.0.0.1:8888/lab?token=...
+```
+
+Run `TCAD_PRESET = "smoke"` first. After the smoke run matches locally, change only `TCAD_PRESET` to `"full"` for the journal-scale run.
+
+Copy results back from the server with:
+
+```text
+rsync -avz 'asurite\hsiaopin@149.169.30.50:~/CITADEL/results/notebook_run/' ./citadel_asu_results/
+```
+
 ## Manifest Check
 
 Compare these fields in `run_manifest.json`:
