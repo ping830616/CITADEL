@@ -223,25 +223,42 @@ If the server requires an interactive compute allocation, request one before lau
 salloc --time=04:00:00 --cpus-per-task=4 --mem=32G
 ```
 
-Start Jupyter on the server without opening a browser:
+Use two Mac terminal windows for Jupyter.
 
-```text
-python -m jupyter lab --no-browser --ip=127.0.0.1 --port=8888 notebooks/exact_tcad_all_experiments.ipynb
-```
-
-From your laptop, open an SSH tunnel to the server. Keep this tunnel open while using Jupyter:
+Terminal 1 is only the SSH tunnel. Start it from your Mac and keep it open:
 
 ```text
 ssh -L 8888:127.0.0.1:8888 'asurite\hsiaopin@149.169.30.50'
 ```
 
-or, without quotes:
+Terminal 2 starts Jupyter on the ASU server. Open a second Mac terminal, SSH normally, update the repo, activate the environment, and launch Jupyter:
+
+```text
+ssh 'asurite\hsiaopin@149.169.30.50'
+cd ~/CITADEL
+git fetch origin
+git status -sb
+git log --oneline HEAD..origin/main
+git pull --ff-only origin main
+git lfs pull
+conda activate citadel-slm
+export PYTHONHASHSEED=123
+export OMP_NUM_THREADS=1
+export OPENBLAS_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+export NUMEXPR_NUM_THREADS=1
+export VECLIB_MAXIMUM_THREADS=1
+export MPLBACKEND=Agg
+python -m jupyter lab --no-browser --ip=127.0.0.1 --port=8888 notebooks/exact_tcad_all_experiments.ipynb
+```
+
+If you prefer the unquoted SSH form, escape the backslash:
 
 ```text
 ssh -L 8888:127.0.0.1:8888 asurite\\hsiaopin@149.169.30.50
 ```
 
-Then open the Jupyter URL printed by the server, usually beginning with:
+Then open the Jupyter URL in your Mac browser. Use the token printed in Terminal 2:
 
 ```text
 http://127.0.0.1:8888/lab?token=...

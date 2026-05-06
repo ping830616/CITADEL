@@ -131,13 +131,36 @@ git commit -m "Update CITADEL workflow"
 git push origin main
 ```
 
-From your laptop, create the Jupyter tunnel:
+Use two Mac terminal windows for remote Jupyter.
+
+Terminal 1 is only the tunnel. Start it on your Mac and keep it open:
 
 ```text
 ssh -L 8888:127.0.0.1:8888 'asurite\hsiaopin@149.169.30.50'
 ```
 
-Open the local URL printed by Jupyter:
+Terminal 2 starts Jupyter. Open a second Mac terminal, SSH normally, update the repo, activate the environment, and launch Jupyter:
+
+```text
+ssh 'asurite\hsiaopin@149.169.30.50'
+cd ~/CITADEL
+git fetch origin
+git status -sb
+git log --oneline HEAD..origin/main
+git pull --ff-only origin main
+git lfs pull
+conda activate citadel-slm
+export PYTHONHASHSEED=123
+export OMP_NUM_THREADS=1
+export OPENBLAS_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+export NUMEXPR_NUM_THREADS=1
+export VECLIB_MAXIMUM_THREADS=1
+export MPLBACKEND=Agg
+python -m jupyter lab --no-browser --ip=127.0.0.1 --port=8888 notebooks/exact_tcad_all_experiments.ipynb
+```
+
+Open the local URL in your Mac browser and use the token printed by Terminal 2:
 
 ```text
 http://127.0.0.1:8888/lab?token=...
