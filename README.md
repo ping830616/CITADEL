@@ -271,13 +271,34 @@ rsync -avz 'asurite\hsiaopin@149.169.30.50:~/CITADEL/results/notebook_run/' ./ci
 
 If port `8888` is already in use, replace every `8888` above with the same unused port, such as `8890`.
 
-Before every ASU run, update the server checkout from GitHub:
+Before every ASU run, check whether GitHub has newer commits:
+
+```text
+cd ~/CITADEL
+git fetch origin
+git status -sb
+git log --oneline HEAD..origin/main
+```
+
+If the last command prints commits, GitHub has updates that are not yet in this server folder.
+
+Update all tracked folders and files from GitHub:
 
 ```text
 cd ~/CITADEL
 git status
 git pull --ff-only origin main
 git lfs pull
+```
+
+If `git status` shows local edits, commit or stash them before pulling:
+
+```text
+git status
+git stash push -m "temporary ASU local changes"
+git pull --ff-only origin main
+git lfs pull
+git stash pop
 ```
 
 After making repo changes on ASU, push them back:

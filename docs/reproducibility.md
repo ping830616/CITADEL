@@ -93,12 +93,33 @@ find data/telemetry -name "*.csv" | head -n 1 | xargs head -5
 
 The output should show CSV content. If it starts with `version https://git-lfs.github.com/spec/v1`, the file is still a Git LFS pointer.
 
-Before each run, update from GitHub:
+Before each run, check whether GitHub has newer commits:
+
+```text
+cd ~/CITADEL
+git fetch origin
+git status -sb
+git log --oneline HEAD..origin/main
+```
+
+If `git log --oneline HEAD..origin/main` prints commits, GitHub has updates that are not yet in this local folder.
+
+Update all tracked folders and files from GitHub:
 
 ```text
 cd ~/CITADEL
 git pull --ff-only origin main
 git lfs pull
+```
+
+If the server has local edits, commit or stash them before pulling:
+
+```text
+git status
+git stash push -m "temporary ASU local changes"
+git pull --ff-only origin main
+git lfs pull
+git stash pop
 ```
 
 After editing repo files on ASU, keep GitHub current:
