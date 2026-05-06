@@ -257,6 +257,31 @@ Then open the Jupyter URL in your Mac browser. Use the token printed in Terminal
 http://127.0.0.1:8888/lab?token=...
 ```
 
+### Track Notebook Progress
+
+Long cells print timestamped progress lines in the notebook output, for example `ETS baseline`, `TCAD ablation`, and `Lifecycle drift` stages with elapsed time and grid percentages. The same messages are appended to:
+
+```text
+results/notebook_run/notebook_progress.log
+```
+
+To monitor from a third Mac terminal while the notebook is running:
+
+```text
+ssh 'asurite\hsiaopin@149.169.30.50'
+cd ~/CITADEL
+tail -f results/notebook_run/notebook_progress.log
+```
+
+To check whether result files are being created:
+
+```text
+cd ~/CITADEL
+find results/notebook_run -maxdepth 3 -type f -print | sort | tail -30
+```
+
+In JupyterLab, the kernel circle at the top right stays busy while a cell is running. Do not restart the kernel unless you want to cancel the current run.
+
 For the server run, keep the same deterministic settings first:
 
 ```python

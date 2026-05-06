@@ -166,6 +166,29 @@ http://127.0.0.1:8888/lab?token=...
 
 Run `TCAD_PRESET = "smoke"` first. After the smoke run matches locally, change only `TCAD_PRESET` to `"full"` for the journal-scale run.
 
+## Monitoring A Long Run
+
+The notebook prints timestamped progress messages in long cells and appends the same lines to:
+
+```text
+results/notebook_run/notebook_progress.log
+```
+
+From another SSH terminal:
+
+```text
+ssh 'asurite\hsiaopin@149.169.30.50'
+cd ~/CITADEL
+tail -f results/notebook_run/notebook_progress.log
+```
+
+Useful one-time checks:
+
+```text
+find results/notebook_run -maxdepth 3 -type f -print | sort | tail -30
+du -sh results/notebook_run
+```
+
 After a complete notebook run, compare the main generated artifacts:
 
 - `results/notebook_run/ets_baseline/run_manifest.json`
