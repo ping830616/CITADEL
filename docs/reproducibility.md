@@ -168,7 +168,7 @@ Run `TCAD_PRESET = "smoke"` first. After the smoke run matches locally, change o
 
 ## Monitoring A Long Run
 
-The notebook prints timestamped progress messages in long cells and appends the same lines to:
+The notebook shows a live progress card directly in long-running cell output. It also prints timestamped progress messages and appends the same lines to:
 
 ```text
 results/notebook_run/notebook_progress.log

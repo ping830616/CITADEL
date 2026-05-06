@@ -259,7 +259,7 @@ http://127.0.0.1:8888/lab?token=...
 
 ### Track Notebook Progress
 
-Long cells print timestamped progress lines in the notebook output, for example `ETS baseline`, `TCAD ablation`, and `Lifecycle drift` stages with elapsed time and grid percentages. The same messages are appended to:
+Long cells show a live progress card directly in the notebook output, including the current stage, elapsed time, and grid percentage when available. They also print timestamped progress lines for `ETS baseline`, `TCAD ablation`, and `Lifecycle drift`. The same messages are appended to:
 
 ```text
 results/notebook_run/notebook_progress.log
