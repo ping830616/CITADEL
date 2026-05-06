@@ -50,7 +50,11 @@ On the server:
 
 ```text
 tmux new -s citadel
-git clone https://github.com/ping830616/CITADEL.git
+cd ~
+if [ -d CITADEL ]; then
+  mv CITADEL CITADEL_previous_clone
+fi
+git clone git@github.com:ping830616/CITADEL.git
 cd CITADEL
 git lfs install
 git lfs pull
@@ -66,6 +70,44 @@ export NUMEXPR_NUM_THREADS=1
 export VECLIB_MAXIMUM_THREADS=1
 export MPLBACKEND=Agg
 python -m jupyter lab --no-browser --ip=127.0.0.1 --port=8888 notebooks/exact_tcad_all_experiments.ipynb
+```
+
+If you manually run `mv ~/CITADEL ...` and it says `No such file or directory`, continue. There was no old clone to move.
+
+If `git lfs` is not installed, use Conda:
+
+```text
+conda install -c conda-forge git-lfs -y
+which git-lfs
+git-lfs --version
+cd ~/CITADEL
+git lfs install
+git lfs pull
+```
+
+Confirm that LFS downloaded real data:
+
+```text
+find data/telemetry -name "*.csv" | head -n 1 | xargs head -5
+```
+
+The output should show CSV content. If it starts with `version https://git-lfs.github.com/spec/v1`, the file is still a Git LFS pointer.
+
+Before each run, update from GitHub:
+
+```text
+cd ~/CITADEL
+git pull --ff-only origin main
+git lfs pull
+```
+
+After editing repo files on ASU, keep GitHub current:
+
+```text
+git status
+git add README.md docs/ exact/ notebooks/ configs/ tests/
+git commit -m "Update CITADEL workflow"
+git push origin main
 ```
 
 From your laptop, create the Jupyter tunnel:

@@ -148,7 +148,11 @@ tmux new -s citadel
 Conda server setup:
 
 ```text
-git clone https://github.com/ping830616/CITADEL.git
+cd ~
+if [ -d CITADEL ]; then
+  mv CITADEL CITADEL_previous_clone
+fi
+git clone git@github.com:ping830616/CITADEL.git
 cd CITADEL
 git lfs install
 git lfs pull
@@ -157,6 +161,27 @@ conda activate citadel-slm
 python -m pip install -e . --no-deps
 python -m pytest
 ```
+
+If you manually run `mv ~/CITADEL ...` and it says `No such file or directory`, that is fine. It means there was no old failed clone. Continue with `git clone`.
+
+If `git lfs` is missing on the ASU server, install it through Conda first:
+
+```text
+conda install -c conda-forge git-lfs -y
+which git-lfs
+git-lfs --version
+cd ~/CITADEL
+git lfs install
+git lfs pull
+```
+
+Check that Git LFS materialized real CSV files rather than pointer files:
+
+```text
+find data/telemetry -name "*.csv" | head -n 1 | xargs head -5
+```
+
+If the output begins with `version https://git-lfs.github.com/spec/v1`, run `git lfs pull` again and verify that your GitHub SSH key has access to the repository.
 
 Before starting Jupyter, set the deterministic runtime variables:
 
@@ -173,7 +198,7 @@ export MPLBACKEND=Agg
 If Conda is not available, use `venv`:
 
 ```text
-git clone https://github.com/ping830616/CITADEL.git
+git clone git@github.com:ping830616/CITADEL.git
 cd CITADEL
 git lfs install
 git lfs pull
@@ -245,6 +270,24 @@ rsync -avz 'asurite\hsiaopin@149.169.30.50:~/CITADEL/results/notebook_run/' ./ci
 ```
 
 If port `8888` is already in use, replace every `8888` above with the same unused port, such as `8890`.
+
+Before every ASU run, update the server checkout from GitHub:
+
+```text
+cd ~/CITADEL
+git status
+git pull --ff-only origin main
+git lfs pull
+```
+
+After making repo changes on ASU, push them back:
+
+```text
+git status
+git add README.md docs/ exact/ notebooks/ configs/ tests/
+git commit -m "Update CITADEL workflow"
+git push origin main
+```
 
 ### What To Compare Across Machines
 
