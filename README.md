@@ -208,6 +208,19 @@ Use `tmux` so the notebook keeps running if your laptop disconnects:
 tmux new -s citadel
 ```
 
+If you see `duplicate session: citadel`, an old session is already running. To return to it:
+
+```text
+tmux attach -t citadel
+```
+
+If you want to cancel the old session and start a new one:
+
+```text
+tmux kill-session -t citadel
+tmux new -s citadel
+```
+
 Inside tmux, run:
 
 ```text
@@ -291,6 +304,13 @@ If `tmux new -s citadel` says `duplicate session: citadel`, the session already 
 
 ```text
 tmux attach -t citadel
+```
+
+If you want to cancel that old session and start fresh:
+
+```text
+tmux kill-session -t citadel
+tmux new -s citadel
 ```
 
 ### 9. Update An Existing Clone Later
