@@ -161,6 +161,18 @@ git lfs install
 git lfs pull
 ```
 
+If `git clone` prints `git-lfs: command not found` and `Clone succeeded, but checkout failed`, install Git LFS and repair the checkout instead of recloning:
+
+```text
+/bin/bash -l
+conda install -c conda-forge git-lfs -y
+cd ~/CITADEL
+git lfs install
+git restore --source=HEAD :/
+git lfs pull
+git status
+```
+
 Check that the CSVs are real data, not Git LFS pointer files:
 
 ```text
