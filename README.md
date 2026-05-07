@@ -103,6 +103,30 @@ The token needs repository `Contents` permission. `Read-only` is enough to run t
 
 If GitHub returns `403`, create a new token that explicitly has access to `ping830616/CITADEL`, then retry the clone.
 
+If you already cloned the repo before and GitHub has new updates, you usually do not need to reclone. Update the existing server folder with:
+
+```text
+cd ~/CITADEL
+git fetch origin
+git pull --ff-only origin main
+git lfs pull
+git log --oneline -1
+```
+
+If you prefer a completely fresh copy, backup the old folder and reclone:
+
+```text
+cd ~
+mv CITADEL CITADEL_backup_$(date +%Y%m%d_%H%M%S)
+git clone https://github.com/ping830616/CITADEL.git
+cd CITADEL
+git lfs install
+git lfs pull
+git log --oneline -1
+```
+
+If `mv` says `No such file or directory`, continue with `git clone`; it only means there was no old `CITADEL` folder.
+
 ### 4. Get Git LFS Data
 
 The telemetry CSVs are stored with Git LFS. Check whether Git LFS exists:
