@@ -367,6 +367,29 @@ If `git log --oneline HEAD..origin/main` prints commits, those commits are waiti
 
 After pulling notebook changes, refresh JupyterLab, restart the notebook kernel, and run the notebook from the top. This matters because Jupyter keeps old Python functions in memory until the kernel restarts.
 
+If you edit the notebook yourself and want GitHub to receive those changes, commit and push from the machine where you edited it. On ASU:
+
+```text
+/bin/bash -l
+cd ~/CITADEL
+git status -sb
+git add notebooks/exact_tcad_all_experiments.ipynb README.md docs/
+git commit -m "Update CITADEL notebook and paper notes"
+git push origin main
+git status -sb
+```
+
+If you edited the notebook on your laptop instead, run the same commands from the laptop repo folder:
+
+```text
+cd "/Users/hsiaopingni/Documents/New project/CITADEL"
+git status -sb
+git add notebooks/exact_tcad_all_experiments.ipynb README.md docs/
+git commit -m "Update CITADEL notebook and paper notes"
+git push origin main
+git status -sb
+```
+
 ### 10. Reclone From Scratch If Needed
 
 If the server folder is messy or authentication was wrong during the first clone, you can backup and reclone:
