@@ -75,10 +75,10 @@ Open Terminal 2 on your Mac:
 ssh 'asurite\hsiaopin@149.169.30.50'
 ```
 
-After you are on the server, switch to `bash` first. This avoids shell errors such as `export: Command not found` and `if: Expression Syntax`.
+After you are on the server, switch to `bash` first. This avoids shell errors such as `export: Command not found`, `if: Expression Syntax`, and `Too many ('s`.
 
 ```text
-bash
+/bin/bash -l
 ```
 
 ### 3. Clone The Repo For The First Time
@@ -188,6 +188,15 @@ conda env update -f environment.yml --prune
 Activate the environment:
 
 ```text
+source ~/miniconda3/etc/profile.d/conda.sh
+conda activate citadel-slm
+```
+
+If `source ~/miniconda3/etc/profile.d/conda.sh` prints `export: Command not found` or `Too many ('s`, you are still in the server's non-Bash shell. Start Bash and then repeat the Conda activation:
+
+```text
+/bin/bash -l
+cd ~/CITADEL
 source ~/miniconda3/etc/profile.d/conda.sh
 conda activate citadel-slm
 ```
