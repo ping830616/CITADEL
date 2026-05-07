@@ -395,12 +395,34 @@ git lfs pull
 git log --oneline -1
 ```
 
-### 11. Copy Results Back To Your Mac
+### 11. Copy Files Or Folders From ASU To Your Mac
 
-After the notebook completes, run this from your Mac:
+Run these commands from your Mac terminal, not inside the ASU SSH session.
+
+Copy the main notebook results folder:
 
 ```text
-rsync -avz 'asurite\hsiaopin@149.169.30.50:~/CITADEL/results/notebook_run/' ./citadel_asu_results/
+mkdir -p ~/Downloads/citadel_asu_results
+rsync -avz --progress 'asurite\hsiaopin@149.169.30.50:~/CITADEL/results/notebook_run/' ~/Downloads/citadel_asu_results/
+```
+
+Copy any single file:
+
+```text
+scp 'asurite\hsiaopin@149.169.30.50:~/CITADEL/results/notebook_run/tcad_ablation/tcad_ablation_summary.csv' ~/Downloads/
+```
+
+Copy any folder by replacing the server path and local destination:
+
+```text
+rsync -avz --progress 'asurite\hsiaopin@149.169.30.50:~/CITADEL/path/to/server_folder/' ~/Downloads/local_folder/
+```
+
+Copy the whole CITADEL folder, excluding the Git history and common cache files:
+
+```text
+mkdir -p ~/Downloads/CITADEL_from_ASU
+rsync -avz --progress --exclude '.git/' --exclude '.venv/' --exclude '__pycache__/' --exclude '.ipynb_checkpoints/' 'asurite\hsiaopin@149.169.30.50:~/CITADEL/' ~/Downloads/CITADEL_from_ASU/
 ```
 
 ## Laptop Quick Check
