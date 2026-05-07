@@ -113,7 +113,7 @@ git lfs pull
 git log --oneline -1
 ```
 
-If you prefer a completely fresh copy, backup the old folder and reclone:
+If you prefer a completely fresh copy while keeping the old folder, backup the old folder and reclone:
 
 ```text
 cd ~
@@ -126,6 +126,18 @@ git log --oneline -1
 ```
 
 If `mv` says `No such file or directory`, continue with `git clone`; it only means there was no old `CITADEL` folder.
+
+If you want to completely delete the old folder instead, use this only when you are sure there are no results or edits you need inside `~/CITADEL`:
+
+```text
+cd ~
+rm -rf CITADEL
+git clone https://github.com/ping830616/CITADEL.git
+cd CITADEL
+git lfs install
+git lfs pull
+git log --oneline -1
+```
 
 ### 4. Get Git LFS Data
 
@@ -310,7 +322,7 @@ After pulling notebook changes, refresh JupyterLab, restart the notebook kernel,
 
 ### 10. Reclone From Scratch If Needed
 
-If the server folder is messy or authentication was wrong during the first clone, make a backup and reclone:
+If the server folder is messy or authentication was wrong during the first clone, you can backup and reclone:
 
 ```text
 cd ~
@@ -323,6 +335,18 @@ git log --oneline -1
 ```
 
 If `mv` says `No such file or directory`, that is fine. It means there was no old `CITADEL` folder.
+
+Or completely delete the old folder and reclone. Use this only when you are sure there are no results or edits you need inside `~/CITADEL`:
+
+```text
+cd ~
+rm -rf CITADEL
+git clone https://github.com/ping830616/CITADEL.git
+cd CITADEL
+git lfs install
+git lfs pull
+git log --oneline -1
+```
 
 ### 11. Copy Results Back To Your Mac
 
