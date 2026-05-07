@@ -223,10 +223,10 @@ Then replace `~/miniconda3/etc/profile.d/conda.sh` with the printed path.
 
 ### 6. Start Jupyter In Tmux
 
-Use `tmux` so the notebook keeps running if your laptop disconnects:
+Use `tmux` so the notebook keeps running if your laptop disconnects. Start tmux with Bash directly so Conda activation works:
 
 ```text
-tmux new -s citadel
+tmux new -s citadel /bin/bash -l
 ```
 
 If you see `duplicate session: citadel`, an old session is already running. To return to it:
@@ -239,10 +239,16 @@ If you want to cancel the old session and start a new one:
 
 ```text
 tmux kill-session -t citadel
-tmux new -s citadel
+tmux new -s citadel /bin/bash -l
 ```
 
-Inside tmux, run:
+If you are already inside tmux and `source ~/miniconda3/etc/profile.d/conda.sh` prints `export: Command not found` or `Too many ('s`, switch that tmux window into Bash first:
+
+```text
+exec /bin/bash -l
+```
+
+Then run:
 
 ```text
 cd ~/CITADEL
@@ -317,7 +323,7 @@ To return later:
 
 ```text
 ssh 'asurite\hsiaopin@149.169.30.50'
-bash
+/bin/bash -l
 tmux attach -t citadel
 ```
 
@@ -331,7 +337,7 @@ If you want to cancel that old session and start fresh:
 
 ```text
 tmux kill-session -t citadel
-tmux new -s citadel
+tmux new -s citadel /bin/bash -l
 ```
 
 ### 9. Update An Existing Clone Later
@@ -347,7 +353,7 @@ ssh 'asurite\hsiaopin@149.169.30.50'
 Then run this on the ASU server:
 
 ```text
-bash
+/bin/bash -l
 cd ~/CITADEL
 git fetch origin
 git status -sb
