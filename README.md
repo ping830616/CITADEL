@@ -448,22 +448,183 @@ mkdir -p ~/Downloads/CITADEL_from_ASU
 rsync -avz --progress --exclude '.git/' --exclude '.venv/' --exclude '__pycache__/' --exclude '.ipynb_checkpoints/' 'asurite\hsiaopin@149.169.30.50:~/CITADEL/' ~/Downloads/CITADEL_from_ASU/
 ```
 
-## Laptop Quick Check
+## Run Locally On Your Laptop
 
-For a local smoke run on macOS or Linux:
+Use this path when you want to run or inspect the notebook directly on your own Mac or Linux machine without the ASU server. This is good for smoke checks, figure/table inspection, and notebook editing. For final paper-scale numbers, the ASU Linux server is still recommended because the full sweep is long.
+
+### 1. Open A Local Terminal
+
+On macOS, open Terminal. If you already transferred or cloned the repo into Documents, go to that folder:
 
 ```text
+cd "/Users/hsiaopingni/Documents/New project/CITADEL"
+```
+
+If you do not have the repo yet, clone it:
+
+```text
+cd "/Users/hsiaopingni/Documents/New project"
+git clone https://github.com/ping830616/CITADEL.git
+cd CITADEL
+```
+
+If GitHub asks for credentials, use:
+
+```text
+Username for 'https://github.com': ping830616
+Password for 'https://ping830616@github.com': paste_your_github_token_here
+```
+
+Use a GitHub token, not your ASU password.
+
+### 2. Update The Local Folder From GitHub
+
+Run this whenever GitHub has newer notebook or README updates:
+
+```text
+cd "/Users/hsiaopingni/Documents/New project/CITADEL"
+git fetch origin
+git pull --ff-only origin main
+git lfs pull
+git log --oneline -1
+```
+
+If you want a completely fresh local copy, delete or move the old folder first. Only delete it if you are sure there are no results or notebook edits you need:
+
+```text
+cd "/Users/hsiaopingni/Documents/New project"
+rm -rf CITADEL
 git clone https://github.com/ping830616/CITADEL.git
 cd CITADEL
 git lfs install
 git lfs pull
+```
+
+### 3. Get The Git LFS Telemetry Data
+
+Check Git LFS:
+
+```text
+git lfs version
+```
+
+If missing, install it. On macOS with Homebrew:
+
+```text
+brew install git-lfs
+```
+
+Or through Conda:
+
+```text
+conda install -c conda-forge git-lfs -y
+```
+
+Then fetch the real telemetry files:
+
+```text
+git lfs install
+git lfs pull
+```
+
+Check that the CSVs are real data:
+
+```text
+find data/telemetry -name "*.csv" | head -n 1 | xargs head -5
+```
+
+If the first line says `version https://git-lfs.github.com/spec/v1`, the file is still a Git LFS pointer. Run `git lfs pull` again and confirm your GitHub token can read this repository.
+
+### 4. Create Or Update The Conda Environment
+
+Create the environment the first time:
+
+```text
 conda env create -f environment.yml
+```
+
+If it already exists, update it:
+
+```text
+conda env update -f environment.yml --prune
+```
+
+Activate it:
+
+```text
 source ~/miniconda3/etc/profile.d/conda.sh
+conda activate citadel-slm
+```
+
+If your Conda install is elsewhere, find it:
+
+```text
+find ~ -path "*/etc/profile.d/conda.sh" 2>/dev/null | head -n 1
+```
+
+Then replace `~/miniconda3/etc/profile.d/conda.sh` with the printed path.
+
+### 5. Start Jupyter Locally
+
+From the repo folder:
+
+```text
+cd "/Users/hsiaopingni/Documents/New project/CITADEL"
 conda activate citadel-slm
 python -m jupyter lab notebooks/exact_tcad_all_experiments.ipynb
 ```
 
-Use the same notebook settings as the ASU smoke run first. For final paper numbers, prefer the ASU Linux server and keep `TCAD_PRESET = "full"`.
+This opens Jupyter directly on your laptop. You do not need SSH tunneling for a local run.
+
+### 6. Notebook Settings For Local Runs
+
+For a quick local smoke check, use:
+
+```python
+SEED = 123
+THREADS = 1
+DATA_MODE = "real"
+TCAD_PRESET = "smoke"
+RUN_REPEAT_CHECK = True
+```
+
+Then run the notebook from top to bottom.
+
+For a full local paper-scale run, change only:
+
+```python
+TCAD_PRESET = "full"
+```
+
+The full configuration now evaluates block lengths:
+
+```text
+50, 100, 150, 200, ..., 900, 950, 1000
+```
+
+This is much slower than the smoke run and may take many hours on a laptop. Prefer the ASU server for final TCAD numbers.
+
+### 7. Local Output Files To Check
+
+After the notebook finishes, check:
+
+```text
+results/notebook_run/tcad_ablation/tcad_ablation_summary.csv
+results/notebook_run/tcad_ablation/tcad_ablation_fold_results.csv
+results/notebook_run/tcad_ablation/tcad_selected_features.csv
+results/notebook_run/tcad_ablation/run_manifest.json
+results/notebook_run/tcad_ablation_repeat/tcad_ablation_summary.csv
+results/notebook_run/droop_adaptive_ablation/droop_adaptive_best_by_setup.csv
+results/notebook_run/droop_adaptive_ablation/droop_adaptive_vs_main_tcad.csv
+```
+
+The repeat check should report:
+
+```text
+Repeated TCAD summary equals first run: True
+```
+
+For strict reproducibility, compare the local manifests and summary CSVs against the ASU-generated files.
 
 ## What To Compare Across Machines
 
