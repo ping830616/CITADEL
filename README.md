@@ -26,7 +26,7 @@ If the notebook reports that a CSV is a Git LFS pointer, fetch the Git LFS objec
 
 - `notebooks/`: the single self-contained experiment runner for EXACT reproduction, CITADEL ablation, false-positive-rate reporting, lifecycle recalibration, hardware summaries, and FPGA/RTL integration hooks
 - `configs/`: smoke and full ablation grids
-- `docs/`: start-to-finish methodology, traceability matrix, data schema, reproducibility checklist, and RTL plan
+- `docs/`: start-to-finish methodology, ASU server runbook, traceability matrix, data schema, reproducibility checklist, and RTL plan
 - `docs/figures/`: CITADEL manuscript PNG assets for Overleaf figures and draft table images
 - `rtl/cintas/`: synthesizable CINTAS SystemVerilog starter design and testbench notes
 - `environment.yml`: Conda environment for reproducible laptop/server runs
@@ -40,220 +40,75 @@ If the notebook reports that a CSV is a Git LFS pointer, fetch the Git LFS objec
 
 Every experiment should be run from the notebook with repo-relative paths. Each notebook run writes `run_manifest.json` files with configuration, package versions, input hashes, and output hashes. Matching manifests across machines mean the same numerical inputs and outputs were used.
 
-## Linux / ASU Quick Start
+## Run Reproducibly On Any Machine
 
-This is the recommended path for reproducing CITADEL on a Linux server. The ASU server examples use:
+Use the same workflow on a laptop, workstation, or Linux server. ASU-specific SSH, tmux, shell, and file-transfer commands are kept in [`docs/asu_server_runbook.md`](docs/asu_server_runbook.md).
 
-```text
-asurite\hsiaopin@149.169.30.50
-```
+### 1. Clone Or Update The Repository
 
-Use your ASU password only for the `ssh` login. If GitHub asks for a password during `git clone`, paste a GitHub Personal Access Token, not the ASU password.
-
-### 1. Open The SSH Tunnel
-
-On your Mac, open Terminal 1 and keep it open:
+For a first clone:
 
 ```text
-ssh -N -L 8888:127.0.0.1:8888 'asurite\hsiaopin@149.169.30.50'
-```
-
-This makes the server's Jupyter page available at `http://127.0.0.1:8888` on your Mac.
-After you enter your ASU password, this terminal may look blank. That is normal. Keep it open.
-
-If port `8888` is busy, use another port everywhere, for example:
-
-```text
-ssh -N -L 8890:127.0.0.1:8890 'asurite\hsiaopin@149.169.30.50'
-```
-
-### 2. Log In And Use Bash
-
-Open Terminal 2 on your Mac:
-
-```text
-ssh 'asurite\hsiaopin@149.169.30.50'
-```
-
-After you are on the server, switch to `bash` first. This avoids shell errors such as `export: Command not found`, `if: Expression Syntax`, and `Too many ('s`.
-
-```text
-/bin/bash -l
-```
-
-### 3. Clone The Repo For The First Time
-
-Run these commands on the ASU server:
-
-```text
-cd ~
 git clone https://github.com/ping830616/CITADEL.git
 cd CITADEL
-git log --oneline -1
 ```
 
-If GitHub asks for credentials:
+For an existing clone:
 
 ```text
-Username for 'https://github.com': ping830616
-Password for 'https://ping830616@github.com': paste_your_github_token_here
-```
-
-The token needs repository `Contents` permission. `Read-only` is enough to run the notebook; `Read and write` is needed only if you want to push changes from the server.
-
-If GitHub returns `403`, create a new token that explicitly has access to `ping830616/CITADEL`, then retry the clone.
-
-If you already cloned the repo before and GitHub has new updates, you usually do not need to reclone. Update the existing server folder with:
-
-```text
-cd ~/CITADEL
+cd CITADEL
 git fetch origin
 git pull --ff-only origin main
 git lfs pull
 git log --oneline -1
 ```
 
-If you prefer a completely fresh copy while keeping the old folder, backup the old folder and reclone:
+If GitHub asks for credentials, use your GitHub username and a GitHub Personal Access Token. Do not use an ASU password for GitHub authentication.
+
+### 2. Materialize Git LFS Telemetry
+
+The telemetry CSVs are stored with Git LFS. Fetch them before running the notebook:
 
 ```text
-cd ~
-mv CITADEL CITADEL_backup_$(date +%Y%m%d_%H%M%S)
-git clone https://github.com/ping830616/CITADEL.git
-cd CITADEL
 git lfs install
 git lfs pull
-git log --oneline -1
-```
-
-If `mv` says `No such file or directory`, continue with `git clone`; it only means there was no old `CITADEL` folder.
-
-If you want to completely delete the old folder instead, use this only when you are sure there are no results or edits you need inside `~/CITADEL`:
-
-```text
-cd ~
-rm -rf CITADEL
-git clone https://github.com/ping830616/CITADEL.git
-cd CITADEL
-git lfs install
-git lfs pull
-git log --oneline -1
-```
-
-### 4. Get Git LFS Data
-
-The telemetry CSVs are stored with Git LFS. Check whether Git LFS exists:
-
-```text
-git lfs version
-```
-
-If that command is missing, install Git LFS through Conda:
-
-```text
-conda install -c conda-forge git-lfs -y
-```
-
-Then fetch the data:
-
-```text
-cd ~/CITADEL
-git lfs install
-git lfs pull
-```
-
-If `git clone` prints `git-lfs: command not found` and `Clone succeeded, but checkout failed`, install Git LFS and repair the checkout instead of recloning:
-
-```text
-/bin/bash -l
-conda install -c conda-forge git-lfs -y
-cd ~/CITADEL
-git lfs install
-git restore --source=HEAD :/
-git lfs pull
-git status
-```
-
-Check that the CSVs are real data, not Git LFS pointer files:
-
-```text
 find data/telemetry -name "*.csv" | head -n 1 | xargs head -5
 ```
 
-If the first line says `version https://git-lfs.github.com/spec/v1`, run `git lfs pull` again and confirm your GitHub token can read this repository.
+If the first line says `version https://git-lfs.github.com/spec/v1`, the file is still a Git LFS pointer. Run `git lfs pull` again and confirm that your GitHub token can read this repository.
 
-### 5. Create The Conda Environment
+### 3. Create Or Update The Environment
 
-Run:
+Create the Conda environment the first time:
 
 ```text
-cd ~/CITADEL
 conda env create -f environment.yml
 ```
 
-If the environment already exists, update it instead:
+If the environment already exists, update it:
 
 ```text
-cd ~/CITADEL
 conda env update -f environment.yml --prune
 ```
 
-Activate the environment:
+Activate it:
+
+```text
+conda activate citadel-slm
+```
+
+If `conda activate` is not initialized, source your Conda setup script first. A common path is:
 
 ```text
 source ~/miniconda3/etc/profile.d/conda.sh
 conda activate citadel-slm
 ```
 
-If `source ~/miniconda3/etc/profile.d/conda.sh` prints `export: Command not found` or `Too many ('s`, you are still in the server's non-Bash shell. Start Bash and then repeat the Conda activation:
+### 4. Fix Runtime Determinism
+
+The notebook also sets reproducibility controls, but setting them before launch makes runs easier to compare across machines:
 
 ```text
-/bin/bash -l
-cd ~/CITADEL
-source ~/miniconda3/etc/profile.d/conda.sh
-conda activate citadel-slm
-```
-
-If your Conda installation is somewhere else, find it with:
-
-```text
-find ~ -path "*/etc/profile.d/conda.sh" 2>/dev/null | head -n 1
-```
-
-Then replace `~/miniconda3/etc/profile.d/conda.sh` with the printed path.
-
-### 6. Start Jupyter In Tmux
-
-Use `tmux` so the notebook keeps running if your laptop disconnects. Start tmux with Bash directly so Conda activation works:
-
-```text
-tmux new -s citadel /bin/bash -l
-```
-
-If you see `duplicate session: citadel`, an old session is already running. To return to it:
-
-```text
-tmux attach -t citadel
-```
-
-If you want to cancel the old session and start a new one:
-
-```text
-tmux kill-session -t citadel
-tmux new -s citadel /bin/bash -l
-```
-
-If you are already inside tmux and `source ~/miniconda3/etc/profile.d/conda.sh` prints `export: Command not found` or `Too many ('s`, switch that tmux window into Bash first:
-
-```text
-exec /bin/bash -l
-```
-
-Then run:
-
-```text
-cd ~/CITADEL
-source ~/miniconda3/etc/profile.d/conda.sh
-conda activate citadel-slm
 export PYTHONHASHSEED=123
 export OMP_NUM_THREADS=1
 export OPENBLAS_NUM_THREADS=1
@@ -261,29 +116,24 @@ export MKL_NUM_THREADS=1
 export NUMEXPR_NUM_THREADS=1
 export VECLIB_MAXIMUM_THREADS=1
 export MPLBACKEND=Agg
-python -m jupyter lab --no-browser --ip=127.0.0.1 --port=8888 --notebook-dir=notebooks
 ```
 
-Copy the URL printed by Jupyter. It will look like:
+### 5. Start Jupyter
+
+From the repository root:
 
 ```text
-http://127.0.0.1:8888/lab?token=...
+python -m jupyter lab notebooks/exact_tcad_all_experiments.ipynb
 ```
 
-Open that URL in your Mac browser.
+On a remote server, start Jupyter with `--no-browser --ip=127.0.0.1 --port=<port>` and use SSH port forwarding from your laptop. The ASU-specific commands are in [`docs/asu_server_runbook.md`](docs/asu_server_runbook.md).
 
-If you used port `8890` for the tunnel, start Jupyter with `--port=8890` and open:
+### 6. Run The Notebook
 
-```text
-http://127.0.0.1:8890/lab?token=...
-```
-
-### 7. Run The Notebook
-
-In JupyterLab, open:
+Open:
 
 ```text
-exact_tcad_all_experiments.ipynb
+notebooks/exact_tcad_all_experiments.ipynb
 ```
 
 For a quick reproducibility check, use these settings in the notebook configuration cell:
@@ -296,326 +146,38 @@ TCAD_PRESET = "smoke"
 RUN_REPEAT_CHECK = True
 ```
 
-Then run the notebook from top to bottom.
-
 For the final TCAD journal-scale run, change only:
 
 ```python
 TCAD_PRESET = "full"
 ```
 
-Long cells show progress directly in the notebook output. The notebook also writes progress messages here:
-
-```text
-results/notebook_run/notebook_progress.log
-```
-
-### 8. Leave And Return To The Run
-
-To detach from tmux without stopping Jupyter:
-
-```text
-Ctrl-b
-d
-```
-
-To return later:
-
-```text
-ssh 'asurite\hsiaopin@149.169.30.50'
-/bin/bash -l
-tmux attach -t citadel
-```
-
-If `tmux new -s citadel` says `duplicate session: citadel`, the session already exists. Attach to it:
-
-```text
-tmux attach -t citadel
-```
-
-If you want to cancel that old session and start fresh:
-
-```text
-tmux kill-session -t citadel
-tmux new -s citadel /bin/bash -l
-```
-
-### 9. Update An Existing Clone Later
-
-Use this whenever GitHub has newer notebook or README updates.
-
-From your Mac, SSH to the ASU server:
-
-```text
-ssh 'asurite\hsiaopin@149.169.30.50'
-```
-
-Then run this on the ASU server:
-
-```text
-/bin/bash -l
-cd ~/CITADEL
-git fetch origin
-git status -sb
-git log --oneline HEAD..origin/main
-git pull --ff-only origin main
-git lfs pull
-git log --oneline -1
-```
-
-If `git log --oneline HEAD..origin/main` prints commits, those commits are waiting to be pulled. If it prints nothing, your server clone is already current.
-
-After pulling notebook changes, refresh JupyterLab, restart the notebook kernel, and run the notebook from the top. This matters because Jupyter keeps old Python functions in memory until the kernel restarts.
-
-If you edit the notebook yourself and want GitHub to receive those changes, commit and push from the machine where you edited it. On ASU:
-
-```text
-/bin/bash -l
-cd ~/CITADEL
-git status -sb
-git add notebooks/exact_tcad_all_experiments.ipynb README.md docs/
-git commit -m "Update CITADEL notebook and paper notes"
-git push origin main
-git status -sb
-```
-
-If you edited the notebook on your laptop instead, run the same commands from the laptop repo folder:
-
-```text
-cd "/Users/hsiaopingni/Documents/New project/CITADEL"
-git status -sb
-git add notebooks/exact_tcad_all_experiments.ipynb README.md docs/
-git commit -m "Update CITADEL notebook and paper notes"
-git push origin main
-git status -sb
-```
-
-### 10. Reclone From Scratch If Needed
-
-If the server folder is messy or authentication was wrong during the first clone, you can backup and reclone:
-
-```text
-cd ~
-mv CITADEL CITADEL_backup_$(date +%Y%m%d_%H%M%S)
-git clone https://github.com/ping830616/CITADEL.git
-cd CITADEL
-git lfs install
-git lfs pull
-git log --oneline -1
-```
-
-If `mv` says `No such file or directory`, that is fine. It means there was no old `CITADEL` folder.
-
-Or completely delete the old folder and reclone. Use this only when you are sure there are no results or edits you need inside `~/CITADEL`:
-
-```text
-cd ~
-rm -rf CITADEL
-git clone https://github.com/ping830616/CITADEL.git
-cd CITADEL
-git lfs install
-git lfs pull
-git log --oneline -1
-```
-
-### 11. Copy Files Or Folders From ASU To Your Mac
-
-Run these commands from your Mac terminal, not inside the ASU SSH session.
-
-Copy the main notebook results folder:
-
-```text
-mkdir -p ~/Downloads/citadel_asu_results
-rsync -avz --progress 'asurite\hsiaopin@149.169.30.50:~/CITADEL/results/notebook_run/' ~/Downloads/citadel_asu_results/
-```
-
-Copy any single file:
-
-```text
-scp 'asurite\hsiaopin@149.169.30.50:~/CITADEL/results/notebook_run/tcad_ablation/tcad_ablation_summary.csv' ~/Downloads/
-```
-
-Copy any folder by replacing the server path and local destination:
-
-```text
-rsync -avz --progress 'asurite\hsiaopin@149.169.30.50:~/CITADEL/path/to/server_folder/' ~/Downloads/local_folder/
-```
-
-Copy the whole CITADEL folder, excluding the Git history and common cache files:
-
-```text
-mkdir -p ~/Downloads/CITADEL_from_ASU
-rsync -avz --progress --exclude '.git/' --exclude '.venv/' --exclude '__pycache__/' --exclude '.ipynb_checkpoints/' 'asurite\hsiaopin@149.169.30.50:~/CITADEL/' ~/Downloads/CITADEL_from_ASU/
-```
-
-## Run Locally On Your Laptop
-
-Use this path when you want to run or inspect the notebook directly on your own Mac or Linux machine without the ASU server. This is good for smoke checks, figure/table inspection, and notebook editing. For final paper-scale numbers, the ASU Linux server is still recommended because the full sweep is long.
-
-### 1. Open A Local Terminal
-
-On macOS, open Terminal. If you already transferred or cloned the repo into Documents, go to that folder:
-
-```text
-cd "/Users/hsiaopingni/Documents/New project/CITADEL"
-```
-
-If you do not have the repo yet, clone it:
-
-```text
-cd "/Users/hsiaopingni/Documents/New project"
-git clone https://github.com/ping830616/CITADEL.git
-cd CITADEL
-```
-
-If GitHub asks for credentials, use:
-
-```text
-Username for 'https://github.com': ping830616
-Password for 'https://ping830616@github.com': paste_your_github_token_here
-```
-
-Use a GitHub token, not your ASU password.
-
-### 2. Update The Local Folder From GitHub
-
-Run this whenever GitHub has newer notebook or README updates:
-
-```text
-cd "/Users/hsiaopingni/Documents/New project/CITADEL"
-git fetch origin
-git pull --ff-only origin main
-git lfs pull
-git log --oneline -1
-```
-
-If you want a completely fresh local copy, delete or move the old folder first. Only delete it if you are sure there are no results or notebook edits you need:
-
-```text
-cd "/Users/hsiaopingni/Documents/New project"
-rm -rf CITADEL
-git clone https://github.com/ping830616/CITADEL.git
-cd CITADEL
-git lfs install
-git lfs pull
-```
-
-### 3. Get The Git LFS Telemetry Data
-
-Check Git LFS:
-
-```text
-git lfs version
-```
-
-If missing, install it. On macOS with Homebrew:
-
-```text
-brew install git-lfs
-```
-
-Or through Conda:
-
-```text
-conda install -c conda-forge git-lfs -y
-```
-
-Then fetch the real telemetry files:
-
-```text
-git lfs install
-git lfs pull
-```
-
-Check that the CSVs are real data:
-
-```text
-find data/telemetry -name "*.csv" | head -n 1 | xargs head -5
-```
-
-If the first line says `version https://git-lfs.github.com/spec/v1`, the file is still a Git LFS pointer. Run `git lfs pull` again and confirm your GitHub token can read this repository.
-
-### 4. Create Or Update The Conda Environment
-
-Create the environment the first time:
-
-```text
-conda env create -f environment.yml
-```
-
-If it already exists, update it:
-
-```text
-conda env update -f environment.yml --prune
-```
-
-Activate it:
-
-```text
-source ~/miniconda3/etc/profile.d/conda.sh
-conda activate citadel-slm
-```
-
-If your Conda install is elsewhere, find it:
-
-```text
-find ~ -path "*/etc/profile.d/conda.sh" 2>/dev/null | head -n 1
-```
-
-Then replace `~/miniconda3/etc/profile.d/conda.sh` with the printed path.
-
-### 5. Start Jupyter Locally
-
-From the repo folder:
-
-```text
-cd "/Users/hsiaopingni/Documents/New project/CITADEL"
-conda activate citadel-slm
-python -m jupyter lab notebooks/exact_tcad_all_experiments.ipynb
-```
-
-This opens Jupyter directly on your laptop. You do not need SSH tunneling for a local run.
-
-### 6. Notebook Settings For Local Runs
-
-For a quick local smoke check, use:
-
-```python
-SEED = 123
-THREADS = 1
-DATA_MODE = "real"
-TCAD_PRESET = "smoke"
-RUN_REPEAT_CHECK = True
-```
-
-Then run the notebook from top to bottom.
-
-For a full local paper-scale run, change only:
-
-```python
-TCAD_PRESET = "full"
-```
-
-The full configuration now evaluates block lengths:
+The full configuration evaluates block lengths:
 
 ```text
 50, 100, 150, 200, ..., 900, 950, 1000
 ```
 
-This is much slower than the smoke run and may take many hours on a laptop. Prefer the ASU server for final TCAD numbers.
+Run the notebook from top to bottom after every GitHub update. If you pulled notebook changes while Jupyter was already open, restart the kernel before rerunning.
 
-### 7. Local Output Files To Check
+### 7. Check The Result Artifacts
 
 After the notebook finishes, check:
 
 ```text
+results/notebook_run/ets_baseline/run_manifest.json
+results/notebook_run/tcad_ablation/run_manifest.json
+results/notebook_run/tcad_ablation/tcad_config_resolved.json
 results/notebook_run/tcad_ablation/tcad_ablation_summary.csv
 results/notebook_run/tcad_ablation/tcad_ablation_fold_results.csv
 results/notebook_run/tcad_ablation/tcad_selected_features.csv
-results/notebook_run/tcad_ablation/run_manifest.json
 results/notebook_run/tcad_ablation_repeat/tcad_ablation_summary.csv
+results/notebook_run/lifecycle_drift/run_manifest.json
+results/notebook_run/lifecycle_drift/lifecycle_recalibration_summary.csv
+results/notebook_run/lifecycle_drift/lifecycle_recalibration_by_scenario.csv
 results/notebook_run/droop_adaptive_ablation/droop_adaptive_best_by_setup.csv
 results/notebook_run/droop_adaptive_ablation/droop_adaptive_vs_main_tcad.csv
+results/notebook_run/paper_tbd_replacements.csv
 ```
 
 The repeat check should report:
@@ -623,8 +185,6 @@ The repeat check should report:
 ```text
 Repeated TCAD summary equals first run: True
 ```
-
-For strict reproducibility, compare the local manifests and summary CSVs against the ASU-generated files.
 
 ## What To Compare Across Machines
 
