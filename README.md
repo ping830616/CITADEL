@@ -65,9 +65,9 @@ git log --oneline -1
 
 If GitHub asks for credentials, use your GitHub username and a GitHub Personal Access Token. Do not use an ASU password for GitHub authentication.
 
-### 2. Materialize Git LFS Telemetry
+### 2. Prepare Telemetry Data
 
-The telemetry CSVs are stored with Git LFS. Fetch them before running the notebook:
+Make sure the telemetry CSVs are available locally before running the notebook:
 
 ```text
 git lfs install
