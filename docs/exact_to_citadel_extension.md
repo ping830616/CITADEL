@@ -27,7 +27,7 @@ export CITADEL_EXACT_COMMIT=<exact_commit_used_for_comparison>
 | CINTAS/CIAS scoring | CITADEL reuses the score form as the runtime detector core. |
 | Setup A and Setup B DDR telemetry flow | CITADEL keeps the same two hardware-counter platforms for continuity. |
 | Workload/anomaly labels | CITADEL keeps the same workload and anomaly vocabulary for baseline comparison. |
-| Causal feature ranking | CITADEL uses it as the starting point for compact telemetry selection. |
+| Causal feature ranking | CITADEL replaces the inherited ranking with a stable conditional telemetry graph and hardware-aware feature ranking. |
 | Decision-block inference | CITADEL keeps windowed block decisions and expands the design sweep. |
 
 ## What CITADEL Adds For TCAD
@@ -57,6 +57,6 @@ export CITADEL_EXACT_COMMIT=<exact_commit_used_for_comparison>
 
 Use wording like:
 
-> CITADEL inherits the benign calibration, causal feature ranking, and CINTAS decision-block detector from EXACT. We first reproduce the EXACT-style baseline inside a manifest-controlled single-notebook workflow, then extend it with TCAD-oriented design-space exploration, false-positive-rate analysis, lifecycle recalibration, and hardware-cost/fixed-point validation.
+> CITADEL keeps the benign-only calibration and compact CINTAS decision-block detector, but replaces the earlier feature-ranking path with a stable conditional telemetry graph. The journal workflow then adds TCAD-oriented design-space exploration, false-positive-rate analysis, lifecycle recalibration, and hardware-cost/fixed-point validation.
 
 Avoid wording that implies the ETS manifest is produced by a separate live execution of the upstream EXACT repository. It is a CITADEL manifest for a reproduced EXACT-style baseline.

@@ -9,5 +9,8 @@
   "n_splits": 3,
   "p_quantile": 0.99,
   "corr_threshold": 0.35,
+  "graph_bootstraps": 4,
+  "graph_subsample_frac": 0.70,
+  "graph_stability_threshold": 0.50,
   "seed": 123
 }

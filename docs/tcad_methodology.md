@@ -4,11 +4,11 @@ This document defines the research plan for **CITADEL: Causal In-Field Telemetry
 
 Core flow:
 
-`telemetry snapshot -> benign calibration -> causal feature ranking -> top-k feature budget -> CINTAS scoring -> benign threshold -> streaming inference -> drift check -> hardware validation`.
+`telemetry snapshot -> benign calibration -> stable conditional telemetry graph -> hardware-aware feature ranking -> top-k feature budget -> CINTAS scoring -> benign threshold -> streaming inference -> drift check -> hardware validation`.
 
 ## 1. Research Questions
 
-1. Can CITADEL detect SLM anomalies with a small, explainable telemetry feature set inherited from the EXACT causal telemetry flow?
+1. Can CITADEL detect SLM anomalies with a small, explainable telemetry feature set learned by a CITADEL-specific stable conditional telemetry graph?
 2. Which CINTAS settings give the best trade-off among detection quality, latency, telemetry bandwidth, fixed-point error, and hardware cost?
 3. How stable is the benign CITADEL reference when workloads, software, firmware, temperature, voltage policy, or platform observability changes?
 4. Can the fixed-point CINTAS path be verified through RTL simulation and FPGA-oriented synthesis reports?
@@ -81,13 +81,16 @@ Use this lane to answer whether benign calibration, compact feature selection, b
 4. Store `mu`, `gamma`, feature names, and hashes in the run manifest.
 5. Keep anomaly rows out of calibration.
 
-## 6. Causal Feature Ranking
+## 6. Stable Conditional Telemetry Graph Ranking
 
-1. Build a benign dependency or causal graph over telemetry signals.
-2. Rank features by graph role and relationship to the CINTAS score.
-3. Group features into `COM`, `MEM`, and `SEN`.
-4. Select the top `k` features.
-5. Save the selected features and group counts.
+1. Apply a rank-Gaussian transform to benign telemetry.
+2. Estimate a shrinkage precision matrix to obtain conditional telemetry dependencies.
+3. Repeat graph learning over workload-stratified benign subsamples.
+4. Keep stable conditional edges and record edge stability.
+5. Rank features by graph centrality, edge stability, conditional dependence, CINTAS score alignment, and telemetry-cost penalty.
+6. Group features into `COM`, `MEM`, and `SEN`.
+7. Select the top `k` features.
+8. Save the selected features, group counts, graph edges, and feature-rank tables.
 
 Feature groups:
 

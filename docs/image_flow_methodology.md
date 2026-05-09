@@ -1,6 +1,6 @@
 # Detailed CITADEL Methodology
 
-The image attached in the prompt renders as a black strip in this environment, so the labels below are the explicit methodology I used for the repo. They follow the CITADEL flow already encoded in the codebase: raw telemetry, benign calibration, causal feature selection inherited from EXACT, CINTAS scoring, decision aggregation, hardware-cost modeling, benign drift, and RTL validation.
+The image attached in the prompt renders as a black strip in this environment, so the labels below are the explicit methodology I used for the repo. They follow the CITADEL flow already encoded in the codebase: raw telemetry, benign calibration, stable conditional telemetry graph learning, hardware-aware feature selection, CINTAS scoring, decision aggregation, hardware-cost modeling, benign drift, and RTL validation.
 
 ## 0. Research Target And Claims
 
@@ -114,7 +114,7 @@ The hardware reference code you shared uses three MICI feature groups:
 
 Actions:
 
-1. Build benign correlation or causal-dependency graphs.
+1. Build stable conditional benign telemetry graphs.
 2. Rank features by their relation to the CINTAS/CIAS anomaly score.
 3. Apply the MICI threshold, such as `0.85`, or a top-k feature budget.
 4. Save group-specific feature lists.
