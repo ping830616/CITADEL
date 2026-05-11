@@ -205,7 +205,9 @@ The manifest records the git commit, dirty-worktree state, Python version, direc
 
 ## CITADEL Methodology
 
-The project plan is in `docs/tcad_methodology.md`, `docs/research_execution_plan.md`, and `docs/image_flow_methodology.md`. The cover-letter-to-artifact map is in `docs/tcad_requirements_traceability.md`. Together they turn the cover-letter promises into a complete execution path:
+Start with [`docs/tcad_end_to_end_result_methodology.md`](docs/tcad_end_to_end_result_methodology.md) for the complete TCAD result workflow: MacBook notebook runs, ASU/Vivado hardware validation, the five main paper tables, the five main paper figures, Apple supplemental handling, and the final paper update checklist.
+
+The broader project plan is in `docs/tcad_methodology.md`, `docs/research_execution_plan.md`, and `docs/image_flow_methodology.md`. The cover-letter-to-artifact map is in `docs/tcad_requirements_traceability.md`. Together they turn the cover-letter promises into a complete execution path:
 
 1. reproduce the EXACT baseline
 2. freeze telemetry schema and platform metadata

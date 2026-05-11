@@ -1,0 +1,327 @@
+# TCAD End-To-End Result Methodology
+
+This document is the start-to-finish runbook for turning the CITADEL repository into the result section of the TCAD paper. It explains what to run, where each result comes from, which figures and tables should appear in the manuscript, and how to combine MacBook notebook results with ASU/Linux Vivado hardware results.
+
+The short version is:
+
+`MacBook notebook -> CITADEL full sweep -> paper tables/figures -> golden vectors -> ASU Vivado RTL/FPGA -> hardware CSV -> MacBook merge -> final TCAD figures/tables`.
+
+## 1. Goal
+
+The TCAD paper should show that CITADEL is more than an offline anomaly detector. The result section should support five claims:
+
+1. CITADEL detects SLM-relevant anomalies with strong block-level metrics.
+2. CITADEL keeps the runtime feature set compact through stable conditional telemetry ranking.
+3. The design-space sweep explains how feature budget, decision-block length, aggregation, weighting, and fixed-point precision affect accuracy and cost.
+4. Fixed-point CINTAS is numerically stable enough for edge hardware.
+5. The deployed detector can be checked and recalibrated when benign telemetry drifts.
+
+The Apple observability study is useful, but it should remain supplemental. It supports portability and observability discussion; it should not be mixed into the main CINTAS area, power, or FPGA claims.
+
+## 2. Main Artifacts
+
+Run everything from the single notebook:
+
+```text
+notebooks/exact_tcad_all_experiments.ipynb
+```
+
+Important output folders:
+
+```text
+results/notebook_run/tcad_ablation/
+results/notebook_run/tcad_ablation/paper_figures/
+results/notebook_run/lifecycle_drift/
+results/notebook_run/fpga/
+results/notebook_run/rtl_sweep/
+results/notebook_run/paper_tbd_replacements.csv
+```
+
+Important source files:
+
+```text
+configs/tcad_grid_full.json
+rtl/cintas/cintas_stream.sv
+hardware/cintas_operator_costs.csv
+environment.yml
+```
+
+## 3. Machine Roles
+
+Use the machines this way.
+
+| Machine | Role | Why |
+|---|---|---|
+| MacBook M2 | Main notebook run, result inspection, figures, paper writing, final merge | Fast enough for notebook work and convenient for Overleaf/result review |
+| ASU Linux server | Long notebook run if needed, Vivado synthesis/place-and-route | Better for remote long jobs and vendor FPGA tools |
+| MacBook M2 with OSS CAD Suite | RTL lint, open-source synthesis checks, optional simulation workflow | Good for reproducible local hardware sanity checks |
+
+Recommended final workflow:
+
+1. Run notebook Sections 1--16 on MacBook or ASU.
+2. Generate fixed-point golden vectors from Section 16.
+3. Run Vivado synthesis/place-and-route on ASU/Linux.
+4. Save Vivado results in `results/notebook_run/rtl_sweep/rtl_resource_summary.csv`.
+5. Pull or copy results back to MacBook.
+6. Run notebook Sections 17 and 11 to merge and display final paper results.
+
+## 4. Full Notebook Procedure
+
+From a fresh clone or updated clone:
+
+```bash
+cd ~/CITADEL
+git pull --ff-only origin main
+git lfs pull
+conda env update -f environment.yml --prune
+conda activate citadel-slm
+python -m jupyter lab notebooks/exact_tcad_all_experiments.ipynb
+```
+
+Use these notebook settings for final paper results:
+
+```python
+SEED = 123
+THREADS = 1
+DATA_MODE = "real"
+TCAD_PRESET = "full"
+RUN_REPEAT_CHECK = True
+```
+
+Run the notebook from top to bottom. The key paper sections are:
+
+| Notebook Section | Purpose | Main Output |
+|---|---|---|
+| 4. Full Design-Space Sweep | Main CITADEL sweep | `tcad_ablation_summary.csv`, fold results, selected features |
+| 5. Detection Quality Across Anomaly Classes | Main accuracy summary | anomaly-class metrics |
+| 6. Feature-Budget and Telemetry-Cost Trade-Off | Compact telemetry evidence | feature-budget tables and plots |
+| 7. Causal Telemetry Graph Interpretation | Stable conditional graph evidence | feature ranks, graph files |
+| 8. Fixed-Point CINTAS Sensitivity | Numerical hardware evidence | fixed-point error by Q format |
+| 9. CINTAS Hardware-Cost Analysis | Analytical hardware-cost evidence | operator, area, power estimates |
+| 10. Lifecycle Drift and Recalibration | SLM lifecycle evidence | drift/recalibration CSVs |
+| 11. TCAD Results Gallery | Paper-facing tables and figures | five tables and five figures |
+| 16. Export Fixed-Point Golden Vectors For RTL | RTL verification input | golden-vector CSV |
+| 17. Merge Future RTL/FPGA Results Into The TCAD Table | Hardware result merge | merged paper hardware table |
+| 18. Supplemental Apple Case Study | Observability/portability supplement | Apple supplemental tables/figures |
+
+## 5. Main TCAD Tables
+
+Use Section 11 as the source for the result section. The five main tables are:
+
+| Paper Table | Notebook Artifact | Why It Matters |
+|---|---|---|
+| Table I. Selected CITADEL operating points | `gallery_table1_selected_operating_points.csv` | Best configuration per setup/anomaly; use for headline metrics |
+| Table II. Workload robustness | `gallery_table2_workload_robustness.csv` | Shows the detector is not tuned to only one workload |
+| Table III. Feature-budget and telemetry-cost trade-off | `gallery_table3_feature_budget_tradeoff.csv` | Supports compact feature-set and telemetry-bandwidth claims |
+| Table IV. Stable conditional telemetry graph top features | `gallery_table4_stable_graph_top_features.csv` | Shows interpretability and the new CITADEL ranking mechanism |
+| Table V. Lifecycle recalibration and deployment feasibility | `gallery_table5_lifecycle_deployment.csv` | Supports SLM drift/recalibration and deployability |
+
+After final Vivado results are available, update Table V or add a dedicated hardware table with:
+
+```text
+LUTs, FFs, DSPs, BRAMs, Fmax, timing slack, latency cycles, dynamic power, static power, total power
+```
+
+## 6. Main TCAD Figures
+
+Use these five figures from Section 11:
+
+| Paper Figure | Notebook Artifact | Recommended Subsection |
+|---|---|---|
+| Figure 1. Full DSE heatmap | `gallery_fig1_full_dse_heatmap.png` | Full Design-Space Sweep |
+| Figure 2. Detection quality bars | `gallery_fig2_detection_quality.png` | Detection Quality Across Anomaly Classes |
+| Figure 3. Workload robustness heatmap | `gallery_fig3_workload_heatmap.png` | Detection Quality or Workload Robustness |
+| Figure 4. Stable feature map | `gallery_fig4_stable_feature_map.png` | Causal Telemetry Graph Interpretation |
+| Figure 5. Deployment feasibility | `gallery_fig5_deployment_feasibility.png` | Fixed-Point, Hardware Cost, and Lifecycle |
+
+These figures are saved under:
+
+```text
+results/notebook_run/tcad_ablation/paper_figures/
+```
+
+## 7. Suggested TCAD Result Section Order
+
+Use this order in Overleaf:
+
+```latex
+\subsection{Full Design-Space Sweep}
+\subsection{Detection Quality Across Anomaly Classes}
+\subsection{Feature-Budget and Telemetry-Cost Trade-Off}
+\subsection{Stable Conditional Telemetry Graph Interpretation}
+\subsection{Fixed-Point CINTAS Sensitivity}
+\subsection{CINTAS Hardware-Cost Analysis}
+\subsection{Lifecycle Drift and Recalibration}
+\subsection{RTL/FPGA Validation}
+\subsection{Supplemental Portability Study}
+```
+
+The Apple study belongs in the last subsection or in an appendix/supplement. It is useful evidence, but it should not drive the core hardware claims.
+
+## 8. MacBook To ASU Vivado Flow
+
+First run the notebook through Section 16. Then copy the golden-vector file to ASU. The `results/` folder is ignored by Git, so direct file transfer is usually clearer than committing generated artifacts:
+
+```bash
+cd ~/CITADEL
+scp results/notebook_run/fpga/cintas_setupA_q15_golden_vectors.csv \
+  'asurite\hsiaopin@149.169.30.50:~/CITADEL/results/notebook_run/fpga/'
+```
+
+On ASU/Linux:
+
+```bash
+cd ~/CITADEL
+git pull --ff-only origin main
+source ~/Xilinx/Vivado/*/settings64.sh
+vivado -version
+```
+
+Then run the Vivado script when it is available:
+
+```bash
+vivado -mode batch -source scripts/vivado_cintas.tcl
+```
+
+The script should synthesize and implement:
+
+```text
+rtl/cintas/cintas_stream.sv
+```
+
+The final report parser should write:
+
+```text
+results/notebook_run/rtl_sweep/rtl_resource_summary.csv
+```
+
+Minimum columns:
+
+```text
+setup,top_k,fixed_point_q,luts,ffs,dsps,brams,fmax_mhz,latency_cycles,energy_per_block_nj,status
+```
+
+Recommended additional columns:
+
+```text
+target_part,clock_period_ns,wns_ns,dynamic_power_mw,static_power_mw,total_power_mw,tool,tool_version
+```
+
+Transfer the result back to the MacBook:
+
+```bash
+scp 'asurite\hsiaopin@149.169.30.50:~/CITADEL/results/notebook_run/rtl_sweep/rtl_resource_summary.csv' \
+  ~/CITADEL/results/notebook_run/rtl_sweep/
+```
+
+Back on MacBook:
+
+```bash
+cd ~/CITADEL
+```
+
+Then rerun:
+
+```text
+Section 17. Merge Future RTL/FPGA Results Into The TCAD Table
+Section 11. TCAD Results Gallery
+```
+
+If you intentionally want to version the final hardware CSV despite `results/` being ignored, use `git add -f`:
+
+```bash
+git add -f results/notebook_run/rtl_sweep/rtl_resource_summary.csv
+git commit -m "Add Vivado FPGA synthesis results"
+git push origin main
+```
+
+## 9. Result Values To Update In The Paper
+
+Use:
+
+```text
+results/notebook_run/paper_tbd_replacements.csv
+```
+
+to replace:
+
+```latex
+\citadelBestAucpr
+\citadelBestRocauc
+\citadelFeatureReduction
+\citadelAreaOverhead
+\citadelPowerOverhead
+\citadelPrecisionLoss
+```
+
+Also update the prose values for:
+
+```text
+best MCC
+best F1
+best balanced accuracy
+false-positive rate
+best feature budget
+best decision-block length
+best fixed-point Q format
+area overhead
+power overhead
+Vivado LUT/FF/DSP/BRAM/Fmax/power
+drift false-positive reduction after recalibration
+```
+
+## 10. Quality Gates Before Submission
+
+Do not freeze paper results until all gates pass:
+
+1. `git status` is clean or the run manifest clearly records the final commit.
+2. `TCAD_PRESET = "full"`.
+3. `SEED = 123` and `THREADS = 1`.
+4. Git LFS telemetry files are materialized, not pointer files.
+5. `run_manifest.json` exists for TCAD ablation and lifecycle drift.
+6. Section 11 displays all five tables and five figures.
+7. Fixed-point error is small enough that the chosen Q format preserves ranking and threshold behavior.
+8. RTL lint is clean or all warnings are explained.
+9. RTL simulation matches notebook golden vectors.
+10. Vivado synthesis/place-and-route reports timing, utilization, and power for the target FPGA.
+11. Apple results are labeled supplemental and not mixed into hardware-cost claims.
+
+## 11. How This Advances The Research
+
+CITADEL advances the original edge telemetry idea in a useful TCAD direction because it connects four pieces that are usually reported separately:
+
+1. benign-only telemetry learning,
+2. compact feature selection,
+3. fixed-point hardware scoring, and
+4. lifecycle drift/recalibration.
+
+The strongest novelty is not just better accuracy. The stronger story is that CITADEL turns telemetry analytics into a deployable SLM flow: learn a stable feature set, sweep the hardware-aware choices, quantify the feature/latency/power trade-off, export fixed-point constants, verify RTL, and keep checking whether the field reference has become stale.
+
+For the future, the work is promising if the final paper avoids overclaiming. The strongest version of the paper should include:
+
+- full DSE results across anomaly classes and workloads,
+- DROOP improvements reported honestly with FPR,
+- stable conditional graph interpretation,
+- fixed-point sensitivity,
+- lifecycle recalibration,
+- real Vivado or ASIC-oriented synthesis numbers,
+- a supplemental Apple observability study.
+
+The highest-impact improvement is the RTL/FPGA validation. Once CINTAS is simulated against golden vectors and synthesized in Vivado, the paper becomes much more than an analytics extension; it becomes a reproducible hardware-aware SLM methodology.
+
+## 12. Final Paper Checklist
+
+Before final submission:
+
+```text
+[ ] Full notebook run completed.
+[ ] Section 11 tables and figures exported.
+[ ] Paper TBD replacement CSV checked.
+[ ] RTL golden vectors exported.
+[ ] RTL lint and simulation completed.
+[ ] Vivado synthesis/place-and-route completed.
+[ ] RTL/FPGA numbers merged through Section 17.
+[ ] Apple case study kept supplemental.
+[ ] Overleaf macros replaced.
+[ ] Captions and claims match the generated artifacts.
+```
