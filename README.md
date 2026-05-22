@@ -13,7 +13,7 @@ The experiment code is intentionally contained in one notebook: `notebooks/exact
 
 ## Notebook-Only Workflow
 
-The single supported experiment entry point is `notebooks/exact_tcad_all_experiments.ipynb`. Open that notebook in Jupyter, run the cells from top to bottom, and use its configuration cell to choose smoke or full CITADEL runs. The notebook contains the former helper code inline, so there is no separate Python package or script to run. The same notebook now produces the TCAD ablation metrics, false-positive rate, lifecycle drift/recalibration tables, and paper-ready TBD replacement CSV.
+The single supported experiment entry point is `notebooks/exact_tcad_all_experiments.ipynb`. Open that notebook in Jupyter, run the cells from top to bottom, and use its configuration cell to choose smoke, balanced, or full CITADEL runs. The notebook contains the former helper code inline, so there is no separate Python package or script to run. The same notebook now produces the TCAD ablation metrics, false-positive rate, lifecycle drift/recalibration tables, and paper-ready TBD replacement CSV.
 
 The notebook automatically locates the tracked telemetry folders:
 
@@ -25,7 +25,7 @@ If the notebook reports that a CSV is a Git LFS pointer, fetch the Git LFS objec
 ## Repository Map
 
 - `notebooks/`: the single self-contained experiment runner for EXACT reproduction, CITADEL ablation, false-positive-rate reporting, lifecycle recalibration, hardware summaries, and FPGA/RTL integration hooks
-- `configs/`: smoke and full ablation grids
+- `configs/`: smoke, balanced, and full ablation grids
 - `docs/`: start-to-finish methodology, ASU server runbook, traceability matrix, data schema, reproducibility checklist, and RTL plan
 - `docs/figures/`: CITADEL manuscript PNG assets for Overleaf figures and draft table images
 - `rtl/cintas/`: synthesizable CINTAS SystemVerilog starter design and testbench notes
@@ -146,7 +146,19 @@ TCAD_PRESET = "smoke"
 RUN_REPEAT_CHECK = True
 ```
 
-For the final TCAD journal-scale run, change only:
+For the TCAD journal paper-scale run, use:
+
+```python
+TCAD_PRESET = "balanced"
+```
+
+The balanced configuration evaluates representative block lengths:
+
+```text
+50, 100, 200, 500, 1000
+```
+
+For an optional exhaustive ASU/Linux sensitivity run, use:
 
 ```python
 TCAD_PRESET = "full"

@@ -1,0 +1,16 @@
+{
+  "scenarios_eval": ["DROOP", "RH", "SPECTRE"],
+  "feature_budgets": [8, 15, 30],
+  "window_sizes": [50, 100, 200, 500, 1000],
+  "lambda_res_values": [0.25, 0.5, 0.75],
+  "agg_modes": ["max", "mean"],
+  "weight_modes": ["uniform"],
+  "fixed_point_q": [12, 15],
+  "n_splits": 3,
+  "p_quantile": 0.99,
+  "corr_threshold": 0.35,
+  "graph_bootstraps": 8,
+  "graph_subsample_frac": 0.70,
+  "graph_stability_threshold": 0.50,
+  "seed": 123
+}
