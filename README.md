@@ -158,13 +158,18 @@ The balanced configuration evaluates representative block lengths:
 50, 100, 200, 500, 1000
 ```
 
+This is the recommended setting for normal paper runs. It keeps all three SLM
+conditions, uses the integrated DROOP physics-anchor branch, and avoids the
+multi-day exhaustive Cartesian sweep.
+
 For an optional exhaustive ASU/Linux sensitivity run, use:
 
 ```python
 TCAD_PRESET = "full"
 ```
 
-The full configuration evaluates block lengths:
+The full configuration is intentionally expensive and is meant only as an
+optional sensitivity check. It evaluates block lengths:
 
 ```text
 50, 100, 150, 200, ..., 900, 950, 1000
