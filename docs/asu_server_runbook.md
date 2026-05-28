@@ -328,18 +328,28 @@ For paper artifacts, batch mode is preferred. From `~/CITADEL`, run FPGA-oriente
 
 ```text
 cd ~/CITADEL
-mkdir -p results/notebook_run/rtl_sweep
+git fetch origin main
+mkdir -p scripts
+git show origin/main:scripts/vivado_cintas_synth.tcl > scripts/vivado_cintas_synth.tcl
+ls -lh scripts/vivado_cintas_synth.tcl
 
-vivado -mode batch -source scripts/vivado_cintas_synth.tcl -tclargs A_DROOP xc7a35tcpg236-1 15 15 1000
-vivado -mode batch -source scripts/vivado_cintas_synth.tcl -tclargs A_RH xc7a35tcpg236-1 20 8 550
-vivado -mode batch -source scripts/vivado_cintas_synth.tcl -tclargs B_DROOP xc7a35tcpg236-1 15 15 200
-vivado -mode batch -source scripts/vivado_cintas_synth.tcl -tclargs B_SPECTRE xc7a35tcpg236-1 30 8 700
+mkdir -p results/notebook_run/rtl_sweep/A_DROOP
+mkdir -p results/notebook_run/rtl_sweep/A_RH
+mkdir -p results/notebook_run/rtl_sweep/B_DROOP
+mkdir -p results/notebook_run/rtl_sweep/B_SPECTRE
+
+vivado -mode batch -source scripts/vivado_cintas_synth.tcl -log results/notebook_run/rtl_sweep/A_DROOP/vivado.log -journal results/notebook_run/rtl_sweep/A_DROOP/vivado.jou -tclargs A_DROOP xc7a35tcpg236-1 15 15 1000
+vivado -mode batch -source scripts/vivado_cintas_synth.tcl -log results/notebook_run/rtl_sweep/A_RH/vivado.log -journal results/notebook_run/rtl_sweep/A_RH/vivado.jou -tclargs A_RH xc7a35tcpg236-1 20 8 550
+vivado -mode batch -source scripts/vivado_cintas_synth.tcl -log results/notebook_run/rtl_sweep/B_DROOP/vivado.log -journal results/notebook_run/rtl_sweep/B_DROOP/vivado.jou -tclargs B_DROOP xc7a35tcpg236-1 15 15 200
+vivado -mode batch -source scripts/vivado_cintas_synth.tcl -log results/notebook_run/rtl_sweep/B_SPECTRE/vivado.log -journal results/notebook_run/rtl_sweep/B_SPECTRE/vivado.jou -tclargs B_SPECTRE xc7a35tcpg236-1 30 8 700
 ```
+
+The `git show` command above fetches only the Vivado Tcl helper. It is useful when `git pull` is blocked by local notebook edits or by missing Git LFS on the ASU server.
 
 If running from Bash, wrap each command with `tcsh -lc`, for example:
 
 ```text
-tcsh -lc 'source ~/settings64_vivado_2025_2.csh; cd ~/CITADEL; vivado -mode batch -source scripts/vivado_cintas_synth.tcl -tclargs A_DROOP xc7a35tcpg236-1 15 15 1000'
+tcsh -lc 'source ~/settings64_vivado_2025_2.csh; cd ~/CITADEL; vivado -mode batch -source scripts/vivado_cintas_synth.tcl -log results/notebook_run/rtl_sweep/A_DROOP/vivado.log -journal results/notebook_run/rtl_sweep/A_DROOP/vivado.jou -tclargs A_DROOP xc7a35tcpg236-1 15 15 1000'
 ```
 
 The reports are written under:

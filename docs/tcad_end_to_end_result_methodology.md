@@ -160,57 +160,80 @@ The Apple study belongs in the last subsection or in an appendix/supplement. It 
 
 ## 8. MacBook To ASU Vivado Flow
 
-First run the notebook through Section 16. Then copy the golden-vector file to ASU. The `results/` folder is ignored by Git, so direct file transfer is usually clearer than committing generated artifacts:
+First run the notebook through the RTL/FPGA handoff cells. Then copy the generated handoff files to ASU. The `results/` folder is ignored by Git, so direct file transfer is clearer than committing generated artifacts:
 
 ```bash
 cd ~/CITADEL
 scp results/notebook_run/fpga/cintas_setupA_q15_golden_vectors.csv \
   'asurite\hsiaopin@149.169.30.50:~/CITADEL/results/notebook_run/fpga/'
+scp results/notebook_run/tcad_ablation/tcad_ablation_summary.csv \
+  'asurite\hsiaopin@149.169.30.50:~/CITADEL/results/notebook_run/tcad_ablation/'
+scp results/notebook_run/tcad_ablation/tcad_selected_features.csv \
+  'asurite\hsiaopin@149.169.30.50:~/CITADEL/results/notebook_run/tcad_ablation/'
+scp results/notebook_run/tcad_ablation/paper_figures/section4_vivado_best_settings_queue.csv \
+  'asurite\hsiaopin@149.169.30.50:~/CITADEL/results/notebook_run/tcad_ablation/paper_figures/'
 ```
 
-On ASU/Linux:
+On ASU/Linux, set up Vivado 2025.2 from the ASU tools mount:
 
 ```bash
 cd ~/CITADEL
-git pull --ff-only origin main
-source ~/Xilinx/Vivado/*/settings64.sh
+cp /usr/local/tools/vivado/2025.2/Vivado/settings64.csh ~/settings64_vivado_2025_2.csh
+source ~/settings64_vivado_2025_2.csh
+rehash
 vivado -version
 ```
 
-Then run the Vivado script when it is available:
+If Bash cannot source the `.csh` setup file, use:
 
 ```bash
-vivado -mode batch -source scripts/vivado_cintas.tcl
+tcsh -lc 'source ~/settings64_vivado_2025_2.csh; vivado -version'
 ```
 
-The script should synthesize and implement:
-
-```text
-rtl/cintas/cintas_stream.sv
-```
-
-The final report parser should write:
-
-```text
-results/notebook_run/rtl_sweep/rtl_resource_summary.csv
-```
-
-Minimum columns:
-
-```text
-setup,top_k,fixed_point_q,luts,ffs,dsps,brams,fmax_mhz,latency_cycles,energy_per_block_nj,status
-```
-
-Recommended additional columns:
-
-```text
-target_part,clock_period_ns,wns_ns,dynamic_power_mw,static_power_mw,total_power_mw,tool,tool_version
-```
-
-Transfer the result back to the MacBook:
+Fetch only the Vivado helper if `git pull` is blocked by local notebook edits or missing Git LFS:
 
 ```bash
-scp 'asurite\hsiaopin@149.169.30.50:~/CITADEL/results/notebook_run/rtl_sweep/rtl_resource_summary.csv' \
+git fetch origin main
+mkdir -p scripts
+git show origin/main:scripts/vivado_cintas_synth.tcl > scripts/vivado_cintas_synth.tcl
+ls -lh scripts/vivado_cintas_synth.tcl
+```
+
+Create the output folders and run the four selected CITADEL operating points:
+
+```bash
+mkdir -p results/notebook_run/rtl_sweep/A_DROOP
+mkdir -p results/notebook_run/rtl_sweep/A_RH
+mkdir -p results/notebook_run/rtl_sweep/B_DROOP
+mkdir -p results/notebook_run/rtl_sweep/B_SPECTRE
+
+vivado -mode batch -source scripts/vivado_cintas_synth.tcl -log results/notebook_run/rtl_sweep/A_DROOP/vivado.log -journal results/notebook_run/rtl_sweep/A_DROOP/vivado.jou -tclargs A_DROOP xc7a35tcpg236-1 15 15 1000
+vivado -mode batch -source scripts/vivado_cintas_synth.tcl -log results/notebook_run/rtl_sweep/A_RH/vivado.log -journal results/notebook_run/rtl_sweep/A_RH/vivado.jou -tclargs A_RH xc7a35tcpg236-1 20 8 550
+vivado -mode batch -source scripts/vivado_cintas_synth.tcl -log results/notebook_run/rtl_sweep/B_DROOP/vivado.log -journal results/notebook_run/rtl_sweep/B_DROOP/vivado.jou -tclargs B_DROOP xc7a35tcpg236-1 15 15 200
+vivado -mode batch -source scripts/vivado_cintas_synth.tcl -log results/notebook_run/rtl_sweep/B_SPECTRE/vivado.log -journal results/notebook_run/rtl_sweep/B_SPECTRE/vivado.jou -tclargs B_SPECTRE xc7a35tcpg236-1 30 8 700
+```
+
+Each folder should contain:
+
+```text
+utilization.rpt
+timing_summary.rpt
+power.rpt
+post_synth.dcp
+vivado.log
+vivado.jou
+```
+
+Record these values for the RTL/FPGA validation subsection:
+
+```text
+FPGA part, Vivado version, LUTs, FFs, DSPs, BRAMs, timing status, and FPGA power estimate
+```
+
+Transfer the RTL sweep folder back to the MacBook:
+
+```bash
+rsync -avz 'asurite\hsiaopin@149.169.30.50:~/CITADEL/results/notebook_run/rtl_sweep/' \
   ~/CITADEL/results/notebook_run/rtl_sweep/
 ```
 
