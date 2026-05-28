@@ -338,18 +338,24 @@ mkdir -p results/notebook_run/rtl_sweep/A_RH
 mkdir -p results/notebook_run/rtl_sweep/B_DROOP
 mkdir -p results/notebook_run/rtl_sweep/B_SPECTRE
 
-vivado -mode batch -source scripts/vivado_cintas_synth.tcl -log results/notebook_run/rtl_sweep/A_DROOP/vivado.log -journal results/notebook_run/rtl_sweep/A_DROOP/vivado.jou -tclargs A_DROOP xc7a35tcpg236-1 15 15 1000
-vivado -mode batch -source scripts/vivado_cintas_synth.tcl -log results/notebook_run/rtl_sweep/A_RH/vivado.log -journal results/notebook_run/rtl_sweep/A_RH/vivado.jou -tclargs A_RH xc7a35tcpg236-1 20 8 550
-vivado -mode batch -source scripts/vivado_cintas_synth.tcl -log results/notebook_run/rtl_sweep/B_DROOP/vivado.log -journal results/notebook_run/rtl_sweep/B_DROOP/vivado.jou -tclargs B_DROOP xc7a35tcpg236-1 15 15 200
-vivado -mode batch -source scripts/vivado_cintas_synth.tcl -log results/notebook_run/rtl_sweep/B_SPECTRE/vivado.log -journal results/notebook_run/rtl_sweep/B_SPECTRE/vivado.jou -tclargs B_SPECTRE xc7a35tcpg236-1 30 8 700
+vivado -mode batch -source scripts/vivado_cintas_synth.tcl -log results/notebook_run/rtl_sweep/A_DROOP/vivado.log -journal results/notebook_run/rtl_sweep/A_DROOP/vivado.jou -tclargs A_DROOP xc7a200tfbg676-1 15 15 1000 25.000
+vivado -mode batch -source scripts/vivado_cintas_synth.tcl -log results/notebook_run/rtl_sweep/A_RH/vivado.log -journal results/notebook_run/rtl_sweep/A_RH/vivado.jou -tclargs A_RH xc7a200tfbg676-1 20 8 550 25.000
+vivado -mode batch -source scripts/vivado_cintas_synth.tcl -log results/notebook_run/rtl_sweep/B_DROOP/vivado.log -journal results/notebook_run/rtl_sweep/B_DROOP/vivado.jou -tclargs B_DROOP xc7a200tfbg676-1 15 15 200 25.000
+vivado -mode batch -source scripts/vivado_cintas_synth.tcl -log results/notebook_run/rtl_sweep/B_SPECTRE/vivado.log -journal results/notebook_run/rtl_sweep/B_SPECTRE/vivado.jou -tclargs B_SPECTRE xc7a200tfbg676-1 30 8 700 25.000
 ```
 
-The `git show` command above fetches only the Vivado Tcl helper. It is useful when `git pull` is blocked by local notebook edits or by missing Git LFS on the ASU server.
+The `git show` commands above fetch only the Vivado Tcl helper and report parser. This is useful when `git pull` is blocked by local notebook edits or by missing Git LFS on the ASU server. The commands use a larger Artix-7 package and a 25 ns clock so the RTL validation wrapper is checked at a realistic post-synthesis target without the small-package I/O limit.
 
 If running from Bash, wrap each command with `tcsh -lc`, for example:
 
 ```text
-tcsh -lc 'source ~/settings64_vivado_2025_2.csh; cd ~/CITADEL; vivado -mode batch -source scripts/vivado_cintas_synth.tcl -log results/notebook_run/rtl_sweep/A_DROOP/vivado.log -journal results/notebook_run/rtl_sweep/A_DROOP/vivado.jou -tclargs A_DROOP xc7a35tcpg236-1 15 15 1000'
+tcsh -lc 'source ~/settings64_vivado_2025_2.csh; cd ~/CITADEL; vivado -mode batch -source scripts/vivado_cintas_synth.tcl -log results/notebook_run/rtl_sweep/A_DROOP/vivado.log -journal results/notebook_run/rtl_sweep/A_DROOP/vivado.jou -tclargs A_DROOP xc7a200tfbg676-1 15 15 1000 25.000'
+```
+
+After the four Vivado runs complete, regenerate the summary CSV:
+
+```text
+python3 scripts/parse_vivado_rtl_sweep.py --root results/notebook_run/rtl_sweep
 ```
 
 The reports are written under:
@@ -365,9 +371,11 @@ utilization.rpt
 timing_summary.rpt
 power.rpt
 post_synth.dcp
+run_config.csv
+rtl_resource_summary.csv
 ```
 
-Use the same FPGA part for all rows. If ASU provides a specific board part, replace `xc7a35tcpg236-1` with that part in every command.
+Use the same FPGA part for all rows. If ASU provides a specific board part, replace the part argument with that device in every command.
 
 ## 10. Leave And Return To The Run
 

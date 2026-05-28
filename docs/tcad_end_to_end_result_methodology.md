@@ -196,10 +196,11 @@ Fetch only the Vivado helper if `git pull` is blocked by local notebook edits or
 git fetch origin main
 mkdir -p scripts
 git show origin/main:scripts/vivado_cintas_synth.tcl > scripts/vivado_cintas_synth.tcl
+git show origin/main:scripts/parse_vivado_rtl_sweep.py > scripts/parse_vivado_rtl_sweep.py
 ls -lh scripts/vivado_cintas_synth.tcl
 ```
 
-Create the output folders and run the four selected CITADEL operating points:
+Create the output folders and run the four selected CITADEL operating points. The commands use a larger Artix-7 package and a 25 ns clock so the validation wrapper avoids the small-package I/O limit and is checked at a realistic post-synthesis timing target:
 
 ```bash
 mkdir -p results/notebook_run/rtl_sweep/A_DROOP
@@ -207,10 +208,11 @@ mkdir -p results/notebook_run/rtl_sweep/A_RH
 mkdir -p results/notebook_run/rtl_sweep/B_DROOP
 mkdir -p results/notebook_run/rtl_sweep/B_SPECTRE
 
-vivado -mode batch -source scripts/vivado_cintas_synth.tcl -log results/notebook_run/rtl_sweep/A_DROOP/vivado.log -journal results/notebook_run/rtl_sweep/A_DROOP/vivado.jou -tclargs A_DROOP xc7a35tcpg236-1 15 15 1000
-vivado -mode batch -source scripts/vivado_cintas_synth.tcl -log results/notebook_run/rtl_sweep/A_RH/vivado.log -journal results/notebook_run/rtl_sweep/A_RH/vivado.jou -tclargs A_RH xc7a35tcpg236-1 20 8 550
-vivado -mode batch -source scripts/vivado_cintas_synth.tcl -log results/notebook_run/rtl_sweep/B_DROOP/vivado.log -journal results/notebook_run/rtl_sweep/B_DROOP/vivado.jou -tclargs B_DROOP xc7a35tcpg236-1 15 15 200
-vivado -mode batch -source scripts/vivado_cintas_synth.tcl -log results/notebook_run/rtl_sweep/B_SPECTRE/vivado.log -journal results/notebook_run/rtl_sweep/B_SPECTRE/vivado.jou -tclargs B_SPECTRE xc7a35tcpg236-1 30 8 700
+vivado -mode batch -source scripts/vivado_cintas_synth.tcl -log results/notebook_run/rtl_sweep/A_DROOP/vivado.log -journal results/notebook_run/rtl_sweep/A_DROOP/vivado.jou -tclargs A_DROOP xc7a200tfbg676-1 15 15 1000 25.000
+vivado -mode batch -source scripts/vivado_cintas_synth.tcl -log results/notebook_run/rtl_sweep/A_RH/vivado.log -journal results/notebook_run/rtl_sweep/A_RH/vivado.jou -tclargs A_RH xc7a200tfbg676-1 20 8 550 25.000
+vivado -mode batch -source scripts/vivado_cintas_synth.tcl -log results/notebook_run/rtl_sweep/B_DROOP/vivado.log -journal results/notebook_run/rtl_sweep/B_DROOP/vivado.jou -tclargs B_DROOP xc7a200tfbg676-1 15 15 200 25.000
+vivado -mode batch -source scripts/vivado_cintas_synth.tcl -log results/notebook_run/rtl_sweep/B_SPECTRE/vivado.log -journal results/notebook_run/rtl_sweep/B_SPECTRE/vivado.jou -tclargs B_SPECTRE xc7a200tfbg676-1 30 8 700 25.000
+python3 scripts/parse_vivado_rtl_sweep.py --root results/notebook_run/rtl_sweep
 ```
 
 Each folder should contain:
@@ -220,6 +222,7 @@ utilization.rpt
 timing_summary.rpt
 power.rpt
 post_synth.dcp
+run_config.csv
 vivado.log
 vivado.jou
 ```

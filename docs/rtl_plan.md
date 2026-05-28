@@ -39,10 +39,18 @@ The reusable batch script is:
 scripts/vivado_cintas_synth.tcl
 ```
 
-It writes Vivado utilization, timing, power, and checkpoint artifacts under:
+It accepts `<tag> <part> <features> <q> <samples_per_block> <clock_period_ns>`. For the TCAD validation wrapper, use a larger package such as `xc7a200tfbg676-1` and a 25 ns clock. This avoids the small-package I/O limit of the starter top level and evaluates the current unpipelined datapath at a realistic post-synthesis target.
+
+It writes Vivado utilization, timing, power, configuration, and checkpoint artifacts under:
 
 ```text
 results/notebook_run/rtl_sweep/<tag>/
+```
+
+After synthesis, build the summary CSV with:
+
+```text
+python3 scripts/parse_vivado_rtl_sweep.py --root results/notebook_run/rtl_sweep
 ```
 
 ## Reporting
