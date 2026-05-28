@@ -90,7 +90,11 @@ def parse_folder(folder: Path) -> dict[str, object]:
     clock_period = first_float(r"Requirement:\s*([0-9.]+)ns", timing)
     if clock_period is None:
         clock_period = float(rcfg.get("clock_period_ns", 0.0) or 0.0)
-    timing_met = "Timing constraints are met" in timing and "Timing constraints are not met" not in timing
+    timing_met = (
+        wns >= 0.0
+        if wns is not None
+        else "Timing constraints are met" in timing and "Timing constraints are not met" not in timing
+    )
 
     fmax_mhz = None
     if clock_period and wns is not None and clock_period - wns > 0:
