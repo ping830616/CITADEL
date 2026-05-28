@@ -280,7 +280,86 @@ Then run the notebook from top to bottom. Long cells show progress directly in t
 results/notebook_run/notebook_progress.log
 ```
 
-## 9. Leave And Return To The Run
+## 9. Set Up Vivado On The ASU Tools Server
+
+Vivado 2025.2 Standard Edition is installed on the ASU tools mount. Use this flow on:
+
+```text
+149.169.30.50
+```
+
+which should report host `en4226599rl`.
+
+Log in and check the tools mount:
+
+```text
+ssh 'asurite\hsiaopin@149.169.30.50'
+hostname
+df -h /usr/local/tools
+ls -l /usr/local/tools/vivado/2025.2/Vivado/settings64.csh
+```
+
+If you use another ASU server, confirm that `/usr/local/tools` is mounted from `129.219.4.25:/data/tools`. The Vivado setup file is written for the `/usr/local/tools` path.
+
+Copy the setup file to your home folder and source it:
+
+```text
+cp /usr/local/tools/vivado/2025.2/Vivado/settings64.csh ~/settings64_vivado_2025_2.csh
+source ~/settings64_vivado_2025_2.csh
+rehash
+which vivado
+vivado -version
+```
+
+If you are in Bash, run Vivado commands through `tcsh`:
+
+```text
+tcsh -lc 'source ~/settings64_vivado_2025_2.csh; vivado -version'
+```
+
+To launch the GUI from a terminal with display forwarding:
+
+```text
+source ~/settings64_vivado_2025_2.csh
+vivado &
+```
+
+For paper artifacts, batch mode is preferred. From `~/CITADEL`, run FPGA-oriented synthesis for the selected CITADEL settings:
+
+```text
+cd ~/CITADEL
+mkdir -p results/notebook_run/rtl_sweep
+
+vivado -mode batch -source scripts/vivado_cintas_synth.tcl -tclargs A_DROOP xc7a35tcpg236-1 15 15 1000
+vivado -mode batch -source scripts/vivado_cintas_synth.tcl -tclargs A_RH xc7a35tcpg236-1 20 8 550
+vivado -mode batch -source scripts/vivado_cintas_synth.tcl -tclargs B_DROOP xc7a35tcpg236-1 15 15 200
+vivado -mode batch -source scripts/vivado_cintas_synth.tcl -tclargs B_SPECTRE xc7a35tcpg236-1 30 8 700
+```
+
+If running from Bash, wrap each command with `tcsh -lc`, for example:
+
+```text
+tcsh -lc 'source ~/settings64_vivado_2025_2.csh; cd ~/CITADEL; vivado -mode batch -source scripts/vivado_cintas_synth.tcl -tclargs A_DROOP xc7a35tcpg236-1 15 15 1000'
+```
+
+The reports are written under:
+
+```text
+results/notebook_run/rtl_sweep/<tag>/
+```
+
+The important files are:
+
+```text
+utilization.rpt
+timing_summary.rpt
+power.rpt
+post_synth.dcp
+```
+
+Use the same FPGA part for all rows. If ASU provides a specific board part, replace `xc7a35tcpg236-1` with that part in every command.
+
+## 10. Leave And Return To The Run
 
 To detach from tmux without stopping Jupyter:
 
@@ -297,7 +376,7 @@ ssh 'asurite\hsiaopin@149.169.30.50'
 tmux attach -t citadel
 ```
 
-## 10. Push Your Edits From ASU
+## 11. Push Your Edits From ASU
 
 If you edit the notebook yourself and want GitHub to receive those changes:
 
@@ -305,7 +384,7 @@ If you edit the notebook yourself and want GitHub to receive those changes:
 /bin/bash -l
 cd ~/CITADEL
 git status -sb
-git add notebooks/exact_tcad_all_experiments.ipynb README.md docs/
+git add notebooks/exact_tcad_all_experiments.ipynb README.md docs/ scripts/
 git commit -m "Update CITADEL notebook and paper notes"
 git push origin main
 git status -sb
@@ -313,7 +392,7 @@ git status -sb
 
 After pulling notebook changes, refresh JupyterLab, restart the notebook kernel, and run the notebook from the top. Jupyter keeps old Python functions in memory until the kernel restarts.
 
-## 11. Copy Files Or Folders From ASU To Your Mac
+## 12. Copy Files Or Folders From ASU To Your Mac
 
 Run these commands from your Mac terminal, not inside the ASU SSH session.
 
@@ -342,4 +421,3 @@ Copy the whole CITADEL folder, excluding the Git history and common cache files:
 mkdir -p ~/Downloads/CITADEL_from_ASU
 rsync -avz --progress --exclude '.git/' --exclude '.venv/' --exclude '__pycache__/' --exclude '.ipynb_checkpoints/' 'asurite\hsiaopin@149.169.30.50:~/CITADEL/' ~/Downloads/CITADEL_from_ASU/
 ```
-

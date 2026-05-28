@@ -25,6 +25,26 @@ CINTAS evaluates selected telemetry features in streaming order:
 
 Generate golden vectors from the RTL/FPGA section of `notebooks/exact_tcad_all_experiments.ipynb`. Then compare RTL output bit-for-bit against the in-notebook `FixedPointCINTAS` reference.
 
+## ASU Vivado Batch Synthesis
+
+ASU Vivado setup and server instructions are in `docs/asu_server_runbook.md`. On `149.169.30.50` (`en4226599rl`), copy and source:
+
+```text
+/usr/local/tools/vivado/2025.2/Vivado/settings64.csh
+```
+
+The reusable batch script is:
+
+```text
+scripts/vivado_cintas_synth.tcl
+```
+
+It writes Vivado utilization, timing, power, and checkpoint artifacts under:
+
+```text
+results/notebook_run/rtl_sweep/<tag>/
+```
+
 ## Reporting
 
 For every synthesis point, report:
