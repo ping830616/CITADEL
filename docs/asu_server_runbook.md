@@ -268,13 +268,13 @@ TCAD_PRESET = "smoke"
 RUN_REPEAT_CHECK = True
 ```
 
-For the final TCAD journal-scale run, change only:
+For the normal TCAD journal-scale run, change only:
 
 ```python
-TCAD_PRESET = "full"
+TCAD_PRESET = "balanced"
 ```
 
-Then run the notebook from top to bottom. Long cells show progress directly in the notebook output. The notebook also writes progress messages here:
+Use `TCAD_PRESET = "full"` only for an optional exhaustive ASU/Linux sensitivity run. Then run the notebook from top to bottom. Long cells show progress directly in the notebook output. The notebook also writes progress messages here:
 
 ```text
 results/notebook_run/notebook_progress.log
@@ -311,10 +311,10 @@ which vivado
 vivado -version
 ```
 
-If you are in Bash, run Vivado commands through `tcsh`:
+If you are in Bash, run Vivado commands through `tcsh -c`. The ASU `tcsh` does not support `-lc`:
 
 ```text
-tcsh -lc 'source ~/settings64_vivado_2025_2.csh; vivado -version'
+tcsh -c 'source ~/settings64_vivado_2025_2.csh; vivado -version'
 ```
 
 To launch the GUI from a terminal with display forwarding:
@@ -331,6 +331,7 @@ cd ~/CITADEL
 git fetch origin main
 mkdir -p scripts
 git show origin/main:scripts/vivado_cintas_synth.tcl > scripts/vivado_cintas_synth.tcl
+git show origin/main:scripts/parse_vivado_rtl_sweep.py > scripts/parse_vivado_rtl_sweep.py
 ls -lh scripts/vivado_cintas_synth.tcl
 
 mkdir -p results/notebook_run/rtl_sweep/A_DROOP
@@ -346,10 +347,10 @@ vivado -mode batch -source scripts/vivado_cintas_synth.tcl -log results/notebook
 
 The `git show` commands above fetch only the Vivado Tcl helper and report parser. This is useful when `git pull` is blocked by local notebook edits or by missing Git LFS on the ASU server. The commands use a larger Artix-7 package and a 25 ns clock so the RTL validation wrapper is checked at a realistic post-synthesis target without the small-package I/O limit.
 
-If running from Bash, wrap each command with `tcsh -lc`, for example:
+If running from Bash, wrap each command with `tcsh -c`, for example:
 
 ```text
-tcsh -lc 'source ~/settings64_vivado_2025_2.csh; cd ~/CITADEL; vivado -mode batch -source scripts/vivado_cintas_synth.tcl -log results/notebook_run/rtl_sweep/A_DROOP/vivado.log -journal results/notebook_run/rtl_sweep/A_DROOP/vivado.jou -tclargs A_DROOP xc7a200tfbg676-1 15 15 1000 25.000'
+tcsh -c 'source ~/settings64_vivado_2025_2.csh; cd ~/CITADEL; vivado -mode batch -source scripts/vivado_cintas_synth.tcl -log results/notebook_run/rtl_sweep/A_DROOP/vivado.log -journal results/notebook_run/rtl_sweep/A_DROOP/vivado.jou -tclargs A_DROOP xc7a200tfbg676-1 15 15 1000 25.000'
 ```
 
 After the four Vivado runs complete, regenerate the summary CSV:

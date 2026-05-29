@@ -6,16 +6,15 @@ The repository builds on **EXACT**: Edge-eXplainable Autonomous Causal Telemetry
 
 - design-space ablations for feature budget, aggregation, decision-block length, score weighting, and fixed-point precision
 - broader heterogeneous-platform and SLM-anomaly validation
-- FPGA/RTL implementation and cost evaluation for CINTAS
+- RTL/FPGA-oriented implementation and cost evaluation for CINTAS
 - drift-aware lifecycle calibration, recalibration, and explainable anomaly context
+- supplemental Apple limited-observability portability analysis
 
 The experiment code is intentionally contained in one notebook: `notebooks/exact_tcad_all_experiments.ipynb`. Python versions are pinned, runtime seeds and thread counts are fixed, generated artifacts receive SHA-256 manifests, and the smoke-test dataset is deterministic.
 
 ## Notebook-Only Workflow
 
-The single supported experiment entry point is `notebooks/exact_tcad_all_experiments.ipynb`. Open that notebook in Jupyter, run the cells from top to bottom, and use its configuration cell to choose smoke, balanced, or full CITADEL runs. The notebook contains the former helper code inline, so there is no separate Python package or script to run. The same notebook now produces the TCAD ablation metrics, false-positive rate, lifecycle drift/recalibration tables, and paper-ready TBD replacement CSV.
-
-The notebook automatically locates the tracked telemetry folders:
+The single supported experiment entry point is `notebooks/exact_tcad_all_experiments.ipynb`. Open that notebook in Jupyter, run the cells from top to bottom, and use its configuration cell to choose smoke, balanced, or full CITADEL runs. The notebook contains the former helper code inline, so there is no separate Python package or script to run. The same notebook now produces TCAD ablation metrics, fixed-point sensitivity tables, hardware-cost summaries, fixed-point golden vectors, RTL/FPGA merge artifacts, lifecycle drift/recalibration tables, Apple supplemental portability artifacts, and paper-ready TBD replacement CSVs. It automatically locates the tracked telemetry folders:
 
 - `data/telemetry/processed/ddr_data/`
 - `data/telemetry/raw/apple_data/`
@@ -24,7 +23,7 @@ If the notebook reports that a CSV is a Git LFS pointer, fetch the Git LFS objec
 
 ## Repository Map
 
-- `notebooks/`: the single self-contained experiment runner for EXACT reproduction, CITADEL ablation, false-positive-rate reporting, lifecycle recalibration, hardware summaries, and FPGA/RTL integration hooks
+- `notebooks/`: the single self-contained experiment runner for EXACT reproduction, CITADEL ablation, false-positive-rate reporting, lifecycle recalibration, hardware summaries, and RTL/FPGA integration hooks
 - `configs/`: smoke, balanced, and full ablation grids
 - `docs/`: start-to-finish methodology, ASU server runbook, traceability matrix, data schema, reproducibility checklist, and RTL plan
 - `docs/figures/`: CITADEL manuscript PNG assets for Overleaf figures and draft table images
@@ -194,6 +193,11 @@ results/notebook_run/lifecycle_drift/lifecycle_recalibration_summary.csv
 results/notebook_run/lifecycle_drift/lifecycle_recalibration_by_scenario.csv
 results/notebook_run/droop_adaptive_ablation/droop_adaptive_best_by_setup.csv
 results/notebook_run/droop_adaptive_ablation/droop_adaptive_vs_main_tcad.csv
+results/notebook_run/fpga/cintas_setupA_q15_golden_vectors.csv
+results/notebook_run/rtl_sweep/rtl_resource_summary.csv
+results/notebook_run/apple_limited_observability/run_manifest.json
+results/notebook_run/apple_limited_observability/apple_observability_best_by_scenario.csv
+results/notebook_run/apple_limited_observability/apple_workload_summary.csv
 results/notebook_run/paper_tbd_replacements.csv
 ```
 
@@ -214,6 +218,10 @@ After each run, check these outputs:
 - `results/notebook_run/lifecycle_drift/run_manifest.json`
 - `results/notebook_run/lifecycle_drift/lifecycle_recalibration_summary.csv`
 - `results/notebook_run/lifecycle_drift/lifecycle_recalibration_by_scenario.csv`
+- `results/notebook_run/fpga/cintas_setupA_q15_golden_vectors.csv`
+- `results/notebook_run/rtl_sweep/rtl_resource_summary.csv`
+- `results/notebook_run/apple_limited_observability/apple_observability_best_by_scenario.csv`
+- `results/notebook_run/apple_limited_observability/apple_workload_summary.csv`
 - `results/notebook_run/paper_tbd_replacements.csv`
 
 For strict reproducibility, the resolved config, input hashes, selected-feature files, summary CSV values, lifecycle CSV values, and paper TBD replacement values should match between the laptop and the ASU server. If they do not match, first check Python version, package versions, Git commit, Git LFS data materialization, `SEED`, `THREADS`, and `TCAD_PRESET`.

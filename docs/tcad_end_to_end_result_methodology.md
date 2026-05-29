@@ -4,7 +4,7 @@ This document is the start-to-finish runbook for turning the CITADEL repository 
 
 The short version is:
 
-`MacBook notebook -> CITADEL full sweep -> paper tables/figures -> golden vectors -> ASU Vivado RTL/FPGA -> hardware CSV -> MacBook merge -> final TCAD figures/tables`.
+`MacBook notebook -> CITADEL balanced sweep -> paper tables/figures -> golden vectors -> ASU Vivado RTL/FPGA -> hardware CSV -> MacBook merge -> final TCAD figures/tables`.
 
 ## 1. Goal
 
@@ -40,6 +40,7 @@ results/notebook_run/paper_tbd_replacements.csv
 Important source files:
 
 ```text
+configs/tcad_grid_balanced.json
 configs/tcad_grid_full.json
 rtl/cintas/cintas_stream.sv
 hardware/cintas_operator_costs.csv
@@ -84,9 +85,11 @@ Use these notebook settings for final paper results:
 SEED = 123
 THREADS = 1
 DATA_MODE = "real"
-TCAD_PRESET = "full"
+TCAD_PRESET = "balanced"
 RUN_REPEAT_CHECK = True
 ```
+
+Use `"full"` only for an optional exhaustive ASU/Linux sensitivity run.
 
 Run the notebook from top to bottom. The key paper sections are:
 
@@ -99,7 +102,7 @@ Run the notebook from top to bottom. The key paper sections are:
 | 8. Fixed-Point CINTAS Sensitivity | Numerical hardware evidence | fixed-point error by Q format |
 | 9. CINTAS Hardware-Cost Analysis | Analytical hardware-cost evidence | operator, area, power estimates |
 | 10. Lifecycle Drift and Recalibration | SLM lifecycle evidence | drift/recalibration CSVs |
-| 11. TCAD Results Gallery | Paper-facing tables and figures | five tables and five figures |
+| 11. TCAD Results Gallery | Paper-facing tables and figures | selected operating points, cost tables, graph figures, RTL figure, lifecycle figure |
 | 16. Export Fixed-Point Golden Vectors For RTL | RTL verification input | golden-vector CSV |
 | 17. Merge Future RTL/FPGA Results Into The TCAD Table | Hardware result merge | merged paper hardware table |
 | 18. Supplemental Apple Case Study | Observability/portability supplement | Apple supplemental tables/figures |
@@ -151,8 +154,8 @@ Use this order in Overleaf:
 \subsection{Stable Conditional Telemetry Graph Interpretation}
 \subsection{Fixed-Point CINTAS Sensitivity}
 \subsection{CINTAS Hardware-Cost Analysis}
-\subsection{Lifecycle Drift and Recalibration}
 \subsection{RTL/FPGA Validation}
+\subsection{Lifecycle Drift and Recalibration}
 \subsection{Supplemental Portability Study}
 ```
 
@@ -184,10 +187,10 @@ rehash
 vivado -version
 ```
 
-If Bash cannot source the `.csh` setup file, use:
+If Bash cannot source the `.csh` setup file, use `tcsh -c`. The ASU `tcsh` does not support `-lc`:
 
 ```bash
-tcsh -lc 'source ~/settings64_vivado_2025_2.csh; vivado -version'
+tcsh -c 'source ~/settings64_vivado_2025_2.csh; vivado -version'
 ```
 
 Fetch only the Vivado helper if `git pull` is blocked by local notebook edits or missing Git LFS:
@@ -301,7 +304,7 @@ drift false-positive reduction after recalibration
 Do not freeze paper results until all gates pass:
 
 1. `git status` is clean or the run manifest clearly records the final commit.
-2. `TCAD_PRESET = "full"`.
+2. `TCAD_PRESET = "balanced"` for the normal paper run, or `"full"` for the optional exhaustive sensitivity run.
 3. `SEED = 123` and `THREADS = 1`.
 4. Git LFS telemetry files are materialized, not pointer files.
 5. `run_manifest.json` exists for TCAD ablation and lifecycle drift.
@@ -340,7 +343,7 @@ The highest-impact improvement is the RTL/FPGA validation. Once CINTAS is simula
 Before final submission:
 
 ```text
-[ ] Full notebook run completed.
+[ ] Balanced notebook run completed.
 [ ] Section 11 tables and figures exported.
 [ ] Paper TBD replacement CSV checked.
 [ ] RTL golden vectors exported.

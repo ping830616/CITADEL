@@ -164,7 +164,7 @@ Open the local URL in your Mac browser and use the token printed by Terminal 2:
 http://127.0.0.1:8888/lab?token=...
 ```
 
-Run `TCAD_PRESET = "smoke"` first. After the smoke run matches locally, change only `TCAD_PRESET` to `"full"` for the journal-scale run.
+Run `TCAD_PRESET = "smoke"` first. After the smoke run matches locally, change only `TCAD_PRESET` to `"balanced"` for the normal journal-scale run. Use `"full"` only for an optional exhaustive ASU/Linux sensitivity run.
 
 ## Monitoring A Long Run
 

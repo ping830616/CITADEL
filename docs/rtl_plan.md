@@ -67,7 +67,7 @@ For every synthesis point, report:
 
 ## Current Operator-Cost Source
 
-Until RTL/FPGA synthesis is complete, the CITADEL ablation table uses Eduardo Ortega's add/multiply cost table in `hardware/hw.csv` and the normalized repo copy in `hardware/cintas_operator_costs.csv`.
+The analytical CITADEL ablation table uses Eduardo Ortega's add/multiply cost table in `hardware/hw.csv` and the normalized repo copy in `hardware/cintas_operator_costs.csv`. The ASU Vivado flow complements this model with RTL/FPGA-oriented synthesis reports under `results/notebook_run/rtl_sweep/`.
 
 The current estimate follows the reference calculation:
 
@@ -79,4 +79,4 @@ The current estimate follows the reference calculation:
 - AGG block cost is `2 * mult`
 - power scales linearly with the GHz setting
 
-The model reports Setup B area overhead against `215.25 mm^2` and idle-power overhead against `35.5 W`. These columns are estimates and should be replaced or validated by RTL synthesis reports before final TCAD submission.
+The model reports Setup B area overhead against `215.25 mm^2` and idle-power overhead against `35.5 W`. These columns remain analytical estimates; the RTL/FPGA-oriented synthesis reports provide separate LUT, FF, DSP, BRAM, timing, and vectorless power evidence.
