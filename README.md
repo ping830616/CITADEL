@@ -53,17 +53,17 @@ Start Jupyter from the repository root:
 python -m jupyter lab notebooks/exact_tcad_all_experiments.ipynb
 ```
 
-Use these notebook settings for the TCAD draft results:
+Use these notebook settings to reproduce the TCAD paper results:
 
 ```python
 SEED = 123
 THREADS = 1
 DATA_MODE = "real"
-TCAD_PRESET = "balanced"
+TCAD_PRESET = "full"
 RUN_REPEAT_CHECK = True
 ```
 
-Run the notebook from top to bottom. For a fast pipeline check, use `TCAD_PRESET = "smoke"`. Use `TCAD_PRESET = "full"` only for optional exhaustive ASU/Linux sensitivity runs.
+Run the notebook from top to bottom. The `full` preset is the paper setting and can take a long time because it runs the full design-space exploration. For quick installation checks or smaller development runs, see the detailed guides below.
 
 ### 4. Check Required Notebook Artifacts
 
@@ -105,13 +105,13 @@ For submission-quality results:
 
 - `RUN_REPEAT_CHECK` should report that the repeated TCAD summary matches the first run.
 - `run_manifest.json` files should show the intended git commit and input hashes.
-- The notebook should be run with `SEED = 123`, `THREADS = 1`, `DATA_MODE = "real"`, and `TCAD_PRESET = "balanced"`.
+- The notebook should be run with `SEED = 123`, `THREADS = 1`, `DATA_MODE = "real"`, and `TCAD_PRESET = "full"`.
 - Treat a run with `"git_dirty": true` as a development run unless the local edits are intentionally part of the submitted artifact.
 
 ## Repository Map
 
 - `notebooks/`: single self-contained CITADEL experiment runner
-- `configs/`: smoke, balanced, and full DSE grids
+- `configs/`: preset DSE grids for quick checks and full paper runs
 - `docs/`: methodology, reproducibility notes, ASU server runbook, RTL plan, and traceability matrix
 - `rtl/cintas/`: CINTAS SystemVerilog starter design
 - `scripts/`: Vivado synthesis and report-parsing helpers
