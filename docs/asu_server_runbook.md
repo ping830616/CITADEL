@@ -282,6 +282,48 @@ results/notebook_run/notebook_progress.log
 
 ## 9. Set Up Vivado On The ASU Tools Server
 
+### MacBook To ASU Vivado Handoff
+
+Use this handoff when the notebook was run on the MacBook, but Vivado synthesis is run on the ASU tools server.
+
+From the MacBook, copy the current repository to ASU:
+
+```text
+rsync -avz --progress --delete \
+  --exclude '.DS_Store' \
+  --exclude '.ipynb_checkpoints/' \
+  --exclude 'notebooks/.virtual_documents/' \
+  --exclude '__pycache__/' \
+  --exclude '*.pyc' \
+  /Users/hsiaopingni/CITADEL/ \
+  'asurite\hsiaopin@149.169.30.50:~/CITADEL/'
+```
+
+On ASU, run the Vivado commands in this section. After Vivado finishes, copy the RTL sweep reports back to the MacBook:
+
+```text
+rsync -avz --progress \
+  'asurite\hsiaopin@149.169.30.50:~/CITADEL/results/notebook_run/rtl_sweep/' \
+  /Users/hsiaopingni/CITADEL/results/notebook_run/rtl_sweep/
+```
+
+Parse the reports on the MacBook, because the default ASU `python3` may be too old for the parser:
+
+```text
+cd /Users/hsiaopingni/CITADEL
+python3 scripts/parse_vivado_rtl_sweep.py --root results/notebook_run/rtl_sweep
+```
+
+This creates:
+
+```text
+results/notebook_run/rtl_sweep/rtl_resource_summary.csv
+```
+
+Finally, rerun the notebook RTL/FPGA merge section and then rerun Section 11 so the TCAD gallery includes the latest Vivado evidence.
+
+### Vivado Setup
+
 Vivado 2025.2 Standard Edition is installed on the ASU tools mount. Use this flow on:
 
 ```text
