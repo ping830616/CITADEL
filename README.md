@@ -118,6 +118,7 @@ For submission-quality results:
 - `hardware/`: analytical operator-cost references
 - `data/telemetry/processed/ddr_data/`: DDR4/DDR5 telemetry for the main CINTAS study
 - `data/telemetry/raw/apple_data/`: Apple limited-observability telemetry
+- `APPLE_DATA_GENERATION/`: Apple telemetry collection provenance copied from DICE, without analysis outputs
 - `results/`: generated outputs; not tracked
 
 ## Detailed Guides
