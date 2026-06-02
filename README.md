@@ -1,6 +1,6 @@
 # CITADEL
 
-**CITADEL** is the journal-extension workspace for **Causal In-Field Telemetry Analytics and Drift-Aware Edge Learning for Silicon Lifecycle Management**.
+**CITADEL** is the journal-extension workspace for **Causal-Informed In-Field Telemetry Analytics and Drift-Aware Edge Learning for Silicon Lifecycle Management**.
 
 The repository builds on **EXACT**: Edge-eXplainable Autonomous Causal Telemetry. EXACT established the edge-only CINTAS detector on two CPU-DRAM platforms. CITADEL turns that detector into a hardware-aware and drift-aware SLM methodology:
 
