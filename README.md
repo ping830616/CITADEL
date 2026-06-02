@@ -1,55 +1,23 @@
 # CITADEL
 
-**CITADEL** is the journal-extension workspace for **Causal-Informed In-Field Telemetry Analytics and Drift-Aware Edge Learning for Silicon Lifecycle Management**.
+**CITADEL** is the journal-extension workspace for **Causal-Informed In-Field Telemetry Analytics and Drift-Aware Edge Learning for Silicon Lifecycle Management**. It builds on EXACT and turns the compact CINTAS detector into a hardware-aware SLM workflow with design-space exploration, fixed-point sensitivity, lifecycle drift checking, RTL/FPGA-oriented validation, and supplemental limited-observability portability analysis.
 
-The repository builds on **EXACT**: Edge-eXplainable Autonomous Causal Telemetry. EXACT established the edge-only CINTAS detector on two CPU-DRAM platforms. CITADEL turns that detector into a hardware-aware and drift-aware SLM methodology:
+The executable entry point is one notebook:
 
-- design-space ablations for feature budget, aggregation, decision-block length, score weighting, and fixed-point precision
-- broader heterogeneous-platform and SLM-anomaly validation
-- RTL/FPGA-oriented implementation and cost evaluation for CINTAS
-- drift-aware lifecycle calibration, recalibration, and explainable anomaly context
-- supplemental Apple limited-observability portability analysis
+```text
+notebooks/exact_tcad_all_experiments.ipynb
+```
 
-The experiment code is intentionally contained in one notebook: `notebooks/exact_tcad_all_experiments.ipynb`. Python versions are pinned, runtime seeds and thread counts are fixed, generated artifacts receive SHA-256 manifests, and the smoke-test dataset is deterministic.
+This README gives the short TCAD reproduction path. Detailed runbooks are linked at the end.
 
-## Notebook-Only Workflow
+## TCAD Reproduction Quick Path
 
-The single supported experiment entry point is `notebooks/exact_tcad_all_experiments.ipynb`. Open that notebook in Jupyter, run the cells from top to bottom, and use its configuration cell to choose smoke, balanced, or full CITADEL runs. The notebook contains the former helper code inline, so there is no separate Python package or script to run. The same notebook now produces TCAD ablation metrics, fixed-point sensitivity tables, hardware-cost summaries, fixed-point golden vectors, RTL/FPGA merge artifacts, lifecycle drift/recalibration tables, Apple supplemental portability artifacts, and paper-ready TBD replacement CSVs. It automatically locates the tracked telemetry folders:
-
-- `data/telemetry/processed/ddr_data/`
-- `data/telemetry/raw/apple_data/`
-
-If the notebook reports that a CSV is a Git LFS pointer, fetch the Git LFS objects through your Git client before running the experiments.
-
-## Repository Map
-
-- `notebooks/`: the single self-contained experiment runner for EXACT reproduction, CITADEL ablation, false-positive-rate reporting, lifecycle recalibration, hardware summaries, and RTL/FPGA integration hooks
-- `configs/`: smoke, balanced, and full ablation grids
-- `docs/`: start-to-finish methodology, ASU server runbook, traceability matrix, data schema, reproducibility checklist, and RTL plan
-- `docs/figures/`: CITADEL manuscript PNG assets for Overleaf figures and draft table images
-- `rtl/cintas/`: synthesizable CINTAS SystemVerilog starter design and testbench notes
-- `environment.yml`: Conda environment for reproducible laptop/server runs
-- `data/external_sources.json`: versioned registry for external DDR and Apple telemetry sources
-- `data/telemetry/processed/ddr_data/`: DDR4/DDR5 CSV target for CITADEL CINTAS experiments
-- `data/telemetry/raw/apple_data/`: Apple M2 Pro tier-0/1/2 target for observability studies
-- `data/sample/`: deterministic generated data for smoke tests, not tracked
-- `results/`: generated tables, plots, and run manifests, not tracked
-
-## Reproducibility Contract
-
-Every experiment should be run from the notebook with repo-relative paths. Each notebook run writes `run_manifest.json` files with configuration, package versions, input hashes, and output hashes. Matching manifests across machines mean the same numerical inputs and outputs were used.
-
-## Run Reproducibly On Any Machine
-
-Use the same workflow on a laptop, workstation, or Linux server. ASU-specific SSH, tmux, shell, and file-transfer commands are kept in [`docs/asu_server_runbook.md`](docs/asu_server_runbook.md).
-
-### 1. Clone Or Update The Repository
-
-For a first clone:
+### 1. Clone Or Update
 
 ```text
 git clone https://github.com/ping830616/CITADEL.git
 cd CITADEL
+git lfs pull
 ```
 
 For an existing clone:
@@ -59,200 +27,108 @@ cd CITADEL
 git fetch origin
 git pull --ff-only origin main
 git lfs pull
-git log --oneline -1
 ```
 
-If GitHub asks for credentials, use your GitHub username and a GitHub Personal Access Token. Do not use an ASU password for GitHub authentication.
+If any telemetry CSV begins with `version https://git-lfs.github.com/spec/v1`, the Git LFS data were not materialized; run `git lfs pull` again.
 
-### 2. Prepare Telemetry Data
-
-Make sure the telemetry CSVs are available locally before running the notebook:
-
-```text
-git lfs install
-git lfs pull
-find data/telemetry -name "*.csv" | head -n 1 | xargs head -5
-```
-
-If the first line says `version https://git-lfs.github.com/spec/v1`, the file is still a Git LFS pointer. Run `git lfs pull` again and confirm that your GitHub token can read this repository.
-
-### 3. Create Or Update The Environment
-
-Create the Conda environment the first time:
+### 2. Create The Environment
 
 ```text
 conda env create -f environment.yml
+conda activate citadel-slm
 ```
 
-If the environment already exists, update it:
+If the environment already exists:
 
 ```text
 conda env update -f environment.yml --prune
-```
-
-Activate it:
-
-```text
 conda activate citadel-slm
 ```
 
-If `conda activate` is not initialized, source your Conda setup script first. A common path is:
+### 3. Run The Notebook
 
-```text
-source ~/miniconda3/etc/profile.d/conda.sh
-conda activate citadel-slm
-```
-
-### 4. Fix Runtime Determinism
-
-The notebook also sets reproducibility controls, but setting them before launch makes runs easier to compare across machines:
-
-```text
-export PYTHONHASHSEED=123
-export OMP_NUM_THREADS=1
-export OPENBLAS_NUM_THREADS=1
-export MKL_NUM_THREADS=1
-export NUMEXPR_NUM_THREADS=1
-export VECLIB_MAXIMUM_THREADS=1
-export MPLBACKEND=Agg
-```
-
-### 5. Start Jupyter
-
-From the repository root:
+Start Jupyter from the repository root:
 
 ```text
 python -m jupyter lab notebooks/exact_tcad_all_experiments.ipynb
 ```
 
-On a remote server, start Jupyter with `--no-browser --ip=127.0.0.1 --port=<port>` and use SSH port forwarding from your laptop. The ASU-specific commands are in [`docs/asu_server_runbook.md`](docs/asu_server_runbook.md).
-
-### 6. Run The Notebook
-
-Open:
-
-```text
-notebooks/exact_tcad_all_experiments.ipynb
-```
-
-For a quick reproducibility check, use these settings in the notebook configuration cell:
+Use these notebook settings for the TCAD draft results:
 
 ```python
 SEED = 123
 THREADS = 1
 DATA_MODE = "real"
-TCAD_PRESET = "smoke"
+TCAD_PRESET = "balanced"
 RUN_REPEAT_CHECK = True
 ```
 
-For the TCAD journal paper-scale run, use:
+Run the notebook from top to bottom. For a fast pipeline check, use `TCAD_PRESET = "smoke"`. Use `TCAD_PRESET = "full"` only for optional exhaustive ASU/Linux sensitivity runs.
 
-```python
-TCAD_PRESET = "balanced"
-```
+### 4. Check Required Notebook Artifacts
 
-The balanced configuration evaluates representative block lengths:
+The notebook should produce the main TCAD artifacts under `results/notebook_run/`:
 
 ```text
-50, 100, 200, 500, 1000
+tcad_ablation/tcad_ablation_summary.csv
+tcad_ablation/tcad_ablation_fold_results.csv
+tcad_ablation/tcad_selected_features.csv
+lifecycle_drift/lifecycle_recalibration_summary.csv
+lifecycle_drift/lifecycle_recalibration_windows.csv
+fpga/cintas_setupA_q15_golden_vectors.csv
+apple_limited_observability/apple_observability_best_by_scenario.csv
+apple_limited_observability/apple_workload_summary.csv
+paper_tbd_replacements.csv
 ```
 
-This is the recommended setting for normal paper runs. It keeps all three SLM
-conditions, uses the integrated DROOP physics-anchor branch, and avoids the
-multi-day exhaustive Cartesian sweep.
+Run manifests are written beside the results and record the git commit, configuration, package versions, input hashes, and output hashes.
 
-For an optional exhaustive ASU/Linux sensitivity run, use:
+### 5. Run ASU/Vivado RTL Evidence
 
-```python
-TCAD_PRESET = "full"
-```
-
-The full configuration is intentionally expensive and is meant only as an
-optional sensitivity check. It evaluates block lengths:
+The notebook exports the selected CINTAS settings and expects Vivado evidence here:
 
 ```text
-50, 100, 150, 200, ..., 900, 950, 1000
-```
-
-Run the notebook from top to bottom after every GitHub update. If you pulled notebook changes while Jupyter was already open, restart the kernel before rerunning.
-
-### 7. Check The Result Artifacts
-
-After the notebook finishes, check:
-
-```text
-results/notebook_run/ets_baseline/run_manifest.json
-results/notebook_run/tcad_ablation/run_manifest.json
-results/notebook_run/tcad_ablation/tcad_config_resolved.json
-results/notebook_run/tcad_ablation/tcad_ablation_summary.csv
-results/notebook_run/tcad_ablation/tcad_ablation_fold_results.csv
-results/notebook_run/tcad_ablation/tcad_selected_features.csv
-results/notebook_run/tcad_ablation_repeat/tcad_ablation_summary.csv
-results/notebook_run/lifecycle_drift/run_manifest.json
-results/notebook_run/lifecycle_drift/lifecycle_recalibration_summary.csv
-results/notebook_run/lifecycle_drift/lifecycle_recalibration_by_scenario.csv
-results/notebook_run/droop_adaptive_ablation/droop_adaptive_best_by_setup.csv
-results/notebook_run/droop_adaptive_ablation/droop_adaptive_vs_main_tcad.csv
-results/notebook_run/fpga/cintas_setupA_q15_golden_vectors.csv
 results/notebook_run/rtl_sweep/rtl_resource_summary.csv
-results/notebook_run/apple_limited_observability/run_manifest.json
-results/notebook_run/apple_limited_observability/apple_observability_best_by_scenario.csv
-results/notebook_run/apple_limited_observability/apple_workload_summary.csv
-results/notebook_run/paper_tbd_replacements.csv
 ```
 
-The repeat check should report:
+Use the ASU handoff in [`docs/asu_server_runbook.md`](docs/asu_server_runbook.md): copy the repository from the MacBook to ASU, run the four Vivado batch synthesis commands, copy `results/notebook_run/rtl_sweep/` back to the MacBook, and parse the reports on the MacBook if ASU's default Python is too old:
 
 ```text
-Repeated TCAD summary equals first run: True
+python3 scripts/parse_vivado_rtl_sweep.py --root results/notebook_run/rtl_sweep
 ```
 
-## What To Compare Across Machines
+Then rerun the notebook RTL/FPGA merge section and the TCAD gallery section so the paper tables and figures include the latest Vivado evidence.
 
-After each run, check these outputs:
+### 6. Verify Reproducibility
 
-- `results/notebook_run/ets_baseline/run_manifest.json`
-- `results/notebook_run/tcad_ablation/run_manifest.json`
-- `results/notebook_run/tcad_ablation/tcad_config_resolved.json`
-- `results/notebook_run/tcad_ablation/tcad_ablation_summary.csv`
-- `results/notebook_run/lifecycle_drift/run_manifest.json`
-- `results/notebook_run/lifecycle_drift/lifecycle_recalibration_summary.csv`
-- `results/notebook_run/lifecycle_drift/lifecycle_recalibration_by_scenario.csv`
-- `results/notebook_run/fpga/cintas_setupA_q15_golden_vectors.csv`
-- `results/notebook_run/rtl_sweep/rtl_resource_summary.csv`
-- `results/notebook_run/apple_limited_observability/apple_observability_best_by_scenario.csv`
-- `results/notebook_run/apple_limited_observability/apple_workload_summary.csv`
-- `results/notebook_run/paper_tbd_replacements.csv`
+For submission-quality results:
 
-For strict reproducibility, the resolved config, input hashes, selected-feature files, summary CSV values, lifecycle CSV values, and paper TBD replacement values should match between the laptop and the ASU server. If they do not match, first check Python version, package versions, Git commit, Git LFS data materialization, `SEED`, `THREADS`, and `TCAD_PRESET`.
+- `RUN_REPEAT_CHECK` should report that the repeated TCAD summary matches the first run.
+- `run_manifest.json` files should show the intended git commit and input hashes.
+- The notebook should be run with `SEED = 123`, `THREADS = 1`, `DATA_MODE = "real"`, and `TCAD_PRESET = "balanced"`.
+- Treat a run with `"git_dirty": true` as a development run unless the local edits are intentionally part of the submitted artifact.
 
-The manifest records the git commit, dirty-worktree state, Python version, direct package versions, hashes for `requirements.txt`, `environment.yml`, input CSV hashes, and output artifact hashes. Treat a run with `"git_dirty": true` as a development run, not a paper-submission run.
+## Repository Map
 
-## CITADEL Methodology
+- `notebooks/`: single self-contained CITADEL experiment runner
+- `configs/`: smoke, balanced, and full DSE grids
+- `docs/`: methodology, reproducibility notes, ASU server runbook, RTL plan, and traceability matrix
+- `rtl/cintas/`: CINTAS SystemVerilog starter design
+- `scripts/`: Vivado synthesis and report-parsing helpers
+- `hardware/`: analytical operator-cost references
+- `data/telemetry/processed/ddr_data/`: DDR4/DDR5 telemetry for the main CINTAS study
+- `data/telemetry/raw/apple_data/`: Apple limited-observability telemetry
+- `results/`: generated outputs; not tracked
 
-Start with [`docs/tcad_end_to_end_result_methodology.md`](docs/tcad_end_to_end_result_methodology.md) for the complete TCAD result workflow: MacBook notebook runs, ASU/Vivado hardware validation, the five main paper tables, the five main paper figures, Apple supplemental handling, and the final paper update checklist.
+## Detailed Guides
 
-The broader project plan is in `docs/tcad_methodology.md`, `docs/research_execution_plan.md`, and `docs/image_flow_methodology.md`. The cover-letter-to-artifact map is in `docs/tcad_requirements_traceability.md`. Together they turn the cover-letter promises into a complete execution path:
+- [`docs/asu_server_runbook.md`](docs/asu_server_runbook.md): ASU SSH, file transfer, Vivado setup, synthesis commands, and copy-back flow
+- [`docs/rtl_plan.md`](docs/rtl_plan.md): RTL/FPGA-oriented validation plan
+- [`docs/reproducibility.md`](docs/reproducibility.md): cross-machine reproducibility checklist
+- [`docs/tcad_end_to_end_result_methodology.md`](docs/tcad_end_to_end_result_methodology.md): complete TCAD result workflow
+- [`docs/tcad_requirements_traceability.md`](docs/tcad_requirements_traceability.md): mapping from paper claims to repository artifacts
+- [`docs/exact_to_citadel_extension.md`](docs/exact_to_citadel_extension.md): what transfers from EXACT and what is new in CITADEL
 
-1. reproduce the EXACT baseline
-2. freeze telemetry schema and platform metadata
-3. run systematic CINTAS/CITADEL ablations
-4. collect and validate additional platforms and anomaly classes
-5. quantify lifecycle drift and benign recalibration
-6. implement and verify fixed-point RTL/FPGA CINTAS
-7. use `results/notebook_run/paper_tbd_replacements.csv` to replace manuscript TBD values
-8. regenerate all CITADEL/TCAD tables and figures from the notebook and its manifests
+## Relationship To EXACT
 
-## Data
-
-CITADEL tracks real telemetry directly in this repo using Git LFS. The notebook reads DDR4/DDR5 telemetry from `data/telemetry/processed/ddr_data/` and Apple M2 Pro telemetry from `data/telemetry/raw/apple_data/`. Each run manifest records the exact input hashes used for the results.
-
-The deterministic sample dataset is only for testing the pipeline shape. It is not evidence for the paper.
-
-## Relationship to EXACT
-
-This repo starts from the portable EXACT codebase at `https://github.com/ping830616/EXACT` and adds the CITADEL journal framework: design-space exploration, fixed-point precision analysis, hardware-cost modeling, RTL/FPGA-oriented validation, benign-drift checks, and reproducible result manifests. The default upstream EXACT provenance is pinned to commit `b6b8b17ef825d9f4fad754f88c1de583b09805b9`, and every new run manifest records that lineage under `method_provenance`.
-
-The ETS baseline manifest is generated by the CITADEL notebook, not by executing a live checkout of the EXACT repository. In the TCAD paper, describe it as an **EXACT baseline reproduction inside CITADEL**. The CITADEL contributions begin after that baseline: FPR reporting, TCAD design-space exploration, lifecycle recalibration, hardware-cost modeling, fixed-point golden vectors, and RTL/FPGA integration hooks.
-
-For a paper-ready map of what transfers from EXACT and what is new in CITADEL, see `docs/exact_to_citadel_extension.md`.
+CITADEL starts from the portable EXACT codebase and adds the TCAD journal framework: stable conditional telemetry graph learning, hardware-aware DSE, fixed-point sensitivity, hardware-cost modeling, RTL/FPGA-oriented validation, lifecycle drift checking, and reproducible result manifests. In the TCAD paper, describe the EXACT result as an **EXACT baseline reproduction inside CITADEL**; the CITADEL contributions begin after that baseline.
