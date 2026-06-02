@@ -1,0 +1,754 @@
+{
+  "artifacts": [
+    {
+      "path": "results/notebook_run/apple_limited_observability/apple_observability_inventory.csv",
+      "sha256": "b965b24748e6cc35b7c84bdaec43fbc391d05ccade4999325b3928724a21ed95",
+      "size_bytes": 206
+    },
+    {
+      "path": "results/notebook_run/apple_limited_observability/apple_observability_fold_results.csv",
+      "sha256": "f02f11c639139de21ea674939bf0751a0b1c400ec4633079e959b48fe11a8442",
+      "size_bytes": 140871543
+    },
+    {
+      "path": "results/notebook_run/apple_limited_observability/apple_observability_summary.csv",
+      "sha256": "5a4772f7c9f26cbd624dca7e943b9e02920e8a4557e4483634b3c6e9823bcf3f",
+      "size_bytes": 7926424
+    },
+    {
+      "path": "results/notebook_run/apple_limited_observability/apple_observability_best_by_scenario.csv",
+      "sha256": "9924ce6f6d355cedea0d5ef598e9292b888252df7ca5b814d78cdfc579db72c3",
+      "size_bytes": 6851
+    },
+    {
+      "path": "results/notebook_run/apple_limited_observability/apple_workload_best_by_observability.csv",
+      "sha256": "930f3fcb38bababf603ba29a1ba342d28f9a190c714beac0ba749bd5abda0b39",
+      "size_bytes": 23165
+    },
+    {
+      "path": "results/notebook_run/apple_limited_observability/apple_workload_summary.csv",
+      "sha256": "878913d562603c438ef97441d9dc6e4a4bd2f5b1317b0ed1322331f520dbd87d",
+      "size_bytes": 2696
+    },
+    {
+      "path": "results/notebook_run/apple_limited_observability/apple_selected_features.csv",
+      "sha256": "39be793bf3e620dae4682a46998b9f89106a94a71f891a0797de6c11659587f1",
+      "size_bytes": 219777
+    },
+    {
+      "path": "results/notebook_run/apple_limited_observability/paper_figures/fig_apple_portability_envelope.png",
+      "sha256": "69a8cefbfca9aa978c18954911e5c8b54651b4531a50c2b9d0f2aa7dd48535e0",
+      "size_bytes": 150877
+    },
+    {
+      "path": "results/notebook_run/apple_limited_observability/paper_figures/fig_apple_workload_robustness_dots.png",
+      "sha256": "993293503e20ea6667a31d4a1f57dfa19c8176a3f573c48beab771043a634737",
+      "size_bytes": 364127
+    }
+  ],
+  "config": {
+    "agg_modes": [
+      "mean",
+      "median",
+      "max"
+    ],
+    "feature_budgets": [
+      3,
+      5,
+      8,
+      10,
+      15
+    ],
+    "fixed_point_q": 15,
+    "graph_bootstraps": 4,
+    "graph_stability_threshold": 0.5,
+    "graph_subsample_frac": 0.7,
+    "lambda_res_values": [
+      0.25,
+      0.5,
+      0.75
+    ],
+    "n_splits": 3,
+    "p_quantiles": [
+      0.9,
+      0.95,
+      0.975,
+      0.99
+    ],
+    "scenarios_eval": [
+      "ATOMIC",
+      "BRANCH",
+      "CACHE",
+      "MEMBW",
+      "TLB"
+    ],
+    "seed": 123,
+    "weight_modes": [
+      "uniform",
+      "inv_var"
+    ],
+    "window_sizes": [
+      50,
+      100,
+      150,
+      250
+    ]
+  },
+  "data_files": [
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/BROWSER__ATOMIC/tier0_full_5hz.csv",
+      "sha256": "9918e8819dcad20958b9c681232df36bf0743371206dd10177197f2ff28532dd",
+      "size_bytes": 2532304
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/BROWSER__BRANCH/tier0_full_5hz.csv",
+      "sha256": "fcd4eb8797424d778557c924fc8af35f798023af4faef7ebe63da63cbe3fe249",
+      "size_bytes": 2610228
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/BROWSER__CACHE/tier0_full_5hz.csv",
+      "sha256": "365773115da62afa353ca79ee1141c052cb5c9bde620fba1c99d8af2a48e307b",
+      "size_bytes": 2576445
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/BROWSER__MEMBW/tier0_full_5hz.csv",
+      "sha256": "62bb99755eaab3eb46d28b765f048c45926cda7130ba50b0c1b7572fecba01c7",
+      "size_bytes": 2572359
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/BROWSER__NOMINAL/tier0_full_5hz.csv",
+      "sha256": "f61832ece4e89ed21530dadb6f87dbd9a98b207499c4a921c39a3d01032fb252",
+      "size_bytes": 2571830
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/BROWSER__TLB/tier0_full_5hz.csv",
+      "sha256": "9e2298b709f8e79c072b8c951da2d12d4420aea3ca4537063d49f81ad94a56af",
+      "size_bytes": 2579347
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/PY_AI__ATOMIC/tier0_full_5hz.csv",
+      "sha256": "32770dfbd87254c130d7750cf0e804cee19d7fe4ad8246f9fa3fde5f309364dd",
+      "size_bytes": 2422063
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/PY_AI__BRANCH/tier0_full_5hz.csv",
+      "sha256": "391a4506546365d4e131313dccd15546c03fd643c84973bedb6218c33c75cf54",
+      "size_bytes": 2415433
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/PY_AI__CACHE/tier0_full_5hz.csv",
+      "sha256": "26443c476dc3c55c839361f53f08dbef1db44b6686536d6c08b65cc90711739a",
+      "size_bytes": 2414005
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/PY_AI__MEMBW/tier0_full_5hz.csv",
+      "sha256": "da67fce3c3a1e580b26acdb971d1901afc775d6a2152130e4d5bafe6adf2a075",
+      "size_bytes": 2415070
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/PY_AI__NOMINAL/tier0_full_5hz.csv",
+      "sha256": "32f0089464a9814d08ff694ccdb6a1cf469f85253334ade47f017c9b58dc378e",
+      "size_bytes": 2413918
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/PY_AI__TLB/tier0_full_5hz.csv",
+      "sha256": "184495bc4fa9b9223e9e2483c2ac05e7c2784124b600f2b573795bf84e2dd58d",
+      "size_bytes": 2415281
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/PY_STATS__ATOMIC/tier0_full_5hz.csv",
+      "sha256": "7eac84ad81bef4958b52f7cbe28d030399c18aafbc70c4dcf6c1027984e4c1c6",
+      "size_bytes": 2436760
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/PY_STATS__BRANCH/tier0_full_5hz.csv",
+      "sha256": "5433a004bf88fc5b41740edf3774512a4a1fe389938429ca8dd777678bda1625",
+      "size_bytes": 2370919
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/PY_STATS__CACHE/tier0_full_5hz.csv",
+      "sha256": "b9ba0c9fec0a56acafe9ee89755ccb9e7ff11fb9489b738248ffe38e14119915",
+      "size_bytes": 2391179
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/PY_STATS__MEMBW/tier0_full_5hz.csv",
+      "sha256": "9d9e1c6724252667ef886f2da32b1bc6275d2aba18969d28d3135cc2ccbab5a4",
+      "size_bytes": 2413193
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/PY_STATS__NOMINAL/tier0_full_5hz.csv",
+      "sha256": "7bbab5d5869eeb1240fb82e50895d8f9fa33722d42bf55b8d002b789a9f00425",
+      "size_bytes": 2384177
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/PY_STATS__TLB/tier0_full_5hz.csv",
+      "sha256": "e1617cb83fb24f4444491a7c66f4ead8f60eb6e7f2b279311d89ffa4b564f21d",
+      "size_bytes": 2401911
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/VIDEO_SW__ATOMIC/tier0_full_5hz.csv",
+      "sha256": "7372e92603a3193bc3ec00446d3fb894ba10e421df77bc4aaddb5f29cdfee303",
+      "size_bytes": 2473987
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/VIDEO_SW__BRANCH/tier0_full_5hz.csv",
+      "sha256": "1a42b1379cb8cd190fd45dc160e53a7df33efaf1bc4aaa30f052a061b6ff9335",
+      "size_bytes": 2376737
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/VIDEO_SW__CACHE/tier0_full_5hz.csv",
+      "sha256": "52e07df5013881c5107be6bc9430ef4868bc5b2536bc326d4eecbd3e8cbf8fc9",
+      "size_bytes": 2361891
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/VIDEO_SW__MEMBW/tier0_full_5hz.csv",
+      "sha256": "df7a924bf6c0a71144f71aadc9bcc7dd84e90c61406896cbd492f2064831a203",
+      "size_bytes": 2444521
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/VIDEO_SW__NOMINAL/tier0_full_5hz.csv",
+      "sha256": "9e6619583042396f5fadd7550d6a15b31bfdff44b62be8bba4f597c0c5e19618",
+      "size_bytes": 2377409
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/VIDEO_SW__TLB/tier0_full_5hz.csv",
+      "sha256": "436cc99e0c9705bea3d456d8db3300d025fa44b8e2a12d903c5a3d688c0a58a6",
+      "size_bytes": 2367145
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/BROWSER__ATOMIC/tier1_alt_core_5hz.csv",
+      "sha256": "43618195216f37bd15b51e895a30fc860321feed0405ab2d123cfd9a76e497c8",
+      "size_bytes": 639271
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/BROWSER__ATOMIC/tier1_alt_full_5hz.csv",
+      "sha256": "c62d32121b9f18e446af815a6c9a2790d9eebced3e5a26ae1d8759540aa6ecb9",
+      "size_bytes": 1411669
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/BROWSER__BRANCH/tier1_alt_core_5hz.csv",
+      "sha256": "a3059d43c6aa85ed5290b95e6c8dee296cb5680a097e47b52724b7eb5ed0fd25",
+      "size_bytes": 624957
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/BROWSER__BRANCH/tier1_alt_full_5hz.csv",
+      "sha256": "d72b707865c855bd97450b1f3158465f4d0b915e5a974f36adadd0e0ab1c298f",
+      "size_bytes": 1390254
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/BROWSER__CACHE/tier1_alt_core_5hz.csv",
+      "sha256": "60f31321bb2c013d0bc444e388fa02dfda6784c11a537ee5488b57f929b5f479",
+      "size_bytes": 643178
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/BROWSER__CACHE/tier1_alt_full_5hz.csv",
+      "sha256": "29ff8964155b8f15a670331b2e05c13c212bc8e1cfcdcfa8ea2fec6801b13df5",
+      "size_bytes": 1430434
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/BROWSER__MEMBW/tier1_alt_core_5hz.csv",
+      "sha256": "4109896235733fab6d194913030be85770201ef9b741c6b1c8b5ad00de7dddef",
+      "size_bytes": 628310
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/BROWSER__MEMBW/tier1_alt_full_5hz.csv",
+      "sha256": "3686961f5a937d5a9cdb9209495665b6f79d71941820924bed2811f20a11f0e3",
+      "size_bytes": 1401954
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/BROWSER__NOMINAL/tier1_alt_core_5hz.csv",
+      "sha256": "652d4b91549a8b01a866be83348ed02faedddd3ebc2fcfd1ad0017ae4cb1d160",
+      "size_bytes": 606284
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/BROWSER__NOMINAL/tier1_alt_full_5hz.csv",
+      "sha256": "9ac2858b4782fcd390373e92e476900194b33f02b5ea77454aa2866e9e980993",
+      "size_bytes": 1319367
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/BROWSER__TLB/tier1_alt_core_5hz.csv",
+      "sha256": "4bd01092a030bb41a8a40643cfadbd0fd25678542736dea39d377e59a7105378",
+      "size_bytes": 643133
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/BROWSER__TLB/tier1_alt_full_5hz.csv",
+      "sha256": "a679fefafd620045e4eb0969925f3a443d3432d2aa9fc19436283b6feac68543",
+      "size_bytes": 1453457
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_AI__ATOMIC/tier1_alt_core_5hz.csv",
+      "sha256": "de215b5d4c9fa30ba5b6cf6e4639ba9e70873325d6bef93a8d7539c836ccf89f",
+      "size_bytes": 645322
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_AI__ATOMIC/tier1_alt_full_5hz.csv",
+      "sha256": "5d384d4749f09de18e5b1b8811ee2f780870466038b87b4fe5b78ac76053a6ab",
+      "size_bytes": 1467948
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_AI__BRANCH/tier1_alt_core_5hz.csv",
+      "sha256": "ff0f676589ad3df14ce76a7c9177eff43ed46010771fa2c2ae546e9457c39ce7",
+      "size_bytes": 645792
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_AI__BRANCH/tier1_alt_full_5hz.csv",
+      "sha256": "8940e52ccd786250e3059b5a2199f87ce123e767b24a3cfcf31058820231bbb0",
+      "size_bytes": 1468460
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_AI__CACHE/tier1_alt_core_5hz.csv",
+      "sha256": "e0b453171e81da24ea35a48aa8a8acc88ab0203b1454704df5c77db7d1ecdd67",
+      "size_bytes": 522922
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_AI__CACHE/tier1_alt_full_5hz.csv",
+      "sha256": "a781a2a84171f687fd186671cb7e5fc101d634ae0a29b97c7fa989a97e3c8673",
+      "size_bytes": 1364411
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_AI__MEMBW/tier1_alt_core_5hz.csv",
+      "sha256": "9a7da91b270def4366062582caf4fdab832083ad326cc4cd4cebf7e5f22541f7",
+      "size_bytes": 644150
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_AI__MEMBW/tier1_alt_full_5hz.csv",
+      "sha256": "f0dca2044c5afae89a1ba589ace9f33d91c37cd16de24a1442055545b5b31ccd",
+      "size_bytes": 1407586
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_AI__NOMINAL/tier1_alt_core_5hz.csv",
+      "sha256": "143130ccdeb869e69cace73653f10873eb9ab04de8a72d1a08c6da4a092575ec",
+      "size_bytes": 645799
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_AI__NOMINAL/tier1_alt_full_5hz.csv",
+      "sha256": "2c4475c8a7b7f97519dc34508f13f65bf18f62ae23bc9e54c86da66dba2afd65",
+      "size_bytes": 1401103
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_AI__TLB/tier1_alt_core_5hz.csv",
+      "sha256": "ecbe228d76c72677277c4dd55d6b8dc9cbbb54d669a924ccdaebc8cd73ac8e11",
+      "size_bytes": 643792
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_AI__TLB/tier1_alt_full_5hz.csv",
+      "sha256": "fca151471d96de9d329b883b4e58331a53d2d281725d8032c52ec8177b85b557",
+      "size_bytes": 1461808
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_STATS__ATOMIC/tier1_alt_core_5hz.csv",
+      "sha256": "149a0afc6ae59cbf124e3a07e37407274346380fcf1ebc724aa1ad0070cd4a2e",
+      "size_bytes": 614291
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_STATS__ATOMIC/tier1_alt_full_5hz.csv",
+      "sha256": "379c82363fdec7f0f9b71b2b4d88ad34c61f3915f5f766aa79f519bcca72dec4",
+      "size_bytes": 1359584
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_STATS__BRANCH/tier1_alt_core_5hz.csv",
+      "sha256": "2d0731d3bec675d5c9729764aca9c58969b4f1fdac0180db3fe5bf574cd2bc0e",
+      "size_bytes": 645413
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_STATS__BRANCH/tier1_alt_full_5hz.csv",
+      "sha256": "acbffb1cc18d28d892c3ba2b2c59f4aec4eaca6c08b2d98a4c2de47407d2072c",
+      "size_bytes": 1424738
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_STATS__CACHE/tier1_alt_core_5hz.csv",
+      "sha256": "c7b620f38bf4b19c52dbb8ccb0eb705786ea138b0dfec753b7cb0c6c15e35721",
+      "size_bytes": 642224
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_STATS__CACHE/tier1_alt_full_5hz.csv",
+      "sha256": "824a37a89eb3bd4406cca84cdb5c8dbb6916574017693ad51757c1a8b43843a1",
+      "size_bytes": 1449463
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_STATS__MEMBW/tier1_alt_core_5hz.csv",
+      "sha256": "ef606e807884852e49a890fbbca3057f990636b8a79b27a7e4499360c5c305e9",
+      "size_bytes": 645277
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_STATS__MEMBW/tier1_alt_full_5hz.csv",
+      "sha256": "0ae6eefcfdcbe6814c644c3b798701e97900a420e6123c14f13bafe4824b9fc5",
+      "size_bytes": 1453479
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_STATS__NOMINAL/tier1_alt_core_5hz.csv",
+      "sha256": "7048cc8197ddda11f0f24a7d281296dfeaa198b682f36b03f65eb10498cab21c",
+      "size_bytes": 635122
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_STATS__NOMINAL/tier1_alt_full_5hz.csv",
+      "sha256": "15f4b7b90a2cbb141259ee97f32064fc349de1f5087fc612c5ad595a16f5190c",
+      "size_bytes": 1431772
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_STATS__TLB/tier1_alt_core_5hz.csv",
+      "sha256": "c800163cbd01a5d0bddb17ee3b736cd2851228b343467a6d94001dc7b7abe39c",
+      "size_bytes": 644355
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_STATS__TLB/tier1_alt_full_5hz.csv",
+      "sha256": "272f26954e8fb862c85b5c7a83a249bfda7b807097d6aa0478d5690787f851a7",
+      "size_bytes": 1419248
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/VIDEO_SW__ATOMIC/tier1_alt_core_5hz.csv",
+      "sha256": "c231de6b1c62d0784a883360b6cda70a96f5e691e0c04dd40efda95df4e22887",
+      "size_bytes": 607969
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/VIDEO_SW__ATOMIC/tier1_alt_full_5hz.csv",
+      "sha256": "cca30402b87734c013d2301b035e901166bffca95cdcf0944ca1ed731e077360",
+      "size_bytes": 1343858
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/VIDEO_SW__BRANCH/tier1_alt_core_5hz.csv",
+      "sha256": "eab5d7e28f918b806c34eacc60f83b81994cec8a7ea00e692e4fb5fd8a4a6ead",
+      "size_bytes": 643531
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/VIDEO_SW__BRANCH/tier1_alt_full_5hz.csv",
+      "sha256": "de5c20dc867b8794ed6bef7a2e22577302238cbd51f550f89b80d7c061b9c15f",
+      "size_bytes": 1425413
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/VIDEO_SW__CACHE/tier1_alt_core_5hz.csv",
+      "sha256": "28c0f731c9474e27056fd774beb87f14873aea8ed1b2f3f3d5212815ac11eb88",
+      "size_bytes": 638996
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/VIDEO_SW__CACHE/tier1_alt_full_5hz.csv",
+      "sha256": "a61059418ce7fd4473a7f07a609652dbab7325885703ef69072da96926bba0bf",
+      "size_bytes": 1419312
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/VIDEO_SW__MEMBW/tier1_alt_core_5hz.csv",
+      "sha256": "0a706b61cd00ea04fe23c3aeec330a72cb882e522783f83495742339824570e5",
+      "size_bytes": 631663
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/VIDEO_SW__MEMBW/tier1_alt_full_5hz.csv",
+      "sha256": "35e0d19ee09c0b017af34f5be7f5c37d7d4c16d51870092194a3582f57099e25",
+      "size_bytes": 1399497
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/VIDEO_SW__NOMINAL/tier1_alt_core_5hz.csv",
+      "sha256": "445796626408b43ebe721e904d625e566bbcc17ba86da9e12efaa6daa172b7a2",
+      "size_bytes": 645994
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/VIDEO_SW__NOMINAL/tier1_alt_full_5hz.csv",
+      "sha256": "9f3f4df4c64a56d47622d35183c395d1b63561d9708b09bcb2cc3fda1baa9e93",
+      "size_bytes": 1429895
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/VIDEO_SW__TLB/tier1_alt_core_5hz.csv",
+      "sha256": "68959c8f8b0b800549c7c32de450ce87758fbff85242d987702b21ecff3223c2",
+      "size_bytes": 642489
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/VIDEO_SW__TLB/tier1_alt_full_5hz.csv",
+      "sha256": "df00eb69c33651a7d4755d5bf04c3b390b5a02c23fc09cd5c06a3c683cf2f8bc",
+      "size_bytes": 1439065
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/BROWSER__ATOMIC/tier2_core_5hz.csv",
+      "sha256": "5051edad85ccc5853358a9a6a5d99a366760e8ffcf448b531f8751d1975bdf14",
+      "size_bytes": 367603
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/BROWSER__ATOMIC/tier2_full_5hz.csv",
+      "sha256": "9684e33ccc1bc022cc6b5dbad0c161254a66af677dab156669e42d8c9ee7f98b",
+      "size_bytes": 606594
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/BROWSER__BRANCH/tier2_core_5hz.csv",
+      "sha256": "d770011f579844044a38bf34e8b7023dd0ab752d02d3d4c8ef4c25c4c8245acc",
+      "size_bytes": 347544
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/BROWSER__BRANCH/tier2_full_5hz.csv",
+      "sha256": "b3ed2ea03e93599b6a20ae39ed340260272b1fec2fce57ccfbc65d6902664088",
+      "size_bytes": 586516
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/BROWSER__CACHE/tier2_core_5hz.csv",
+      "sha256": "cf424fa89a5bca612a841edd0f41bb2f09b01737dd51b49d258da6633c8212ae",
+      "size_bytes": 364528
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/BROWSER__CACHE/tier2_full_5hz.csv",
+      "sha256": "cf8dde82df36632d482abd7f88cf89644eb7d90d7049a72c6121f5b194858a60",
+      "size_bytes": 603521
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/BROWSER__MEMBW/tier2_core_5hz.csv",
+      "sha256": "741e5aa1e8a849ef0dbe18dcb1e92c17b640c34105d98ceaf94a8b3aa21ed1d2",
+      "size_bytes": 364971
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/BROWSER__MEMBW/tier2_full_5hz.csv",
+      "sha256": "8621fc7af9aaf6dca8a25c3bee71eb4f50b1913889df18027792c04589d5f8ce",
+      "size_bytes": 603998
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/BROWSER__NOMINAL/tier2_core_5hz.csv",
+      "sha256": "82ba761d06b0ea7b3af374576ee23cac7ebcf14931333aa6b45881967d9cf45e",
+      "size_bytes": 323861
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/BROWSER__NOMINAL/tier2_full_5hz.csv",
+      "sha256": "7647dfa8d6ca40069bcdf8af64d525d0d77f800eaa01fd02bacebcb693ef8bb5",
+      "size_bytes": 557243
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/BROWSER__TLB/tier2_core_5hz.csv",
+      "sha256": "23900cf6443fb3f9a2f0a8db9c35c1ac0885eb12547e07f3cd71e01c0f04c7df",
+      "size_bytes": 342956
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/BROWSER__TLB/tier2_full_5hz.csv",
+      "sha256": "80a6a0e01a99a2f35ac2f377d0fc67adc2b4b192f4c6921a569b1d57296b9340",
+      "size_bytes": 581928
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_AI__ATOMIC/tier2_core_5hz.csv",
+      "sha256": "5013be85e1f84493ba59d51c69f64e31f4e9dc2419c57eb910443a5deaef9cb2",
+      "size_bytes": 346828
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_AI__ATOMIC/tier2_full_5hz.csv",
+      "sha256": "72f370a617966d3de27c7f3e18efcee28391566471c5b033a1af1318a5017116",
+      "size_bytes": 585800
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_AI__BRANCH/tier2_core_5hz.csv",
+      "sha256": "f9772987ccee0a4149ba4589f2b37e6235c54a69e1104d603d709e6da7998555",
+      "size_bytes": 344693
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_AI__BRANCH/tier2_full_5hz.csv",
+      "sha256": "6e818163165206260e26ad858f3b5ea040e31b2731a7643392ac11cfb5341861",
+      "size_bytes": 583665
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_AI__CACHE/tier2_core_5hz.csv",
+      "sha256": "ce835023a55f8964e07a288fc826212693815f042eedf7f4a4fe83028be020d8",
+      "size_bytes": 350405
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_AI__CACHE/tier2_full_5hz.csv",
+      "sha256": "a188687eea5f383fc932554a04200c289637e13ff35817f73d711a1d3c4b0e4d",
+      "size_bytes": 589377
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_AI__MEMBW/tier2_core_5hz.csv",
+      "sha256": "55967d7e993303d85c6a08ba31b8660f823a939005219678db020b163170ca19",
+      "size_bytes": 351609
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_AI__MEMBW/tier2_full_5hz.csv",
+      "sha256": "0e430e07eedbd16d230e18bda711b47f5b4465bab2ceb32ebd5551dfa9c4a4b2",
+      "size_bytes": 590581
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_AI__NOMINAL/tier2_core_5hz.csv",
+      "sha256": "b9f8a0a9cee778a8c84dafd4fc0e96f816b9976c5607a8b9871ab138146c918b",
+      "size_bytes": 325596
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_AI__NOMINAL/tier2_full_5hz.csv",
+      "sha256": "81d539ac5723e611abadfd8e7a8b9d7bbc1f68826201820a9efd5a523b9754fd",
+      "size_bytes": 559526
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_AI__TLB/tier2_core_5hz.csv",
+      "sha256": "143c15d74124780847ea1c54591062a6ddb2cea24ea6d09280152e02c7e5b327",
+      "size_bytes": 343729
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_AI__TLB/tier2_full_5hz.csv",
+      "sha256": "8a6e5ba4a3334d6c03f6ea080beef01b390e89d36205b51e08e1b20655c5c0cb",
+      "size_bytes": 582701
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_STATS__ATOMIC/tier2_core_5hz.csv",
+      "sha256": "6a36a7e9327feec85712fb30a468b27c42c16a975cd5ec4822afae2a14458c76",
+      "size_bytes": 354530
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_STATS__ATOMIC/tier2_full_5hz.csv",
+      "sha256": "60a81158c4f3286ef611c8680e7300402775253e68135fee564cb07a455deb40",
+      "size_bytes": 593502
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_STATS__BRANCH/tier2_core_5hz.csv",
+      "sha256": "6e7c803b37657e4db4aac6485fa4f5fced63cc4b9cf12f4c2860e0253547f208",
+      "size_bytes": 352947
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_STATS__BRANCH/tier2_full_5hz.csv",
+      "sha256": "8f4628e9f6011f7b05e339c71f0e19a477a675c15bddd5149a2792c76d23eff7",
+      "size_bytes": 591919
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_STATS__CACHE/tier2_core_5hz.csv",
+      "sha256": "f05d5aed7c5f08ff3601791e6cb1432a55ceb0f2b58111e33bc98bd25d711ff5",
+      "size_bytes": 308062
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_STATS__CACHE/tier2_full_5hz.csv",
+      "sha256": "29d1d9ad70cf51299f7eaceaa3821e27488d201734cfa028097e9c0ec09cb5e9",
+      "size_bytes": 547034
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_STATS__MEMBW/tier2_core_5hz.csv",
+      "sha256": "e511d275cb75a45a5e5547e0587a4a71ddf3b67368ea7797578d34449c7da234",
+      "size_bytes": 295726
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_STATS__MEMBW/tier2_full_5hz.csv",
+      "sha256": "769eb285c8149880cf184ca2d40c7f2257fa320b33750b5de19e819d8383bfe2",
+      "size_bytes": 534698
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_STATS__NOMINAL/tier2_core_5hz.csv",
+      "sha256": "0c3ffa77f961230de8d3b2422a2f75584bbd07ac2aa9a343b34253d12c3951ea",
+      "size_bytes": 289492
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_STATS__NOMINAL/tier2_full_5hz.csv",
+      "sha256": "be7972efd29555c8099d17ceb9b57ce9f9493bb81cfa8f00fdd18d325d9a3698",
+      "size_bytes": 528464
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_STATS__TLB/tier2_core_5hz.csv",
+      "sha256": "a8a7c498526b61b0077e776b6902fd708b02b10cfbb75f0dc79364edb010f152",
+      "size_bytes": 353177
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_STATS__TLB/tier2_full_5hz.csv",
+      "sha256": "a45a76c42663b29ed5364440dcb3df68deebedc53ac2493b60861ed49ddf2497",
+      "size_bytes": 592149
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/VIDEO_SW__ATOMIC/tier2_core_5hz.csv",
+      "sha256": "94fa03e4afb03cca5cbf98dee9b207b00d380c23638075b15a66ebf3964e01ac",
+      "size_bytes": 353189
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/VIDEO_SW__ATOMIC/tier2_full_5hz.csv",
+      "sha256": "4136e072776ef8c3b72bd9cbb8d58f398d5cc34c8c6db1ed9e6477e7076892be",
+      "size_bytes": 592161
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/VIDEO_SW__BRANCH/tier2_core_5hz.csv",
+      "sha256": "4f1ac140409bbf67575e03a74150a63012478e269884a29523f787021f7715fe",
+      "size_bytes": 354726
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/VIDEO_SW__BRANCH/tier2_full_5hz.csv",
+      "sha256": "40ca94d9aa0581a73788c8cba381f2bed4f48faedba209754f2e0727746caee2",
+      "size_bytes": 593698
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/VIDEO_SW__CACHE/tier2_core_5hz.csv",
+      "sha256": "76199d193344d66dec3df9eeeb599083d0da2b07993539c0feec7fb70c0e3d51",
+      "size_bytes": 364759
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/VIDEO_SW__CACHE/tier2_full_5hz.csv",
+      "sha256": "84415db1857344d5abfcfb96e7e7adbc8c148f92488600ab17ebfce0eb330fbc",
+      "size_bytes": 603759
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/VIDEO_SW__MEMBW/tier2_core_5hz.csv",
+      "sha256": "53618234440e3a416b2d686902daca7b59d4f9bf08a845dc1de925205562799f",
+      "size_bytes": 345460
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/VIDEO_SW__MEMBW/tier2_full_5hz.csv",
+      "sha256": "779b58472a714d76f84ecba99989e4cd11b9605baad57e8d86513bda4c3afb32",
+      "size_bytes": 584432
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/VIDEO_SW__NOMINAL/tier2_core_5hz.csv",
+      "sha256": "f3d509f0dfa6000c699f1f9c1f87e4507d4868862f0fce792d2e38b0c97710bb",
+      "size_bytes": 364240
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/VIDEO_SW__NOMINAL/tier2_full_5hz.csv",
+      "sha256": "f55d2d69bd94b64c7c2783261956cbca342759b1dc4c1d2bf836e978af100bcb",
+      "size_bytes": 603214
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/VIDEO_SW__TLB/tier2_core_5hz.csv",
+      "sha256": "95d2247a13cb0df1609d7f67c63ac383a8c2cc92605811ff29579b683c35c2f1",
+      "size_bytes": 354618
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/VIDEO_SW__TLB/tier2_full_5hz.csv",
+      "sha256": "9fce35f2b50d7ec29593a9651fec6803fa55181f9f85b65a6175f64163c44e71",
+      "size_bytes": 593590
+    }
+  ],
+  "data_root": "data/telemetry/raw/apple_data",
+  "environment": {
+    "MKL_NUM_THREADS": "1",
+    "MPLBACKEND": "Agg",
+    "MPLCONFIGDIR": "/var/folders/2z/b1lzf17n4z90pz80khfc42fw0000gp/T/citadel-matplotlib",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "PYTHONHASHSEED": "123",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  },
+  "environment_files": [
+    {
+      "path": "requirements.txt",
+      "sha256": "48b49d8f67f9ba34e4cb4b7f7d73fc8f4ecebbf792aa21643dfd3f3dba0a07c4",
+      "size_bytes": 135
+    },
+    {
+      "path": "environment.yml",
+      "sha256": "d586309e25c48a3564fa7a852db8379da78fb8a48524af197b33f66d9084f8bd",
+      "size_bytes": 233
+    }
+  ],
+  "git_commit": "64dedf45ca59efb13e587cbc91fad2fa756a7ec4",
+  "git_dirty": true,
+  "method_provenance": {
+    "citadel_extension": [
+      "single-notebook reproducibility manifests",
+      "TCAD design-space sweep over feature budget, window size, lambda, aggregation, weighting, and fixed-point precision",
+      "false-positive-rate reporting for field SLM practicality",
+      "lifecycle drift and benign recalibration experiments",
+      "hardware cost, fixed-point golden vectors, and RTL/FPGA integration hooks"
+    ],
+    "upstream_exact": {
+      "commit": "b6b8b17ef825d9f4fad754f88c1de583b09805b9",
+      "name": "EXACT",
+      "ref": "HEAD",
+      "repo": "https://github.com/ping830616/EXACT",
+      "role": "conference-version methodology and CINTAS baseline reproduced inside CITADEL"
+    }
+  },
+  "packages": {
+    "ipykernel": "6.29.5",
+    "jupyterlab": "4.3.4",
+    "matplotlib": "3.10.5",
+    "nbformat": "5.10.4",
+    "networkx": "3.4.2",
+    "numpy": "2.3.2",
+    "pandas": "2.3.1",
+    "scikit-learn": "1.7.1"
+  },
+  "platform": "macOS-26.5-arm64-arm-64bit-Mach-O",
+  "python_implementation": "CPython",
+  "python_version": "3.13.5",
+  "seed": 123
+}

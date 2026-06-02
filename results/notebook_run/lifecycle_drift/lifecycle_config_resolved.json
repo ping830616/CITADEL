@@ -1,0 +1,16 @@
+{
+  "agg_mode": "max",
+  "calibration_frac": 0.6,
+  "corr_threshold": 0.35,
+  "lambda_res": 0.5,
+  "p_quantile": 0.99,
+  "scenarios_eval": [
+    "DROOP",
+    "RH",
+    "SPECTRE"
+  ],
+  "seed": 123,
+  "top_k": 15,
+  "weight_mode": "uniform",
+  "window_size": 100
+}

@@ -1,0 +1,66 @@
+{
+  "agg_modes": [
+    "max",
+    "mean",
+    "median"
+  ],
+  "corr_threshold": 0.35,
+  "feature_budgets": [
+    5,
+    8,
+    10,
+    15,
+    20,
+    30
+  ],
+  "fixed_point_q": [
+    8,
+    10,
+    12,
+    15,
+    18
+  ],
+  "graph_bootstraps": 8,
+  "graph_stability_threshold": 0.5,
+  "graph_subsample_frac": 0.7,
+  "lambda_res_values": [
+    0.0,
+    0.25,
+    0.5,
+    0.75,
+    1.0
+  ],
+  "n_splits": 5,
+  "p_quantile": 0.99,
+  "scenarios_eval": [
+    "RH",
+    "SPECTRE"
+  ],
+  "seed": 123,
+  "weight_modes": [
+    "uniform",
+    "inv_var"
+  ],
+  "window_sizes": [
+    50,
+    100,
+    150,
+    200,
+    250,
+    300,
+    350,
+    400,
+    450,
+    500,
+    550,
+    600,
+    650,
+    700,
+    750,
+    800,
+    850,
+    900,
+    950,
+    1000
+  ]
+}

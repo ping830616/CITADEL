@@ -1,0 +1,547 @@
+{
+  "artifacts": [
+    {
+      "path": "results/notebook_run/tcad_ablation/tcad_ablation_fold_results.csv",
+      "sha256": "ee7feccea139272d743dfb408885770db018b7f6775371648c16ce64c07cc756",
+      "size_bytes": 839702665
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/tcad_ablation_summary.csv",
+      "sha256": "5fea7a83834e558d8357d371221c2b0bff4140f966473806b7d46c3444274c51",
+      "size_bytes": 14773528
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/tcad_selected_features.csv",
+      "sha256": "575644078b6f847c581fc193c8d5fc29186e66652dadb2aad68a26cf616acc64",
+      "size_bytes": 774168
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/tcad_config_resolved.json",
+      "sha256": "cd5929823c21c2106713056914de2c90072b296eb218a8ed1e77da05009be97e",
+      "size_bytes": 754
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/causal/SETUP_A_feature_ranks.csv",
+      "sha256": "6d1bb81a7789c00eb7690136491f3fe90b4a868903569ba84ff020b6750f11b0",
+      "size_bytes": 23810
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/causal/SETUP_B_feature_ranks.csv",
+      "sha256": "3f8a20002bdd4a6e4e2354064334aadde9e5d2cd871952e5fe2b4d44e1f9a8a2",
+      "size_bytes": 23666
+    }
+  ],
+  "config": {
+    "agg_modes": [
+      "max",
+      "mean",
+      "median"
+    ],
+    "corr_threshold": 0.35,
+    "feature_budgets": [
+      5,
+      8,
+      10,
+      15,
+      20,
+      30
+    ],
+    "fixed_point_q": [
+      8,
+      10,
+      12,
+      15,
+      18
+    ],
+    "graph_bootstraps": 8,
+    "graph_stability_threshold": 0.5,
+    "graph_subsample_frac": 0.7,
+    "lambda_res_values": [
+      0.0,
+      0.25,
+      0.5,
+      0.75,
+      1.0
+    ],
+    "n_splits": 5,
+    "p_quantile": 0.99,
+    "scenarios_eval": [
+      "RH",
+      "SPECTRE"
+    ],
+    "seed": 123,
+    "weight_modes": [
+      "uniform",
+      "inv_var"
+    ],
+    "window_sizes": [
+      50,
+      100,
+      150,
+      200,
+      250,
+      300,
+      350,
+      400,
+      450,
+      500,
+      550,
+      600,
+      650,
+      700,
+      750,
+      800,
+      850,
+      900,
+      950,
+      1000
+    ]
+  },
+  "data_files": [
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_DROOP_dft.csv",
+      "sha256": "211653e8d3a8a281ebdc1202ee79fd82cf31b2260d139360461fddb12eeeb22d",
+      "size_bytes": 8712405
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_DROOP_dj.csv",
+      "sha256": "15a059ef04dd012c293c6902b18630878913419db21245579bcae7c804ae35b5",
+      "size_bytes": 8888644
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_DROOP_dp.csv",
+      "sha256": "af3a9ae6e646846b54c0e60ec7b0ea787a7681cef78f1d75b9ba55e2dd163943",
+      "size_bytes": 8691159
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_DROOP_gl.csv",
+      "sha256": "4a3f2949d1793bab3e26096f284a5f96977054298d4a60ad544cfd804fa569a8",
+      "size_bytes": 8897518
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_DROOP_gs.csv",
+      "sha256": "d72b1ff08a2fca3ba73b31d7adf4bd66f7bf1b4c9a793257bc245a1d1e4f2d55",
+      "size_bytes": 8981257
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_DROOP_ha.csv",
+      "sha256": "371c9d355d34ca02887bbb5dd41b17f55d1a5bc59f4dba01c1b408e459d51150",
+      "size_bytes": 8706121
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_DROOP_ja.csv",
+      "sha256": "c818395ea2fd44df1784d078fa4d047c457d4ae8ad8dd3ef879ef6a338bbe64c",
+      "size_bytes": 9020514
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_DROOP_mm.csv",
+      "sha256": "5a863368d50ee0905080d617f31113f334b196ccaea03200add6f1af32b100c7",
+      "size_bytes": 8987405
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_DROOP_ni.csv",
+      "sha256": "e1710357a25c4318689ca7219cd149b677cfe796bba5be1b4e8ccffc38fbf567",
+      "size_bytes": 8693986
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_DROOP_oe.csv",
+      "sha256": "fb4a472c87e56535e27d5a94806ce8901713302117206a897312181bdda66956",
+      "size_bytes": 8910123
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_DROOP_pi.csv",
+      "sha256": "ea34da48a2152b126888c16a34f4e8748b0e85a4467bff4f7b554d9b45fb8cb1",
+      "size_bytes": 8738782
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_DROOP_sh.csv",
+      "sha256": "bf18fec5ee2f6c157b7a48130cacd78660464b55f0cb727a9d4a6da8d3db02ab",
+      "size_bytes": 8716549
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_DROOP_tr.csv",
+      "sha256": "d81aef980bae7d164ba14485a1ae376483c632699b093ce54ffbb3865cfd171d",
+      "size_bytes": 8842692
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_RH_dft.csv",
+      "sha256": "e2eea65727b623d3f41e8f03ffd199d7f5ae1f779e9ec107f1dead10a5ef66a8",
+      "size_bytes": 8987048
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_RH_dj.csv",
+      "sha256": "924722bd40e4b0257fa21ff76ec632953e9c863ec7be4644fa212ef39f46f263",
+      "size_bytes": 8996871
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_RH_dp.csv",
+      "sha256": "22213573a0bbd66b7fdec68790f1a5e8cf555c5aaa8388a250aafcd9ea86e039",
+      "size_bytes": 8978626
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_RH_gl.csv",
+      "sha256": "6b6885ce3e5f329b600a87a0e627b428ddf7d05f8be2ee4d7195393250bc2a57",
+      "size_bytes": 9088114
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_RH_gs.csv",
+      "sha256": "b351b2288092ecb95e606322cad1dca2445b0fdbd8688eee6f25297dcac5adac",
+      "size_bytes": 9181468
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_RH_ha.csv",
+      "sha256": "d213df2ff961f0842adb3a2b2f91ab194354b1df0e8281a64f6068217e6196b7",
+      "size_bytes": 8937229
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_RH_ja.csv",
+      "sha256": "9be4b7c407687cab2c2ba0aafd823b261dacbdf27eeff3c940c6b84df709eda1",
+      "size_bytes": 9238590
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_RH_mm.csv",
+      "sha256": "7fa6ecfb2c6737c87fd5accd3b1f906b53a5a43bcd88a57e685f0694277d8177",
+      "size_bytes": 9160593
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_RH_ni.csv",
+      "sha256": "3ea17fb773612aa6cf06d75196f4b9f35ca3801f810fc75c4b8a5526f726b8eb",
+      "size_bytes": 9004080
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_RH_oe.csv",
+      "sha256": "3276e6d28ff29b3ab2343c8fb068c0911b7343c80bd7b4f083b92fca89375e17",
+      "size_bytes": 9111610
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_RH_pi.csv",
+      "sha256": "3a1a6737f279e59322bd488d83f9c3751e4cdf655a5a14462a0bce45b48f7abe",
+      "size_bytes": 8998710
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_RH_sh.csv",
+      "sha256": "45c0244146087a9037ff4a623551ac7c4e0803c47147cdfc5d017b80cc036251",
+      "size_bytes": 8980770
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_RH_tr.csv",
+      "sha256": "8b359c8dd48c02209f033094bb5dd8244e0e3ec0ae370205df51805bcf4c414e",
+      "size_bytes": 9131418
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_dft.csv",
+      "sha256": "59382b9ef0fef1c746ddb92f636f272e332aeface104a65c92dea55100d531fa",
+      "size_bytes": 7238798
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_dj.csv",
+      "sha256": "904db3d691030ebd8b860cc248016755551891902e1aa3761aced28bd55fc84e",
+      "size_bytes": 8945672
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_dp.csv",
+      "sha256": "3553c930b5973ccadc61dc9b3b31cdb82d2002b169b8e52ddef01c8a5b510a79",
+      "size_bytes": 8668309
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_gl.csv",
+      "sha256": "5c48a11602bdb90d93dd1faf7b99bb1dd229588ef106e78db7889e7aa9bd8872",
+      "size_bytes": 8951899
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_gs.csv",
+      "sha256": "755726cabfe2b9b3532a58cf22bfcc76a78f0718f364ee81779a3c4a6cce5133",
+      "size_bytes": 9012433
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_ha.csv",
+      "sha256": "578dd76da8143a6b309dda7a33fffbfe84fcc327decaf4a17169e52de26228b2",
+      "size_bytes": 8689040
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_ja.csv",
+      "sha256": "b63af296f7a6daefde9f07128ca3888a72a9ba4028485b89407f1bd6bf2258b8",
+      "size_bytes": 9064267
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_mm.csv",
+      "sha256": "ff48e38cdf2ff2e802042a94cf704890c5b24577057b2ac3e10a81a32e448835",
+      "size_bytes": 9011909
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_ni.csv",
+      "sha256": "ca3b362e761d7cbb12a2608f6d719647cdd0a0c52b7d0897849a5d67d549b0a5",
+      "size_bytes": 8690011
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_oe.csv",
+      "sha256": "6fbb31005828d7a522066e8951f336d11765e4b0ee2ebb3ffc91f9defda57d56",
+      "size_bytes": 8931166
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_pi.csv",
+      "sha256": "be22a150f5601c59253c10e17a834365813388b2d6740d0f484b331089728f16",
+      "size_bytes": 8733003
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_sh.csv",
+      "sha256": "26c0987820a93a8f937609a5e943a1a43e1ebbd254c43c7eb0ff10cde6e85d1f",
+      "size_bytes": 8694446
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_tr.csv",
+      "sha256": "442f753586a7a0944a7b8ed669efaa7b838201126d9770b1eb6f7c56cd13d14d",
+      "size_bytes": 8879811
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_DROOP_dft.csv",
+      "sha256": "82d464808497a2027760c3fff1ed8fa18d569a8ac3512f18439d227b16b45504",
+      "size_bytes": 21959598
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_DROOP_dj.csv",
+      "sha256": "bc7720eca432141c31c5c7e31b74c24927b29fcb664b2672d67ec09ae3579c1c",
+      "size_bytes": 22740908
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_DROOP_dp.csv",
+      "sha256": "9c2c838d0bacf805e5503041f767f1ebec247b370cef13b62fd20e6aa1519501",
+      "size_bytes": 22286873
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_DROOP_gl.csv",
+      "sha256": "915cc2452d950ae8a4834895c6aefa2f2b1a838456fca859e449cc156fb89136",
+      "size_bytes": 22717199
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_DROOP_gs.csv",
+      "sha256": "d36a2afae84c6f58f5873268f1a283fc48e9d9100eca2e2b7a00e2aaf690f54f",
+      "size_bytes": 22955731
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_DROOP_ha.csv",
+      "sha256": "86617400683d4d355d48cd5a57c8c6676443b07e851ad8a5946af1a8bcb5c85b",
+      "size_bytes": 22035891
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_DROOP_ja.csv",
+      "sha256": "f8d3c43bc329ea07c6fbb8b75f13782309c213100a960b2eb3376bacf1241c92",
+      "size_bytes": 23245719
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_DROOP_mm.csv",
+      "sha256": "ef4cfb242f5cbaaca191fed061055906793c2f2069a99a779e0d73707da58d61",
+      "size_bytes": 22931434
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_DROOP_ni.csv",
+      "sha256": "19c27781dc05542be07ae7e9a335392c2227da283b73cd270795892fff64a47a",
+      "size_bytes": 22123473
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_DROOP_oe.csv",
+      "sha256": "8b762665d0be7062248fd9dd1ee862c97c95ac91e37a407eef647d75e460685c",
+      "size_bytes": 22640751
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_DROOP_pi.csv",
+      "sha256": "08c036b588054e6bcf1969e8ce0101ad6768abc63b4840b09e8ebc8ec530b497",
+      "size_bytes": 22019905
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_DROOP_sh.csv",
+      "sha256": "f3d0534bfd387bd70ffd89ef92c37fa5b629eff2cacc60a50a80d6635f4837a5",
+      "size_bytes": 21923493
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_DROOP_tr.csv",
+      "sha256": "d7a3995f47bd8bfa66101ba69537cf59b51c3479d5cd6a18dc0dc99ffe11e086",
+      "size_bytes": 22456480
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_SPECTRE_dft.csv",
+      "sha256": "9d806be451c4c9d81a5174e81255fb5c9a10bbd8a19b88b12071babf6eb98f11",
+      "size_bytes": 22654749
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_SPECTRE_dj.csv",
+      "sha256": "c696b2d0c26b944e23b39616fa37592264a40f9d4587f2977ad4eafcd8fca42b",
+      "size_bytes": 22735537
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_SPECTRE_dp.csv",
+      "sha256": "1bc193c0b32abf20961674e012751b08a31468f414a08f1d97da33948b2bc026",
+      "size_bytes": 22686560
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_SPECTRE_gl.csv",
+      "sha256": "84834290e4d276ca4b262d4a0dd657cb26c698ebee062f878b239dac19d6ef75",
+      "size_bytes": 23259024
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_SPECTRE_gs.csv",
+      "sha256": "9de020b18aaa0fa72e3d187fc1a2f3ef9d40e0b07faa20ba9e5bc60647fe1dfc",
+      "size_bytes": 23345128
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_SPECTRE_ha.csv",
+      "sha256": "b63ee0850f95aaa3f9c3a704cf1ad3d1e0b622959272cd57d4fa144ff31c3ad4",
+      "size_bytes": 22653136
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_SPECTRE_ja.csv",
+      "sha256": "0da938cfc3970bbd2aec38b5b8f5d29af4ba36e7170f758fc87e205464bd9487",
+      "size_bytes": 23280541
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_SPECTRE_mm.csv",
+      "sha256": "cb697432da5a64fa9005a4702b8051cf43e49a7fe1e53929dbbcc1f3166dc365",
+      "size_bytes": 23312318
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_SPECTRE_ni.csv",
+      "sha256": "52b0d550e3195c797895e155eb5f16addcfc16d1468d55c2e5b8c9b77bdb614e",
+      "size_bytes": 22737606
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_SPECTRE_oe.csv",
+      "sha256": "6a3bc4f334446891a3c1091a5b05dc644c3321b50d015e9b639026b217fe1237",
+      "size_bytes": 22950682
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_SPECTRE_pi.csv",
+      "sha256": "9179a004fb6f2eb44eb20a0e0aa7c9db4942fd0aecda3bbfc7069bb4cfb990aa",
+      "size_bytes": 22622548
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_SPECTRE_sh.csv",
+      "sha256": "33c2f12f2bf907868d60f9bf6534d03cda9125ecfd39f30e320b0ea2f86d9087",
+      "size_bytes": 22662323
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_SPECTRE_tr.csv",
+      "sha256": "2f64b1ffc03c9a8ad62bba369b87c2db4b33a5a0648442eec2606785e08effae",
+      "size_bytes": 23026764
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_dft.csv",
+      "sha256": "6d1fa32f3af0aa05a177d82b9652915e917aecc0b28c5cca6d47b3989d6c51d5",
+      "size_bytes": 21957602
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_dj.csv",
+      "sha256": "92887f7cf0ead670c36a73f7200f88029fc1d3adc2fede2fbf69025027a1a28f",
+      "size_bytes": 22732257
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_dp.csv",
+      "sha256": "966b4e8f809ad5667be2fd7c7bb5bf234330bab46c06ae86541afb04507b70ea",
+      "size_bytes": 22288850
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_gl.csv",
+      "sha256": "22288a4fdac5080262d03400fa8aa46928beb02510d14fb15015b518f5d57b7b",
+      "size_bytes": 22731038
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_gs.csv",
+      "sha256": "8b9014cc56cb940469fa681fb8357547ed4faf3a78b1ea2b70903c4ffa59b96a",
+      "size_bytes": 22974296
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_ha.csv",
+      "sha256": "3e70e20cb1cf1218efa51151b1c7afad4ef394b5c9e0ab3c8207decf2dbf6ff2",
+      "size_bytes": 22027326
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_ja.csv",
+      "sha256": "2ac48c64c703b06e0c9a56c484f38140dfa54ba959cdbf5ca13f09bb156ef728",
+      "size_bytes": 23257295
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_mm.csv",
+      "sha256": "c2c75aff844c20f241e65111105bad0ada7fac577b259d2d18cb7e54edba155b",
+      "size_bytes": 22942183
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_ni.csv",
+      "sha256": "166f0ce13699bed6ca6aae35f4988ddefcf83e3f2450131d8a2489bf2ff1eebb",
+      "size_bytes": 22176384
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_oe.csv",
+      "sha256": "d558db38942f099c6e4ed0328cf1a51f8c140ff9cd9e1b33f47b4e8606ce4aa8",
+      "size_bytes": 22651144
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_pi.csv",
+      "sha256": "733400ae2e579b29940626b7b6f2da82b6b0ffed9b0c1e312779d8034451dd85",
+      "size_bytes": 22029106
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_sh.csv",
+      "sha256": "1fd8c2b731844d6719d806c1764f125f5e41958d560da07fc6df30584cbcc52e",
+      "size_bytes": 21912911
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_tr.csv",
+      "sha256": "a78ef8a1fa7e9077946b662cae1488364bcb3b5c4c89b27d1093edf881cf2e03",
+      "size_bytes": 22420297
+    }
+  ],
+  "data_root": "data/telemetry/processed/ddr_data",
+  "environment": {
+    "MKL_NUM_THREADS": "1",
+    "MPLBACKEND": "Agg",
+    "MPLCONFIGDIR": "/var/folders/2z/b1lzf17n4z90pz80khfc42fw0000gp/T/citadel-matplotlib",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "PYTHONHASHSEED": "123",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  },
+  "environment_files": [
+    {
+      "path": "requirements.txt",
+      "sha256": "48b49d8f67f9ba34e4cb4b7f7d73fc8f4ecebbf792aa21643dfd3f3dba0a07c4",
+      "size_bytes": 135
+    },
+    {
+      "path": "environment.yml",
+      "sha256": "d586309e25c48a3564fa7a852db8379da78fb8a48524af197b33f66d9084f8bd",
+      "size_bytes": 233
+    }
+  ],
+  "git_commit": "f030e7ef08b7351bc3bcb6df0b2ccb3266d292f9",
+  "git_dirty": true,
+  "method_provenance": {
+    "citadel_extension": [
+      "single-notebook reproducibility manifests",
+      "TCAD design-space sweep over feature budget, window size, lambda, aggregation, weighting, and fixed-point precision",
+      "false-positive-rate reporting for field SLM practicality",
+      "lifecycle drift and benign recalibration experiments",
+      "hardware cost, fixed-point golden vectors, and RTL/FPGA integration hooks"
+    ],
+    "upstream_exact": {
+      "commit": "b6b8b17ef825d9f4fad754f88c1de583b09805b9",
+      "name": "EXACT",
+      "ref": "HEAD",
+      "repo": "https://github.com/ping830616/EXACT",
+      "role": "conference-version methodology and CINTAS baseline reproduced inside CITADEL"
+    }
+  },
+  "packages": {
+    "ipykernel": "6.29.5",
+    "jupyterlab": "4.3.4",
+    "matplotlib": "3.10.5",
+    "nbformat": "5.10.4",
+    "networkx": "3.4.2",
+    "numpy": "2.3.2",
+    "pandas": "2.3.1",
+    "scikit-learn": "1.7.1"
+  },
+  "platform": "macOS-26.5-arm64-arm-64bit-Mach-O",
+  "python_implementation": "CPython",
+  "python_version": "3.13.5",
+  "seed": 123
+}

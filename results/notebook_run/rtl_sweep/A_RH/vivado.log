@@ -1,0 +1,557 @@
+#-----------------------------------------------------------
+# Vivado v2025.2 (64-bit)
+# SW Build 6299465 on Fri Nov 14 12:34:56 MST 2025
+# IP Build 6300035 on Fri Nov 14 10:48:45 MST 2025
+# SharedData Build 6298862 on Thu Nov 13 04:50:51 MST 2025
+# Start of session at: Tue Jun  2 09:52:47 2026
+# Process ID         : 3576438
+# Current directory  : /home/hsiaopin/CITADEL
+# Command line       : vivado -mode batch -source scripts/vivado_cintas_synth.tcl -log results/notebook_run/rtl_sweep/A_RH/vivado.log -journal results/notebook_run/rtl_sweep/A_RH/vivado.jou -tclargs A_RH xc7a200tfbg676-1 20 8 550 25.000
+# Log file           : /home/hsiaopin/CITADEL/results/notebook_run/rtl_sweep/A_RH/vivado.log
+# Journal file       : /home/hsiaopin/CITADEL/results/notebook_run/rtl_sweep/A_RH/vivado.jou
+# Running On         : en4226599rl.eng.asu.edu
+# Platform           : RedHatEnterprise
+# Operating System   : Red Hat Enterprise Linux release 8.10 (Ootpa)
+# Processor Detail   : AMD EPYC 7313 16-Core Processor
+# CPU Frequency      : 3000.000 MHz
+# CPU Physical cores : 32
+# CPU Logical cores  : 64
+# Host memory        : 2151149 MB
+# Swap memory        : 4294 MB
+# Total Virtual      : 2155444 MB
+# Available Virtual  : 2083720 MB
+#-----------------------------------------------------------
+source scripts/vivado_cintas_synth.tcl
+# set tag [lindex $argv 0]
+# set part [lindex $argv 1]
+# set features [lindex $argv 2]
+# set q [lindex $argv 3]
+# set samples_per_block [lindex $argv 4]
+# set clock_period_ns [lindex $argv 5]
+# if {$tag eq ""} {
+#     set tag "cintas"
+# }
+# if {$part eq ""} {
+#     set part "xc7a200tfbg676-1"
+# }
+# if {$features eq ""} {
+#     set features 15
+# }
+# if {$q eq ""} {
+#     set q 15
+# }
+# if {$samples_per_block eq ""} {
+#     set samples_per_block 1000
+# }
+# if {$clock_period_ns eq ""} {
+#     set clock_period_ns 10.000
+# }
+# set outdir "results/notebook_run/rtl_sweep/$tag"
+# file mkdir $outdir
+# set cfg [open "$outdir/run_config.csv" "w"]
+# puts $cfg "tag,part,features,q,samples_per_block,clock_period_ns"
+# puts $cfg "$tag,$part,$features,$q,$samples_per_block,$clock_period_ns"
+# close $cfg
+# read_verilog -sv rtl/cintas/cintas_stream.sv
+read_verilog: Time (s): cpu = 00:00:08 ; elapsed = 00:00:07 . Memory (MB): peak = 1877.039 ; gain = 157.047 ; free physical = 805727 ; free virtual = 1986720
+# synth_design \
+#     -top cintas_stream \
+#     -part $part \
+#     -generic "FEATURES=$features" \
+#     -generic "Q=$q" \
+#     -generic "SAMPLES_PER_BLOCK=$samples_per_block"
+Command: synth_design -top cintas_stream -part xc7a200tfbg676-1 -generic FEATURES=20 -generic Q=8 -generic SAMPLES_PER_BLOCK=550
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7a200t'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a200t'
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 7 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 3576519
+---------------------------------------------------------------------------------
+Starting Synthesize : Time (s): cpu = 00:00:03 ; elapsed = 00:00:04 . Memory (MB): peak = 2337.086 ; gain = 460.047 ; free physical = 805088 ; free virtual = 1986082
+---------------------------------------------------------------------------------
+INFO: [Synth 8-6157] synthesizing module 'cintas_stream' [/home/hsiaopin/CITADEL/rtl/cintas/cintas_stream.sv:8]
+	Parameter FEATURES bound to: 32'sb00000000000000000000000000010100 
+	Parameter Q bound to: 32'sb00000000000000000000000000001000 
+	Parameter SAMPLES_PER_BLOCK bound to: 32'sb00000000000000000000001000100110 
+INFO: [Synth 8-6155] done synthesizing module 'cintas_stream' (0#1) [/home/hsiaopin/CITADEL/rtl/cintas/cintas_stream.sv:8]
+WARNING: [Synth 8-3917] design cintas_stream has port ready_o driven by constant 1
+---------------------------------------------------------------------------------
+Finished Synthesize : Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 2423.055 ; gain = 546.016 ; free physical = 804991 ; free virtual = 1985985
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 2440.867 ; gain = 563.828 ; free physical = 804983 ; free virtual = 1985977
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7a200tfbg676-1
+---------------------------------------------------------------------------------
+INFO: [Device 21-403] Loading part xc7a200tfbg676-1
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 2440.867 ; gain = 563.828 ; free physical = 804981 ; free virtual = 1985975
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 2454.812 ; gain = 577.773 ; free physical = 804962 ; free virtual = 1985957
+---------------------------------------------------------------------------------
+No constraint files found.
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---Adders : 
+	   3 Input   64 Bit       Adders := 1     
+	   2 Input   64 Bit       Adders := 4     
+	   2 Input   32 Bit       Adders := 1     
+	   2 Input   10 Bit       Adders := 1     
+	   2 Input    5 Bit       Adders := 1     
++---Registers : 
+	               64 Bit    Registers := 4     
+	               10 Bit    Registers := 1     
+	                5 Bit    Registers := 1     
+	                1 Bit    Registers := 2     
++---Multipliers : 
+	              32x64  Multipliers := 3     
+	              32x32  Multipliers := 2     
+	              64x64  Multipliers := 1     
++---Muxes : 
+	   2 Input   64 Bit        Muxes := 3     
+	   2 Input   32 Bit        Muxes := 1     
+	   2 Input    5 Bit        Muxes := 1     
+	   2 Input    1 Bit        Muxes := 4     
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 740 (col length:100)
+BRAMs: 730 (col length: RAMB18 100 RAMB36 50)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+No constraint files found.
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+DSP Report: Generating DSP e1_acc_q6, operation Mode is: A*B.
+DSP Report: operator e1_acc_q6 is absorbed into DSP e1_acc_q6.
+DSP Report: operator e1_acc_q6 is absorbed into DSP e1_acc_q6.
+DSP Report: Generating DSP e1_acc_q6, operation Mode is: (PCIN>>17)+A*B.
+DSP Report: operator e1_acc_q6 is absorbed into DSP e1_acc_q6.
+DSP Report: operator e1_acc_q6 is absorbed into DSP e1_acc_q6.
+DSP Report: Generating DSP e1_acc_q6, operation Mode is: A*B.
+DSP Report: operator e1_acc_q6 is absorbed into DSP e1_acc_q6.
+DSP Report: operator e1_acc_q6 is absorbed into DSP e1_acc_q6.
+DSP Report: Generating DSP e1_acc_q6, operation Mode is: (PCIN>>17)+A*B.
+DSP Report: operator e1_acc_q6 is absorbed into DSP e1_acc_q6.
+DSP Report: operator e1_acc_q6 is absorbed into DSP e1_acc_q6.
+DSP Report: Generating DSP e1_acc_q2, operation Mode is: A*B.
+DSP Report: operator e1_acc_q2 is absorbed into DSP e1_acc_q2.
+DSP Report: operator e1_acc_q2 is absorbed into DSP e1_acc_q2.
+DSP Report: Generating DSP e1_acc_q2, operation Mode is: (PCIN>>17)+A*B.
+DSP Report: operator e1_acc_q2 is absorbed into DSP e1_acc_q2.
+DSP Report: operator e1_acc_q2 is absorbed into DSP e1_acc_q2.
+DSP Report: Generating DSP e1_acc_q2, operation Mode is: A*B.
+DSP Report: operator e1_acc_q2 is absorbed into DSP e1_acc_q2.
+DSP Report: operator e1_acc_q2 is absorbed into DSP e1_acc_q2.
+DSP Report: Generating DSP e1_acc_q2, operation Mode is: (PCIN>>17)+A*B.
+DSP Report: operator e1_acc_q2 is absorbed into DSP e1_acc_q2.
+DSP Report: operator e1_acc_q2 is absorbed into DSP e1_acc_q2.
+DSP Report: Generating DSP block_max_q2, operation Mode is: A*B.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+DSP Report: Generating DSP block_max_q2, operation Mode is: (PCIN>>17)+A*B.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+DSP Report: Generating DSP block_max_q2, operation Mode is: A*B.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+DSP Report: Generating DSP block_max_q2, operation Mode is: PCIN+A*B.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+DSP Report: Generating DSP block_max_q2, operation Mode is: (PCIN>>17)+A*B.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+DSP Report: Generating DSP block_max_q2, operation Mode is: A*B.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+DSP Report: Generating DSP block_max_q2, operation Mode is: (PCIN>>17)+A*B.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+DSP Report: Generating DSP block_max_q2, operation Mode is: PCIN+A*B.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+DSP Report: Generating DSP e2_acc_q3, operation Mode is: A*B.
+DSP Report: operator e2_acc_q3 is absorbed into DSP e2_acc_q3.
+DSP Report: operator e2_acc_q3 is absorbed into DSP e2_acc_q3.
+DSP Report: Generating DSP e2_acc_q3, operation Mode is: (PCIN>>17)+A*B.
+DSP Report: operator e2_acc_q3 is absorbed into DSP e2_acc_q3.
+DSP Report: operator e2_acc_q3 is absorbed into DSP e2_acc_q3.
+DSP Report: Generating DSP e2_acc_q3, operation Mode is: A*B.
+DSP Report: operator e2_acc_q3 is absorbed into DSP e2_acc_q3.
+DSP Report: operator e2_acc_q3 is absorbed into DSP e2_acc_q3.
+DSP Report: Generating DSP e2_acc_q3, operation Mode is: (PCIN>>17)+A*B.
+DSP Report: operator e2_acc_q3 is absorbed into DSP e2_acc_q3.
+DSP Report: operator e2_acc_q3 is absorbed into DSP e2_acc_q3.
+DSP Report: Generating DSP e2_acc_q2, operation Mode is: A*B.
+DSP Report: operator e2_acc_q2 is absorbed into DSP e2_acc_q2.
+DSP Report: operator e2_acc_q2 is absorbed into DSP e2_acc_q2.
+DSP Report: Generating DSP e2_acc_q2, operation Mode is: (PCIN>>17)+A*B.
+DSP Report: operator e2_acc_q2 is absorbed into DSP e2_acc_q2.
+DSP Report: operator e2_acc_q2 is absorbed into DSP e2_acc_q2.
+DSP Report: Generating DSP e2_acc_q2, operation Mode is: A*B.
+DSP Report: operator e2_acc_q2 is absorbed into DSP e2_acc_q2.
+DSP Report: operator e2_acc_q2 is absorbed into DSP e2_acc_q2.
+DSP Report: Generating DSP e2_acc_q2, operation Mode is: (PCIN>>17)+A*B.
+DSP Report: operator e2_acc_q2 is absorbed into DSP e2_acc_q2.
+DSP Report: operator e2_acc_q2 is absorbed into DSP e2_acc_q2.
+DSP Report: Generating DSP e2_acc_q2, operation Mode is: A*B.
+DSP Report: operator e2_acc_q2 is absorbed into DSP e2_acc_q2.
+DSP Report: operator e2_acc_q2 is absorbed into DSP e2_acc_q2.
+DSP Report: Generating DSP e2_acc_q2, operation Mode is: (PCIN>>17)+A*B.
+DSP Report: operator e2_acc_q2 is absorbed into DSP e2_acc_q2.
+DSP Report: operator e2_acc_q2 is absorbed into DSP e2_acc_q2.
+DSP Report: Generating DSP e2_acc_q2, operation Mode is: A*B.
+DSP Report: operator e2_acc_q2 is absorbed into DSP e2_acc_q2.
+DSP Report: operator e2_acc_q2 is absorbed into DSP e2_acc_q2.
+DSP Report: Generating DSP e2_acc_q2, operation Mode is: (PCIN>>17)+A*B.
+DSP Report: operator e2_acc_q2 is absorbed into DSP e2_acc_q2.
+DSP Report: operator e2_acc_q2 is absorbed into DSP e2_acc_q2.
+DSP Report: Generating DSP block_max_q2, operation Mode is: A*B.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+DSP Report: Generating DSP block_max_q2, operation Mode is: (PCIN>>17)+A*B.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+DSP Report: Generating DSP block_max_q2, operation Mode is: PCIN+A*B.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+DSP Report: Generating DSP block_max_q2, operation Mode is: (PCIN>>17)+A*B.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+DSP Report: Generating DSP block_max_q2, operation Mode is: A*B.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+DSP Report: Generating DSP block_max_q2, operation Mode is: PCIN+A*B.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+DSP Report: Generating DSP block_max_q2, operation Mode is: (PCIN>>17)+A*B.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+DSP Report: Generating DSP block_max_q2, operation Mode is: PCIN+A*B.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+DSP Report: Generating DSP block_max_q2, operation Mode is: A*B.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+DSP Report: Generating DSP block_max_q2, operation Mode is: PCIN+A*B.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+DSP Report: Generating DSP block_max_q2, operation Mode is: (PCIN>>17)+A*B.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+DSP Report: Generating DSP block_max_q2, operation Mode is: PCIN+A*B.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+DSP Report: Generating DSP block_max_q2, operation Mode is: A*B.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+DSP Report: Generating DSP block_max_q2, operation Mode is: (PCIN>>17)+A*B.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+DSP Report: Generating DSP block_max_q2, operation Mode is: PCIN+A*B.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+DSP Report: Generating DSP block_max_q2, operation Mode is: (PCIN>>17)+A*B.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+DSP Report: operator block_max_q2 is absorbed into DSP block_max_q2.
+WARNING: [Synth 8-3917] design cintas_stream has port ready_o driven by constant 1
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:11 ; elapsed = 00:00:23 . Memory (MB): peak = 2639.750 ; gain = 762.711 ; free physical = 804769 ; free virtual = 1985767
+---------------------------------------------------------------------------------
+ Sort Area is  block_max_q2_11 : 0 0 : 3101 12053 : Used 1 time 0
+ Sort Area is  block_max_q2_11 : 0 1 : 3120 12053 : Used 1 time 0
+ Sort Area is  block_max_q2_11 : 0 2 : 2712 12053 : Used 1 time 0
+ Sort Area is  block_max_q2_11 : 0 3 : 3120 12053 : Used 1 time 0
+ Sort Area is  block_max_q2_13 : 0 0 : 3101 10827 : Used 1 time 0
+ Sort Area is  block_max_q2_13 : 0 1 : 2712 10827 : Used 1 time 0
+ Sort Area is  block_max_q2_13 : 0 2 : 2302 10827 : Used 1 time 0
+ Sort Area is  block_max_q2_13 : 0 3 : 2712 10827 : Used 1 time 0
+ Sort Area is  block_max_q2_14 : 0 0 : 3101 9951 : Used 1 time 0
+ Sort Area is  block_max_q2_14 : 0 1 : 1836 9951 : Used 1 time 0
+ Sort Area is  block_max_q2_14 : 0 2 : 2302 9951 : Used 1 time 0
+ Sort Area is  block_max_q2_14 : 0 3 : 2712 9951 : Used 1 time 0
+ Sort Area is  block_max_q2_1b : 0 0 : 3101 8394 : Used 1 time 0
+ Sort Area is  block_max_q2_1b : 0 1 : 3120 8394 : Used 1 time 0
+ Sort Area is  block_max_q2_1b : 0 2 : 2173 8394 : Used 1 time 0
+ Sort Area is  block_max_q2_1d : 0 0 : 3101 7576 : Used 1 time 0
+ Sort Area is  block_max_q2_1d : 0 1 : 2173 7576 : Used 1 time 0
+ Sort Area is  block_max_q2_1d : 0 2 : 2302 7576 : Used 1 time 0
+ Sort Area is  block_max_q2_16 : 0 0 : 1819 7373 : Used 1 time 0
+ Sort Area is  block_max_q2_16 : 0 1 : 2302 7373 : Used 1 time 0
+ Sort Area is  block_max_q2_16 : 0 2 : 1836 7373 : Used 1 time 0
+ Sort Area is  block_max_q2_16 : 0 3 : 1416 7373 : Used 1 time 0
+ Sort Area is  e1_acc_q6_3 : 0 0 : 3434 6362 : Used 1 time 0
+ Sort Area is  e1_acc_q6_3 : 0 1 : 2928 6362 : Used 1 time 0
+ Sort Area is  e2_acc_q2_a : 0 0 : 3101 6221 : Used 1 time 0
+ Sort Area is  e2_acc_q2_a : 0 1 : 3120 6221 : Used 1 time 0
+ Sort Area is  e1_acc_q2_19 : 0 0 : 3101 5754 : Used 1 time 0
+ Sort Area is  e1_acc_q2_19 : 0 1 : 2653 5754 : Used 1 time 0
+ Sort Area is  e1_acc_q6_0 : 0 0 : 3101 5754 : Used 1 time 0
+ Sort Area is  e1_acc_q6_0 : 0 1 : 2653 5754 : Used 1 time 0
+ Sort Area is  e2_acc_q2_c : 0 0 : 2634 5754 : Used 1 time 0
+ Sort Area is  e2_acc_q2_c : 0 1 : 3120 5754 : Used 1 time 0
+ Sort Area is  e2_acc_q3_6 : 0 0 : 3101 5754 : Used 1 time 0
+ Sort Area is  e2_acc_q3_6 : 0 1 : 2653 5754 : Used 1 time 0
+ Sort Area is  e1_acc_q2_1a : 0 0 : 2634 5119 : Used 1 time 0
+ Sort Area is  e1_acc_q2_1a : 0 1 : 2485 5119 : Used 1 time 0
+ Sort Area is  e2_acc_q3_7 : 0 0 : 2634 5119 : Used 1 time 0
+ Sort Area is  e2_acc_q3_7 : 0 1 : 2485 5119 : Used 1 time 0
+ Sort Area is  e2_acc_q2_d : 0 0 : 2634 4936 : Used 1 time 0
+ Sort Area is  e2_acc_q2_d : 0 1 : 2302 4936 : Used 1 time 0
+ Sort Area is  block_max_q2_1e : 0 0 : 2634 4798 : Used 1 time 0
+ Sort Area is  block_max_q2_1e : 0 1 : 2164 4798 : Used 1 time 0
+ Sort Area is  e2_acc_q2_f : 0 0 : 2634 4798 : Used 1 time 0
+ Sort Area is  e2_acc_q2_f : 0 1 : 2164 4798 : Used 1 time 0
+---------------------------------------------------------------------------------
+Start ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+
+DSP: Preliminary Mapping Report (see note below. The ' indicates corresponding REG is set)
++--------------+----------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|Module Name   | DSP Mapping    | A Size | B Size | C Size | D Size | P Size | AREG | BREG | CREG | DREG | ADREG | MREG | PREG | 
++--------------+----------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|cintas_stream | A*B            | 23     | 18     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | (PCIN>>17)+A*B | 23     | 15     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | A*B            | 18     | 18     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | (PCIN>>17)+A*B | 18     | 15     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | A*B            | 18     | 15     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | (PCIN>>17)+A*B | 15     | 15     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | A*B            | 18     | 18     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | (PCIN>>17)+A*B | 18     | 15     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | A*B            | 18     | 15     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | (PCIN>>17)+A*B | 15     | 13     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | A*B            | 18     | 18     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | PCIN+A*B       | 18     | 15     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | (PCIN>>17)+A*B | 18     | 13     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | A*B            | 18     | 18     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | (PCIN>>17)+A*B | 18     | 18     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | PCIN+A*B       | 18     | 15     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | A*B            | 18     | 15     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | (PCIN>>17)+A*B | 15     | 15     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | A*B            | 18     | 18     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | (PCIN>>17)+A*B | 18     | 15     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | A*B            | 18     | 15     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | (PCIN>>17)+A*B | 15     | 13     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | A*B            | 18     | 15     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | (PCIN>>17)+A*B | 18     | 13     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | A*B            | 18     | 15     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | (PCIN>>17)+A*B | 18     | 18     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | A*B            | 18     | 18     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | (PCIN>>17)+A*B | 18     | 18     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | A*B            | 18     | 13     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | (PCIN>>17)+A*B | 18     | 13     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | PCIN+A*B       | 18     | 13     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | (PCIN>>17)+A*B | 13     | 13     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | A*B            | 18     | 18     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | PCIN+A*B       | 18     | 13     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | (PCIN>>17)+A*B | 18     | 13     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | PCIN+A*B       | 18     | 18     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | A*B            | 18     | 18     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | PCIN+A*B       | 18     | 18     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | (PCIN>>17)+A*B | 18     | 13     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | PCIN+A*B       | 18     | 18     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | A*B            | 18     | 18     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | (PCIN>>17)+A*B | 18     | 18     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | PCIN+A*B       | 18     | 18     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | (PCIN>>17)+A*B | 18     | 18     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
++--------------+----------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+
+Note: The table above is a preliminary report that shows the DSPs inferred at the current stage of the synthesis flow. Some DSP may be reimplemented as non DSP primitives later in the synthesis flow. Multiple instantiated DSPs are reported only once.
+---------------------------------------------------------------------------------
+Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+No constraint files found.
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:00:11 ; elapsed = 00:00:23 . Memory (MB): peak = 2642.719 ; gain = 765.680 ; free physical = 804768 ; free virtual = 1985767
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:00:11 ; elapsed = 00:00:23 . Memory (MB): peak = 2642.719 ; gain = 765.680 ; free physical = 804768 ; free virtual = 1985767
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:00:14 ; elapsed = 00:00:26 . Memory (MB): peak = 2803.531 ; gain = 926.492 ; free physical = 804625 ; free virtual = 1985623
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:14 ; elapsed = 00:00:26 . Memory (MB): peak = 2803.531 ; gain = 926.492 ; free physical = 804625 ; free virtual = 1985623
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:14 ; elapsed = 00:00:26 . Memory (MB): peak = 2803.531 ; gain = 926.492 ; free physical = 804625 ; free virtual = 1985623
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:14 ; elapsed = 00:00:26 . Memory (MB): peak = 2803.531 ; gain = 926.492 ; free physical = 804625 ; free virtual = 1985623
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:14 ; elapsed = 00:00:26 . Memory (MB): peak = 2803.531 ; gain = 926.492 ; free physical = 804625 ; free virtual = 1985623
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:14 ; elapsed = 00:00:26 . Memory (MB): peak = 2803.531 ; gain = 926.492 ; free physical = 804625 ; free virtual = 1985623
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+DSP Final Report (the ' indicates corresponding REG is set)
++--------------+--------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|Module Name   | DSP Mapping  | A Size | B Size | C Size | D Size | P Size | AREG | BREG | CREG | DREG | ADREG | MREG | PREG | 
++--------------+--------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|cintas_stream | A*B          | 30     | 17     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | PCIN>>17+A*B | 0      | 18     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | A*B          | 17     | 17     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | PCIN>>17+A*B | 0      | 18     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | A*B          | 17     | 18     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | PCIN>>17+A*B | 30     | 18     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | A*B          | 17     | 17     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | PCIN>>17+A*B | 17     | 18     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | A*B          | 17     | 18     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | A*B          | 17     | 17     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | PCIN+A*B     | 17     | 18     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | PCIN>>17+A*B | 17     | 18     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | A*B          | 17     | 17     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | PCIN>>17+A*B | 17     | 17     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | PCIN+A*B     | 17     | 18     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | A*B          | 17     | 18     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | PCIN>>17+A*B | 30     | 18     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | A*B          | 17     | 17     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | PCIN>>17+A*B | 17     | 18     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | A*B          | 17     | 18     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | PCIN>>17+A*B | 30     | 18     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | A*B          | 17     | 18     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | PCIN>>17+A*B | 17     | 18     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | A*B          | 17     | 18     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | PCIN>>17+A*B | 17     | 17     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | A*B          | 17     | 17     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | PCIN>>17+A*B | 17     | 17     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | A*B          | 17     | 17     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | PCIN+A*B     | 17     | 18     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | A*B          | 17     | 17     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | PCIN+A*B     | 17     | 17     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | PCIN>>17+A*B | 17     | 18     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | PCIN+A*B     | 17     | 17     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | A*B          | 17     | 17     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | PCIN>>17+A*B | 17     | 17     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | PCIN+A*B     | 17     | 17     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|cintas_stream | PCIN>>17+A*B | 17     | 17     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
++--------------+--------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+
+
+Report BlackBoxes: 
++-+--------------+----------+
+| |BlackBox name |Instances |
++-+--------------+----------+
++-+--------------+----------+
+
+Report Cell Usage: 
++------+--------+------+
+|      |Cell    |Count |
++------+--------+------+
+|1     |BUFG    |     1|
+|2     |CARRY4  |   150|
+|3     |DSP48E1 |    37|
+|4     |LUT1    |    69|
+|5     |LUT2    |   539|
+|6     |LUT3    |   211|
+|7     |LUT4    |   116|
+|8     |LUT5    |    45|
+|9     |LUT6    |   102|
+|10    |FDCE    |   259|
+|11    |IBUF    |   227|
+|12    |OBUF    |    67|
++------+--------+------+
+
+Report Instance Areas: 
++------+---------+-------+------+
+|      |Instance |Module |Cells |
++------+---------+-------+------+
+|1     |top      |       |  1823|
++------+---------+-------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:14 ; elapsed = 00:00:26 . Memory (MB): peak = 2803.531 ; gain = 926.492 ; free physical = 804625 ; free virtual = 1985623
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 2 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:14 ; elapsed = 00:00:26 . Memory (MB): peak = 2803.531 ; gain = 926.492 ; free physical = 804625 ; free virtual = 1985623
+Synthesis Optimization Complete : Time (s): cpu = 00:00:14 ; elapsed = 00:00:26 . Memory (MB): peak = 2803.539 ; gain = 926.492 ; free physical = 804625 ; free virtual = 1985623
+INFO: [Project 1-571] Translating synthesized netlist
+Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2821.344 ; gain = 0.000 ; free physical = 804764 ; free virtual = 1985763
+INFO: [Netlist 29-17] Analyzing 187 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+WARNING: [Netlist 29-101] Netlist 'cintas_stream' is not ideal for floorplanning, since the cellview 'cintas_stream' contains a large number of primitives.  Please consider enabling hierarchy in synthesis if you want to do floorplanning.
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2966.926 ; gain = 0.000 ; free physical = 804670 ; free virtual = 1985668
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Synth Design complete | Checksum: d875cb93
+INFO: [Common 17-83] Releasing license: Synthesis
+14 Infos, 3 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:00:20 ; elapsed = 00:00:31 . Memory (MB): peak = 2966.961 ; gain = 1089.922 ; free physical = 804670 ; free virtual = 1985669
+INFO: [Common 17-2834] synth_design peak Physical Memory [PSS] (MB): overall = 2138.729; main = 2138.729; forked = 353.462
+INFO: [Common 17-2834] synth_design peak Virtual Memory [VSS] (MB): overall = 4217.746; main = 2966.930; forked = 1641.055
+# create_clock -name clk -period $clock_period_ns [get_ports clk]
+# report_utilization -file "$outdir/utilization.rpt"
+# report_timing_summary -file "$outdir/timing_summary.rpt"
+INFO: [Timing 38-35] Done setting XDC timing constraints.
+INFO: [Timing 38-91] UpdateTimingParams: Speed grade: -1, Delay Type: min_max.
+INFO: [Timing 38-191] Multithreading enabled for timing update using a maximum of 8 CPUs
+report_timing_summary: Time (s): cpu = 00:00:26 ; elapsed = 00:00:23 . Memory (MB): peak = 3030.957 ; gain = 63.996 ; free physical = 804664 ; free virtual = 1985662
+# report_power -file "$outdir/power.rpt"
+Command: report_power -file results/notebook_run/rtl_sweep/A_RH/power.rpt
+Running Vector-less Activity Propagation...
+
+Finished Running Vector-less Activity Propagation
+0 Infos, 0 Warnings, 0 Critical Warnings and 0 Errors encountered.
+report_power completed successfully
+# write_checkpoint -force "$outdir/post_synth.dcp"
+INFO: [Timing 38-480] Writing timing data to binary archive.
+Write ShapeDB Complete: Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.01 . Memory (MB): peak = 3102.992 ; gain = 0.000 ; free physical = 804648 ; free virtual = 1985646
+INFO: [Common 17-1381] The checkpoint '/home/hsiaopin/CITADEL/results/notebook_run/rtl_sweep/A_RH/post_synth.dcp' has been generated.
+# exit
+INFO: [Common 17-206] Exiting Vivado at Tue Jun  2 09:54:03 2026...

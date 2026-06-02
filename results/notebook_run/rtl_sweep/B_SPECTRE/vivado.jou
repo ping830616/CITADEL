@@ -1,0 +1,24 @@
+#-----------------------------------------------------------
+# Vivado v2025.2 (64-bit)
+# SW Build 6299465 on Fri Nov 14 12:34:56 MST 2025
+# IP Build 6300035 on Fri Nov 14 10:48:45 MST 2025
+# SharedData Build 6298862 on Thu Nov 13 04:50:51 MST 2025
+# Start of session at: Tue Jun  2 10:01:05 2026
+# Process ID         : 3578062
+# Current directory  : /home/hsiaopin/CITADEL
+# Command line       : vivado -mode batch -source scripts/vivado_cintas_synth.tcl -log results/notebook_run/rtl_sweep/B_SPECTRE/vivado.log -journal results/notebook_run/rtl_sweep/B_SPECTRE/vivado.jou -tclargs B_SPECTRE xc7a200tfbg676-1 30 8 700 25.000
+# Log file           : /home/hsiaopin/CITADEL/results/notebook_run/rtl_sweep/B_SPECTRE/vivado.log
+# Journal file       : /home/hsiaopin/CITADEL/results/notebook_run/rtl_sweep/B_SPECTRE/vivado.jou
+# Running On         : en4226599rl.eng.asu.edu
+# Platform           : RedHatEnterprise
+# Operating System   : Red Hat Enterprise Linux release 8.10 (Ootpa)
+# Processor Detail   : AMD EPYC 7313 16-Core Processor
+# CPU Frequency      : 3000.000 MHz
+# CPU Physical cores : 32
+# CPU Logical cores  : 64
+# Host memory        : 2151149 MB
+# Swap memory        : 4294 MB
+# Total Virtual      : 2155444 MB
+# Available Virtual  : 2083671 MB
+#-----------------------------------------------------------
+source scripts/vivado_cintas_synth.tcl
