@@ -1,291 +1,164 @@
 CITADEL notebook progress log
 seed=123 threads=1 preset=full
-[2026-06-01 08:02:49] | [TCAD notebook cell] | START | elapsed=0.0s | preset=full config=configs/tcad_grid_full.json
-[2026-06-01 08:02:49] | [TCAD notebook cell] | calling standard DSE helper | elapsed=0.0s | scenarios=('RH', 'SPECTRE')
-[2026-06-01 08:02:49] | [TCAD ablation] | START | elapsed=0.0s | out=results/notebook_run/tcad_ablation configs=1800 scenarios=('RH', 'SPECTRE') windows=(50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950, 1000)
-[2026-06-01 08:02:49] | [TCAD ablation] | loading telemetry | elapsed=0.0s | data/telemetry/processed/ddr_data
-[2026-06-01 08:03:05] | [TCAD ablation] | loaded telemetry | elapsed=15.2s | A rows=390,000, B rows=390,000
-[2026-06-01 08:03:12] | [TCAD ablation] | shared features | elapsed=22.4s | count=136
-[2026-06-01 08:03:12] | [TCAD ablation] | building feature ranks | elapsed=22.4s | Setup A
-[2026-06-01 08:03:31] | [TCAD ablation] | building feature ranks | elapsed=42.0s | Setup B
-[2026-06-01 08:03:57] | [TCAD ablation] | evaluating grid | 1/1800 (0.1%) | elapsed=67.7s | setup=A k=5 lambda=0.0 agg=max weight=uniform q=8
-[2026-06-01 08:29:20] | [TCAD ablation] | evaluating grid | 90/1800 (5.0%) | elapsed=1590.7s | setup=A k=5 lambda=0.5 agg=median weight=inv_var q=18
-[2026-06-01 08:55:40] | [TCAD ablation] | evaluating grid | 180/1800 (10.0%) | elapsed=3170.4s | setup=A k=8 lambda=0.0 agg=median weight=inv_var q=18
-[2026-06-01 09:21:53] | [TCAD ablation] | evaluating grid | 270/1800 (15.0%) | elapsed=4744.0s | setup=A k=8 lambda=0.75 agg=median weight=inv_var q=18
-[2026-06-01 09:49:58] | [TCAD ablation] | evaluating grid | 360/1800 (20.0%) | elapsed=6428.1s | setup=A k=10 lambda=0.25 agg=median weight=inv_var q=18
-[2026-06-01 10:22:35] | [TCAD ablation] | evaluating grid | 450/1800 (25.0%) | elapsed=8385.7s | setup=A k=10 lambda=1.0 agg=median weight=inv_var q=18
-[2026-06-01 10:57:27] | [TCAD ablation] | evaluating grid | 540/1800 (30.0%) | elapsed=10477.2s | setup=A k=15 lambda=0.5 agg=median weight=inv_var q=18
-[2026-06-01 11:29:19] | [TCAD ablation] | evaluating grid | 630/1800 (35.0%) | elapsed=12389.4s | setup=A k=20 lambda=0.0 agg=median weight=inv_var q=18
-[2026-06-01 11:56:49] | [TCAD ablation] | evaluating grid | 720/1800 (40.0%) | elapsed=14039.4s | setup=A k=20 lambda=0.75 agg=median weight=inv_var q=18
-[2026-06-01 12:24:29] | [TCAD ablation] | evaluating grid | 810/1800 (45.0%) | elapsed=15699.8s | setup=A k=30 lambda=0.25 agg=median weight=inv_var q=18
-[2026-06-01 12:52:58] | [TCAD ablation] | evaluating grid | 900/1800 (50.0%) | elapsed=17408.6s | setup=A k=30 lambda=1.0 agg=median weight=inv_var q=18
-[2026-06-01 13:53:37] | [TCAD ablation] | evaluating grid | 990/1800 (55.0%) | elapsed=21047.9s | setup=B k=5 lambda=0.5 agg=median weight=inv_var q=18
-[2026-06-01 14:47:51] | [TCAD ablation] | evaluating grid | 1080/1800 (60.0%) | elapsed=24301.8s | setup=B k=8 lambda=0.0 agg=median weight=inv_var q=18
-[2026-06-01 15:47:02] | [TCAD ablation] | evaluating grid | 1170/1800 (65.0%) | elapsed=27852.1s | setup=B k=8 lambda=0.75 agg=median weight=inv_var q=18
-[2026-06-01 16:56:31] | [TCAD ablation] | evaluating grid | 1260/1800 (70.0%) | elapsed=32021.5s | setup=B k=10 lambda=0.25 agg=median weight=inv_var q=18
-[2026-06-01 18:07:25] | [TCAD ablation] | evaluating grid | 1350/1800 (75.0%) | elapsed=36275.4s | setup=B k=10 lambda=1.0 agg=median weight=inv_var q=18
-[2026-06-01 19:01:16] | [TCAD ablation] | evaluating grid | 1440/1800 (80.0%) | elapsed=39506.7s | setup=B k=15 lambda=0.5 agg=median weight=inv_var q=18
-[2026-06-01 19:56:44] | [TCAD ablation] | evaluating grid | 1530/1800 (85.0%) | elapsed=42834.7s | setup=B k=20 lambda=0.0 agg=median weight=inv_var q=18
-[2026-06-01 20:46:20] | [TCAD ablation] | evaluating grid | 1620/1800 (90.0%) | elapsed=45810.1s | setup=B k=20 lambda=0.75 agg=median weight=inv_var q=18
-[2026-06-01 21:37:14] | [TCAD ablation] | evaluating grid | 1710/1800 (95.0%) | elapsed=48864.6s | setup=B k=30 lambda=0.25 agg=median weight=inv_var q=18
-[2026-06-01 22:33:58] | [TCAD ablation] | evaluating grid | 1800/1800 (100.0%) | elapsed=52267.8s | setup=B k=30 lambda=1.0 agg=median weight=inv_var q=18
-[2026-06-01 22:34:32] | [TCAD ablation] | summarizing fold results | elapsed=52302.1s | fold_frames=1800
-[2026-06-01 22:34:37] | [TCAD ablation] | writing CSV artifacts | elapsed=52307.0s
-[2026-06-01 22:35:04] | [TCAD ablation] | writing manifest | elapsed=52334.5s
-[2026-06-01 22:35:08] | [TCAD ablation] | DONE | elapsed=52338.0s | results/notebook_run/tcad_ablation/tcad_ablation_summary.csv
-[2026-06-01 22:35:38] | [TCAD notebook cell] | standard DSE branch complete | 1/2 (50.0%) | elapsed=52368.0s | DROOP adaptive branch follows
-[2026-06-01 22:35:38] | [DROOP-adaptive CINTAS] | START | elapsed=0.0s | windows=(50, 100, 200, 500, 1000)
-[2026-06-01 22:35:38] | [DROOP-adaptive CINTAS] | building DROOP-only augmented telemetry | elapsed=0.0s
-[2026-06-01 22:35:38] | [DROOP-adaptive CINTAS] | loading source telemetry | 1/52 (1.9%) | elapsed=0.0s | DDR4_DROOP_dft.csv
-[2026-06-01 22:35:38] | [DROOP-adaptive CINTAS] | adding transient features | 1/52 (1.9%) | elapsed=0.1s | DDR4_DROOP_dft.csv: rows=10,000 cols=181
-[2026-06-01 22:35:38] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 1/52 (1.9%) | elapsed=0.3s | DDR4_DROOP_dft.csv: cols=421
-[2026-06-01 22:35:39] | [DROOP-adaptive CINTAS] | loading source telemetry | 2/52 (3.8%) | elapsed=1.6s | DDR4_DROOP_dj.csv
-[2026-06-01 22:35:39] | [DROOP-adaptive CINTAS] | adding transient features | 2/52 (3.8%) | elapsed=1.6s | DDR4_DROOP_dj.csv: rows=10,000 cols=181
-[2026-06-01 22:35:40] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 2/52 (3.8%) | elapsed=1.9s | DDR4_DROOP_dj.csv: cols=421
-[2026-06-01 22:35:41] | [DROOP-adaptive CINTAS] | loading source telemetry | 3/52 (5.8%) | elapsed=3.2s | DDR4_DROOP_dp.csv
-[2026-06-01 22:35:41] | [DROOP-adaptive CINTAS] | adding transient features | 3/52 (5.8%) | elapsed=3.2s | DDR4_DROOP_dp.csv: rows=10,000 cols=181
-[2026-06-01 22:35:41] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 3/52 (5.8%) | elapsed=3.5s | DDR4_DROOP_dp.csv: cols=421
-[2026-06-01 22:35:42] | [DROOP-adaptive CINTAS] | loading source telemetry | 4/52 (7.7%) | elapsed=4.7s | DDR4_DROOP_gl.csv
-[2026-06-01 22:35:43] | [DROOP-adaptive CINTAS] | adding transient features | 4/52 (7.7%) | elapsed=4.8s | DDR4_DROOP_gl.csv: rows=10,000 cols=181
-[2026-06-01 22:35:43] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 4/52 (7.7%) | elapsed=5.0s | DDR4_DROOP_gl.csv: cols=421
-[2026-06-01 22:35:44] | [DROOP-adaptive CINTAS] | loading source telemetry | 5/52 (9.6%) | elapsed=6.4s | DDR4_DROOP_gs.csv
-[2026-06-01 22:35:44] | [DROOP-adaptive CINTAS] | adding transient features | 5/52 (9.6%) | elapsed=6.4s | DDR4_DROOP_gs.csv: rows=10,000 cols=181
-[2026-06-01 22:35:44] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 5/52 (9.6%) | elapsed=6.7s | DDR4_DROOP_gs.csv: cols=421
-[2026-06-01 22:35:46] | [DROOP-adaptive CINTAS] | loading source telemetry | 6/52 (11.5%) | elapsed=8.0s | DDR4_DROOP_ha.csv
-[2026-06-01 22:35:46] | [DROOP-adaptive CINTAS] | adding transient features | 6/52 (11.5%) | elapsed=8.1s | DDR4_DROOP_ha.csv: rows=10,000 cols=181
-[2026-06-01 22:35:46] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 6/52 (11.5%) | elapsed=8.3s | DDR4_DROOP_ha.csv: cols=421
-[2026-06-01 22:35:47] | [DROOP-adaptive CINTAS] | loading source telemetry | 7/52 (13.5%) | elapsed=9.6s | DDR4_DROOP_ja.csv
-[2026-06-01 22:35:47] | [DROOP-adaptive CINTAS] | adding transient features | 7/52 (13.5%) | elapsed=9.7s | DDR4_DROOP_ja.csv: rows=10,000 cols=181
-[2026-06-01 22:35:48] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 7/52 (13.5%) | elapsed=9.9s | DDR4_DROOP_ja.csv: cols=421
-[2026-06-01 22:35:49] | [DROOP-adaptive CINTAS] | loading source telemetry | 8/52 (15.4%) | elapsed=11.5s | DDR4_DROOP_mm.csv
-[2026-06-01 22:35:49] | [DROOP-adaptive CINTAS] | adding transient features | 8/52 (15.4%) | elapsed=11.5s | DDR4_DROOP_mm.csv: rows=10,000 cols=181
-[2026-06-01 22:35:50] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 8/52 (15.4%) | elapsed=11.8s | DDR4_DROOP_mm.csv: cols=421
-[2026-06-01 22:35:51] | [DROOP-adaptive CINTAS] | loading source telemetry | 9/52 (17.3%) | elapsed=13.1s | DDR4_DROOP_ni.csv
-[2026-06-01 22:35:51] | [DROOP-adaptive CINTAS] | adding transient features | 9/52 (17.3%) | elapsed=13.1s | DDR4_DROOP_ni.csv: rows=10,000 cols=181
-[2026-06-01 22:35:51] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 9/52 (17.3%) | elapsed=13.4s | DDR4_DROOP_ni.csv: cols=421
-[2026-06-01 22:35:52] | [DROOP-adaptive CINTAS] | loading source telemetry | 10/52 (19.2%) | elapsed=14.6s | DDR4_DROOP_oe.csv
-[2026-06-01 22:35:52] | [DROOP-adaptive CINTAS] | adding transient features | 10/52 (19.2%) | elapsed=14.7s | DDR4_DROOP_oe.csv: rows=10,000 cols=181
-[2026-06-01 22:35:53] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 10/52 (19.2%) | elapsed=14.9s | DDR4_DROOP_oe.csv: cols=421
-[2026-06-01 22:35:54] | [DROOP-adaptive CINTAS] | loading source telemetry | 11/52 (21.2%) | elapsed=16.2s | DDR4_DROOP_pi.csv
-[2026-06-01 22:35:54] | [DROOP-adaptive CINTAS] | adding transient features | 11/52 (21.2%) | elapsed=16.3s | DDR4_DROOP_pi.csv: rows=10,000 cols=181
-[2026-06-01 22:35:54] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 11/52 (21.2%) | elapsed=16.6s | DDR4_DROOP_pi.csv: cols=421
-[2026-06-01 22:35:56] | [DROOP-adaptive CINTAS] | loading source telemetry | 12/52 (23.1%) | elapsed=17.8s | DDR4_DROOP_sh.csv
-[2026-06-01 22:35:56] | [DROOP-adaptive CINTAS] | adding transient features | 12/52 (23.1%) | elapsed=17.9s | DDR4_DROOP_sh.csv: rows=10,000 cols=181
-[2026-06-01 22:35:56] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 12/52 (23.1%) | elapsed=18.1s | DDR4_DROOP_sh.csv: cols=421
-[2026-06-01 22:35:57] | [DROOP-adaptive CINTAS] | loading source telemetry | 13/52 (25.0%) | elapsed=19.3s | DDR4_DROOP_tr.csv
-[2026-06-01 22:35:57] | [DROOP-adaptive CINTAS] | adding transient features | 13/52 (25.0%) | elapsed=19.4s | DDR4_DROOP_tr.csv: rows=10,000 cols=181
-[2026-06-01 22:35:57] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 13/52 (25.0%) | elapsed=19.7s | DDR4_DROOP_tr.csv: cols=421
-[2026-06-01 22:35:59] | [DROOP-adaptive CINTAS] | loading source telemetry | 14/52 (26.9%) | elapsed=21.0s | DDR4_benign_dft.csv
-[2026-06-01 22:35:59] | [DROOP-adaptive CINTAS] | adding transient features | 14/52 (26.9%) | elapsed=21.0s | DDR4_benign_dft.csv: rows=10,000 cols=181
-[2026-06-01 22:35:59] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 14/52 (26.9%) | elapsed=21.3s | DDR4_benign_dft.csv: cols=421
-[2026-06-01 22:36:00] | [DROOP-adaptive CINTAS] | loading source telemetry | 15/52 (28.8%) | elapsed=22.5s | DDR4_benign_dj.csv
-[2026-06-01 22:36:00] | [DROOP-adaptive CINTAS] | adding transient features | 15/52 (28.8%) | elapsed=22.5s | DDR4_benign_dj.csv: rows=10,000 cols=181
-[2026-06-01 22:36:01] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 15/52 (28.8%) | elapsed=22.8s | DDR4_benign_dj.csv: cols=421
-[2026-06-01 22:36:02] | [DROOP-adaptive CINTAS] | loading source telemetry | 16/52 (30.8%) | elapsed=24.2s | DDR4_benign_dp.csv
-[2026-06-01 22:36:02] | [DROOP-adaptive CINTAS] | adding transient features | 16/52 (30.8%) | elapsed=24.2s | DDR4_benign_dp.csv: rows=10,000 cols=181
-[2026-06-01 22:36:02] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 16/52 (30.8%) | elapsed=24.5s | DDR4_benign_dp.csv: cols=421
-[2026-06-01 22:36:04] | [DROOP-adaptive CINTAS] | loading source telemetry | 17/52 (32.7%) | elapsed=25.8s | DDR4_benign_gl.csv
-[2026-06-01 22:36:04] | [DROOP-adaptive CINTAS] | adding transient features | 17/52 (32.7%) | elapsed=25.9s | DDR4_benign_gl.csv: rows=10,000 cols=181
-[2026-06-01 22:36:04] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 17/52 (32.7%) | elapsed=26.2s | DDR4_benign_gl.csv: cols=421
-[2026-06-01 22:36:05] | [DROOP-adaptive CINTAS] | loading source telemetry | 18/52 (34.6%) | elapsed=27.6s | DDR4_benign_gs.csv
-[2026-06-01 22:36:05] | [DROOP-adaptive CINTAS] | adding transient features | 18/52 (34.6%) | elapsed=27.6s | DDR4_benign_gs.csv: rows=10,000 cols=181
-[2026-06-01 22:36:06] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 18/52 (34.6%) | elapsed=27.9s | DDR4_benign_gs.csv: cols=421
-[2026-06-01 22:36:07] | [DROOP-adaptive CINTAS] | loading source telemetry | 19/52 (36.5%) | elapsed=29.3s | DDR4_benign_ha.csv
-[2026-06-01 22:36:07] | [DROOP-adaptive CINTAS] | adding transient features | 19/52 (36.5%) | elapsed=29.4s | DDR4_benign_ha.csv: rows=10,000 cols=181
-[2026-06-01 22:36:07] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 19/52 (36.5%) | elapsed=29.6s | DDR4_benign_ha.csv: cols=421
-[2026-06-01 22:36:09] | [DROOP-adaptive CINTAS] | loading source telemetry | 20/52 (38.5%) | elapsed=30.8s | DDR4_benign_ja.csv
-[2026-06-01 22:36:09] | [DROOP-adaptive CINTAS] | adding transient features | 20/52 (38.5%) | elapsed=30.9s | DDR4_benign_ja.csv: rows=10,000 cols=181
-[2026-06-01 22:36:09] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 20/52 (38.5%) | elapsed=31.2s | DDR4_benign_ja.csv: cols=421
-[2026-06-01 22:36:10] | [DROOP-adaptive CINTAS] | loading source telemetry | 21/52 (40.4%) | elapsed=32.6s | DDR4_benign_mm.csv
-[2026-06-01 22:36:10] | [DROOP-adaptive CINTAS] | adding transient features | 21/52 (40.4%) | elapsed=32.6s | DDR4_benign_mm.csv: rows=10,000 cols=181
-[2026-06-01 22:36:11] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 21/52 (40.4%) | elapsed=32.9s | DDR4_benign_mm.csv: cols=421
-[2026-06-01 22:36:12] | [DROOP-adaptive CINTAS] | loading source telemetry | 22/52 (42.3%) | elapsed=34.2s | DDR4_benign_ni.csv
-[2026-06-01 22:36:12] | [DROOP-adaptive CINTAS] | adding transient features | 22/52 (42.3%) | elapsed=34.2s | DDR4_benign_ni.csv: rows=10,000 cols=181
-[2026-06-01 22:36:12] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 22/52 (42.3%) | elapsed=34.6s | DDR4_benign_ni.csv: cols=421
-[2026-06-01 22:36:14] | [DROOP-adaptive CINTAS] | loading source telemetry | 23/52 (44.2%) | elapsed=35.9s | DDR4_benign_oe.csv
-[2026-06-01 22:36:14] | [DROOP-adaptive CINTAS] | adding transient features | 23/52 (44.2%) | elapsed=35.9s | DDR4_benign_oe.csv: rows=10,000 cols=181
-[2026-06-01 22:36:14] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 23/52 (44.2%) | elapsed=36.2s | DDR4_benign_oe.csv: cols=421
-[2026-06-01 22:36:15] | [DROOP-adaptive CINTAS] | loading source telemetry | 24/52 (46.2%) | elapsed=37.6s | DDR4_benign_pi.csv
-[2026-06-01 22:36:15] | [DROOP-adaptive CINTAS] | adding transient features | 24/52 (46.2%) | elapsed=37.6s | DDR4_benign_pi.csv: rows=10,000 cols=181
-[2026-06-01 22:36:16] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 24/52 (46.2%) | elapsed=37.9s | DDR4_benign_pi.csv: cols=421
-[2026-06-01 22:36:17] | [DROOP-adaptive CINTAS] | loading source telemetry | 25/52 (48.1%) | elapsed=39.2s | DDR4_benign_sh.csv
-[2026-06-01 22:36:17] | [DROOP-adaptive CINTAS] | adding transient features | 25/52 (48.1%) | elapsed=39.2s | DDR4_benign_sh.csv: rows=10,000 cols=181
-[2026-06-01 22:36:17] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 25/52 (48.1%) | elapsed=39.5s | DDR4_benign_sh.csv: cols=421
-[2026-06-01 22:36:19] | [DROOP-adaptive CINTAS] | loading source telemetry | 26/52 (50.0%) | elapsed=40.8s | DDR4_benign_tr.csv
-[2026-06-01 22:36:19] | [DROOP-adaptive CINTAS] | adding transient features | 26/52 (50.0%) | elapsed=40.8s | DDR4_benign_tr.csv: rows=10,000 cols=181
-[2026-06-01 22:36:19] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 26/52 (50.0%) | elapsed=41.1s | DDR4_benign_tr.csv: cols=421
-[2026-06-01 22:36:20] | [DROOP-adaptive CINTAS] | loading source telemetry | 27/52 (51.9%) | elapsed=42.5s | DDR5_DROOP_dft.csv
-[2026-06-01 22:36:20] | [DROOP-adaptive CINTAS] | adding transient features | 27/52 (51.9%) | elapsed=42.6s | DDR5_DROOP_dft.csv: rows=10,000 cols=460
-[2026-06-01 22:36:21] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 27/52 (51.9%) | elapsed=42.9s | DDR5_DROOP_dft.csv: cols=700
-[2026-06-01 22:36:23] | [DROOP-adaptive CINTAS] | loading source telemetry | 28/52 (53.8%) | elapsed=44.9s | DDR5_DROOP_dj.csv
-[2026-06-01 22:36:23] | [DROOP-adaptive CINTAS] | adding transient features | 28/52 (53.8%) | elapsed=45.1s | DDR5_DROOP_dj.csv: rows=10,000 cols=460
-[2026-06-01 22:36:23] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 28/52 (53.8%) | elapsed=45.3s | DDR5_DROOP_dj.csv: cols=700
-[2026-06-01 22:36:25] | [DROOP-adaptive CINTAS] | loading source telemetry | 29/52 (55.8%) | elapsed=47.5s | DDR5_DROOP_dp.csv
-[2026-06-01 22:36:25] | [DROOP-adaptive CINTAS] | adding transient features | 29/52 (55.8%) | elapsed=47.7s | DDR5_DROOP_dp.csv: rows=10,000 cols=460
-[2026-06-01 22:36:26] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 29/52 (55.8%) | elapsed=48.0s | DDR5_DROOP_dp.csv: cols=700
-[2026-06-01 22:36:28] | [DROOP-adaptive CINTAS] | loading source telemetry | 30/52 (57.7%) | elapsed=49.9s | DDR5_DROOP_gl.csv
-[2026-06-01 22:36:28] | [DROOP-adaptive CINTAS] | adding transient features | 30/52 (57.7%) | elapsed=50.1s | DDR5_DROOP_gl.csv: rows=10,000 cols=460
-[2026-06-01 22:36:28] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 30/52 (57.7%) | elapsed=50.4s | DDR5_DROOP_gl.csv: cols=700
-[2026-06-01 22:36:30] | [DROOP-adaptive CINTAS] | loading source telemetry | 31/52 (59.6%) | elapsed=52.6s | DDR5_DROOP_gs.csv
-[2026-06-01 22:36:31] | [DROOP-adaptive CINTAS] | adding transient features | 31/52 (59.6%) | elapsed=52.7s | DDR5_DROOP_gs.csv: rows=10,000 cols=460
-[2026-06-01 22:36:31] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 31/52 (59.6%) | elapsed=53.1s | DDR5_DROOP_gs.csv: cols=700
-[2026-06-01 22:36:33] | [DROOP-adaptive CINTAS] | loading source telemetry | 32/52 (61.5%) | elapsed=55.2s | DDR5_DROOP_ha.csv
-[2026-06-01 22:36:33] | [DROOP-adaptive CINTAS] | adding transient features | 32/52 (61.5%) | elapsed=55.4s | DDR5_DROOP_ha.csv: rows=10,000 cols=460
-[2026-06-01 22:36:33] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 32/52 (61.5%) | elapsed=55.6s | DDR5_DROOP_ha.csv: cols=700
-[2026-06-01 22:36:35] | [DROOP-adaptive CINTAS] | loading source telemetry | 33/52 (63.5%) | elapsed=57.6s | DDR5_DROOP_ja.csv
-[2026-06-01 22:36:36] | [DROOP-adaptive CINTAS] | adding transient features | 33/52 (63.5%) | elapsed=57.8s | DDR5_DROOP_ja.csv: rows=10,000 cols=460
-[2026-06-01 22:36:36] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 33/52 (63.5%) | elapsed=58.1s | DDR5_DROOP_ja.csv: cols=700
-[2026-06-01 22:36:38] | [DROOP-adaptive CINTAS] | loading source telemetry | 34/52 (65.4%) | elapsed=60.6s | DDR5_DROOP_mm.csv
-[2026-06-01 22:36:39] | [DROOP-adaptive CINTAS] | adding transient features | 34/52 (65.4%) | elapsed=60.7s | DDR5_DROOP_mm.csv: rows=10,000 cols=460
-[2026-06-01 22:36:39] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 34/52 (65.4%) | elapsed=61.0s | DDR5_DROOP_mm.csv: cols=700
-[2026-06-01 22:36:41] | [DROOP-adaptive CINTAS] | loading source telemetry | 35/52 (67.3%) | elapsed=63.2s | DDR5_DROOP_ni.csv
-[2026-06-01 22:36:41] | [DROOP-adaptive CINTAS] | adding transient features | 35/52 (67.3%) | elapsed=63.4s | DDR5_DROOP_ni.csv: rows=10,000 cols=460
-[2026-06-01 22:36:41] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 35/52 (67.3%) | elapsed=63.7s | DDR5_DROOP_ni.csv: cols=700
-[2026-06-01 22:36:43] | [DROOP-adaptive CINTAS] | loading source telemetry | 36/52 (69.2%) | elapsed=65.7s | DDR5_DROOP_oe.csv
-[2026-06-01 22:36:44] | [DROOP-adaptive CINTAS] | adding transient features | 36/52 (69.2%) | elapsed=65.9s | DDR5_DROOP_oe.csv: rows=10,000 cols=460
-[2026-06-01 22:36:44] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 36/52 (69.2%) | elapsed=66.1s | DDR5_DROOP_oe.csv: cols=700
-[2026-06-01 22:36:46] | [DROOP-adaptive CINTAS] | loading source telemetry | 37/52 (71.2%) | elapsed=68.3s | DDR5_DROOP_pi.csv
-[2026-06-01 22:36:46] | [DROOP-adaptive CINTAS] | adding transient features | 37/52 (71.2%) | elapsed=68.4s | DDR5_DROOP_pi.csv: rows=10,000 cols=460
-[2026-06-01 22:36:47] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 37/52 (71.2%) | elapsed=68.7s | DDR5_DROOP_pi.csv: cols=700
-[2026-06-01 22:36:49] | [DROOP-adaptive CINTAS] | loading source telemetry | 38/52 (73.1%) | elapsed=70.7s | DDR5_DROOP_sh.csv
-[2026-06-01 22:36:49] | [DROOP-adaptive CINTAS] | adding transient features | 38/52 (73.1%) | elapsed=70.9s | DDR5_DROOP_sh.csv: rows=10,000 cols=460
-[2026-06-01 22:36:49] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 38/52 (73.1%) | elapsed=71.2s | DDR5_DROOP_sh.csv: cols=700
-[2026-06-01 22:36:51] | [DROOP-adaptive CINTAS] | loading source telemetry | 39/52 (75.0%) | elapsed=73.1s | DDR5_DROOP_tr.csv
-[2026-06-01 22:36:51] | [DROOP-adaptive CINTAS] | adding transient features | 39/52 (75.0%) | elapsed=73.3s | DDR5_DROOP_tr.csv: rows=10,000 cols=460
-[2026-06-01 22:36:51] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 39/52 (75.0%) | elapsed=73.6s | DDR5_DROOP_tr.csv: cols=700
-[2026-06-01 22:36:54] | [DROOP-adaptive CINTAS] | loading source telemetry | 40/52 (76.9%) | elapsed=75.8s | DDR5_benign_dft.csv
-[2026-06-01 22:36:54] | [DROOP-adaptive CINTAS] | adding transient features | 40/52 (76.9%) | elapsed=75.9s | DDR5_benign_dft.csv: rows=10,000 cols=460
-[2026-06-01 22:36:54] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 40/52 (76.9%) | elapsed=76.2s | DDR5_benign_dft.csv: cols=700
-[2026-06-01 22:36:56] | [DROOP-adaptive CINTAS] | loading source telemetry | 41/52 (78.8%) | elapsed=78.2s | DDR5_benign_dj.csv
-[2026-06-01 22:36:56] | [DROOP-adaptive CINTAS] | adding transient features | 41/52 (78.8%) | elapsed=78.4s | DDR5_benign_dj.csv: rows=10,000 cols=460
-[2026-06-01 22:36:56] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 41/52 (78.8%) | elapsed=78.7s | DDR5_benign_dj.csv: cols=700
-[2026-06-01 22:36:59] | [DROOP-adaptive CINTAS] | loading source telemetry | 42/52 (80.8%) | elapsed=80.9s | DDR5_benign_dp.csv
-[2026-06-01 22:36:59] | [DROOP-adaptive CINTAS] | adding transient features | 42/52 (80.8%) | elapsed=81.1s | DDR5_benign_dp.csv: rows=10,000 cols=460
-[2026-06-01 22:36:59] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 42/52 (80.8%) | elapsed=81.4s | DDR5_benign_dp.csv: cols=700
-[2026-06-01 22:37:01] | [DROOP-adaptive CINTAS] | loading source telemetry | 43/52 (82.7%) | elapsed=83.4s | DDR5_benign_gl.csv
-[2026-06-01 22:37:01] | [DROOP-adaptive CINTAS] | adding transient features | 43/52 (82.7%) | elapsed=83.6s | DDR5_benign_gl.csv: rows=10,000 cols=460
-[2026-06-01 22:37:02] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 43/52 (82.7%) | elapsed=83.8s | DDR5_benign_gl.csv: cols=700
-[2026-06-01 22:37:04] | [DROOP-adaptive CINTAS] | loading source telemetry | 44/52 (84.6%) | elapsed=86.0s | DDR5_benign_gs.csv
-[2026-06-01 22:37:04] | [DROOP-adaptive CINTAS] | adding transient features | 44/52 (84.6%) | elapsed=86.2s | DDR5_benign_gs.csv: rows=10,000 cols=460
-[2026-06-01 22:37:04] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 44/52 (84.6%) | elapsed=86.5s | DDR5_benign_gs.csv: cols=700
-[2026-06-01 22:37:06] | [DROOP-adaptive CINTAS] | loading source telemetry | 45/52 (86.5%) | elapsed=88.7s | DDR5_benign_ha.csv
-[2026-06-01 22:37:07] | [DROOP-adaptive CINTAS] | adding transient features | 45/52 (86.5%) | elapsed=88.9s | DDR5_benign_ha.csv: rows=10,000 cols=460
-[2026-06-01 22:37:07] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 45/52 (86.5%) | elapsed=89.2s | DDR5_benign_ha.csv: cols=700
-[2026-06-01 22:37:09] | [DROOP-adaptive CINTAS] | loading source telemetry | 46/52 (88.5%) | elapsed=91.2s | DDR5_benign_ja.csv
-[2026-06-01 22:37:09] | [DROOP-adaptive CINTAS] | adding transient features | 46/52 (88.5%) | elapsed=91.3s | DDR5_benign_ja.csv: rows=10,000 cols=460
-[2026-06-01 22:37:09] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 46/52 (88.5%) | elapsed=91.6s | DDR5_benign_ja.csv: cols=700
-[2026-06-01 22:37:12] | [DROOP-adaptive CINTAS] | loading source telemetry | 47/52 (90.4%) | elapsed=93.9s | DDR5_benign_mm.csv
-[2026-06-01 22:37:12] | [DROOP-adaptive CINTAS] | adding transient features | 47/52 (90.4%) | elapsed=94.0s | DDR5_benign_mm.csv: rows=10,000 cols=460
-[2026-06-01 22:37:12] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 47/52 (90.4%) | elapsed=94.3s | DDR5_benign_mm.csv: cols=700
-[2026-06-01 22:37:14] | [DROOP-adaptive CINTAS] | loading source telemetry | 48/52 (92.3%) | elapsed=96.5s | DDR5_benign_ni.csv
-[2026-06-01 22:37:14] | [DROOP-adaptive CINTAS] | adding transient features | 48/52 (92.3%) | elapsed=96.7s | DDR5_benign_ni.csv: rows=10,000 cols=460
-[2026-06-01 22:37:15] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 48/52 (92.3%) | elapsed=97.0s | DDR5_benign_ni.csv: cols=700
-[2026-06-01 22:37:17] | [DROOP-adaptive CINTAS] | loading source telemetry | 49/52 (94.2%) | elapsed=99.1s | DDR5_benign_oe.csv
-[2026-06-01 22:37:17] | [DROOP-adaptive CINTAS] | adding transient features | 49/52 (94.2%) | elapsed=99.3s | DDR5_benign_oe.csv: rows=10,000 cols=460
-[2026-06-01 22:37:17] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 49/52 (94.2%) | elapsed=99.6s | DDR5_benign_oe.csv: cols=700
-[2026-06-01 22:37:20] | [DROOP-adaptive CINTAS] | loading source telemetry | 50/52 (96.2%) | elapsed=101.8s | DDR5_benign_pi.csv
-[2026-06-01 22:37:20] | [DROOP-adaptive CINTAS] | adding transient features | 50/52 (96.2%) | elapsed=101.9s | DDR5_benign_pi.csv: rows=10,000 cols=460
-[2026-06-01 22:37:20] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 50/52 (96.2%) | elapsed=102.2s | DDR5_benign_pi.csv: cols=700
-[2026-06-01 22:37:22] | [DROOP-adaptive CINTAS] | loading source telemetry | 51/52 (98.1%) | elapsed=104.2s | DDR5_benign_sh.csv
-[2026-06-01 22:37:22] | [DROOP-adaptive CINTAS] | adding transient features | 51/52 (98.1%) | elapsed=104.4s | DDR5_benign_sh.csv: rows=10,000 cols=460
-[2026-06-01 22:37:22] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 51/52 (98.1%) | elapsed=104.7s | DDR5_benign_sh.csv: cols=700
-[2026-06-01 22:37:24] | [DROOP-adaptive CINTAS] | loading source telemetry | 52/52 (100.0%) | elapsed=106.6s | DDR5_benign_tr.csv
-[2026-06-01 22:37:25] | [DROOP-adaptive CINTAS] | adding transient features | 52/52 (100.0%) | elapsed=106.8s | DDR5_benign_tr.csv: rows=10,000 cols=460
-[2026-06-01 22:37:25] | [DROOP-adaptive CINTAS] | writing augmented telemetry | 52/52 (100.0%) | elapsed=107.1s | DDR5_benign_tr.csv: cols=700
-[2026-06-01 22:37:27] | [DROOP-adaptive CINTAS] | running DROOP-only sweep | elapsed=109.2s | p=0.975 windows=5 budgets=3
-[2026-06-01 22:37:27] | [TCAD ablation] | START | elapsed=0.0s | out=results/notebook_run/droop_adaptive_ablation/p0_975 configs=180 scenarios=('DROOP',) windows=(50, 100, 200, 500, 1000)
-[2026-06-01 22:37:27] | [TCAD ablation] | loading telemetry | elapsed=0.0s | results/notebook_run/droop_adaptive_data
-[2026-06-01 22:37:47] | [TCAD ablation] | loaded telemetry | elapsed=19.6s | A rows=260,000, B rows=260,000
-[2026-06-01 22:37:53] | [TCAD ablation] | shared features | elapsed=26.4s | count=328
-[2026-06-01 22:37:53] | [TCAD ablation] | building feature ranks | elapsed=26.4s | Setup A
-[2026-06-01 22:38:32] | [TCAD ablation] | building feature ranks | elapsed=65.3s | Setup B
-[2026-06-01 22:39:17] | [TCAD ablation] | evaluating grid | 1/180 (0.6%) | elapsed=110.1s | setup=A k=15 lambda=0.0 agg=max weight=uniform q=15
-[2026-06-01 22:39:51] | [TCAD ablation] | evaluating grid | 9/180 (5.0%) | elapsed=144.4s | setup=A k=15 lambda=0.25 agg=mean weight=uniform q=15
-[2026-06-01 22:40:30] | [TCAD ablation] | evaluating grid | 18/180 (10.0%) | elapsed=183.0s | setup=A k=15 lambda=0.5 agg=median weight=inv_var q=15
-[2026-06-01 22:41:09] | [TCAD ablation] | evaluating grid | 27/180 (15.0%) | elapsed=221.9s | setup=A k=15 lambda=1.0 agg=mean weight=uniform q=15
-[2026-06-01 22:41:49] | [TCAD ablation] | evaluating grid | 36/180 (20.0%) | elapsed=261.9s | setup=A k=30 lambda=0.0 agg=median weight=inv_var q=15
-[2026-06-01 22:42:29] | [TCAD ablation] | evaluating grid | 45/180 (25.0%) | elapsed=302.1s | setup=A k=30 lambda=0.5 agg=mean weight=uniform q=15
-[2026-06-01 22:43:09] | [TCAD ablation] | evaluating grid | 54/180 (30.0%) | elapsed=341.9s | setup=A k=30 lambda=0.75 agg=median weight=inv_var q=15
-[2026-06-01 22:43:50] | [TCAD ablation] | evaluating grid | 63/180 (35.0%) | elapsed=383.4s | setup=A k=50 lambda=0.0 agg=mean weight=uniform q=15
-[2026-06-01 22:44:32] | [TCAD ablation] | evaluating grid | 72/180 (40.0%) | elapsed=425.2s | setup=A k=50 lambda=0.25 agg=median weight=inv_var q=15
-[2026-06-01 22:45:14] | [TCAD ablation] | evaluating grid | 81/180 (45.0%) | elapsed=466.7s | setup=A k=50 lambda=0.75 agg=mean weight=uniform q=15
-[2026-06-01 22:45:56] | [TCAD ablation] | evaluating grid | 90/180 (50.0%) | elapsed=508.5s | setup=A k=50 lambda=1.0 agg=median weight=inv_var q=15
-[2026-06-01 22:47:03] | [TCAD ablation] | evaluating grid | 99/180 (55.0%) | elapsed=576.3s | setup=B k=15 lambda=0.25 agg=mean weight=uniform q=15
-[2026-06-01 22:48:15] | [TCAD ablation] | evaluating grid | 108/180 (60.0%) | elapsed=648.5s | setup=B k=15 lambda=0.5 agg=median weight=inv_var q=15
-[2026-06-01 22:49:31] | [TCAD ablation] | evaluating grid | 117/180 (65.0%) | elapsed=724.4s | setup=B k=15 lambda=1.0 agg=mean weight=uniform q=15
-[2026-06-01 22:50:47] | [TCAD ablation] | evaluating grid | 126/180 (70.0%) | elapsed=800.0s | setup=B k=30 lambda=0.0 agg=median weight=inv_var q=15
-[2026-06-01 22:52:07] | [TCAD ablation] | evaluating grid | 135/180 (75.0%) | elapsed=879.8s | setup=B k=30 lambda=0.5 agg=mean weight=uniform q=15
-[2026-06-01 22:53:28] | [TCAD ablation] | evaluating grid | 144/180 (80.0%) | elapsed=961.0s | setup=B k=30 lambda=0.75 agg=median weight=inv_var q=15
-[2026-06-01 22:55:05] | [TCAD ablation] | evaluating grid | 153/180 (85.0%) | elapsed=1057.7s | setup=B k=50 lambda=0.0 agg=mean weight=uniform q=15
-[2026-06-01 22:56:50] | [TCAD ablation] | evaluating grid | 162/180 (90.0%) | elapsed=1163.0s | setup=B k=50 lambda=0.25 agg=median weight=inv_var q=15
-[2026-06-01 22:58:29] | [TCAD ablation] | evaluating grid | 171/180 (95.0%) | elapsed=1261.9s | setup=B k=50 lambda=0.75 agg=mean weight=uniform q=15
-[2026-06-01 23:00:03] | [TCAD ablation] | evaluating grid | 180/180 (100.0%) | elapsed=1355.9s | setup=B k=50 lambda=1.0 agg=median weight=inv_var q=15
-[2026-06-01 23:00:13] | [TCAD ablation] | summarizing fold results | elapsed=1366.0s | fold_frames=180
-[2026-06-01 23:00:13] | [TCAD ablation] | writing CSV artifacts | elapsed=1366.1s
-[2026-06-01 23:00:14] | [TCAD ablation] | writing manifest | elapsed=1366.6s
-[2026-06-01 23:00:16] | [TCAD ablation] | DONE | elapsed=1368.8s | results/notebook_run/droop_adaptive_ablation/p0_975/tcad_ablation_summary.csv
-[2026-06-01 23:00:16] | [DROOP-adaptive CINTAS] | running DROOP-only sweep | elapsed=1478.2s | p=0.99 windows=5 budgets=3
-[2026-06-01 23:00:16] | [TCAD ablation] | START | elapsed=0.0s | out=results/notebook_run/droop_adaptive_ablation/p0_99 configs=180 scenarios=('DROOP',) windows=(50, 100, 200, 500, 1000)
-[2026-06-01 23:00:16] | [TCAD ablation] | loading telemetry | elapsed=0.0s | results/notebook_run/droop_adaptive_data
-[2026-06-01 23:00:33] | [TCAD ablation] | loaded telemetry | elapsed=16.7s | A rows=260,000, B rows=260,000
-[2026-06-01 23:00:40] | [TCAD ablation] | shared features | elapsed=24.3s | count=328
-[2026-06-01 23:00:40] | [TCAD ablation] | building feature ranks | elapsed=24.3s | Setup A
-[2026-06-01 23:01:20] | [TCAD ablation] | building feature ranks | elapsed=63.9s | Setup B
-[2026-06-01 23:02:06] | [TCAD ablation] | evaluating grid | 1/180 (0.6%) | elapsed=110.0s | setup=A k=15 lambda=0.0 agg=max weight=uniform q=15
-[2026-06-01 23:02:40] | [TCAD ablation] | evaluating grid | 9/180 (5.0%) | elapsed=144.3s | setup=A k=15 lambda=0.25 agg=mean weight=uniform q=15
-[2026-06-01 23:03:19] | [TCAD ablation] | evaluating grid | 18/180 (10.0%) | elapsed=182.5s | setup=A k=15 lambda=0.5 agg=median weight=inv_var q=15
-[2026-06-01 23:03:57] | [TCAD ablation] | evaluating grid | 27/180 (15.0%) | elapsed=221.4s | setup=A k=15 lambda=1.0 agg=mean weight=uniform q=15
-[2026-06-01 23:04:38] | [TCAD ablation] | evaluating grid | 36/180 (20.0%) | elapsed=261.7s | setup=A k=30 lambda=0.0 agg=median weight=inv_var q=15
-[2026-06-01 23:05:18] | [TCAD ablation] | evaluating grid | 45/180 (25.0%) | elapsed=301.9s | setup=A k=30 lambda=0.5 agg=mean weight=uniform q=15
-[2026-06-01 23:05:58] | [TCAD ablation] | evaluating grid | 54/180 (30.0%) | elapsed=342.0s | setup=A k=30 lambda=0.75 agg=median weight=inv_var q=15
-[2026-06-01 23:06:39] | [TCAD ablation] | evaluating grid | 63/180 (35.0%) | elapsed=383.4s | setup=A k=50 lambda=0.0 agg=mean weight=uniform q=15
-[2026-06-01 23:07:22] | [TCAD ablation] | evaluating grid | 72/180 (40.0%) | elapsed=425.6s | setup=A k=50 lambda=0.25 agg=median weight=inv_var q=15
-[2026-06-01 23:08:03] | [TCAD ablation] | evaluating grid | 81/180 (45.0%) | elapsed=467.0s | setup=A k=50 lambda=0.75 agg=mean weight=uniform q=15
-[2026-06-01 23:08:45] | [TCAD ablation] | evaluating grid | 90/180 (50.0%) | elapsed=509.3s | setup=A k=50 lambda=1.0 agg=median weight=inv_var q=15
-[2026-06-01 23:09:59] | [TCAD ablation] | evaluating grid | 99/180 (55.0%) | elapsed=582.8s | setup=B k=15 lambda=0.25 agg=mean weight=uniform q=15
-[2026-06-01 23:11:17] | [TCAD ablation] | evaluating grid | 108/180 (60.0%) | elapsed=661.3s | setup=B k=15 lambda=0.5 agg=median weight=inv_var q=15
-[2026-06-01 23:12:45] | [TCAD ablation] | evaluating grid | 117/180 (65.0%) | elapsed=749.2s | setup=B k=15 lambda=1.0 agg=mean weight=uniform q=15
-[2026-06-01 23:14:13] | [TCAD ablation] | evaluating grid | 126/180 (70.0%) | elapsed=837.3s | setup=B k=30 lambda=0.0 agg=median weight=inv_var q=15
-[2026-06-01 23:15:47] | [TCAD ablation] | evaluating grid | 135/180 (75.0%) | elapsed=931.0s | setup=B k=30 lambda=0.5 agg=mean weight=uniform q=15
-[2026-06-01 23:17:21] | [TCAD ablation] | evaluating grid | 144/180 (80.0%) | elapsed=1024.8s | setup=B k=30 lambda=0.75 agg=median weight=inv_var q=15
-[2026-06-01 23:18:44] | [TCAD ablation] | evaluating grid | 153/180 (85.0%) | elapsed=1108.0s | setup=B k=50 lambda=0.0 agg=mean weight=uniform q=15
-[2026-06-01 23:20:22] | [TCAD ablation] | evaluating grid | 162/180 (90.0%) | elapsed=1205.6s | setup=B k=50 lambda=0.25 agg=median weight=inv_var q=15
-[2026-06-01 23:21:59] | [TCAD ablation] | evaluating grid | 171/180 (95.0%) | elapsed=1303.1s | setup=B k=50 lambda=0.75 agg=mean weight=uniform q=15
-[2026-06-01 23:23:30] | [TCAD ablation] | evaluating grid | 180/180 (100.0%) | elapsed=1393.9s | setup=B k=50 lambda=1.0 agg=median weight=inv_var q=15
-[2026-06-01 23:23:40] | [TCAD ablation] | summarizing fold results | elapsed=1403.8s | fold_frames=180
-[2026-06-01 23:23:40] | [TCAD ablation] | writing CSV artifacts | elapsed=1403.9s
-[2026-06-01 23:23:40] | [TCAD ablation] | writing manifest | elapsed=1404.3s
-[2026-06-01 23:23:42] | [TCAD ablation] | DONE | elapsed=1405.8s | results/notebook_run/droop_adaptive_ablation/p0_99/tcad_ablation_summary.csv
-[2026-06-01 23:24:46] | [DROOP-adaptive CINTAS] | DONE | 1/2 (50.0%) | elapsed=2947.9s | results/notebook_run/tcad_ablation/tcad_ablation_summary.csv
-[2026-06-01 23:24:46] | [TCAD notebook cell] | DONE | 2/2 (100.0%) | elapsed=55315.9s | results/notebook_run/tcad_ablation/tcad_ablation_summary.csv
-[2026-06-02 09:21:36] | [Lifecycle drift] | START | elapsed=0.0s | out=results/notebook_run/lifecycle_drift top_k=15 window=100 scenarios=('DROOP', 'RH', 'SPECTRE')
-[2026-06-02 09:21:36] | [Lifecycle drift] | loading telemetry | elapsed=0.0s | data/telemetry/processed/ddr_data
-[2026-06-02 09:22:03] | [Lifecycle drift] | shared features | elapsed=27.4s | count=136
-[2026-06-02 09:22:03] | [Lifecycle drift] | setup start | 1/2 (50.0%) | elapsed=27.4s | Setup A
-[2026-06-02 09:22:04] | [Lifecycle drift] | epoch split | elapsed=27.7s | Setup A: initial=78,000, later=52,000
-[2026-06-02 09:22:09] | [Lifecycle drift] | frozen anomaly windows | 1/3 (33.3%) | elapsed=32.7s | Setup A scenario=DROOP
-[2026-06-02 09:22:09] | [Lifecycle drift] | frozen anomaly windows | 2/3 (66.7%) | elapsed=33.1s | Setup A scenario=RH
-[2026-06-02 09:22:09] | [Lifecycle drift] | frozen anomaly windows | 3/3 (100.0%) | elapsed=33.5s | Setup A scenario=SPECTRE
-[2026-06-02 09:22:12] | [Lifecycle drift] | recalibrated anomaly windows | 1/3 (33.3%) | elapsed=36.6s | Setup A scenario=DROOP
-[2026-06-02 09:22:13] | [Lifecycle drift] | recalibrated anomaly windows | 2/3 (66.7%) | elapsed=36.9s | Setup A scenario=RH
-[2026-06-02 09:22:13] | [Lifecycle drift] | recalibrated anomaly windows | 3/3 (100.0%) | elapsed=37.3s | Setup A scenario=SPECTRE
-[2026-06-02 09:22:13] | [Lifecycle drift] | setup start | 2/2 (100.0%) | elapsed=37.3s | Setup B
-[2026-06-02 09:22:14] | [Lifecycle drift] | epoch split | elapsed=38.3s | Setup B: initial=78,000, later=52,000
-[2026-06-02 09:22:21] | [Lifecycle drift] | frozen anomaly windows | 1/3 (33.3%) | elapsed=44.7s | Setup B scenario=DROOP
-[2026-06-02 09:22:22] | [Lifecycle drift] | frozen anomaly windows | 2/3 (66.7%) | elapsed=45.9s | Setup B scenario=RH
-[2026-06-02 09:22:22] | [Lifecycle drift] | frozen anomaly windows | 3/3 (100.0%) | elapsed=45.9s | Setup B scenario=SPECTRE
-[2026-06-02 09:22:27] | [Lifecycle drift] | recalibrated anomaly windows | 1/3 (33.3%) | elapsed=50.8s | Setup B scenario=DROOP
-[2026-06-02 09:22:28] | [Lifecycle drift] | recalibrated anomaly windows | 2/3 (66.7%) | elapsed=52.3s | Setup B scenario=RH
-[2026-06-02 09:22:28] | [Lifecycle drift] | recalibrated anomaly windows | 3/3 (100.0%) | elapsed=52.4s | Setup B scenario=SPECTRE
-[2026-06-02 09:22:29] | [Lifecycle drift] | summarizing | elapsed=53.5s | summary_rows=6
-[2026-06-02 09:22:29] | [Lifecycle drift] | writing CSV artifacts | elapsed=53.5s
-[2026-06-02 09:22:30] | [Lifecycle drift] | writing manifest | elapsed=53.7s
-[2026-06-02 09:22:31] | [Lifecycle drift] | DONE | elapsed=54.8s | results/notebook_run/lifecycle_drift/lifecycle_recalibration_summary.csv
-[2026-06-02 10:14:31] | [Apple limited-observability] | START | elapsed=0.0s | root=data/telemetry/raw/apple_data
-[2026-06-02 10:14:34] | [Apple limited-observability] | loaded observability views | elapsed=3.1s | TIER0_FULL, TIER1_ALT_CORE, TIER1_ALT_FULL, TIER2_CORE, TIER2_FULL
-[2026-06-02 10:14:34] | [Apple limited-observability] | processing observability view | 1/5 (20.0%) | elapsed=3.1s | TIER0_FULL
-[2026-06-02 10:24:56] | [Apple limited-observability] | processing observability view | 2/5 (40.0%) | elapsed=624.7s | TIER1_ALT_CORE
-[2026-06-02 10:33:51] | [Apple limited-observability] | processing observability view | 3/5 (60.0%) | elapsed=1160.0s | TIER1_ALT_FULL
-[2026-06-02 10:43:07] | [Apple limited-observability] | processing observability view | 4/5 (80.0%) | elapsed=1716.0s | TIER2_CORE
-[2026-06-02 10:51:52] | [Apple limited-observability] | processing observability view | 5/5 (100.0%) | elapsed=2241.0s | TIER2_FULL
-[2026-06-02 11:13:23] | [Apple limited-observability] | DONE | elapsed=2841.8s | results/notebook_run/apple_limited_observability/run_manifest.json
+[2026-06-11 14:13:14] | [TCAD notebook cell] | START | elapsed=0.0s | preset=full config=configs/tcad_grid_full.json
+[2026-06-11 14:13:14] | [TCAD notebook cell] | calling standard DSE helper | elapsed=0.0s | scenarios=('RH', 'SPECTRE')
+[2026-06-11 14:13:14] | [TCAD ablation] | START | elapsed=0.0s | out=results/notebook_run/tcad_ablation configs=1800 scenarios=('RH', 'SPECTRE') windows=(50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950, 1000)
+[2026-06-11 14:13:14] | [TCAD ablation] | loading telemetry | elapsed=0.0s | data/telemetry/processed/ddr_data
+[2026-06-11 14:13:30] | [TCAD ablation] | loaded telemetry | elapsed=15.9s | A rows=390,000, B rows=390,000
+[2026-06-11 14:13:36] | [TCAD ablation] | shared features | elapsed=22.3s | count=136
+[2026-06-11 14:13:36] | [TCAD ablation] | building feature ranks | elapsed=22.3s | Setup A
+[2026-06-11 14:13:56] | [TCAD ablation] | building feature ranks | elapsed=41.8s | Setup B
+[2026-06-11 14:14:25] | [TCAD ablation] | evaluating grid | 1/1800 (0.1%) | elapsed=71.3s | setup=A k=5 lambda=0.0 agg=max weight=uniform q=8
+[2026-06-11 14:42:24] | [TCAD ablation] | evaluating grid | 90/1800 (5.0%) | elapsed=1749.7s | setup=A k=5 lambda=0.5 agg=median weight=inv_var q=18
+[2026-06-11 15:11:02] | [TCAD ablation] | evaluating grid | 180/1800 (10.0%) | elapsed=3467.8s | setup=A k=8 lambda=0.0 agg=median weight=inv_var q=18
+[2026-06-11 15:38:47] | [TCAD ablation] | evaluating grid | 270/1800 (15.0%) | elapsed=5133.0s | setup=A k=8 lambda=0.75 agg=median weight=inv_var q=18
+[2026-06-11 16:07:16] | [TCAD ablation] | evaluating grid | 360/1800 (20.0%) | elapsed=6841.7s | setup=A k=10 lambda=0.25 agg=median weight=inv_var q=18
+[2026-06-11 16:36:03] | [TCAD ablation] | evaluating grid | 450/1800 (25.0%) | elapsed=8569.0s | setup=A k=10 lambda=1.0 agg=median weight=inv_var q=18
+[2026-06-11 17:06:19] | [TCAD ablation] | evaluating grid | 540/1800 (30.0%) | elapsed=10384.9s | setup=A k=15 lambda=0.5 agg=median weight=inv_var q=18
+[2026-06-11 17:33:29] | [TCAD ablation] | evaluating grid | 630/1800 (35.0%) | elapsed=12014.4s | setup=A k=20 lambda=0.0 agg=median weight=inv_var q=18
+[2026-06-11 18:01:34] | [TCAD ablation] | evaluating grid | 720/1800 (40.0%) | elapsed=13699.4s | setup=A k=20 lambda=0.75 agg=median weight=inv_var q=18
+[2026-06-11 18:30:56] | [TCAD ablation] | evaluating grid | 810/1800 (45.0%) | elapsed=15461.3s | setup=A k=30 lambda=0.25 agg=median weight=inv_var q=18
+[2026-06-11 18:58:09] | [TCAD ablation] | evaluating grid | 900/1800 (50.0%) | elapsed=17094.4s | setup=A k=30 lambda=1.0 agg=median weight=inv_var q=18
+[2026-06-11 19:48:03] | [TCAD ablation] | evaluating grid | 990/1800 (55.0%) | elapsed=20088.7s | setup=B k=5 lambda=0.5 agg=median weight=inv_var q=18
+[2026-06-11 21:39:16] | [TCAD ablation] | evaluating grid | 1080/1800 (60.0%) | elapsed=24302.1s | setup=B k=8 lambda=0.0 agg=median weight=inv_var q=18
+[2026-06-11 22:39:26] | [TCAD ablation] | evaluating grid | 1170/1800 (65.0%) | elapsed=27911.7s | setup=B k=8 lambda=0.75 agg=median weight=inv_var q=18
+[2026-06-11 23:34:44] | [TCAD ablation] | evaluating grid | 1260/1800 (70.0%) | elapsed=31229.9s | setup=B k=10 lambda=0.25 agg=median weight=inv_var q=18
+[2026-06-12 00:29:35] | [TCAD ablation] | evaluating grid | 1350/1800 (75.0%) | elapsed=34520.9s | setup=B k=10 lambda=1.0 agg=median weight=inv_var q=18
+[2026-06-12 01:26:48] | [TCAD ablation] | evaluating grid | 1440/1800 (80.0%) | elapsed=37954.3s | setup=B k=15 lambda=0.5 agg=median weight=inv_var q=18
+[2026-06-12 02:21:36] | [TCAD ablation] | evaluating grid | 1530/1800 (85.0%) | elapsed=41242.1s | setup=B k=20 lambda=0.0 agg=median weight=inv_var q=18
+[2026-06-12 03:16:04] | [TCAD ablation] | evaluating grid | 1620/1800 (90.0%) | elapsed=44509.3s | setup=B k=20 lambda=0.75 agg=median weight=inv_var q=18
+[2026-06-12 04:17:41] | [TCAD ablation] | evaluating grid | 1710/1800 (95.0%) | elapsed=48206.5s | setup=B k=30 lambda=0.25 agg=median weight=inv_var q=18
+[2026-06-12 05:14:23] | [TCAD ablation] | evaluating grid | 1800/1800 (100.0%) | elapsed=51608.7s | setup=B k=30 lambda=1.0 agg=median weight=inv_var q=18
+[2026-06-12 05:15:02] | [TCAD ablation] | summarizing fold results | elapsed=51647.5s | fold_frames=1800
+[2026-06-12 05:15:07] | [TCAD ablation] | writing CSV artifacts | elapsed=51653.1s
+[2026-06-12 05:15:39] | [TCAD ablation] | writing manifest | elapsed=51684.4s
+[2026-06-12 05:15:45] | [TCAD ablation] | DONE | elapsed=51690.5s | results/notebook_run/tcad_ablation/tcad_ablation_summary.csv
+[2026-06-12 05:16:18] | [TCAD notebook cell] | standard DSE branch complete | 1/2 (50.0%) | elapsed=51724.0s | DROOP adaptive branch follows
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | START | elapsed=0.0s | windows=(50, 100, 200, 500, 1000)
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | building DROOP-only augmented telemetry | elapsed=0.0s
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 1/52 (1.9%) | elapsed=0.0s | DDR4_DROOP_dft.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 2/52 (3.8%) | elapsed=0.0s | DDR4_DROOP_dj.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 3/52 (5.8%) | elapsed=0.0s | DDR4_DROOP_dp.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 4/52 (7.7%) | elapsed=0.0s | DDR4_DROOP_gl.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 5/52 (9.6%) | elapsed=0.0s | DDR4_DROOP_gs.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 6/52 (11.5%) | elapsed=0.0s | DDR4_DROOP_ha.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 7/52 (13.5%) | elapsed=0.0s | DDR4_DROOP_ja.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 8/52 (15.4%) | elapsed=0.0s | DDR4_DROOP_mm.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 9/52 (17.3%) | elapsed=0.0s | DDR4_DROOP_ni.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 10/52 (19.2%) | elapsed=0.0s | DDR4_DROOP_oe.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 11/52 (21.2%) | elapsed=0.0s | DDR4_DROOP_pi.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 12/52 (23.1%) | elapsed=0.0s | DDR4_DROOP_sh.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 13/52 (25.0%) | elapsed=0.0s | DDR4_DROOP_tr.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 14/52 (26.9%) | elapsed=0.0s | DDR4_benign_dft.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 15/52 (28.8%) | elapsed=0.0s | DDR4_benign_dj.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 16/52 (30.8%) | elapsed=0.0s | DDR4_benign_dp.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 17/52 (32.7%) | elapsed=0.0s | DDR4_benign_gl.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 18/52 (34.6%) | elapsed=0.0s | DDR4_benign_gs.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 19/52 (36.5%) | elapsed=0.0s | DDR4_benign_ha.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 20/52 (38.5%) | elapsed=0.0s | DDR4_benign_ja.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 21/52 (40.4%) | elapsed=0.0s | DDR4_benign_mm.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 22/52 (42.3%) | elapsed=0.0s | DDR4_benign_ni.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 23/52 (44.2%) | elapsed=0.0s | DDR4_benign_oe.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 24/52 (46.2%) | elapsed=0.0s | DDR4_benign_pi.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 25/52 (48.1%) | elapsed=0.0s | DDR4_benign_sh.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 26/52 (50.0%) | elapsed=0.0s | DDR4_benign_tr.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 27/52 (51.9%) | elapsed=0.0s | DDR5_DROOP_dft.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 28/52 (53.8%) | elapsed=0.0s | DDR5_DROOP_dj.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 29/52 (55.8%) | elapsed=0.0s | DDR5_DROOP_dp.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 30/52 (57.7%) | elapsed=0.0s | DDR5_DROOP_gl.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 31/52 (59.6%) | elapsed=0.0s | DDR5_DROOP_gs.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 32/52 (61.5%) | elapsed=0.0s | DDR5_DROOP_ha.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 33/52 (63.5%) | elapsed=0.0s | DDR5_DROOP_ja.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 34/52 (65.4%) | elapsed=0.0s | DDR5_DROOP_mm.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 35/52 (67.3%) | elapsed=0.0s | DDR5_DROOP_ni.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 36/52 (69.2%) | elapsed=0.0s | DDR5_DROOP_oe.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 37/52 (71.2%) | elapsed=0.0s | DDR5_DROOP_pi.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 38/52 (73.1%) | elapsed=0.0s | DDR5_DROOP_sh.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 39/52 (75.0%) | elapsed=0.0s | DDR5_DROOP_tr.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 40/52 (76.9%) | elapsed=0.0s | DDR5_benign_dft.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 41/52 (78.8%) | elapsed=0.0s | DDR5_benign_dj.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 42/52 (80.8%) | elapsed=0.0s | DDR5_benign_dp.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 43/52 (82.7%) | elapsed=0.0s | DDR5_benign_gl.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 44/52 (84.6%) | elapsed=0.0s | DDR5_benign_gs.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 45/52 (86.5%) | elapsed=0.0s | DDR5_benign_ha.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 46/52 (88.5%) | elapsed=0.1s | DDR5_benign_ja.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 47/52 (90.4%) | elapsed=0.1s | DDR5_benign_mm.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 48/52 (92.3%) | elapsed=0.1s | DDR5_benign_ni.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 49/52 (94.2%) | elapsed=0.1s | DDR5_benign_oe.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 50/52 (96.2%) | elapsed=0.1s | DDR5_benign_pi.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 51/52 (98.1%) | elapsed=0.1s | DDR5_benign_sh.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | reusing cached augmented telemetry | 52/52 (100.0%) | elapsed=0.1s | DDR5_benign_tr.csv
+[2026-06-12 05:16:18] | [DROOP-adaptive CINTAS] | running DROOP-only sweep | elapsed=0.1s | p=0.975 windows=5 budgets=3
+[2026-06-12 05:16:18] | [TCAD ablation] | START | elapsed=0.0s | out=results/notebook_run/droop_adaptive_ablation/p0_975 configs=180 scenarios=('DROOP',) windows=(50, 100, 200, 500, 1000)
+[2026-06-12 05:16:18] | [TCAD ablation] | loading telemetry | elapsed=0.0s | results/notebook_run/droop_adaptive_data
+[2026-06-12 05:16:39] | [TCAD ablation] | loaded telemetry | elapsed=21.0s | A rows=260,000, B rows=260,000
+[2026-06-12 05:16:46] | [TCAD ablation] | shared features | elapsed=27.8s | count=328
+[2026-06-12 05:16:46] | [TCAD ablation] | building feature ranks | elapsed=27.8s | Setup A
+[2026-06-12 05:17:27] | [TCAD ablation] | building feature ranks | elapsed=68.3s | Setup B
+[2026-06-12 05:18:14] | [TCAD ablation] | evaluating grid | 1/180 (0.6%) | elapsed=115.9s | setup=A k=15 lambda=0.0 agg=max weight=uniform q=15
+[2026-06-12 05:18:50] | [TCAD ablation] | evaluating grid | 9/180 (5.0%) | elapsed=151.6s | setup=A k=15 lambda=0.25 agg=mean weight=uniform q=15
+[2026-06-12 05:19:31] | [TCAD ablation] | evaluating grid | 18/180 (10.0%) | elapsed=192.7s | setup=A k=15 lambda=0.5 agg=median weight=inv_var q=15
+[2026-06-12 05:20:13] | [TCAD ablation] | evaluating grid | 27/180 (15.0%) | elapsed=234.3s | setup=A k=15 lambda=1.0 agg=mean weight=uniform q=15
+[2026-06-12 05:20:55] | [TCAD ablation] | evaluating grid | 36/180 (20.0%) | elapsed=276.6s | setup=A k=30 lambda=0.0 agg=median weight=inv_var q=15
+[2026-06-12 05:21:39] | [TCAD ablation] | evaluating grid | 45/180 (25.0%) | elapsed=320.5s | setup=A k=30 lambda=0.5 agg=mean weight=uniform q=15
+[2026-06-12 05:22:24] | [TCAD ablation] | evaluating grid | 54/180 (30.0%) | elapsed=365.1s | setup=A k=30 lambda=0.75 agg=median weight=inv_var q=15
+[2026-06-12 05:23:09] | [TCAD ablation] | evaluating grid | 63/180 (35.0%) | elapsed=410.8s | setup=A k=50 lambda=0.0 agg=mean weight=uniform q=15
+[2026-06-12 05:24:02] | [TCAD ablation] | evaluating grid | 72/180 (40.0%) | elapsed=463.8s | setup=A k=50 lambda=0.25 agg=median weight=inv_var q=15
+[2026-06-12 05:24:58] | [TCAD ablation] | evaluating grid | 81/180 (45.0%) | elapsed=519.2s | setup=A k=50 lambda=0.75 agg=mean weight=uniform q=15
+[2026-06-12 05:25:49] | [TCAD ablation] | evaluating grid | 90/180 (50.0%) | elapsed=571.0s | setup=A k=50 lambda=1.0 agg=median weight=inv_var q=15
+[2026-06-12 05:27:17] | [TCAD ablation] | evaluating grid | 99/180 (55.0%) | elapsed=658.3s | setup=B k=15 lambda=0.25 agg=mean weight=uniform q=15
+[2026-06-12 05:28:45] | [TCAD ablation] | evaluating grid | 108/180 (60.0%) | elapsed=747.1s | setup=B k=15 lambda=0.5 agg=median weight=inv_var q=15
+[2026-06-12 05:30:19] | [TCAD ablation] | evaluating grid | 117/180 (65.0%) | elapsed=840.7s | setup=B k=15 lambda=1.0 agg=mean weight=uniform q=15
+[2026-06-12 05:31:52] | [TCAD ablation] | evaluating grid | 126/180 (70.0%) | elapsed=933.4s | setup=B k=30 lambda=0.0 agg=median weight=inv_var q=15
+[2026-06-12 05:33:37] | [TCAD ablation] | evaluating grid | 135/180 (75.0%) | elapsed=1038.2s | setup=B k=30 lambda=0.5 agg=mean weight=uniform q=15
+[2026-06-12 05:35:11] | [TCAD ablation] | evaluating grid | 144/180 (80.0%) | elapsed=1132.4s | setup=B k=30 lambda=0.75 agg=median weight=inv_var q=15
+[2026-06-12 05:36:46] | [TCAD ablation] | evaluating grid | 153/180 (85.0%) | elapsed=1227.4s | setup=B k=50 lambda=0.0 agg=mean weight=uniform q=15
+[2026-06-12 05:38:30] | [TCAD ablation] | evaluating grid | 162/180 (90.0%) | elapsed=1331.6s | setup=B k=50 lambda=0.25 agg=median weight=inv_var q=15
+[2026-06-12 05:40:21] | [TCAD ablation] | evaluating grid | 171/180 (95.0%) | elapsed=1442.4s | setup=B k=50 lambda=0.75 agg=mean weight=uniform q=15
+[2026-06-12 05:41:54] | [TCAD ablation] | evaluating grid | 180/180 (100.0%) | elapsed=1536.1s | setup=B k=50 lambda=1.0 agg=median weight=inv_var q=15
+[2026-06-12 05:42:06] | [TCAD ablation] | summarizing fold results | elapsed=1547.3s | fold_frames=180
+[2026-06-12 05:42:06] | [TCAD ablation] | writing CSV artifacts | elapsed=1547.4s
+[2026-06-12 05:42:06] | [TCAD ablation] | writing manifest | elapsed=1548.0s
+[2026-06-12 05:42:08] | [TCAD ablation] | DONE | elapsed=1549.6s | results/notebook_run/droop_adaptive_ablation/p0_975/tcad_ablation_summary.csv
+[2026-06-12 05:42:08] | [DROOP-adaptive CINTAS] | running DROOP-only sweep | elapsed=1549.9s | p=0.99 windows=5 budgets=3
+[2026-06-12 05:42:08] | [TCAD ablation] | START | elapsed=0.0s | out=results/notebook_run/droop_adaptive_ablation/p0_99 configs=180 scenarios=('DROOP',) windows=(50, 100, 200, 500, 1000)
+[2026-06-12 05:42:08] | [TCAD ablation] | loading telemetry | elapsed=0.0s | results/notebook_run/droop_adaptive_data
+[2026-06-12 05:42:26] | [TCAD ablation] | loaded telemetry | elapsed=17.3s | A rows=260,000, B rows=260,000
+[2026-06-12 05:42:35] | [TCAD ablation] | shared features | elapsed=26.8s | count=328
+[2026-06-12 05:42:35] | [TCAD ablation] | building feature ranks | elapsed=26.8s | Setup A
+[2026-06-12 05:43:16] | [TCAD ablation] | building feature ranks | elapsed=68.2s | Setup B
+[2026-06-12 05:44:07] | [TCAD ablation] | evaluating grid | 1/180 (0.6%) | elapsed=119.1s | setup=A k=15 lambda=0.0 agg=max weight=uniform q=15
+[2026-06-12 05:44:44] | [TCAD ablation] | evaluating grid | 9/180 (5.0%) | elapsed=155.6s | setup=A k=15 lambda=0.25 agg=mean weight=uniform q=15
+[2026-06-12 05:45:24] | [TCAD ablation] | evaluating grid | 18/180 (10.0%) | elapsed=196.2s | setup=A k=15 lambda=0.5 agg=median weight=inv_var q=15
+[2026-06-12 05:46:07] | [TCAD ablation] | evaluating grid | 27/180 (15.0%) | elapsed=238.8s | setup=A k=15 lambda=1.0 agg=mean weight=uniform q=15
+[2026-06-12 05:46:49] | [TCAD ablation] | evaluating grid | 36/180 (20.0%) | elapsed=280.6s | setup=A k=30 lambda=0.0 agg=median weight=inv_var q=15
+[2026-06-12 05:47:32] | [TCAD ablation] | evaluating grid | 45/180 (25.0%) | elapsed=323.5s | setup=A k=30 lambda=0.5 agg=mean weight=uniform q=15
+[2026-06-12 05:48:14] | [TCAD ablation] | evaluating grid | 54/180 (30.0%) | elapsed=366.3s | setup=A k=30 lambda=0.75 agg=median weight=inv_var q=15
+[2026-06-12 05:48:57] | [TCAD ablation] | evaluating grid | 63/180 (35.0%) | elapsed=408.9s | setup=A k=50 lambda=0.0 agg=mean weight=uniform q=15
+[2026-06-12 05:49:43] | [TCAD ablation] | evaluating grid | 72/180 (40.0%) | elapsed=454.4s | setup=A k=50 lambda=0.25 agg=median weight=inv_var q=15
+[2026-06-12 05:50:28] | [TCAD ablation] | evaluating grid | 81/180 (45.0%) | elapsed=499.7s | setup=A k=50 lambda=0.75 agg=mean weight=uniform q=15
+[2026-06-12 05:51:16] | [TCAD ablation] | evaluating grid | 90/180 (50.0%) | elapsed=548.0s | setup=A k=50 lambda=1.0 agg=median weight=inv_var q=15
+[2026-06-12 05:52:45] | [TCAD ablation] | evaluating grid | 99/180 (55.0%) | elapsed=637.0s | setup=B k=15 lambda=0.25 agg=mean weight=uniform q=15
+[2026-06-12 05:54:25] | [TCAD ablation] | evaluating grid | 108/180 (60.0%) | elapsed=736.6s | setup=B k=15 lambda=0.5 agg=median weight=inv_var q=15
+[2026-06-12 05:56:13] | [TCAD ablation] | evaluating grid | 117/180 (65.0%) | elapsed=844.9s | setup=B k=15 lambda=1.0 agg=mean weight=uniform q=15
+[2026-06-12 05:57:47] | [TCAD ablation] | evaluating grid | 126/180 (70.0%) | elapsed=938.6s | setup=B k=30 lambda=0.0 agg=median weight=inv_var q=15
+[2026-06-12 05:59:24] | [TCAD ablation] | evaluating grid | 135/180 (75.0%) | elapsed=1036.2s | setup=B k=30 lambda=0.5 agg=mean weight=uniform q=15
+[2026-06-12 06:01:06] | [TCAD ablation] | evaluating grid | 144/180 (80.0%) | elapsed=1137.9s | setup=B k=30 lambda=0.75 agg=median weight=inv_var q=15
+[2026-06-12 06:02:46] | [TCAD ablation] | evaluating grid | 153/180 (85.0%) | elapsed=1238.1s | setup=B k=50 lambda=0.0 agg=mean weight=uniform q=15
+[2026-06-12 06:04:28] | [TCAD ablation] | evaluating grid | 162/180 (90.0%) | elapsed=1339.4s | setup=B k=50 lambda=0.25 agg=median weight=inv_var q=15
+[2026-06-12 06:06:46] | [TCAD ablation] | evaluating grid | 171/180 (95.0%) | elapsed=1477.8s | setup=B k=50 lambda=0.75 agg=mean weight=uniform q=15
+[2026-06-12 06:08:50] | [TCAD ablation] | evaluating grid | 180/180 (100.0%) | elapsed=1602.0s | setup=B k=50 lambda=1.0 agg=median weight=inv_var q=15
+[2026-06-12 06:09:10] | [TCAD ablation] | summarizing fold results | elapsed=1622.3s | fold_frames=180
+[2026-06-12 06:09:11] | [TCAD ablation] | writing CSV artifacts | elapsed=1622.3s
+[2026-06-12 06:09:11] | [TCAD ablation] | writing manifest | elapsed=1622.9s
+[2026-06-12 06:09:14] | [TCAD ablation] | DONE | elapsed=1625.4s | results/notebook_run/droop_adaptive_ablation/p0_99/tcad_ablation_summary.csv
+[2026-06-12 06:10:29] | [DROOP-adaptive CINTAS] | DONE | 1/2 (50.0%) | elapsed=3251.2s | results/notebook_run/tcad_ablation/tcad_ablation_summary.csv
+[2026-06-12 06:10:29] | [TCAD notebook cell] | DONE | 2/2 (100.0%) | elapsed=54975.2s | results/notebook_run/tcad_ablation/tcad_ablation_summary.csv
+[2026-06-12 08:33:13] | [Apple limited-observability] | START | elapsed=0.0s | root=data/telemetry/raw/apple_data
+[2026-06-12 08:33:16] | [Apple limited-observability] | loaded observability views | elapsed=3.6s | TIER0_FULL, TIER1_ALT_CORE, TIER1_ALT_FULL, TIER2_CORE, TIER2_FULL
+[2026-06-12 08:33:16] | [Apple limited-observability] | processing observability view | 1/5 (20.0%) | elapsed=3.6s | TIER0_FULL
+[2026-06-12 08:43:36] | [Apple limited-observability] | processing observability view | 2/5 (40.0%) | elapsed=623.5s | TIER1_ALT_CORE
+[2026-06-12 08:52:30] | [Apple limited-observability] | processing observability view | 3/5 (60.0%) | elapsed=1157.8s | TIER1_ALT_FULL
+[2026-06-12 09:01:38] | [Apple limited-observability] | processing observability view | 4/5 (80.0%) | elapsed=1705.1s | TIER2_CORE
+[2026-06-12 09:10:24] | [Apple limited-observability] | processing observability view | 5/5 (100.0%) | elapsed=2231.2s | TIER2_FULL
+[2026-06-12 09:19:21] | [Apple limited-observability] | DONE | elapsed=2768.3s | results/notebook_run/apple_limited_observability/run_manifest.json

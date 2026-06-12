@@ -2,17 +2,17 @@
   "artifacts": [
     {
       "path": "results/notebook_run/droop_adaptive_ablation/p0_975/tcad_ablation_fold_results.csv",
-      "sha256": "fe3d50967dc561426841adf47795bf949240e2582d612e01133925b9eccc20f7",
-      "size_bytes": 13701969
+      "sha256": "a8cc03542159ca362e1ca4c1ef5e44dd16a3126486a17eb4b176251d9bf283d2",
+      "size_bytes": 13799743
     },
     {
       "path": "results/notebook_run/droop_adaptive_ablation/p0_975/tcad_ablation_summary.csv",
-      "sha256": "8c407982bc024617b792bda8b7f8410a27cb2267ffa66e089dbf11aadaba3486",
-      "size_bytes": 366441
+      "sha256": "045db23d20207b61cd94e0bba944791615f0757f53552d86be483232b32c8d46",
+      "size_bytes": 368815
     },
     {
       "path": "results/notebook_run/droop_adaptive_ablation/p0_975/tcad_selected_features.csv",
-      "sha256": "9a36e6baf657b138ccd608923fed4c1a09307d9ea4bea407fef2090d70af3df0",
+      "sha256": "cec1196058ef1e0006872eea06c2c9c700ca07d22371dbfc31990a22339223c0",
       "size_bytes": 207090
     },
     {
@@ -22,13 +22,13 @@
     },
     {
       "path": "results/notebook_run/droop_adaptive_ablation/p0_975/causal/SETUP_A_feature_ranks.csv",
-      "sha256": "00b2579f05db323c7e1ff948f01a88ad44fbc7090cd212a97f07156bef293c2b",
-      "size_bytes": 63923
+      "sha256": "f1cdf34db7c10054c74dba4fa72928d2f52b609d242acc7743cca8c7fa112f4e",
+      "size_bytes": 63915
     },
     {
       "path": "results/notebook_run/droop_adaptive_ablation/p0_975/causal/SETUP_B_feature_ranks.csv",
-      "sha256": "019c90398371ad565ad39d4cd030fd98377744d16223462b5b247ba09858cacf",
-      "size_bytes": 63602
+      "sha256": "9c0f2d341c1f844f56d8bad21f708c2e0bb81b593c43c72f0b011bcc2c8d7038",
+      "size_bytes": 63709
     }
   ],
   "config": {
@@ -359,7 +359,7 @@
       "size_bytes": 233
     }
   ],
-  "git_commit": "f030e7ef08b7351bc3bcb6df0b2ccb3266d292f9",
+  "git_commit": "08cf2368999a9eea3b234a931d899f704a4f0169",
   "git_dirty": true,
   "method_provenance": {
     "citadel_extension": [
@@ -380,15 +380,15 @@
   "packages": {
     "ipykernel": "6.29.5",
     "jupyterlab": "4.3.4",
-    "matplotlib": "3.10.5",
+    "matplotlib": "3.10.8",
     "nbformat": "5.10.4",
     "networkx": "3.4.2",
-    "numpy": "2.3.2",
-    "pandas": "2.3.1",
-    "scikit-learn": "1.7.1"
+    "numpy": "2.1.3",
+    "pandas": "2.2.3",
+    "scikit-learn": "1.6.1"
   },
-  "platform": "macOS-26.5-arm64-arm-64bit-Mach-O",
+  "platform": "macOS-26.5.1-arm64-arm-64bit",
   "python_implementation": "CPython",
-  "python_version": "3.13.5",
+  "python_version": "3.11.15",
   "seed": 123
 }
