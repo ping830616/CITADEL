@@ -2,7 +2,7 @@
   "ddr_data": {
     "description": "DDR4 and DDR5 hardware-counter telemetry from the X-OCTANE repository. This is the main CITADEL input for CPU-DRAM CINTAS experiments.",
     "repo": "ping830616/X-OCTANE",
-    "ref": "main",
+    "ref": "cd669b97327deb1169f12cf8dfe45b08a5ed5ada",
     "path": "data/TELEMETRY_DATA",
     "target": "data/telemetry/processed/ddr_data",
     "preserve_tree": false,

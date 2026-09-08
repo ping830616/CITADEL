@@ -8,3 +8,5 @@ __pycache__/
 data/sample/
 data/external_manifests/
 results/
+TELEMETRY_COLLECTION_SCRIPTS/collection_config.sh
+TELEMETRY_COLLECTION_SCRIPTS/output/

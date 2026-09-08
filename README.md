@@ -1,6 +1,6 @@
 # CITADEL
 
-**CITADEL** is the journal-extension workspace for **Causal-Informed In-Field Telemetry Analytics and Drift-Aware Edge Learning for Silicon Lifecycle Management**. It builds on EXACT and turns the compact CINTAS detector into a hardware-aware SLM workflow with design-space exploration, fixed-point sensitivity, lifecycle drift checking, RTL/FPGA-oriented validation, and supplemental limited-observability portability analysis.
+**CITADEL** stands for **Conditional Interdependence Telemetry Analytics and Drift Aware Edge Learning**. It is the journal extension workspace for a silicon lifecycle management flow that builds on EXACT and turns the compact CINTAS detector into a hardware aware workflow with design space exploration, fixed point sensitivity, lifecycle drift checking, RTL and FPGA oriented validation, and supplemental limited observability portability analysis.
 
 The executable entry point is one notebook:
 
@@ -126,6 +126,7 @@ For submission-quality results:
 - `hardware/`: analytical operator-cost references
 - `data/telemetry/processed/ddr_data/`: DDR4/DDR5 telemetry for the main CINTAS study
 - `data/telemetry/raw/apple_data/`: Apple limited-observability telemetry
+- `TELEMETRY_COLLECTION_SCRIPTS/`: configured DDR4 and DDR5 collection scripts and restored auxiliary collectors
 - `APPLE_DATA_GENERATION/`: Apple telemetry collection provenance copied from DICE, without analysis outputs
 - `results/`: generated TCAD artifacts tracked with Git LFS for reproducibility
 
@@ -134,6 +135,8 @@ For submission-quality results:
 - [`docs/asu_server_runbook.md`](docs/asu_server_runbook.md): ASU SSH, file transfer, Vivado setup, synthesis commands, and copy-back flow
 - [`docs/rtl_plan.md`](docs/rtl_plan.md): RTL/FPGA-oriented validation plan
 - [`docs/reproducibility.md`](docs/reproducibility.md): cross-machine reproducibility checklist
+- [`docs/telemetry_collection.md`](docs/telemetry_collection.md): telemetry sources, tool revisions, commands, timing, synchronization, privileges, and historical limits
+- [`docs/telemetry_dictionary.csv`](docs/telemetry_dictionary.csv): per-signal definitions, interfaces, units, sampling information, and missing-value treatment
 - [`docs/tcad_end_to_end_result_methodology.md`](docs/tcad_end_to_end_result_methodology.md): complete TCAD result workflow
 - [`docs/tcad_requirements_traceability.md`](docs/tcad_requirements_traceability.md): mapping from paper claims to repository artifacts
 - [`docs/exact_to_citadel_extension.md`](docs/exact_to_citadel_extension.md): what transfers from EXACT and what is new in CITADEL

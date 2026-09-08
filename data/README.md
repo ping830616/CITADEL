@@ -6,6 +6,8 @@
 - `data/telemetry/`: real telemetry snapshots tracked with Git LFS
 - `data/sample/`: synthetic deterministic data generated inside the notebook for smoke checks
 
+Collection source interfaces, units, timing, synchronization, and historical limitations are documented in [`docs/telemetry_collection.md`](../docs/telemetry_collection.md). The exact DDR4 and DDR5 processed field names are listed in [`docs/telemetry_dictionary.csv`](../docs/telemetry_dictionary.csv).
+
 ## Real telemetry snapshots
 
 Store real telemetry under `data/telemetry/`. The notebook locates these folders automatically:
