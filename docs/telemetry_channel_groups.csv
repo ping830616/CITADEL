@@ -1,0 +1,6 @@
+channel_group,examples,physical_meaning,source_interface,unit,requested_interval_s,access,direct_or_derived,failed_reading
+processor_and_package,"instructions, cycles, IPC, frequency",processor activity and performance,Intel PCM,"counter or PCM reported unit",0.001,elevated,"direct counters and PCM derived metrics",empty
+cache_and_memory,"cache events, memory controller events, bandwidth",cache and memory activity,Intel PCM,"counter or PCM reported unit",0.001,elevated,"direct counters and PCM derived metrics",empty
+power_and_energy,"package power, package energy",processor power and accumulated energy when supported,Intel PCM and supported energy interfaces,"W or J as reported",0.001,elevated,"register reported or PCM derived",empty
+voltage,MSR_0x198_voltage,processor reported voltage field,MSR 0x198 through rdmsr,V,0.005,elevated,register reported with code divided by 8192,"empty value and status"
+temperature,"core and package temperature",processor thermal state,Linux hwmon coretemp,degC,0.005,"read access to hwmon",sensor value converted from millidegrees Celsius,"empty value and status"
