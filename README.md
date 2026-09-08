@@ -1,6 +1,6 @@
 # CITADEL
 
-**CITADEL** is the journal-extension workspace for **Causal-Informed In-Field Telemetry Analytics and Drift-Aware Edge Learning for Silicon Lifecycle Management**. It builds on EXACT and turns the compact CINTAS detector into a hardware-aware SLM workflow with design-space exploration, fixed-point sensitivity, lifecycle drift checking, RTL/FPGA-oriented validation, and supplemental limited-observability portability analysis.
+**CITADEL** is the journal extension workspace for **Conditional Interdependence Telemetry Analytics and Drift Aware Edge Learning for Silicon Lifecycle Management**. It builds on EXACT and turns the compact CINTAS detector into an SLM monitoring workflow with monitor configuration exploration, fixed point sensitivity, reference validity checking, RTL and FPGA hardware feasibility evidence, and a limited portability analysis.
 
 The executable entry point is one notebook:
 
@@ -116,6 +116,7 @@ For submission-quality results:
 - `rtl/cintas/`: CINTAS SystemVerilog starter design
 - `scripts/`: Vivado synthesis and report-parsing helpers
 - `hardware/`: analytical operator-cost references
+- `TELEMETRY_COLLECTION_SCRIPTS/`: Intel collection launchers, replacement sensor collectors, configuration, and collection documentation
 - `data/telemetry/processed/ddr_data/`: DDR4/DDR5 telemetry for the main CINTAS study
 - `data/telemetry/raw/apple_data/`: Apple limited-observability telemetry
 - `APPLE_DATA_GENERATION/`: Apple telemetry collection provenance copied from DICE, without analysis outputs
@@ -124,12 +125,14 @@ For submission-quality results:
 ## Detailed Guides
 
 - [`docs/asu_server_runbook.md`](docs/asu_server_runbook.md): ASU SSH, file transfer, Vivado setup, synthesis commands, and copy-back flow
-- [`docs/rtl_plan.md`](docs/rtl_plan.md): RTL/FPGA-oriented validation plan
+- [`docs/rtl_plan.md`](docs/rtl_plan.md): RTL and FPGA hardware feasibility plan
 - [`docs/reproducibility.md`](docs/reproducibility.md): cross-machine reproducibility checklist
+- [`docs/telemetry_collection.md`](docs/telemetry_collection.md): collection interfaces, timing, provenance, and known historical limits
+- [`docs/telemetry_channel_groups.csv`](docs/telemetry_channel_groups.csv): source, unit, access, and missing-value metadata for documented channel groups
 - [`docs/tcad_end_to_end_result_methodology.md`](docs/tcad_end_to_end_result_methodology.md): complete TCAD result workflow
 - [`docs/tcad_requirements_traceability.md`](docs/tcad_requirements_traceability.md): mapping from paper claims to repository artifacts
 - [`docs/exact_to_citadel_extension.md`](docs/exact_to_citadel_extension.md): what transfers from EXACT and what is new in CITADEL
 
 ## Relationship To EXACT
 
-CITADEL starts from the portable EXACT codebase and adds the TCAD journal framework: stable conditional telemetry graph learning, hardware-aware DSE, fixed-point sensitivity, hardware-cost modeling, RTL/FPGA-oriented validation, lifecycle drift checking, and reproducible result manifests. In the TCAD paper, describe the EXACT result as an **EXACT baseline reproduction inside CITADEL**; the CITADEL contributions begin after that baseline.
+CITADEL starts from the portable EXACT codebase and adds the TCAD journal workflow: stable conditional telemetry graph learning, monitor configuration exploration, fixed point sensitivity, hardware cost modeling, RTL and FPGA hardware feasibility evidence, reference validity checking, and reproducible result manifests. In the TCAD paper, describe the EXACT result as an **EXACT baseline reproduction inside CITADEL**; the CITADEL contributions begin after that baseline.

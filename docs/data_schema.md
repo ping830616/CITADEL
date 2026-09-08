@@ -48,8 +48,10 @@ Create one JSON file per setup:
 
 ## Missing Features
 
-Do not fill missing platform telemetry with arbitrary zeros. Record unavailable features in metadata and run one of:
+Do not fill unavailable platform channels with arbitrary zeros. Record unavailable features in metadata and run one of:
 
 - per-platform ranking and detection
 - intersection-feature experiments
 - explicit missingness-aware comparison
+
+For the reported analysis, rows with no finite candidate telemetry are removed. Remaining missing values are filled with benign calibration means when available, or with global means otherwise. The same means are then subtracted. Constant features are removed before calibration and scoring. Conditional graph estimation uses the feature median for nonfinite entries and uses a zero fallback only when no finite median remains after feature filtering.
