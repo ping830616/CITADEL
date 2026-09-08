@@ -65,6 +65,14 @@ RUN_REPEAT_CHECK = True
 
 Run the notebook from top to bottom. The `full` preset is the paper setting and can take a long time because it runs the full design-space exploration. For quick installation checks or smaller development runs, see the detailed guides below.
 
+To regenerate only the benign workload comparison, run the **Benign workload profiles (Reviewer 1, Comment 6)** cell after the data preparation section. This cell can run alone in a fresh kernel; it does not require DSE or the anomaly datasets. It saves `workload_profiles.png` at 300 dpi, `workload_profiles.pdf`, supporting CSVs, and a manifest under `results/notebook_run/workload_profiles/`, and displays the PNG in the notebook. Fetch the benign Git LFS objects first if needed:
+
+```bash
+git lfs pull --include='data/telemetry/processed/ddr_data/*benign*.csv' --exclude=''
+```
+
+For what the preserved scripts establish about anomaly generation, voltage control, and file labels, see [Anomaly provenance and labels](docs/anomaly_provenance.md). Historical DROOP arguments and verified event boundaries remain unavailable.
+
 ### 4. Check Required Notebook Artifacts
 
 The notebook should produce the main TCAD artifacts under `results/notebook_run/`:
