@@ -438,7 +438,16 @@ def _plot_variation(
     rule_labels = {"current": "Current rule", "persistence": "Two block persistence"}
     offsets = {"current": -0.13, "persistence": 0.13}
     rng = np.random.default_rng(123)
-    fig, axes = plt.subplots(1, 3, figsize=(14.4, 5.0), dpi=220, sharey=True)
+    metric_columns = [metric for metric, _ in metrics]
+    observed_max = 100.0 * float(
+        results[metric_columns].apply(pd.to_numeric, errors="coerce").max().max()
+    )
+    summarized = summary[summary["metric"].isin(metric_columns)].copy()
+    summary_max = 100.0 * float(
+        (summarized["mean"] + summarized["sample_sd"].fillna(0.0)).max()
+    )
+    y_ceiling = 1.12 * max(observed_max, summary_max, 1.0)
+    fig, axes = plt.subplots(1, 3, figsize=(18.0, 6.4), dpi=220, sharey=True)
     for axis, (metric, title) in zip(axes, metrics, strict=True):
         for setup_index, setup in enumerate(setup_order):
             for rule in rule_order:
@@ -451,11 +460,11 @@ def _plot_variation(
                 axis.scatter(
                     np.full(len(values), center) + jitter,
                     values,
-                    s=52,
+                    s=82,
                     color=rule_colors[rule],
                     edgecolor="white",
-                    linewidth=0.7,
-                    alpha=0.82,
+                    linewidth=1.0,
+                    alpha=0.86,
                     zorder=3,
                 )
                 row = summary[
@@ -465,35 +474,39 @@ def _plot_variation(
                 ].iloc[0]
                 mean = 100.0 * float(row["mean"])
                 sd = 100.0 * float(row["sample_sd"])
+                lower_error = min(mean, sd)
                 axis.errorbar(
                     center,
                     mean,
-                    yerr=sd,
+                    yerr=np.asarray([[lower_error], [sd]]),
                     fmt="D",
-                    markersize=7.5,
+                    markersize=10.0,
                     color="#111827",
                     markerfacecolor="#FACC15",
-                    markeredgewidth=1.1,
-                    capsize=5,
-                    linewidth=1.8,
+                    markeredgewidth=1.5,
+                    capsize=7,
+                    capthick=2.2,
+                    linewidth=2.2,
                     zorder=4,
                 )
-        axis.set_title(title, fontsize=13, fontweight="bold", pad=10)
+        axis.set_title(title, fontsize=17, fontweight="bold", pad=14)
         axis.set_xticks(
             range(len(setup_order)),
             [f"Setup {setup}\n({SETUP_PREFIX[setup]})" for setup in setup_order],
         )
-        axis.tick_params(axis="both", labelsize=10.5)
-        axis.grid(axis="y", alpha=0.25, linewidth=0.8)
+        axis.tick_params(axis="x", labelsize=14, pad=8)
+        axis.tick_params(axis="y", labelsize=13)
+        axis.grid(axis="y", alpha=0.25, linewidth=1.0)
         axis.spines[["top", "right"]].set_visible(False)
-    axes[0].set_ylabel("Benign false positive rate (%)", fontsize=12.5, fontweight="bold")
+    axes[0].set_ylim(0.0, y_ceiling)
+    axes[0].set_ylabel("Benign false positive rate (%)", fontsize=16, fontweight="bold", labelpad=12)
     legend_handles = [
         plt.Line2D(
             [0],
             [0],
             marker="o",
             linestyle="none",
-            markersize=8,
+            markersize=10,
             markerfacecolor=rule_colors[rule],
             markeredgecolor="white",
             label=rule_labels[rule],
@@ -506,7 +519,7 @@ def _plot_variation(
             [0],
             marker="D",
             linestyle="none",
-            markersize=8,
+            markersize=10,
             markerfacecolor="#FACC15",
             markeredgecolor="#111827",
             label="Mean with sample SD",
@@ -515,26 +528,28 @@ def _plot_variation(
     fig.legend(
         handles=legend_handles,
         loc="upper center",
-        bbox_to_anchor=(0.5, 0.93),
+        bbox_to_anchor=(0.5, 0.905),
         ncol=3,
         frameon=False,
-        fontsize=10.5,
+        fontsize=14,
+        columnspacing=2.2,
+        handletextpad=0.7,
     )
     fig.suptitle(
         "Intel Benign Workload Order Stress Test",
-        fontsize=18,
+        fontsize=23,
         fontweight="bold",
-        y=0.995,
+        y=0.99,
     )
     fig.text(
         0.5,
-        0.005,
+        0.018,
         "Points are nonoverlapping recording block replicates; workload boundaries are constructed, not continuously collected switches.",
         ha="center",
-        fontsize=9.7,
+        fontsize=12.5,
         color="#475569",
     )
-    fig.subplots_adjust(top=0.77, bottom=0.18, left=0.075, right=0.99, wspace=0.17)
+    fig.subplots_adjust(top=0.72, bottom=0.20, left=0.075, right=0.99, wspace=0.20)
     fig.savefig(path, dpi=300, bbox_inches="tight", facecolor="white")
     plt.close(fig)
 
