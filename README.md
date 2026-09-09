@@ -71,7 +71,9 @@ To regenerate only the benign workload comparison, run the **Benign workload pro
 git lfs pull --include='data/telemetry/processed/ddr_data/*benign*.csv' --exclude=''
 ```
 
-To run the Intel benign workload order stress test, go to **Section 12: Intel Benign Workload Order Stress Test**. The default analysis uses both paper testbeds, ten nonoverlapping recording block replicates, randomized workload orders, two calibration cycles, and three held out evaluation cycles. It reports every block plus the mean, sample standard deviation, range, and 95 percent bootstrap interval. The preserved workload files were collected separately, so the constructed boundaries test workload distribution and order sensitivity rather than the physical transient of a continuously measured switch. See [Intel benign workload order stress test](docs/intel_workload_order_stress_test.md) for the protocol, preprocessing, outputs, and interpretation boundary.
+To run the Intel workload evaluation, go to **Section 12: Intel Workload Change Evaluation**. Section 12.1 uses both preserved paper testbeds, ten nonoverlapping recording block replicates, randomized workload orders, two calibration cycles, and three held out evaluation cycles. It reports every block plus the mean, sample standard deviation, range, and 95 percent bootstrap interval. The preserved workload files were collected separately, so the constructed boundaries test workload distribution and order sensitivity rather than the physical transient of a continuously measured switch. A one sided exact binomial check distinguishes statistically supported reference incompatibility from ordinary variation around the 1 percent target. See [Intel benign workload order stress test](docs/intel_workload_order_stress_test.md) for the protocol and limits.
+
+Section 12.2 provides the submission quality continuous Intel campaign. It starts a new Intel PCM process for each independent run and keeps it active across timestamped PAMPAR workload switches. This campaign must be run on Setup A and Setup B before claiming measured Intel switch transients. See [Continuous Intel workload transition campaign](docs/intel_continuous_workload_transitions.md) for the commands and acceptance checks.
 
 Section 13 retains the Apple continuous transition campaign as an optional limited observability supplement. See [Apple benign workload transition runbook](docs/apple_workload_transitions.md) for its collection requirements.
 
@@ -147,6 +149,7 @@ For submission-quality results:
 - [`docs/reproducibility.md`](docs/reproducibility.md): cross-machine reproducibility checklist
 - [`docs/telemetry_collection.md`](docs/telemetry_collection.md): telemetry sources, tool revisions, commands, timing, synchronization, privileges, and historical limits
 - [`docs/intel_workload_order_stress_test.md`](docs/intel_workload_order_stress_test.md): randomized Intel workload order protocol, preprocessing, outputs, and interpretation boundary
+- [`docs/intel_continuous_workload_transitions.md`](docs/intel_continuous_workload_transitions.md): independent continuous Intel PCM campaign, workload switches, analysis, and acceptance checks
 - [`docs/apple_workload_transitions.md`](docs/apple_workload_transitions.md): rapid benign workload transition protocol, notebook controls, outputs, and interpretation limits
 - [`docs/telemetry_dictionary.csv`](docs/telemetry_dictionary.csv): per-signal definitions, interfaces, units, sampling information, and missing-value treatment
 - [`docs/tcad_end_to_end_result_methodology.md`](docs/tcad_end_to_end_result_methodology.md): complete TCAD result workflow

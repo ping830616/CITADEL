@@ -138,6 +138,8 @@ The master scripts use one run identifier across all 13 workloads and wait for e
 
 This procedure records launch order and completion. It does not claim simultaneous hardware sampling. PCM and the two auxiliary collectors maintain their own timestamps or sample indices. The restored scripts leave their streams separate and do not interpolate or join them.
 
+For a continuously observed workload switch, use `scripts/run_intel_transition_campaign.py`. Each campaign run starts one Intel PCM process, keeps it active while randomized PAMPAR workload processes change, and records the phase start and end times plus every workload invocation. `scripts/analyze_intel_transition_campaign.py` aligns PCM Date and Time values with those events. This new protocol is distinct from the historical per workload files and is documented in `docs/intel_continuous_workload_transitions.md`.
+
 ## Output files
 
 Each invocation creates a new directory:

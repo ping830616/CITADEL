@@ -12,6 +12,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
 import os
 import random
 import subprocess
@@ -67,10 +68,10 @@ class IntelWorkloadOrderConfig:
     lambda_res: float = 0.50
     weight_mode: str = "uniform"
     aggregation: str = "mean"
-    threshold_quantile: float = 0.99
     persistence_blocks: int = 2
     boundary_window_blocks: int = 1
     eta: float = 0.01
+    reference_alpha: float = 0.05
     correlation_threshold: float = 0.35
     bootstrap_resamples: int = 10_000
     seed: int = 123
@@ -356,6 +357,36 @@ def _bootstrap_interval(values: np.ndarray, resamples: int, seed: int) -> tuple[
     return float(low), float(high)
 
 
+def _binomial_upper_tail(successes: int, trials: int, probability: float) -> float:
+    """Exact P(X >= successes) for X distributed as Binomial(trials, probability)."""
+    if trials <= 0:
+        return float("nan")
+    if successes <= 0:
+        return 1.0
+    return float(
+        sum(
+            math.comb(trials, count)
+            * probability**count
+            * (1.0 - probability) ** (trials - count)
+            for count in range(successes, trials + 1)
+        )
+    )
+
+
+def _finite_sample_upper_threshold(
+    scores: np.ndarray, target_fpr: float
+) -> tuple[float, int]:
+    """Return a finite sample corrected empirical threshold and its one based rank."""
+    values = np.sort(np.asarray(scores, dtype=float))
+    values = values[np.isfinite(values)]
+    if len(values) == 0:
+        raise ValueError("Calibration scores are empty or nonfinite")
+    if not 0.0 < target_fpr < 1.0:
+        raise ValueError("target_fpr must be between zero and one")
+    rank = min(len(values), math.ceil((len(values) + 1) * (1.0 - target_fpr)))
+    return float(values[rank - 1]), int(rank)
+
+
 def _summarize_replicates(
     results: pd.DataFrame, cfg: IntelWorkloadOrderConfig
 ) -> pd.DataFrame:
@@ -364,6 +395,7 @@ def _summarize_replicates(
         "boundary_block_fpr",
         "within_phase_fpr",
         "reference_stale",
+        "reference_stale_naive",
     )
     rows: list[dict[str, object]] = []
     for (setup, rule), group in results.groupby(["setup", "decision_rule"], sort=True):
@@ -507,7 +539,10 @@ def _plot_variation(
     plt.close(fig)
 
 
-def _paper_text(summary: pd.DataFrame, cfg: IntelWorkloadOrderConfig) -> str:
+def _paper_text(
+    summary: pd.DataFrame,
+    cfg: IntelWorkloadOrderConfig,
+) -> str:
     def _variation_phrase(value: float) -> str:
         if np.isfinite(value):
             return f"the sample standard deviation was {100 * value:.2f} percentage points"
@@ -524,12 +559,23 @@ def _paper_text(summary: pd.DataFrame, cfg: IntelWorkloadOrderConfig) -> str:
         overall = subset.loc["overall_benign_fpr"]
         boundary = subset.loc["boundary_block_fpr"]
         later = subset.loc["within_phase_fpr"]
+        stale = subset.loc["reference_stale"]
+        naive_stale = subset.loc["reference_stale_naive"]
+        replicate_count = int(stale["n_recording_block_replicates"])
+        stale_count = int(round(float(stale["mean"]) * replicate_count))
+        naive_stale_count = int(round(float(naive_stale["mean"]) * replicate_count))
         sentences.append(
             f"For Setup {setup}, the mean overall benign false positive rate was "
             f"{100 * overall['mean']:.2f} percent and "
             f"{_variation_phrase(float(overall['sample_sd']))}; the first block after a "
             f"constructed workload boundary averaged {100 * boundary['mean']:.2f} percent, "
             f"compared with {100 * later['mean']:.2f} percent for later within phase blocks."
+        )
+        sentences.append(
+            f"For Setup {setup}, the one sided exact binomial reference check at "
+            f"alpha {cfg.reference_alpha:.2f} marked {stale_count} of {replicate_count} "
+            f"recording blocks stale, compared with {naive_stale_count} under an "
+            f"unadjusted observed FPR greater than {100 * cfg.eta:.0f} percent rule."
         )
     replicate_label = (
         "one nonoverlapping recording block replicate"
@@ -539,6 +585,7 @@ def _paper_text(summary: pd.DataFrame, cfg: IntelWorkloadOrderConfig) -> str:
     prefix = (
         f"Across {replicate_label}, workload orders were randomized, "
         "two cycles were used for calibration, and the frozen detector was evaluated on three held out cycles. "
+        "The decision threshold used the finite sample corrected upper calibration rank for a 1 percent target. "
     )
     limitation = (
         "Because the preserved workload files were collected separately and the original trial event mapping is unavailable, "
@@ -676,12 +723,12 @@ def main() -> int:
             reference_blocks = _score_blocks(
                 calibration, model, cfg, score_samples
             )
-            threshold = float(
-                np.quantile(reference_blocks["score"], cfg.threshold_quantile)
+            threshold, threshold_rank = _finite_sample_upper_threshold(
+                reference_blocks["score"].to_numpy(dtype=float), cfg.eta
             )
             blocks = _score_blocks(evaluation, model, cfg, score_samples)
             blocks["threshold"] = threshold
-            blocks["alarm_raw"] = (blocks["score"] >= threshold).astype(int)
+            blocks["alarm_raw"] = (blocks["score"] > threshold).astype(int)
             blocks["alarm_persistence"] = _persistence_alarm(
                 blocks["alarm_raw"].to_numpy(dtype=int), cfg.persistence_blocks
             )
@@ -700,9 +747,13 @@ def main() -> int:
                 ("persistence", "alarm_persistence"),
             ):
                 alarms = blocks[alarm_column].to_numpy(dtype=int)
+                alarm_count = int(np.sum(alarms))
                 overall = float(np.mean(alarms))
                 boundary = float(np.mean(alarms[boundary_mask]))
                 within = float(np.mean(alarms[~boundary_mask]))
+                reference_pvalue = _binomial_upper_tail(
+                    alarm_count, len(alarms), cfg.eta
+                )
                 rule_rows.append(
                     {
                         "setup": setup,
@@ -710,11 +761,21 @@ def main() -> int:
                         "seed": run_seed,
                         "decision_rule": rule,
                         "n_blocks": len(blocks),
+                        "n_alarms": alarm_count,
+                        "calibration_threshold_rank": threshold_rank,
+                        "calibration_block_count": len(reference_blocks),
                         "overall_benign_fpr": overall,
                         "boundary_block_fpr": boundary,
                         "within_phase_fpr": within,
-                        "reference_stale": int(overall > cfg.eta),
+                        "reference_compatibility_pvalue": reference_pvalue,
+                        "reference_stale": int(
+                            reference_pvalue < cfg.reference_alpha
+                        ),
+                        "reference_stale_naive": int(overall > cfg.eta),
                         "threshold": threshold,
+                        "threshold_rule": (
+                            "finite_sample_upper_rank_with_strict_exceedance"
+                        ),
                         "workload_orders": json.dumps(orders),
                     }
                 )
@@ -760,6 +821,11 @@ def main() -> int:
                         "phase_orders": orders,
                         "selected_features": selected,
                         "threshold": threshold,
+                        "calibration_threshold_rank": threshold_rank,
+                        "calibration_block_count": len(reference_blocks),
+                        "threshold_rule": (
+                            "finite_sample_upper_rank_with_strict_exceedance"
+                        ),
                         "source_boundary_status": (
                             "constructed from separately recorded workload files; "
                             "not a continuously observed hardware transition"

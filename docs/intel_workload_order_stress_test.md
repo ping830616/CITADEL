@@ -15,11 +15,15 @@ The test reports benign false positive rates for:
 
 Every recording block is reported separately. The summary includes the mean, sample standard deviation, minimum, maximum, and a 95 percent bootstrap interval across the ten blocks for each setup.
 
+The 1 percent threshold uses the finite sample corrected upper calibration rank with strict score exceedance. With 104 calibration blocks, this selects the maximum calibration score rather than a linearly interpolated 0.99 sample quantile, whose effective exceedance probability is too coarse at this sample size. Because 156 evaluation blocks still provide a coarse false positive estimate, reference staleness is not declared whenever the observed rate merely exceeds 1 percent. The analysis uses a one sided exact binomial test against the 1 percent target at alpha 0.05 and retains the unadjusted comparison as an audit column. This separates statistically supported incompatibility from ordinary finite sample variation under the Bernoulli model. The per replicate false positive rates and their mean and sample standard deviation remain the primary evidence because consecutive decision blocks may not be statistically independent. The persistence rule is a sensitivity comparison and should not replace the deployed rule without a separate anomaly detection analysis.
+
 ## Interpretation Boundary
 
 The workload files were originally collected separately. The repository does not preserve event identifiers that verify the historical trial boundaries, and it does not contain a continuous Intel trace spanning live workload switches. The analysis therefore calls the ten nonoverlapping units **recording block replicates**, not independent physical trials.
 
 The constructed boundaries test sensitivity to abrupt changes in the workload distribution and to randomized workload order. They do not reproduce the short physical transient of a continuously observed switch. A claim about switch latency or a hardware transition window requires a new continuous Intel collection.
+
+Use `docs/intel_continuous_workload_transitions.md` to collect the required independent physical runs on Intel hardware.
 
 ## Preprocessing
 
