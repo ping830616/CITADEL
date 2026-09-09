@@ -18,6 +18,7 @@ import os
 import platform
 import queue
 import random
+import ssl
 import subprocess
 import sys
 import threading
@@ -72,11 +73,22 @@ def _cpu_brand() -> str:
 
 def _browser_preflight() -> tuple[bool, str]:
     try:
-        with urllib.request.urlopen("https://example.com", timeout=10) as response:
+        with urllib.request.urlopen(
+            "https://example.com", timeout=10, context=_tls_context()
+        ) as response:
             response.read(1)
         return True, "https://example.com reachable"
     except Exception as exc:
         return False, f"{type(exc).__name__}: {exc}"
+
+
+def _tls_context() -> ssl.SSLContext:
+    try:
+        import certifi
+
+        return ssl.create_default_context(cafile=certifi.where())
+    except Exception:
+        return ssl.create_default_context()
 
 
 def _load_tier0_collector(repo_root: Path) -> tuple[ModuleType, Path]:
@@ -156,10 +168,13 @@ def _workload_browser(stop_event: threading.Event) -> None:
         "https://www.iana.org/domains/reserved",
         "https://www.wikipedia.org",
     )
+    tls_context = _tls_context()
     request_index = 0
     while not stop_event.is_set():
         try:
-            urllib.request.urlopen(urls[request_index % len(urls)], timeout=5).read(200_000)
+            urllib.request.urlopen(
+                urls[request_index % len(urls)], timeout=5, context=tls_context
+            ).read(200_000)
         except Exception:
             pass
         request_index += 1
