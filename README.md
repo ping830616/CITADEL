@@ -71,7 +71,9 @@ To regenerate only the benign workload comparison, run the **Benign workload pro
 git lfs pull --include='data/telemetry/processed/ddr_data/*benign*.csv' --exclude=''
 ```
 
-To run the repeated rapid benign workload transition experiment, go to **Section 12: Repeated Rapid Benign Workload Transition Experiment**. Set `RUN_APPLE_TRANSITION_CAMPAIGN = True`, run the collection cell once on the evaluated Apple machine, return the switch to `False`, and run the analysis cell. The default campaign has five independently seeded runs, randomized workload orders, two calibration cycles, three evaluation cycles, and a cool down between runs. The analysis reports every run plus the mean, sample standard deviation, and 95 percent bootstrap interval. See [Rapid benign workload transition runbook](docs/apple_workload_transitions.md) for the protocol, duration, preprocessing policy, and output checks.
+To run the Intel benign workload order stress test, go to **Section 12: Intel Benign Workload Order Stress Test**. The default analysis uses both paper testbeds, ten nonoverlapping recording block replicates, randomized workload orders, two calibration cycles, and three held out evaluation cycles. It reports every block plus the mean, sample standard deviation, range, and 95 percent bootstrap interval. The preserved workload files were collected separately, so the constructed boundaries test workload distribution and order sensitivity rather than the physical transient of a continuously measured switch. See [Intel benign workload order stress test](docs/intel_workload_order_stress_test.md) for the protocol, preprocessing, outputs, and interpretation boundary.
+
+Section 13 retains the Apple continuous transition campaign as an optional limited observability supplement. See [Apple benign workload transition runbook](docs/apple_workload_transitions.md) for its collection requirements.
 
 For what the preserved scripts establish about anomaly generation, voltage control, and file labels, see [Anomaly provenance and labels](docs/anomaly_provenance.md). Historical DROOP arguments and verified event boundaries remain unavailable.
 
@@ -88,6 +90,9 @@ lifecycle_drift/lifecycle_recalibration_windows.csv
 fpga/cintas_setupA_q15_golden_vectors.csv
 apple_limited_observability/apple_observability_best_by_scenario.csv
 apple_limited_observability/apple_workload_summary.csv
+intel_workload_orders/intel_workload_order_run_results.csv
+intel_workload_orders/intel_workload_order_summary.csv
+intel_workload_orders/fig_intel_workload_order_variation.png
 apple_workload_transitions/transition_rule_summary.csv
 apple_workload_transitions/transition_event_summary.csv
 apple_workload_transitions/fig_apple_workload_transition_scores.png
@@ -141,6 +146,7 @@ For submission-quality results:
 - [`docs/rtl_plan.md`](docs/rtl_plan.md): RTL/FPGA-oriented validation plan
 - [`docs/reproducibility.md`](docs/reproducibility.md): cross-machine reproducibility checklist
 - [`docs/telemetry_collection.md`](docs/telemetry_collection.md): telemetry sources, tool revisions, commands, timing, synchronization, privileges, and historical limits
+- [`docs/intel_workload_order_stress_test.md`](docs/intel_workload_order_stress_test.md): randomized Intel workload order protocol, preprocessing, outputs, and interpretation boundary
 - [`docs/apple_workload_transitions.md`](docs/apple_workload_transitions.md): rapid benign workload transition protocol, notebook controls, outputs, and interpretation limits
 - [`docs/telemetry_dictionary.csv`](docs/telemetry_dictionary.csv): per-signal definitions, interfaces, units, sampling information, and missing-value treatment
 - [`docs/tcad_end_to_end_result_methodology.md`](docs/tcad_end_to_end_result_methodology.md): complete TCAD result workflow
