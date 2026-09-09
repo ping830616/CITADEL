@@ -34,7 +34,7 @@ Each real run creates a new timestamped directory under:
 data/telemetry/raw/apple_transitions/<run_id>/
 ```
 
-It contains the continuous telemetry stream, scheduled phase boundaries, the retained Tier 0 schema, and a collection manifest. Interrupted or failed runs remain available for diagnosis but are not selected by the notebook analysis.
+It contains the continuous telemetry stream, scheduled phase boundaries, the retained Tier 0 schema, and a collection manifest. Interrupted, failed, or timing invalid runs remain available for diagnosis but are not selected by the notebook analysis. By default, the collector rejects a run when any consecutive sample starts are separated by more than two seconds; this catches system sleep or a prolonged process suspension.
 
 ## Frozen Evaluation Protocol
 

@@ -293,6 +293,12 @@ def _build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--probe-seconds", type=float, default=5.0)
     parser.add_argument("--dwell-seconds", type=float, default=60.0)
     parser.add_argument("--cycles", type=int, default=3)
+    parser.add_argument(
+        "--maximum-sample-gap-seconds",
+        type=float,
+        default=2.0,
+        help="Reject a run if consecutive sample starts are separated by more than this value.",
+    )
     parser.add_argument("--workloads", nargs="+", default=list(WORKLOADS), choices=WORKLOADS)
     parser.add_argument(
         "--stats-elements",
@@ -321,6 +327,8 @@ def _validate_args(args: argparse.Namespace) -> None:
         raise ValueError("--cycles must be positive")
     if args.stats_elements <= 0:
         raise ValueError("--stats-elements must be positive")
+    if args.maximum_sample_gap_seconds <= 0:
+        raise ValueError("--maximum-sample-gap-seconds must be positive")
     if platform.system() != "Darwin" and not args.allow_non_apple:
         raise RuntimeError(
             "This supplemental experiment is intended for the Apple platform. "
@@ -369,6 +377,7 @@ def _write_manifest(
             "cycles": int(args.cycles),
             "dwell_seconds": float(args.dwell_seconds),
             "requested_hz": float(args.hz),
+            "maximum_sample_gap_seconds": float(args.maximum_sample_gap_seconds),
             "probe_seconds": float(args.probe_seconds),
             "seed": SEED,
             "continuous_collector": True,
@@ -425,6 +434,7 @@ def main() -> int:
         "probe_seconds": args.probe_seconds,
         "dwell_seconds": args.dwell_seconds,
         "estimated_collection_seconds": len(phases) * args.dwell_seconds,
+        "maximum_sample_gap_seconds": args.maximum_sample_gap_seconds,
         "ai_backend": ai_backend,
         "browser_network_preflight": {"passed": browser_ok, "detail": browser_detail},
         "py_stats_memory_gib": args.stats_elements * np.dtype(np.float32).itemsize / (1024**3),
@@ -582,6 +592,14 @@ def main() -> int:
                 if next_sample < time.monotonic() - interval:
                     next_sample = time.monotonic()
 
+        observed_intervals = np.diff(np.asarray(sample_times_s, dtype=float))
+        maximum_observed_gap = float(np.max(observed_intervals)) if observed_intervals.size else 0.0
+        if maximum_observed_gap > float(args.maximum_sample_gap_seconds):
+            raise RuntimeError(
+                "Collection timing is invalid: maximum observed sample gap "
+                f"{maximum_observed_gap:.6f} seconds exceeds the allowed "
+                f"{args.maximum_sample_gap_seconds:.6f} seconds."
+            )
         status = "complete"
     except KeyboardInterrupt:
         status = "interrupted"
