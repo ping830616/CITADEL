@@ -1,5 +1,6 @@
 .DS_Store
 .ipynb_checkpoints/
+.virtual_documents/
 .pytest_cache/
 .venv/
 __pycache__/
