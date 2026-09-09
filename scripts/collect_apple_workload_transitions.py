@@ -13,6 +13,7 @@ import argparse
 import csv
 import hashlib
 import importlib.util
+import itertools
 import json
 import os
 import platform
@@ -156,13 +157,8 @@ def _sample_tier0(collector: ModuleType, previous: object, interval: float) -> d
             raise
 
 
-def _seed_all() -> None:
-    random.seed(SEED)
-    np.random.seed(SEED)
-
-
-def _workload_browser(stop_event: threading.Event) -> None:
-    _seed_all()
+def _workload_browser(stop_event: threading.Event, seed: int) -> None:
+    del seed  # The browser request sequence is deterministic and uses no random state.
     urls = (
         "https://example.com",
         "https://www.iana.org/domains/reserved",
@@ -181,10 +177,10 @@ def _workload_browser(stop_event: threading.Event) -> None:
         time.sleep(0.05)
 
 
-def _workload_video_sw(stop_event: threading.Event) -> None:
-    _seed_all()
+def _workload_video_sw(stop_event: threading.Event, seed: int) -> None:
+    rng = np.random.default_rng(int(seed))
     height, width = 720, 1280
-    frame = (np.random.rand(height, width, 3) * 255).astype(np.uint8)
+    frame = (rng.random((height, width, 3)) * 255).astype(np.uint8)
     while not stop_event.is_set():
         gray = (
             0.299 * frame[:, :, 0]
@@ -208,11 +204,11 @@ def _resolve_ai_backend() -> str:
         return "numpy_only_fallback"
 
 
-def _workload_ai(stop_event: threading.Event, backend: str) -> None:
-    _seed_all()
+def _workload_ai(stop_event: threading.Event, backend: str, seed: int) -> None:
+    rng = np.random.default_rng(int(seed))
     numpy_size = 1024
-    a_numpy = np.random.randn(numpy_size, numpy_size).astype(np.float32)
-    b_numpy = np.random.randn(numpy_size, numpy_size).astype(np.float32)
+    a_numpy = rng.standard_normal((numpy_size, numpy_size), dtype=np.float32)
+    b_numpy = rng.standard_normal((numpy_size, numpy_size), dtype=np.float32)
 
     torch = None
     a_torch = None
@@ -221,7 +217,7 @@ def _workload_ai(stop_event: threading.Event, backend: str) -> None:
         import torch as torch_module
 
         torch = torch_module
-        torch.manual_seed(SEED)
+        torch.manual_seed(int(seed))
         device_name = "mps" if backend == "torch_mps_and_numpy" else "cpu"
         device = torch.device(device_name)
         torch_size = 2048
@@ -240,9 +236,9 @@ def _workload_ai(stop_event: threading.Event, backend: str) -> None:
             _ = a_numpy @ b_numpy
 
 
-def _workload_stats(stop_event: threading.Event, elements: int) -> None:
-    _seed_all()
-    values = np.random.rand(int(elements)).astype(np.float32)
+def _workload_stats(stop_event: threading.Event, elements: int, seed: int) -> None:
+    rng = np.random.default_rng(int(seed))
+    values = rng.random(int(elements), dtype=np.float32)
     while not stop_event.is_set():
         _ = float(values.sum())
         _ = float(values.mean())
@@ -256,16 +252,17 @@ def _run_workload(
     *,
     ai_backend: str,
     stats_elements: int,
+    seed: int,
 ) -> None:
     try:
         if workload == "BROWSER":
-            _workload_browser(stop_event)
+            _workload_browser(stop_event, seed)
         elif workload == "PY_AI":
-            _workload_ai(stop_event, ai_backend)
+            _workload_ai(stop_event, ai_backend, seed)
         elif workload == "PY_STATS":
-            _workload_stats(stop_event, stats_elements)
+            _workload_stats(stop_event, stats_elements, seed)
         elif workload == "VIDEO_SW":
-            _workload_video_sw(stop_event)
+            _workload_video_sw(stop_event, seed)
         else:
             raise ValueError(f"Unknown workload: {workload}")
     except BaseException as exc:
@@ -293,6 +290,15 @@ def _build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--probe-seconds", type=float, default=5.0)
     parser.add_argument("--dwell-seconds", type=float, default=60.0)
     parser.add_argument("--cycles", type=int, default=3)
+    parser.add_argument("--calibration-cycles", type=int, default=1)
+    parser.add_argument("--seed", type=int, default=SEED)
+    parser.add_argument(
+        "--randomize-order",
+        action="store_true",
+        help="Use a seeded random workload permutation in every cycle.",
+    )
+    parser.add_argument("--campaign-id", default=None)
+    parser.add_argument("--run-index", type=int, default=None)
     parser.add_argument(
         "--maximum-sample-gap-seconds",
         type=float,
@@ -325,6 +331,10 @@ def _validate_args(args: argparse.Namespace) -> None:
         raise ValueError("--dwell-seconds must be positive")
     if args.cycles <= 0:
         raise ValueError("--cycles must be positive")
+    if args.calibration_cycles <= 0:
+        raise ValueError("--calibration-cycles must be positive")
+    if args.calibration_cycles >= args.cycles:
+        raise ValueError("--calibration-cycles must be smaller than --cycles")
     if args.stats_elements <= 0:
         raise ValueError("--stats-elements must be positive")
     if args.maximum_sample_gap_seconds <= 0:
@@ -334,6 +344,39 @@ def _validate_args(args: argparse.Namespace) -> None:
             "This supplemental experiment is intended for the Apple platform. "
             "Use --allow-non-apple only for a collection smoke test."
         )
+
+
+def _build_phase_plan(
+    workloads: list[str], cycles: int, seed: int, randomize_order: bool
+) -> list[dict[str, object]]:
+    """Create complete workload blocks with no repeated boundary workload."""
+    rng = random.Random(int(seed))
+    plan: list[dict[str, object]] = []
+    previous_workload: str | None = None
+    used_orders: set[tuple[str, ...]] = set()
+    for cycle_index in range(int(cycles)):
+        order = list(workloads)
+        if randomize_order:
+            boundary_safe = [
+                candidate
+                for candidate in itertools.permutations(workloads)
+                if previous_workload is None or candidate[0] != previous_workload
+            ]
+            if not boundary_safe:
+                raise RuntimeError("Could not construct a nonrepeating randomized boundary.")
+            unseen = [candidate for candidate in boundary_safe if candidate not in used_orders]
+            order = list(rng.choice(unseen or boundary_safe))
+            used_orders.add(tuple(order))
+        for cycle_position, workload in enumerate(order):
+            plan.append(
+                {
+                    "cycle_index": cycle_index,
+                    "cycle_position": cycle_position,
+                    "workload": workload,
+                }
+            )
+        previous_workload = order[-1]
+    return plan
 
 
 def _write_manifest(
@@ -375,11 +418,24 @@ def _write_manifest(
         "protocol": {
             "workloads": list(args.workloads),
             "cycles": int(args.cycles),
+            "calibration_cycles": int(args.calibration_cycles),
+            "evaluation_cycles": int(args.cycles - args.calibration_cycles),
             "dwell_seconds": float(args.dwell_seconds),
             "requested_hz": float(args.hz),
             "maximum_sample_gap_seconds": float(args.maximum_sample_gap_seconds),
             "probe_seconds": float(args.probe_seconds),
-            "seed": SEED,
+            "seed": int(args.seed),
+            "randomize_order": bool(args.randomize_order),
+            "phase_orders": [
+                [
+                    str(event["workload"])
+                    for event in events
+                    if int(event["cycle_index"]) == cycle_index
+                ]
+                for cycle_index in range(int(args.cycles))
+            ],
+            "campaign_id": args.campaign_id,
+            "run_index": args.run_index,
             "continuous_collector": True,
             "labels": "scheduled benign workload phase",
             "ai_backend": ai_backend,
@@ -415,7 +471,10 @@ def main() -> int:
         / "workloads.py"
     )
     ai_backend = _resolve_ai_backend()
-    phases = [workload for _ in range(args.cycles) for workload in args.workloads]
+    phase_plan = _build_phase_plan(
+        list(args.workloads), args.cycles, args.seed, args.randomize_order
+    )
+    phases = [str(phase["workload"]) for phase in phase_plan]
     browser_ok, browser_detail = (True, "BROWSER not requested")
     if "BROWSER" in args.workloads:
         browser_ok, browser_detail = _browser_preflight()
@@ -430,6 +489,18 @@ def main() -> int:
         "platform": platform.platform(),
         "machine": platform.machine(),
         "phases": phases,
+        "phase_orders": [
+            [
+                str(phase["workload"])
+                for phase in phase_plan
+                if int(phase["cycle_index"]) == cycle_index
+            ]
+            for cycle_index in range(int(args.cycles))
+        ],
+        "calibration_cycles": args.calibration_cycles,
+        "evaluation_cycles": args.cycles - args.calibration_cycles,
+        "randomize_order": args.randomize_order,
+        "seed": args.seed,
         "requested_hz": args.hz,
         "probe_seconds": args.probe_seconds,
         "dwell_seconds": args.dwell_seconds,
@@ -497,6 +568,7 @@ def main() -> int:
         "t_rel_s",
         "phase_index",
         "cycle_index",
+        "cycle_position",
         "workload",
     ] + schema
 
@@ -513,6 +585,8 @@ def main() -> int:
                         active_threads[-1][1].set()
                     phase_index += 1
                     current_workload = phases[phase_index]
+                    current_cycle_index = int(phase_plan[phase_index]["cycle_index"])
+                    current_cycle_position = int(phase_plan[phase_index]["cycle_position"])
                     phase_started_wall = time.time()
                     phase_started_mono = time.monotonic()
                     if events:
@@ -530,6 +604,7 @@ def main() -> int:
                         kwargs={
                             "ai_backend": ai_backend,
                             "stats_elements": args.stats_elements,
+                            "seed": int(args.seed) + 1009 * phase_index,
                         },
                         name=f"citadel-{current_workload}-{phase_index}",
                         daemon=True,
@@ -542,7 +617,8 @@ def main() -> int:
                     events.append(
                         {
                             "phase_index": phase_index,
-                            "cycle_index": phase_index // len(args.workloads),
+                            "cycle_index": current_cycle_index,
+                            "cycle_position": current_cycle_position,
                             "workload": current_workload,
                             "start_ts_unix_s": phase_started_wall,
                             "start_t_rel_s": phase_started_wall - experiment_t0_wall,
@@ -580,7 +656,8 @@ def main() -> int:
                         "ts_unix_s": sample_wall,
                         "t_rel_s": sample_wall - experiment_t0_wall,
                         "phase_index": phase_index,
-                        "cycle_index": phase_index // len(args.workloads),
+                        "cycle_index": int(phase_plan[phase_index]["cycle_index"]),
+                        "cycle_position": int(phase_plan[phase_index]["cycle_position"]),
                         "workload": current_workload,
                         **row,
                     }
@@ -629,6 +706,7 @@ def main() -> int:
                 fieldnames=[
                     "phase_index",
                     "cycle_index",
+                    "cycle_position",
                     "workload",
                     "start_ts_unix_s",
                     "start_t_rel_s",

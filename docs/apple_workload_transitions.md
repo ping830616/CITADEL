@@ -1,72 +1,88 @@
-# Rapid Benign Workload Transition Experiment
+# Repeated Rapid Benign Workload Transition Experiment
 
-This supplemental experiment measures CITADEL behavior during abrupt benign workload changes on the available Apple platform. It does not test Intel telemetry, firmware transitions, controlled temperature changes, voltage control, or physical aging.
+This experiment measures CITADEL behavior during abrupt benign workload changes on the available Apple platform. It does not test Intel telemetry, firmware transitions, controlled temperature changes, voltage control, or physical aging.
 
-## Run From The Notebook
+## Preferred Notebook Run
 
 1. Update the environment and open `notebooks/exact_tcad_all_experiments.ipynb` from the repository root.
-2. Run the notebook setup and integrated utility cells.
-3. The full Apple design space sweep in Section 11 is not required for this experiment.
-4. In Section 12, set `RUN_APPLE_TRANSITION_COLLECTION = True`.
-5. Run the collection cell once. The default protocol records three cycles of `BROWSER`, `PY_AI`, `PY_STATS`, and `VIDEO_SW`, with 60 seconds per workload and a requested 5 Hz sampling rate.
-6. Return the switch to `False` so the workload sequence is not launched again accidentally.
-7. Run the analysis cell. It automatically selects the newest trace whose collection manifest has status `complete`.
+2. Run the repository import cell, Section 1 reproducibility configuration, and Section 2 integrated utilities.
+3. In Section 12, set `RUN_APPLE_TRANSITION_CAMPAIGN = True`.
+4. Run the collection cell once. Do not close the computer or allow it to sleep.
+5. Return the switch to `False` after collection.
+6. Run the analysis cell. It analyzes every complete run and displays the campaign summary and figure.
 
-The default collection lasts about 12 minutes plus a five second schema probe. `PY_STATS` allocates 100,000,000 float32 values, approximately 0.37 GiB. `PY_AI` uses Torch when it is installed and records whether it used MPS, CPU, or the NumPy fallback. `BROWSER` follows the preserved workload definition and therefore requires working network access for representative activity.
+The default campaign has five independent runs. Each run uses a recorded seed, a different randomized complete workload order in every cycle, two calibration cycles, three evaluation cycles, 60 seconds per workload, and a requested 5 Hz sampling rate. A two minute cool down separates runs. The total is about 108 minutes plus short schema probes and analysis time.
 
-## Optional Command Line Preflight
+`PY_STATS` allocates 100,000,000 float32 values, approximately 0.37 GiB. `PY_AI` records whether it used MPS, CPU, or the NumPy fallback. `BROWSER` requires working network access for representative activity.
 
-The notebook calls the following collector. A dry run checks the platform, dependencies, planned phase order, duration, AI backend, and expected `PY_STATS` allocation without launching workloads or writing a trace.
+## Command Line Use
 
-```text
-python scripts/collect_apple_workload_transitions.py --dry-run
-```
-
-The full default command is:
+A dry run prints every run seed, randomized order, and estimated duration without collecting data:
 
 ```text
-python scripts/collect_apple_workload_transitions.py
+python3 scripts/run_apple_transition_campaign.py --dry-run
 ```
 
-Each real run creates a new timestamped directory under:
+The full default campaign is:
 
 ```text
-data/telemetry/raw/apple_transitions/<run_id>/
+python3 scripts/run_apple_transition_campaign.py
 ```
 
-It contains the continuous telemetry stream, scheduled phase boundaries, the retained Tier 0 schema, and a collection manifest. Interrupted, failed, or timing invalid runs remain available for diagnosis but are not selected by the notebook analysis. By default, the collector rejects a run when any consecutive sample starts are separated by more than two seconds; this catches system sleep or a prolonged process suspension.
-
-## Frozen Evaluation Protocol
-
-The analysis is chronological and uses the first complete cycle as an in session reference cycle. The first 50 samples, approximately 10 seconds, after each workload starts are excluded from reference construction. The remaining stable portions of all four workload phases provide the benign normalization, stable conditional telemetry ranking, eight selected features, and reference block scores. Monotonic host counters are converted to rates before fitting.
-
-The frozen CINTAS configuration uses uniform weights, lambda 0.5, a 50 sample mean decision block, and the 0.99 quantile of reference cycle block scores as its threshold. The detector is frozen at the end of Cycle 1, and no parameter is updated while Cycles 2 and 3 are evaluated. A transition window is the first three decision blocks following each scheduled switch. Score stabilization requires three consecutive blocks below the frozen threshold. The reference is marked stale when the observed benign false positive rate exceeds eta, where eta is 0.01. The comparison rule requires two consecutive threshold exceedances before reporting an alarm.
-
-These values are explicit notebook parameters. If any value is changed, report the change and use the generated manifest to identify the exact configuration.
-
-## Required Result Checks
-
-Do not copy the generated sentence into the rebuttal or manuscript until all of the following are true:
-
-- `collection_manifest.json` reports `status: complete` and the expected Apple hardware.
-- The manifest reports the intended workload order, three cycles, 60 second dwell time, and 5 Hz requested sampling.
-- The AI backend and any unavailable telemetry fields are disclosed.
-- `transition_rule_summary.csv` contains both `current` and `persistence` rows.
-- `transition_event_summary.csv` contains one row per scheduled switch.
-- The score figure shows all workload boundaries and no unexplained collection gaps.
-- `run_manifest.json` identifies the trace, reference cycle, selected features, threshold, configuration, commit, and hashes.
-
-The analysis writes:
+To analyze the newest complete campaign:
 
 ```text
-results/notebook_run/apple_workload_transitions/transition_rule_summary.csv
-results/notebook_run/apple_workload_transitions/transition_event_summary.csv
-results/notebook_run/apple_workload_transitions/transition_block_scores.csv
-results/notebook_run/apple_workload_transitions/reference_cycle_block_scores.csv
-results/notebook_run/apple_workload_transitions/transition_selected_features.csv
-results/notebook_run/apple_workload_transitions/fig_apple_workload_transition_scores.png
-results/notebook_run/apple_workload_transitions/paper_ready_result.txt
-results/notebook_run/apple_workload_transitions/run_manifest.json
+python3 scripts/analyze_apple_transition_campaign.py
 ```
 
-All recorded phases are benign workload labels. A threshold exceedance is therefore counted as a false positive; it is not evidence of a reliability, safety, or security event.
+Every collection is stored without overwriting an earlier run under:
+
+```text
+data/telemetry/raw/apple_transition_campaigns/<campaign_id>/runs/<run_id>/
+```
+
+The campaign manifest records the seeds, intended settings, return codes, and completion state. Every run manifest records its phase orders, platform, sampling behavior, workload backend, source hashes, and unavailable signals. A run is rejected if a consecutive sample gap exceeds two seconds.
+
+## Frozen Per Run Evaluation
+
+Each run is processed independently to prevent information leakage across runs. The first two complete cycles provide calibration data. The first 50 samples, approximately 10 seconds, of every calibration phase are excluded. The remaining samples define the normalization, stable conditional ranking, eight selected features, score, and threshold. These quantities remain frozen for all three evaluation cycles in that run.
+
+Preprocessing is declared before result inspection:
+
+- Cumulative context switch, interrupt, syscall, and swap input or output counters are divided by elapsed time after differencing.
+- Rolling load averages are excluded because they retain prior phase history.
+- Absolute memory and swap occupancy, process count, and static frequency limits are excluded because they represent persistent host state or metadata rather than an immediate workload response.
+- Nonfinite and constant calibration features are removed.
+
+The generated `transition_preprocessing_audit.csv` records the action and reason for every numeric signal.
+
+The detector uses uniform weights, lambda 0.5, a 50 sample mean decision block, and the 0.99 quantile of calibration block scores as its threshold. A transition window is the first three blocks following a scheduled switch. Stabilization requires three consecutive blocks below the threshold. The comparison rule requires two consecutive threshold exceedances before reporting an alarm.
+
+## Across Run Reporting
+
+The campaign summary preserves every run result and reports the number of runs, mean, sample standard deviation, minimum, maximum, and a 95 percent bootstrap interval for each metric. The publication figure shows individual run values with the mean and sample standard deviation. The bootstrap interval describes uncertainty for this collected run set; it is not a population guarantee.
+
+Primary artifacts are written under:
+
+```text
+results/notebook_run/apple_transition_campaigns/<campaign_id>/
+```
+
+They include:
+
+```text
+all_run_rule_results.csv
+all_run_event_results.csv
+campaign_metric_summary.csv
+all_run_selected_features.csv
+campaign_feature_selection_frequency.csv
+fig_transition_campaign_variation.png
+campaign_paper_ready_result.txt
+campaign_analysis_manifest.json
+runs/<run_id>/transition_preprocessing_audit.csv
+runs/<run_id>/transition_rule_summary.csv
+runs/<run_id>/transition_event_summary.csv
+runs/<run_id>/run_manifest.json
+```
+
+Do not use the generated paper sentence until the campaign and all run manifests report `complete`, the expected Apple platform is recorded, every workload phase is present, and the figure and per run values have been inspected. All phases are benign; an alarm is therefore a false positive, not evidence of a reliability, safety, or security event.

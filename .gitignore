@@ -9,6 +9,7 @@ __pycache__/
 data/sample/
 data/external_manifests/
 data/telemetry/raw/apple_transitions/
+data/telemetry/raw/apple_transition_campaigns/
 results/
 TELEMETRY_COLLECTION_SCRIPTS/collection_config.sh
 TELEMETRY_COLLECTION_SCRIPTS/output/
