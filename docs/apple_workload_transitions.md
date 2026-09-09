@@ -38,9 +38,9 @@ It contains the continuous telemetry stream, scheduled phase boundaries, the ret
 
 ## Frozen Evaluation Protocol
 
-The analysis uses only preserved stable nominal Tier 0 traces for calibration and threshold selection. Within each workload trace, the first 70 percent is used for benign calibration and the remaining 30 percent for threshold validation. Monotonic host counters are converted to rates before fitting. The stable conditional telemetry ranking selects eight features from calibration data only.
+The analysis is chronological and uses the first complete cycle as an in session reference cycle. The first 50 samples, approximately 10 seconds, after each workload starts are excluded from reference construction. The remaining stable portions of all four workload phases provide the benign normalization, stable conditional telemetry ranking, eight selected features, and reference block scores. Monotonic host counters are converted to rates before fitting.
 
-The frozen CINTAS configuration uses uniform weights, lambda 0.5, a 50 sample mean decision block, and the 0.99 quantile of stable validation block scores as its threshold. No parameter is updated during the transition trace. A transition window is the first three decision blocks following each scheduled switch. Score stabilization requires three consecutive blocks below the frozen threshold. The reference is marked stale when the observed benign false positive rate exceeds eta, where eta is 0.01. The comparison rule requires two consecutive threshold exceedances before reporting an alarm.
+The frozen CINTAS configuration uses uniform weights, lambda 0.5, a 50 sample mean decision block, and the 0.99 quantile of reference cycle block scores as its threshold. The detector is frozen at the end of Cycle 1, and no parameter is updated while Cycles 2 and 3 are evaluated. A transition window is the first three decision blocks following each scheduled switch. Score stabilization requires three consecutive blocks below the frozen threshold. The reference is marked stale when the observed benign false positive rate exceeds eta, where eta is 0.01. The comparison rule requires two consecutive threshold exceedances before reporting an alarm.
 
 These values are explicit notebook parameters. If any value is changed, report the change and use the generated manifest to identify the exact configuration.
 
@@ -54,7 +54,7 @@ Do not copy the generated sentence into the rebuttal or manuscript until all of 
 - `transition_rule_summary.csv` contains both `current` and `persistence` rows.
 - `transition_event_summary.csv` contains one row per scheduled switch.
 - The score figure shows all workload boundaries and no unexplained collection gaps.
-- `run_manifest.json` identifies the trace, stable nominal inputs, selected features, threshold, configuration, commit, and hashes.
+- `run_manifest.json` identifies the trace, reference cycle, selected features, threshold, configuration, commit, and hashes.
 
 The analysis writes:
 
@@ -62,7 +62,7 @@ The analysis writes:
 results/notebook_run/apple_workload_transitions/transition_rule_summary.csv
 results/notebook_run/apple_workload_transitions/transition_event_summary.csv
 results/notebook_run/apple_workload_transitions/transition_block_scores.csv
-results/notebook_run/apple_workload_transitions/stable_validation_block_scores.csv
+results/notebook_run/apple_workload_transitions/reference_cycle_block_scores.csv
 results/notebook_run/apple_workload_transitions/transition_selected_features.csv
 results/notebook_run/apple_workload_transitions/fig_apple_workload_transition_scores.png
 results/notebook_run/apple_workload_transitions/paper_ready_result.txt
