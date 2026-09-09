@@ -1,6 +1,6 @@
 # Rapid Benign Workload Transition Experiment
 
-This supplemental experiment supports the response to Reviewer 1, Comment 9. It measures CITADEL behavior during abrupt benign workload changes on the available Apple platform. It does not test Intel telemetry, firmware transitions, controlled temperature changes, voltage control, or physical aging.
+This supplemental experiment measures CITADEL behavior during abrupt benign workload changes on the available Apple platform. It does not test Intel telemetry, firmware transitions, controlled temperature changes, voltage control, or physical aging.
 
 ## Run From The Notebook
 
