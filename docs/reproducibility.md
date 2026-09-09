@@ -198,6 +198,10 @@ After a complete notebook run, compare the main generated artifacts:
 - `results/notebook_run/lifecycle_drift/lifecycle_recalibration_summary.csv`
 - `results/notebook_run/paper_tbd_replacements.csv`
 
+## Apple Rapid Workload Transition Run
+
+The Comment 9 experiment is intentionally opt in because it launches sustained workloads on the local Apple machine. In notebook Section 12, set `RUN_APPLE_TRANSITION_COLLECTION = True`, run the collection cell once, and then run the analysis cell. The collector writes each run to a new timestamped directory and never overwrites an earlier trace. Leave the switch `False` for later analysis runs. Full protocol details and output checks are in [`docs/apple_workload_transitions.md`](apple_workload_transitions.md).
+
 Copy results back from the server with:
 
 ```text

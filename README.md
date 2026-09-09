@@ -71,6 +71,8 @@ To regenerate only the benign workload comparison, run the **Benign workload pro
 git lfs pull --include='data/telemetry/processed/ddr_data/*benign*.csv' --exclude=''
 ```
 
+To run the rapid benign workload transition experiment for Reviewer 1, Comment 9, go to **Section 12: Supplemental Rapid Benign Workload Transition Experiment**. Set `RUN_APPLE_TRANSITION_COLLECTION = True`, run the collection cell once on the evaluated Apple machine, and then run the analysis cell. The default continuous collection takes about 12 minutes. The analysis writes its summary tables, per switch stabilization results, selected features, figure, paper ready sentence, and manifest under `results/notebook_run/apple_workload_transitions/`. See [Rapid benign workload transition runbook](docs/apple_workload_transitions.md) for the protocol and checks.
+
 For what the preserved scripts establish about anomaly generation, voltage control, and file labels, see [Anomaly provenance and labels](docs/anomaly_provenance.md). Historical DROOP arguments and verified event boundaries remain unavailable.
 
 ### 4. Check Required Notebook Artifacts
@@ -86,6 +88,9 @@ lifecycle_drift/lifecycle_recalibration_windows.csv
 fpga/cintas_setupA_q15_golden_vectors.csv
 apple_limited_observability/apple_observability_best_by_scenario.csv
 apple_limited_observability/apple_workload_summary.csv
+apple_workload_transitions/transition_rule_summary.csv
+apple_workload_transitions/transition_event_summary.csv
+apple_workload_transitions/fig_apple_workload_transition_scores.png
 paper_tbd_replacements.csv
 ```
 
@@ -136,6 +141,7 @@ For submission-quality results:
 - [`docs/rtl_plan.md`](docs/rtl_plan.md): RTL/FPGA-oriented validation plan
 - [`docs/reproducibility.md`](docs/reproducibility.md): cross-machine reproducibility checklist
 - [`docs/telemetry_collection.md`](docs/telemetry_collection.md): telemetry sources, tool revisions, commands, timing, synchronization, privileges, and historical limits
+- [`docs/apple_workload_transitions.md`](docs/apple_workload_transitions.md): Comment 9 collection protocol, notebook controls, outputs, and interpretation limits
 - [`docs/telemetry_dictionary.csv`](docs/telemetry_dictionary.csv): per-signal definitions, interfaces, units, sampling information, and missing-value treatment
 - [`docs/tcad_end_to_end_result_methodology.md`](docs/tcad_end_to_end_result_methodology.md): complete TCAD result workflow
 - [`docs/tcad_requirements_traceability.md`](docs/tcad_requirements_traceability.md): mapping from paper claims to repository artifacts

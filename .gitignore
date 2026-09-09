@@ -7,6 +7,7 @@ __pycache__/
 *.egg-info/
 data/sample/
 data/external_manifests/
+data/telemetry/raw/apple_transitions/
 results/
 TELEMETRY_COLLECTION_SCRIPTS/collection_config.sh
 TELEMETRY_COLLECTION_SCRIPTS/output/
