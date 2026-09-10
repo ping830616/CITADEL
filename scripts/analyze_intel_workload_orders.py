@@ -443,16 +443,7 @@ def _plot_variation(
         else np.asarray([0.0])
     )
     rng = np.random.default_rng(123)
-    metric_columns = [metric for metric, _ in metrics]
-    observed_max = 100.0 * float(
-        results[metric_columns].apply(pd.to_numeric, errors="coerce").max().max()
-    )
-    summarized = summary[summary["metric"].isin(metric_columns)].copy()
-    summary_max = 100.0 * float(
-        (summarized["mean"] + summarized["sample_sd"].fillna(0.0)).max()
-    )
-    y_ceiling = 1.12 * max(observed_max, summary_max, 1.0)
-    fig, axes = plt.subplots(1, 3, figsize=(15.2, 4.8), dpi=220, sharey=True)
+    fig, axes = plt.subplots(1, 3, figsize=(15.2, 4.8), dpi=220, sharey=False)
     for axis, (metric, title) in zip(axes, metrics, strict=True):
         for setup_index, setup in enumerate(setup_order):
             for rule in rule_order:
@@ -504,7 +495,18 @@ def _plot_variation(
         axis.tick_params(axis="y", labelsize=12)
         axis.grid(axis="y", alpha=0.25, linewidth=1.0)
         axis.spines[["top", "right"]].set_visible(False)
-    axes[0].set_ylim(0.0, y_ceiling)
+        observed_max = 100.0 * float(
+            pd.to_numeric(results[metric], errors="coerce").max()
+        )
+        metric_summary = summary[summary["metric"] == metric]
+        summary_max = 100.0 * float(
+            (
+                metric_summary["mean"]
+                + metric_summary["sample_sd"].fillna(0.0)
+            ).max()
+        )
+        axis.set_ylim(0.0, 1.06 * max(observed_max, summary_max, 1.0))
+        axis.locator_params(axis="y", nbins=5)
     axes[0].set_ylabel("Benign false positive rate (%)", fontsize=14.5, fontweight="bold", labelpad=10)
     legend_handles = [
         plt.Line2D(
@@ -550,7 +552,7 @@ def _plot_variation(
     fig.text(
         0.5,
         0.015,
-        "Points are nonoverlapping recording block replicates; workload boundaries are constructed, not continuously collected switches.",
+        "Panel y limits follow the displayed data. Points are recording block replicates; boundaries are constructed from separate recordings.",
         ha="center",
         fontsize=11.2,
         color="#475569",
