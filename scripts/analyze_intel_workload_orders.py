@@ -447,7 +447,7 @@ def _plot_variation(
         (summarized["mean"] + summarized["sample_sd"].fillna(0.0)).max()
     )
     y_ceiling = 1.12 * max(observed_max, summary_max, 1.0)
-    fig, axes = plt.subplots(1, 3, figsize=(18.0, 5.6), dpi=220, sharey=True)
+    fig, axes = plt.subplots(1, 3, figsize=(15.2, 4.8), dpi=220, sharey=True)
     for axis, (metric, title) in zip(axes, metrics, strict=True):
         for setup_index, setup in enumerate(setup_order):
             for rule in rule_order:
@@ -460,7 +460,7 @@ def _plot_variation(
                 axis.scatter(
                     np.full(len(values), center) + jitter,
                     values,
-                    s=82,
+                    s=72,
                     color=rule_colors[rule],
                     edgecolor="white",
                     linewidth=1.0,
@@ -480,33 +480,33 @@ def _plot_variation(
                     mean,
                     yerr=np.asarray([[lower_error], [sd]]),
                     fmt="D",
-                    markersize=10.0,
+                    markersize=9.0,
                     color="#111827",
                     markerfacecolor="#FACC15",
                     markeredgewidth=1.5,
-                    capsize=7,
-                    capthick=2.2,
-                    linewidth=2.2,
+                    capsize=6,
+                    capthick=2.0,
+                    linewidth=2.0,
                     zorder=4,
                 )
-        axis.set_title(title, fontsize=17, fontweight="bold", pad=14)
+        axis.set_title(title, fontsize=15.5, fontweight="bold", pad=8)
         axis.set_xticks(
             range(len(setup_order)),
             [f"Setup {setup}\n({SETUP_PREFIX[setup]})" for setup in setup_order],
         )
-        axis.tick_params(axis="x", labelsize=14, pad=8)
-        axis.tick_params(axis="y", labelsize=13)
+        axis.tick_params(axis="x", labelsize=12.5, pad=6)
+        axis.tick_params(axis="y", labelsize=12)
         axis.grid(axis="y", alpha=0.25, linewidth=1.0)
         axis.spines[["top", "right"]].set_visible(False)
     axes[0].set_ylim(0.0, y_ceiling)
-    axes[0].set_ylabel("Benign false positive rate (%)", fontsize=16, fontweight="bold", labelpad=12)
+    axes[0].set_ylabel("Benign false positive rate (%)", fontsize=14.5, fontweight="bold", labelpad=10)
     legend_handles = [
         plt.Line2D(
             [0],
             [0],
             marker="o",
             linestyle="none",
-            markersize=10,
+            markersize=9,
             markerfacecolor=rule_colors[rule],
             markeredgecolor="white",
             label=rule_labels[rule],
@@ -519,7 +519,7 @@ def _plot_variation(
             [0],
             marker="D",
             linestyle="none",
-            markersize=10,
+            markersize=9,
             markerfacecolor="#FACC15",
             markeredgecolor="#111827",
             label="Mean with sample SD",
@@ -528,29 +528,29 @@ def _plot_variation(
     fig.legend(
         handles=legend_handles,
         loc="upper center",
-        bbox_to_anchor=(0.5, 0.895),
+        bbox_to_anchor=(0.5, 0.89),
         ncol=3,
         frameon=False,
-        fontsize=14,
-        columnspacing=2.2,
+        fontsize=12.5,
+        columnspacing=1.8,
         handletextpad=0.7,
     )
     fig.suptitle(
         "Intel Benign Workload Order Stress Test",
-        fontsize=23,
+        fontsize=20.5,
         fontweight="bold",
-        y=0.985,
+        y=0.98,
     )
     fig.text(
         0.5,
         0.015,
         "Points are nonoverlapping recording block replicates; workload boundaries are constructed, not continuously collected switches.",
         ha="center",
-        fontsize=12.5,
+        fontsize=11.2,
         color="#475569",
     )
-    fig.subplots_adjust(top=0.70, bottom=0.205, left=0.075, right=0.99, wspace=0.15)
-    fig.savefig(path, dpi=300, bbox_inches="tight", pad_inches=0.04, facecolor="white")
+    fig.subplots_adjust(top=0.69, bottom=0.215, left=0.08, right=0.995, wspace=0.12)
+    fig.savefig(path, dpi=300, bbox_inches="tight", pad_inches=0.025, facecolor="white")
     plt.close(fig)
 
 
