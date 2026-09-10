@@ -436,14 +436,14 @@ def _plot_variation(
     rule_order = ("current", "persistence")
     rule_colors = {"current": "#0B4F9C", "persistence": "#D94801"}
     rule_labels = {"current": "Current rule", "persistence": "Two block persistence"}
-    offsets = {"current": -0.07, "persistence": 0.07}
+    offsets = {"current": -0.065, "persistence": 0.065}
     setup_positions = (
-        np.linspace(-0.28, 0.28, len(setup_order))
+        np.linspace(-0.25, 0.25, len(setup_order))
         if len(setup_order) > 1
         else np.asarray([0.0])
     )
     rng = np.random.default_rng(123)
-    fig, axes = plt.subplots(1, 3, figsize=(15.2, 4.8), dpi=220, sharey=False)
+    fig, axes = plt.subplots(1, 3, figsize=(14.4, 4.4), dpi=220, sharey=False)
     for axis, (metric, title) in zip(axes, metrics, strict=True):
         for setup_index, setup in enumerate(setup_order):
             for rule in rule_order:
@@ -456,7 +456,7 @@ def _plot_variation(
                 axis.scatter(
                     np.full(len(values), center) + jitter,
                     values,
-                    s=72,
+                    s=68,
                     color=rule_colors[rule],
                     edgecolor="white",
                     linewidth=1.0,
@@ -485,14 +485,14 @@ def _plot_variation(
                     linewidth=2.0,
                     zorder=4,
                 )
-        axis.set_title(title, fontsize=15.5, fontweight="bold", pad=8)
+        axis.set_title(title, fontsize=14.5, fontweight="bold", pad=7)
         axis.set_xticks(
             setup_positions,
             [f"Setup {setup}\n({SETUP_PREFIX[setup]})" for setup in setup_order],
         )
-        axis.set_xlim(-0.65, 0.65)
-        axis.tick_params(axis="x", labelsize=12.5, pad=6)
-        axis.tick_params(axis="y", labelsize=12)
+        axis.set_xlim(-0.60, 0.60)
+        axis.tick_params(axis="x", labelsize=12, pad=5)
+        axis.tick_params(axis="y", labelsize=11.5)
         axis.grid(axis="y", alpha=0.25, linewidth=1.0)
         axis.spines[["top", "right"]].set_visible(False)
         observed_max = 100.0 * float(
@@ -505,9 +505,9 @@ def _plot_variation(
                 + metric_summary["sample_sd"].fillna(0.0)
             ).max()
         )
-        axis.set_ylim(0.0, 1.06 * max(observed_max, summary_max, 1.0))
+        axis.set_ylim(0.0, 1.04 * max(observed_max, summary_max, 1.0))
         axis.locator_params(axis="y", nbins=5)
-    axes[0].set_ylabel("Benign false positive rate (%)", fontsize=14.5, fontweight="bold", labelpad=10)
+    axes[0].set_ylabel("Benign false positive rate (%)", fontsize=13.5, fontweight="bold", labelpad=8)
     legend_handles = [
         plt.Line2D(
             [0],
@@ -536,29 +536,29 @@ def _plot_variation(
     fig.legend(
         handles=legend_handles,
         loc="upper center",
-        bbox_to_anchor=(0.5, 0.89),
+        bbox_to_anchor=(0.5, 0.885),
         ncol=3,
         frameon=False,
-        fontsize=12.5,
-        columnspacing=1.8,
+        fontsize=11.7,
+        columnspacing=1.6,
         handletextpad=0.7,
     )
     fig.suptitle(
         "Intel Benign Workload Order Stress Test",
-        fontsize=20.5,
+        fontsize=19,
         fontweight="bold",
-        y=0.98,
+        y=0.975,
     )
     fig.text(
         0.5,
-        0.015,
+        0.012,
         "Panel y limits follow the displayed data. Points are recording block replicates; boundaries are constructed from separate recordings.",
         ha="center",
-        fontsize=11.2,
+        fontsize=10.5,
         color="#475569",
     )
-    fig.subplots_adjust(top=0.69, bottom=0.215, left=0.08, right=0.995, wspace=0.12)
-    fig.savefig(path, dpi=300, bbox_inches="tight", pad_inches=0.025, facecolor="white")
+    fig.subplots_adjust(top=0.71, bottom=0.21, left=0.08, right=0.995, wspace=0.10)
+    fig.savefig(path, dpi=300, bbox_inches="tight", pad_inches=0.015, facecolor="white")
     plt.close(fig)
 
 
