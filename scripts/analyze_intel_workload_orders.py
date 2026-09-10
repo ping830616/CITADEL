@@ -447,7 +447,7 @@ def _plot_variation(
         (summarized["mean"] + summarized["sample_sd"].fillna(0.0)).max()
     )
     y_ceiling = 1.12 * max(observed_max, summary_max, 1.0)
-    fig, axes = plt.subplots(1, 3, figsize=(18.0, 6.4), dpi=220, sharey=True)
+    fig, axes = plt.subplots(1, 3, figsize=(18.0, 5.6), dpi=220, sharey=True)
     for axis, (metric, title) in zip(axes, metrics, strict=True):
         for setup_index, setup in enumerate(setup_order):
             for rule in rule_order:
@@ -528,7 +528,7 @@ def _plot_variation(
     fig.legend(
         handles=legend_handles,
         loc="upper center",
-        bbox_to_anchor=(0.5, 0.905),
+        bbox_to_anchor=(0.5, 0.895),
         ncol=3,
         frameon=False,
         fontsize=14,
@@ -539,18 +539,18 @@ def _plot_variation(
         "Intel Benign Workload Order Stress Test",
         fontsize=23,
         fontweight="bold",
-        y=0.99,
+        y=0.985,
     )
     fig.text(
         0.5,
-        0.018,
+        0.015,
         "Points are nonoverlapping recording block replicates; workload boundaries are constructed, not continuously collected switches.",
         ha="center",
         fontsize=12.5,
         color="#475569",
     )
-    fig.subplots_adjust(top=0.72, bottom=0.20, left=0.075, right=0.99, wspace=0.20)
-    fig.savefig(path, dpi=300, bbox_inches="tight", facecolor="white")
+    fig.subplots_adjust(top=0.70, bottom=0.205, left=0.075, right=0.99, wspace=0.15)
+    fig.savefig(path, dpi=300, bbox_inches="tight", pad_inches=0.04, facecolor="white")
     plt.close(fig)
 
 
