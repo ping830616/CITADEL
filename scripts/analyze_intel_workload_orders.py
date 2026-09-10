@@ -436,7 +436,12 @@ def _plot_variation(
     rule_order = ("current", "persistence")
     rule_colors = {"current": "#0B4F9C", "persistence": "#D94801"}
     rule_labels = {"current": "Current rule", "persistence": "Two block persistence"}
-    offsets = {"current": -0.13, "persistence": 0.13}
+    offsets = {"current": -0.07, "persistence": 0.07}
+    setup_positions = (
+        np.linspace(-0.28, 0.28, len(setup_order))
+        if len(setup_order) > 1
+        else np.asarray([0.0])
+    )
     rng = np.random.default_rng(123)
     metric_columns = [metric for metric, _ in metrics]
     observed_max = 100.0 * float(
@@ -455,8 +460,8 @@ def _plot_variation(
                     (results["setup"] == setup) & (results["decision_rule"] == rule)
                 ].sort_values("replicate_index")
                 values = 100.0 * pd.to_numeric(group[metric], errors="coerce").to_numpy(dtype=float)
-                center = setup_index + offsets[rule]
-                jitter = rng.uniform(-0.045, 0.045, size=len(values))
+                center = setup_positions[setup_index] + offsets[rule]
+                jitter = rng.uniform(-0.025, 0.025, size=len(values))
                 axis.scatter(
                     np.full(len(values), center) + jitter,
                     values,
@@ -491,9 +496,10 @@ def _plot_variation(
                 )
         axis.set_title(title, fontsize=15.5, fontweight="bold", pad=8)
         axis.set_xticks(
-            range(len(setup_order)),
+            setup_positions,
             [f"Setup {setup}\n({SETUP_PREFIX[setup]})" for setup in setup_order],
         )
+        axis.set_xlim(-0.65, 0.65)
         axis.tick_params(axis="x", labelsize=12.5, pad=6)
         axis.tick_params(axis="y", labelsize=12)
         axis.grid(axis="y", alpha=0.25, linewidth=1.0)
