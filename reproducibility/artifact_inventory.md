@@ -215,9 +215,9 @@ and [`docs/apple_workload_transitions.md`](../docs/apple_workload_transitions.md
 - A gallery-level manifest for paper figures/tables.
 - An archived clean run of the new four-case fixed-point vector/index export,
   plus an automated SystemVerilog equivalence test.
-- A new Vivado synthesis rerun (the existing reports now have a checksum
-  manifest and strict reproduction launcher, but remain starter-datapath
-  evidence).
+- A new Vivado synthesis rerun. The strict launcher writes a checksum manifest
+  for that new run; the existing archived reports do not have one and remain
+  starter-datapath evidence.
 - Completed continuous Intel or Apple transition campaigns.
 
 The repository-wide `.gitignore` currently ignores `results/`. Existing tracked

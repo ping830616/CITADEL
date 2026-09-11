@@ -68,6 +68,8 @@ repository inventory before execution:
 
 ```bash
 uv run --frozen python scripts/reproduce.py verify-archive --scope source
+uv run --frozen python scripts/reproduce.py fetch-lfs \
+  --scope core --include-reference
 uv run --frozen python scripts/reproduce.py verify-archive \
   --scope core --require-materialized
 ```

@@ -8,4 +8,4 @@ Next steps:
 2. add a SystemVerilog testbench that streams one selected feature per cycle
 3. run bit-exact simulation against the golden vectors
 4. synthesize across feature budgets and Q formats
-5. commit resource, latency, and energy summaries under `results/rtl_sweep/`
+5. commit resource, latency, and energy summaries under `results/notebook_run/rtl_sweep/`

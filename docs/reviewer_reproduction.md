@@ -122,6 +122,8 @@ inventory-only check; add `--require-materialized` before an actual run):
 
 ```bash
 uv run --frozen python scripts/reproduce.py verify-archive --scope sensitivity
+uv run --frozen python scripts/reproduce.py fetch-lfs \
+  --scope sensitivity --include-reference
 uv run --frozen python scripts/reproduce.py verify-archive --scope sensitivity --require-materialized
 ```
 
