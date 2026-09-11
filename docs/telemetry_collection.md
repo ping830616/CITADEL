@@ -38,6 +38,12 @@ Use these exact revisions for a new reference collection. Every run checks and r
 | Plundervolt reference | `https://github.com/KitMurdock/plundervolt` | `a7313c268d7c27ac3eb806d3ed99019788c5f605` | Related external reference, not invoked by the PAMPAR scripts |
 | TRRespass reference | `https://github.com/vusec/trrespass` | `7ea523a4149daf1f1c4d8b099c2b3584f973d086` | Related external reference, not invoked by the PAMPAR scripts |
 
+Only the Spectre C source is archived. A precompiled Linux executable is not
+portable, is not needed for archived-data reanalysis, and is intentionally
+excluded. If an authorized live collection needs this optional event generator,
+compile the preserved source on the isolated target host and record the compiler,
+flags, source hash, and executable hash in that campaign's manifest.
+
 Clone and pin the two required tools:
 
 ```bash

@@ -1,0 +1,5225 @@
+{
+  "algorithm": "sha256",
+  "description": "Deterministic inventory of every tracked source, input, and archived output. Git-LFS entries use the content OID and declared object size.",
+  "file_count": 563,
+  "files": [
+    {
+      "path": ".dockerignore",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "b65aec3fdbdc26f34bcd291915ea6265599480fab1e9a3d396ce9f13d6708b4d",
+      "size_bytes": 166,
+      "storage": "git"
+    },
+    {
+      "path": ".gitattributes",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "74485125cf5edcf0fce5778302b7491eb6ebac354fa06c10cd90d15b00319833",
+      "size_bytes": 113,
+      "storage": "git"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "333bd4e4bbf2f5f0adec16b2602c669c351556281fb46754194bb6018efd3d04",
+      "size_bytes": 11244,
+      "storage": "git"
+    },
+    {
+      "path": ".gitignore",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "221d5fe2d760247306d2e25bda4c2be213687a08ef2e1cd4bce87519fc49cad8",
+      "size_bytes": 382,
+      "storage": "git"
+    },
+    {
+      "path": ".python-version",
+      "scopes": [
+        "intel",
+        "source"
+      ],
+      "sha256": "db82937e1f1830581a9553c7814f5c5fcacb6dfdef8310b43e9a812c887acaf5",
+      "size_bytes": 8,
+      "storage": "git"
+    },
+    {
+      "path": "APPLE_DATA_GENERATION/README.md",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "0a52edd335d5ae727fa3e5741050b29eba43bc989dd2b33744dfec273572f913",
+      "size_bytes": 1045,
+      "storage": "git"
+    },
+    {
+      "path": "APPLE_DATA_GENERATION/data generation/README.md",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "37bfccfcace12a68547ca8ae810116eb1d9d80387b8ea861faa1161eb80b9ff2",
+      "size_bytes": 13799,
+      "storage": "git"
+    },
+    {
+      "path": "APPLE_DATA_GENERATION/data generation/docs/ITC_COLLECTION_METHODOLOGY.md",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "3ebe3c5ae14009d72eaab45ebc6f61a49a7436b7cb43145941c2589ad9020e27",
+      "size_bytes": 4483,
+      "storage": "git"
+    },
+    {
+      "path": "APPLE_DATA_GENERATION/data generation/docs/current-dataset-status.md",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "fc2046bd584d114f3d72d3b1d918578adc5367e3842c13850d442ad3d79853cb",
+      "size_bytes": 2168,
+      "storage": "git"
+    },
+    {
+      "path": "APPLE_DATA_GENERATION/data generation/docs/dataset-feature-map-clean-tier1-consistent.md",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "22526766a38a6ab79b44e3a69610e863bfde782b8d388c22b89c9086c2d477b5",
+      "size_bytes": 4126,
+      "storage": "git"
+    },
+    {
+      "path": "APPLE_DATA_GENERATION/data generation/docs/tier0.md",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "6e1205838026499ff8974cd9b58ca9dffc77cae580f3c630f6e7960013f7c686",
+      "size_bytes": 1834,
+      "storage": "git"
+    },
+    {
+      "path": "APPLE_DATA_GENERATION/data generation/docs/tier1.md",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "f83fbfaa87258972c38403574b4fed37874ada6bfd490afee003ab85690afbf1",
+      "size_bytes": 2323,
+      "storage": "git"
+    },
+    {
+      "path": "APPLE_DATA_GENERATION/data generation/docs/tier2.md",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "feda19674462673b5c60381d6b5bf6bcfd2fd16c57919e5c0de2b3bff2e8d012",
+      "size_bytes": 2403,
+      "storage": "git"
+    },
+    {
+      "path": "APPLE_DATA_GENERATION/data generation/docs/workloads-anomalies.md",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "33949b6d3b79288e3da312380c7c5a44b4e2f88acfbbde20b24aeb40708957fb",
+      "size_bytes": 4301,
+      "storage": "git"
+    },
+    {
+      "path": "APPLE_DATA_GENERATION/data generation/generate_dataset.py",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "4725294fa3f681635f6eb4072254bdb1b703c3c1e9cc8208620015db98275211",
+      "size_bytes": 9696,
+      "storage": "git"
+    },
+    {
+      "path": "APPLE_DATA_GENERATION/data generation/requirements.txt",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "bf54a2b8df9ee1027514a6c469b4bffbd2fba49d9dda9389c00c63459e332570",
+      "size_bytes": 129,
+      "storage": "git"
+    },
+    {
+      "path": "APPLE_DATA_GENERATION/data generation/src/dice/macos_collectors.py",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "0c248bca3b5bdf35f79975d8abb7990b1e7c4a9bc5741ec8d3b23ef9b3ea73b7",
+      "size_bytes": 4947,
+      "storage": "git"
+    },
+    {
+      "path": "APPLE_DATA_GENERATION/data generation/src/dice/tier0_collect_schema.py",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "f5a37810b5b5e93789c7202432ec347c74b511708e9454a25cf02ce3aa3c5edb",
+      "size_bytes": 5330,
+      "storage": "git"
+    },
+    {
+      "path": "APPLE_DATA_GENERATION/data generation/src/dice/tier1_alt_macmon.py",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "15589a27106cdbc72daa2dc28d01bfa9fb887737d2f9962fefae182a0d9d98a6",
+      "size_bytes": 11800,
+      "storage": "git"
+    },
+    {
+      "path": "APPLE_DATA_GENERATION/data generation/src/dice/tier2_xctrace_parse.py",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "4604d27684671fd0726e9c5d1a92e71f7176b3e234fd093efe44f75db456ec4d",
+      "size_bytes": 16318,
+      "storage": "git"
+    },
+    {
+      "path": "APPLE_DATA_GENERATION/data generation/src/dice/workloads.py",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "d99ebdf48b5f4ddd0775df30f4185b202ea8239a3f0e4f74b8ca766518658364",
+      "size_bytes": 8171,
+      "storage": "git"
+    },
+    {
+      "path": "APPLE_DATA_GENERATION/data generation/tools/clean_tier1_core.py",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "5034b1bc939f6da2b35f094a16c2a2b5b9f50f7bf39e33db78dff215d343cb09",
+      "size_bytes": 2675,
+      "storage": "git"
+    },
+    {
+      "path": "APPLE_DATA_GENERATION/data generation/tools/ensure_no_nan_dataset.py",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "25624b35ea61336c2fcd17781fdd9c87f659decb2d594ed69325807725dc9544",
+      "size_bytes": 10416,
+      "storage": "git"
+    },
+    {
+      "path": "APPLE_DATA_GENERATION/data generation/tools/export_release_snapshot.py",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "22529a6a395eca5f12f017b5a18eaaac37725a1091c2533ca8538326f70910b2",
+      "size_bytes": 2899,
+      "storage": "git"
+    },
+    {
+      "path": "APPLE_DATA_GENERATION/data generation/tools/probe_tier1_temperature.py",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "735a28f062cbb80097dfccdd8b96e1ecd300eae6ffc482774e19ef114ee81a0b",
+      "size_bytes": 2911,
+      "storage": "git"
+    },
+    {
+      "path": "APPLE_DATA_GENERATION/data generation/tools/validate_itc_dataset.py",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "a1cd77d13b4781e7e2a738172862865be43c1f976bcd524cbaa1a35e8979db2c",
+      "size_bytes": 13763,
+      "storage": "git"
+    },
+    {
+      "path": "APPLE_DATA_GENERATION/scripts/validate_env.py",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "b162bb946fadf6d25a38e04175e92bd0ba565f232adb1a644d041e1c7c6b0b8f",
+      "size_bytes": 1324,
+      "storage": "git"
+    },
+    {
+      "path": "Dockerfile",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "2641616efec5633abcaf62e1348a22f622d4e48742d234e3e8d05102c31f587c",
+      "size_bytes": 1929,
+      "storage": "git"
+    },
+    {
+      "path": "LICENSE",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "1126322e2cc8d165adc4c792eeb195717de2bcc7b39be1ce77959d78e87ef685",
+      "size_bytes": 1056,
+      "storage": "git"
+    },
+    {
+      "path": "README.md",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "447db989e6e929fb3613cda2348a70f57a62de9fe6f7201391cad22d668d4b06",
+      "size_bytes": 15570,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR4_PAMPAR_SCRIPTS/DDR4_RIG_PCM_COLLECT_DFT.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "241fb09d2aec3459beae8a0b06a226d0ffbef36bb5d68907738e2982a7d33d89",
+      "size_bytes": 1460,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR4_PAMPAR_SCRIPTS/DDR4_RIG_PCM_COLLECT_DFT_DROOP.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "186e44cf83ca9bd2b9d125d35ca97217a7d7e0195853779050e7cd17b967766e",
+      "size_bytes": 1508,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR4_PAMPAR_SCRIPTS/DDR4_RIG_PCM_COLLECT_DJ.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "79349d15bc058d24a5fc6af427bdbdedc3348f8898d29b9db3dc44e7be1d2284",
+      "size_bytes": 1499,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR4_PAMPAR_SCRIPTS/DDR4_RIG_PCM_COLLECT_DJ_DROOP.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "f4a6d2bf6aa459688cec2072a87ccc6ae91952be7b79c73c3098a9b4c497abfc",
+      "size_bytes": 1547,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR4_PAMPAR_SCRIPTS/DDR4_RIG_PCM_COLLECT_DP.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "15d375c60165d322952974b6287f5d0621c9705b632dc8e43428a50b9f38958c",
+      "size_bytes": 1463,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR4_PAMPAR_SCRIPTS/DDR4_RIG_PCM_COLLECT_DP_DROOP.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "879c4f4b8aec3bc483169d264dfc1ffe4bdca32bd8328b95d7333b49410d34b9",
+      "size_bytes": 1511,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR4_PAMPAR_SCRIPTS/DDR4_RIG_PCM_COLLECT_GL.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "baab389ee26dbc6dda51dbdb90dccc6ff7dc7a62f858317f9f0e634db1b7884e",
+      "size_bytes": 1493,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR4_PAMPAR_SCRIPTS/DDR4_RIG_PCM_COLLECT_GL_DROOP.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "f314eb7c3ad690971595926903a3535303a97e67331d72f1d0231553c077f4ec",
+      "size_bytes": 1541,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR4_PAMPAR_SCRIPTS/DDR4_RIG_PCM_COLLECT_GS.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "9e51e4a4df84708b8f860f3430ff518f1a462672122f1dbdaf4bf858e4a53638",
+      "size_bytes": 1456,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR4_PAMPAR_SCRIPTS/DDR4_RIG_PCM_COLLECT_GS_DROOP.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "849d80c420b5cb7c1d7ffd4dfbf8cd8a52df2b061159e8df746d492452637d16",
+      "size_bytes": 1504,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR4_PAMPAR_SCRIPTS/DDR4_RIG_PCM_COLLECT_HA.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "dc6452d582899ca763f7347f6d385707c106a40c329190161db26b47e7f56af9",
+      "size_bytes": 1464,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR4_PAMPAR_SCRIPTS/DDR4_RIG_PCM_COLLECT_HA_DROOP.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "d18b7f63f1fa17e82be0668e140d640266d2c40bc3fd80025d4d48fa75afed7c",
+      "size_bytes": 1512,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR4_PAMPAR_SCRIPTS/DDR4_RIG_PCM_COLLECT_JA.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "b9480aafeff2e6938424701117af1560639324d25a170c2f00a160f6701abb18",
+      "size_bytes": 1456,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR4_PAMPAR_SCRIPTS/DDR4_RIG_PCM_COLLECT_JA_DROOP.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "9f5507c4015085a1233e81ba38f75b73ab2dfff19ebc3393e8eca6869a416380",
+      "size_bytes": 1504,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR4_PAMPAR_SCRIPTS/DDR4_RIG_PCM_COLLECT_MM.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "6b9ef45a9eff88900d79103b51cd97865e4e9c4e20e17f2bfb279c10f5b041f9",
+      "size_bytes": 1456,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR4_PAMPAR_SCRIPTS/DDR4_RIG_PCM_COLLECT_MM_DROOP.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "69063955ea24c231c0795bce081c54598f69909ff143b431b482b0b136cbd714",
+      "size_bytes": 1504,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR4_PAMPAR_SCRIPTS/DDR4_RIG_PCM_COLLECT_NI.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "5ef2bbe88ae384c29e0b84f0997a07b11ed06723075d3ba7d72b1c123d167cea",
+      "size_bytes": 1462,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR4_PAMPAR_SCRIPTS/DDR4_RIG_PCM_COLLECT_NI_DROOP.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "edb3e72bff350b392dd507c031ee247e3570797392da4766336fe8aefde6948d",
+      "size_bytes": 1510,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR4_PAMPAR_SCRIPTS/DDR4_RIG_PCM_COLLECT_OE.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "5b5555366ba0230bbcb59107f3e99e4ef7841535435e97865eb543dede5603cf",
+      "size_bytes": 1458,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR4_PAMPAR_SCRIPTS/DDR4_RIG_PCM_COLLECT_OE_DROOP.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "38ceab3dbfa2318e2b8f038782060a7bd50b1e12911180d83449b0ea10400e65",
+      "size_bytes": 1506,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR4_PAMPAR_SCRIPTS/DDR4_RIG_PCM_COLLECT_PI.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "75b691bfefc67588b92d822fbc253788f1f9009ba28c7740f65147cecb670862",
+      "size_bytes": 1462,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR4_PAMPAR_SCRIPTS/DDR4_RIG_PCM_COLLECT_PI_DROOP.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "9ddd650049b51dbfd57456a1e491fcf526998f79a30845d41cf543032d607a09",
+      "size_bytes": 1510,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR4_PAMPAR_SCRIPTS/DDR4_RIG_PCM_COLLECT_SH.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "a7038a42c9071189b576f3e3bf43557c68ebc8ad6a2d7746c5017d6965ad4245",
+      "size_bytes": 1515,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR4_PAMPAR_SCRIPTS/DDR4_RIG_PCM_COLLECT_SH_DROOP.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "5d752ead2368c8a474b591032e430c13541368922a740f294b9b560c7fe5856e",
+      "size_bytes": 1563,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR4_PAMPAR_SCRIPTS/DDR4_RIG_PCM_COLLECT_TR.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "69caa679a2cbf039dcc238ab0ca5207da6dd7fb01226a16065cf9c61abea5eb3",
+      "size_bytes": 1456,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR4_PAMPAR_SCRIPTS/DDR4_RIG_PCM_COLLECT_TR_DROOP.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "aa0886d3e61af55f3c0e4dc2eedce45d6b6e89eabe193829c86611f2cb45e7b0",
+      "size_bytes": 1504,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR4_PAMPAR_SCRIPTS/master_DROOP_PAMPAR_DDR4.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "70c632aa33878b51f6c2cd2dd6c57d3cf53bdc73255b5e226c6996fa526567e4",
+      "size_bytes": 1935,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR4_PAMPAR_SCRIPTS/master_PAMPAR_DDR4.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "495d47e0d8f0093190dbcd145a5661adcbe60c6b9ffa3128199e76d620faa36b",
+      "size_bytes": 1857,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR5_PAMPAR_SCRIPTS/DDR5_RIG_PCM_COLLECT_DFT.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "358d8de431e3d6547a7266fa3cf4cd21bad74498ca64690f626e9913a0292a5d",
+      "size_bytes": 1461,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR5_PAMPAR_SCRIPTS/DDR5_RIG_PCM_COLLECT_DFT_DROOP.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "ff1dc235a228b61149826b113231a7691b4c19b6357f72516e4dbd6edbfba564",
+      "size_bytes": 1510,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR5_PAMPAR_SCRIPTS/DDR5_RIG_PCM_COLLECT_DJ.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "a4aa0ab0ac790798a587624e479fc96f31ac611324a2f7c8cb1e66c70a8bc539",
+      "size_bytes": 1500,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR5_PAMPAR_SCRIPTS/DDR5_RIG_PCM_COLLECT_DJ_DROOP.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "13ef10842fd64b6a8073a691c2cd440e452537cd580c4e7485f822a45b5dfbb7",
+      "size_bytes": 1549,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR5_PAMPAR_SCRIPTS/DDR5_RIG_PCM_COLLECT_DP.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "f7aa8f3a3153b3cd2eb5a207c3d397e97ee613bb7154d48ebd4b1f75593d8884",
+      "size_bytes": 1465,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR5_PAMPAR_SCRIPTS/DDR5_RIG_PCM_COLLECT_DP_DROOP.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "f1257eb9d0d18bdc6851aa05a6a034527db93beaeb3d6d15f0883ae234f080f7",
+      "size_bytes": 1514,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR5_PAMPAR_SCRIPTS/DDR5_RIG_PCM_COLLECT_GL.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "d3bc36824e681ae6ef539788b8bc4a6bbe68c0bc48e2e3ea40b2258b2cefb9ef",
+      "size_bytes": 1494,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR5_PAMPAR_SCRIPTS/DDR5_RIG_PCM_COLLECT_GL_DROOP.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "2d8b56894882e1f7c6f6b7f7f037606720afdd0625756f28cabde7f81c5654ae",
+      "size_bytes": 1543,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR5_PAMPAR_SCRIPTS/DDR5_RIG_PCM_COLLECT_GS.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "9365ad562ce664bafc5551893bacc17ba9ab5c113480ba1c450fa794d347400a",
+      "size_bytes": 1457,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR5_PAMPAR_SCRIPTS/DDR5_RIG_PCM_COLLECT_GS_DROOP.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "9f29b57c06d02ad6259448a9a80d5e408e69be933e4114f69804710d90f71077",
+      "size_bytes": 1506,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR5_PAMPAR_SCRIPTS/DDR5_RIG_PCM_COLLECT_HA.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "b6851505acb31b25f937d2640df720d2d0c510d4a58d2693ad173d0a08fa4790",
+      "size_bytes": 1466,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR5_PAMPAR_SCRIPTS/DDR5_RIG_PCM_COLLECT_HA_DROOP.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "4a1b598da0f3b2ddd8efac1683cfb019ecd210f98d425da1465549d314846b3c",
+      "size_bytes": 1515,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR5_PAMPAR_SCRIPTS/DDR5_RIG_PCM_COLLECT_JA.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "c414b410172d207e3387d006d412333af8817fd958e95afb3f7d4bc5ef76ba8d",
+      "size_bytes": 1457,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR5_PAMPAR_SCRIPTS/DDR5_RIG_PCM_COLLECT_JA_DROOP.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "ca6da456442b118d77b5b2fc41f2305c8dccb8cc698042250f45492fd30acc92",
+      "size_bytes": 1506,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR5_PAMPAR_SCRIPTS/DDR5_RIG_PCM_COLLECT_MM.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "346431aabd28e0be69736c145861f5add86ff829d77c212a9907b335f4ef4e6b",
+      "size_bytes": 1457,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR5_PAMPAR_SCRIPTS/DDR5_RIG_PCM_COLLECT_MM_DROOP.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "146d68784419f5dc7503574f68e13d3178d8de881c6b5d7614f49eed812a4869",
+      "size_bytes": 1506,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR5_PAMPAR_SCRIPTS/DDR5_RIG_PCM_COLLECT_NI.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "a3e3e2553ca88ce7e7537543d57426ddf348c8bd466f04b68a5de4458fc80724",
+      "size_bytes": 1463,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR5_PAMPAR_SCRIPTS/DDR5_RIG_PCM_COLLECT_NI_DROOP.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "c95a33e8496fffd794b9ea6a3031aa51fb44d5405f42b19d41518d1bc154d9fd",
+      "size_bytes": 1512,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR5_PAMPAR_SCRIPTS/DDR5_RIG_PCM_COLLECT_OE.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "63b95e576bc48b2be7691febf29b65a0045792425867b472068817d44655b6a9",
+      "size_bytes": 1459,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR5_PAMPAR_SCRIPTS/DDR5_RIG_PCM_COLLECT_OE_DROOP.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "c5afca646d821f7a4fb621e1afd3097a38bd9f1bd82329f13d0d4dddbca865f3",
+      "size_bytes": 1508,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR5_PAMPAR_SCRIPTS/DDR5_RIG_PCM_COLLECT_PI.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "9185a4958754f81bdac98b8be42195c9cfd1168db4212e9eb87bd365c30cef7a",
+      "size_bytes": 1463,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR5_PAMPAR_SCRIPTS/DDR5_RIG_PCM_COLLECT_PI_DROOP.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "1130531a84fc034dcbdff3c539a83959a43bdf9cc88a90de2e1f9d6d84452bb4",
+      "size_bytes": 1512,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR5_PAMPAR_SCRIPTS/DDR5_RIG_PCM_COLLECT_SH.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "8edc5b615e4bb1c905c85620adbe8018b5b6be512e456105ae282908c7556174",
+      "size_bytes": 1516,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR5_PAMPAR_SCRIPTS/DDR5_RIG_PCM_COLLECT_SH_DROOP.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "a47e6c24b2d91e2d7337556089772b0d2b9b08df087b2272de62b7d428795b7f",
+      "size_bytes": 1565,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR5_PAMPAR_SCRIPTS/DDR5_RIG_PCM_COLLECT_TR.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "797cee8d69d8b1caed04fafec3aa91829a9a28fde12da756d37295cdc6326de2",
+      "size_bytes": 1457,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR5_PAMPAR_SCRIPTS/DDR5_RIG_PCM_COLLECT_TR_DROOP.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "4e74ca9e5e5158de3eb7a82d5a2edf8ce66e58805724d67f40b83f9d4d201d14",
+      "size_bytes": 1506,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR5_PAMPAR_SCRIPTS/master_DROOP_PAMPAR_DDR5.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "570034841543e47a6bcf4d295f40d7d1ae5db81fc7edcba94e69d780aa8b424e",
+      "size_bytes": 1935,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/DDR5_PAMPAR_SCRIPTS/master_PAMPAR_DDR5.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "d35fc47ccbb6cc6f42df5ea2a721d9447fcfd31acfb10de238d0826ebf30cc1e",
+      "size_bytes": 1857,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/README.md",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "781f47c2d2660c330916ade4a7eb0cf65b8c794bebed98c1264a89a10918b66e",
+      "size_bytes": 3576,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/collect_temp_data.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "6b2bbfe7468d2aced21f8b36912e90d49719cdd18e8bcf997a5184087370c174",
+      "size_bytes": 1865,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/collect_volt_data.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "69c00568a945ecef89ffd64863d10ba0e7ef632c185daf51768e06eb0725f68c",
+      "size_bytes": 1369,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/collection_common.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "fc12c3c0568cc1ca8c9e918d8ecf4b3967f63eaed0634bca88d0bd71ac9f6531",
+      "size_bytes": 8470,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/collection_config.example.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "605fe5219b04407b7d20fb8c7877bdbb75717c181bdc8597f6540659bb3b5eda",
+      "size_bytes": 2384,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/just_droop/0x198_read_msr.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "0ac491f83b2879ea040ef4dd88cdc847b4ef884008458d42e35ad5b8390eb6ce",
+      "size_bytes": 243,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/just_droop/Makefile",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "05b3dc6b26fb05f1226df4022baf3cffbe87dfdbef9d658a5719bc0dd84bced3",
+      "size_bytes": 227,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/just_droop/operation.c",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "3bf6b019b77fca2fbfe0f7ace08fff818ebefbc60a6295c6925296c647b6478d",
+      "size_bytes": 11876,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/just_droop_ddr4.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "2c389356280d10c63077e1ed68c8ae3938fc7896bae4d948580bb7bfc8cf3f3f",
+      "size_bytes": 1306,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/just_droop_ddr5.sh",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "f3cee591b8ea581dcea2e84b463fbad3c8fe79ced5dec5b971401190a2cae3bf",
+      "size_bytes": 1306,
+      "storage": "git"
+    },
+    {
+      "path": "TELEMETRY_COLLECTION_SCRIPTS/spectre_attack/spectre_poc.c",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "df0cd00dd4e8861876372f4485ac071a8c74c3c6f374045fbb8e8fbd9d96caa7",
+      "size_bytes": 4245,
+      "storage": "git"
+    },
+    {
+      "path": "configs/graph_sensitivity.json",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "84688644fd28f9ef113875dea85f81cc3d010de6d1ed8b21f0ba7fe34c3fe942",
+      "size_bytes": 5139,
+      "storage": "git"
+    },
+    {
+      "path": "configs/graph_sensitivity_feature_universes.json",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "d8f0787716b870fa0a6fa01226ab5a68c0ae4afa898eaeb6ce8bab2064bd9612",
+      "size_bytes": 35759,
+      "storage": "git"
+    },
+    {
+      "path": "configs/tcad_grid_balanced.json",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "9661de65c4900cd4a96295a808df4270923d10220c627ce94c7cff1fc87a99b9",
+      "size_bytes": 438,
+      "storage": "git"
+    },
+    {
+      "path": "configs/tcad_grid_full.json",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "e79f106a846164fae7d072b594243ac0b2bb1dc4d516b1aa5ed58f2bb8d1ff5e",
+      "size_bytes": 566,
+      "storage": "git"
+    },
+    {
+      "path": "configs/tcad_grid_smoke.json",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "03bd4c975a3058bdbcbb5e099024ca77f7fde81857be2d0ee29e2fcd9cc060fa",
+      "size_bytes": 404,
+      "storage": "git"
+    },
+    {
+      "path": "data/README.md",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "ce940e7453bf209eaeba70b32ffdcee327d0b32912e2f64bb2892b255909680e",
+      "size_bytes": 2496,
+      "storage": "git"
+    },
+    {
+      "path": "data/external_sources.json",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "1edb94f9292662a619c64b157025f8291a6c9facb294620557a36b8231392376",
+      "size_bytes": 1582,
+      "storage": "git"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_DROOP_dft.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "211653e8d3a8a281ebdc1202ee79fd82cf31b2260d139360461fddb12eeeb22d",
+      "size_bytes": 8712405,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_DROOP_dj.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "15a059ef04dd012c293c6902b18630878913419db21245579bcae7c804ae35b5",
+      "size_bytes": 8888644,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_DROOP_dp.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "af3a9ae6e646846b54c0e60ec7b0ea787a7681cef78f1d75b9ba55e2dd163943",
+      "size_bytes": 8691159,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_DROOP_gl.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "4a3f2949d1793bab3e26096f284a5f96977054298d4a60ad544cfd804fa569a8",
+      "size_bytes": 8897518,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_DROOP_gs.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "d72b1ff08a2fca3ba73b31d7adf4bd66f7bf1b4c9a793257bc245a1d1e4f2d55",
+      "size_bytes": 8981257,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_DROOP_ha.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "371c9d355d34ca02887bbb5dd41b17f55d1a5bc59f4dba01c1b408e459d51150",
+      "size_bytes": 8706121,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_DROOP_ja.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "c818395ea2fd44df1784d078fa4d047c457d4ae8ad8dd3ef879ef6a338bbe64c",
+      "size_bytes": 9020514,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_DROOP_mm.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "5a863368d50ee0905080d617f31113f334b196ccaea03200add6f1af32b100c7",
+      "size_bytes": 8987405,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_DROOP_ni.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "e1710357a25c4318689ca7219cd149b677cfe796bba5be1b4e8ccffc38fbf567",
+      "size_bytes": 8693986,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_DROOP_oe.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "fb4a472c87e56535e27d5a94806ce8901713302117206a897312181bdda66956",
+      "size_bytes": 8910123,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_DROOP_pi.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "ea34da48a2152b126888c16a34f4e8748b0e85a4467bff4f7b554d9b45fb8cb1",
+      "size_bytes": 8738782,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_DROOP_sh.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "bf18fec5ee2f6c157b7a48130cacd78660464b55f0cb727a9d4a6da8d3db02ab",
+      "size_bytes": 8716549,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_DROOP_tr.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "d81aef980bae7d164ba14485a1ae376483c632699b093ce54ffbb3865cfd171d",
+      "size_bytes": 8842692,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_RH_dft.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "e2eea65727b623d3f41e8f03ffd199d7f5ae1f779e9ec107f1dead10a5ef66a8",
+      "size_bytes": 8987048,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_RH_dj.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "924722bd40e4b0257fa21ff76ec632953e9c863ec7be4644fa212ef39f46f263",
+      "size_bytes": 8996871,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_RH_dp.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "22213573a0bbd66b7fdec68790f1a5e8cf555c5aaa8388a250aafcd9ea86e039",
+      "size_bytes": 8978626,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_RH_gl.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "6b6885ce3e5f329b600a87a0e627b428ddf7d05f8be2ee4d7195393250bc2a57",
+      "size_bytes": 9088114,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_RH_gs.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "b351b2288092ecb95e606322cad1dca2445b0fdbd8688eee6f25297dcac5adac",
+      "size_bytes": 9181468,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_RH_ha.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "d213df2ff961f0842adb3a2b2f91ab194354b1df0e8281a64f6068217e6196b7",
+      "size_bytes": 8937229,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_RH_ja.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "9be4b7c407687cab2c2ba0aafd823b261dacbdf27eeff3c940c6b84df709eda1",
+      "size_bytes": 9238590,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_RH_mm.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "7fa6ecfb2c6737c87fd5accd3b1f906b53a5a43bcd88a57e685f0694277d8177",
+      "size_bytes": 9160593,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_RH_ni.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "3ea17fb773612aa6cf06d75196f4b9f35ca3801f810fc75c4b8a5526f726b8eb",
+      "size_bytes": 9004080,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_RH_oe.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "3276e6d28ff29b3ab2343c8fb068c0911b7343c80bd7b4f083b92fca89375e17",
+      "size_bytes": 9111610,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_RH_pi.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "3a1a6737f279e59322bd488d83f9c3751e4cdf655a5a14462a0bce45b48f7abe",
+      "size_bytes": 8998710,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_RH_sh.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "45c0244146087a9037ff4a623551ac7c4e0803c47147cdfc5d017b80cc036251",
+      "size_bytes": 8980770,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_RH_tr.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "8b359c8dd48c02209f033094bb5dd8244e0e3ec0ae370205df51805bcf4c414e",
+      "size_bytes": 9131418,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_dft.csv",
+      "scopes": [
+        "core",
+        "intel",
+        "sensitivity",
+        "workload"
+      ],
+      "sha256": "59382b9ef0fef1c746ddb92f636f272e332aeface104a65c92dea55100d531fa",
+      "size_bytes": 7238798,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_dj.csv",
+      "scopes": [
+        "core",
+        "intel",
+        "sensitivity",
+        "workload"
+      ],
+      "sha256": "904db3d691030ebd8b860cc248016755551891902e1aa3761aced28bd55fc84e",
+      "size_bytes": 8945672,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_dp.csv",
+      "scopes": [
+        "core",
+        "intel",
+        "sensitivity",
+        "workload"
+      ],
+      "sha256": "3553c930b5973ccadc61dc9b3b31cdb82d2002b169b8e52ddef01c8a5b510a79",
+      "size_bytes": 8668309,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_gl.csv",
+      "scopes": [
+        "core",
+        "intel",
+        "sensitivity",
+        "workload"
+      ],
+      "sha256": "5c48a11602bdb90d93dd1faf7b99bb1dd229588ef106e78db7889e7aa9bd8872",
+      "size_bytes": 8951899,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_gs.csv",
+      "scopes": [
+        "core",
+        "intel",
+        "sensitivity",
+        "workload"
+      ],
+      "sha256": "755726cabfe2b9b3532a58cf22bfcc76a78f0718f364ee81779a3c4a6cce5133",
+      "size_bytes": 9012433,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_ha.csv",
+      "scopes": [
+        "core",
+        "intel",
+        "sensitivity",
+        "workload"
+      ],
+      "sha256": "578dd76da8143a6b309dda7a33fffbfe84fcc327decaf4a17169e52de26228b2",
+      "size_bytes": 8689040,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_ja.csv",
+      "scopes": [
+        "core",
+        "intel",
+        "sensitivity",
+        "workload"
+      ],
+      "sha256": "b63af296f7a6daefde9f07128ca3888a72a9ba4028485b89407f1bd6bf2258b8",
+      "size_bytes": 9064267,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_mm.csv",
+      "scopes": [
+        "core",
+        "intel",
+        "sensitivity",
+        "workload"
+      ],
+      "sha256": "ff48e38cdf2ff2e802042a94cf704890c5b24577057b2ac3e10a81a32e448835",
+      "size_bytes": 9011909,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_ni.csv",
+      "scopes": [
+        "core",
+        "intel",
+        "sensitivity",
+        "workload"
+      ],
+      "sha256": "ca3b362e761d7cbb12a2608f6d719647cdd0a0c52b7d0897849a5d67d549b0a5",
+      "size_bytes": 8690011,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_oe.csv",
+      "scopes": [
+        "core",
+        "intel",
+        "sensitivity",
+        "workload"
+      ],
+      "sha256": "6fbb31005828d7a522066e8951f336d11765e4b0ee2ebb3ffc91f9defda57d56",
+      "size_bytes": 8931166,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_pi.csv",
+      "scopes": [
+        "core",
+        "intel",
+        "sensitivity",
+        "workload"
+      ],
+      "sha256": "be22a150f5601c59253c10e17a834365813388b2d6740d0f484b331089728f16",
+      "size_bytes": 8733003,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_sh.csv",
+      "scopes": [
+        "core",
+        "intel",
+        "sensitivity",
+        "workload"
+      ],
+      "sha256": "26c0987820a93a8f937609a5e943a1a43e1ebbd254c43c7eb0ff10cde6e85d1f",
+      "size_bytes": 8694446,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_tr.csv",
+      "scopes": [
+        "core",
+        "intel",
+        "sensitivity",
+        "workload"
+      ],
+      "sha256": "442f753586a7a0944a7b8ed669efaa7b838201126d9770b1eb6f7c56cd13d14d",
+      "size_bytes": 8879811,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_DROOP_dft.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "82d464808497a2027760c3fff1ed8fa18d569a8ac3512f18439d227b16b45504",
+      "size_bytes": 21959598,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_DROOP_dj.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "bc7720eca432141c31c5c7e31b74c24927b29fcb664b2672d67ec09ae3579c1c",
+      "size_bytes": 22740908,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_DROOP_dp.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "9c2c838d0bacf805e5503041f767f1ebec247b370cef13b62fd20e6aa1519501",
+      "size_bytes": 22286873,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_DROOP_gl.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "915cc2452d950ae8a4834895c6aefa2f2b1a838456fca859e449cc156fb89136",
+      "size_bytes": 22717199,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_DROOP_gs.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "d36a2afae84c6f58f5873268f1a283fc48e9d9100eca2e2b7a00e2aaf690f54f",
+      "size_bytes": 22955731,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_DROOP_ha.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "86617400683d4d355d48cd5a57c8c6676443b07e851ad8a5946af1a8bcb5c85b",
+      "size_bytes": 22035891,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_DROOP_ja.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "f8d3c43bc329ea07c6fbb8b75f13782309c213100a960b2eb3376bacf1241c92",
+      "size_bytes": 23245719,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_DROOP_mm.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "ef4cfb242f5cbaaca191fed061055906793c2f2069a99a779e0d73707da58d61",
+      "size_bytes": 22931434,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_DROOP_ni.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "19c27781dc05542be07ae7e9a335392c2227da283b73cd270795892fff64a47a",
+      "size_bytes": 22123473,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_DROOP_oe.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "8b762665d0be7062248fd9dd1ee862c97c95ac91e37a407eef647d75e460685c",
+      "size_bytes": 22640751,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_DROOP_pi.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "08c036b588054e6bcf1969e8ce0101ad6768abc63b4840b09e8ebc8ec530b497",
+      "size_bytes": 22019905,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_DROOP_sh.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "f3d0534bfd387bd70ffd89ef92c37fa5b629eff2cacc60a50a80d6635f4837a5",
+      "size_bytes": 21923493,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_DROOP_tr.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "d7a3995f47bd8bfa66101ba69537cf59b51c3479d5cd6a18dc0dc99ffe11e086",
+      "size_bytes": 22456480,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_SPECTRE_dft.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "9d806be451c4c9d81a5174e81255fb5c9a10bbd8a19b88b12071babf6eb98f11",
+      "size_bytes": 22654749,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_SPECTRE_dj.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "c696b2d0c26b944e23b39616fa37592264a40f9d4587f2977ad4eafcd8fca42b",
+      "size_bytes": 22735537,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_SPECTRE_dp.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "1bc193c0b32abf20961674e012751b08a31468f414a08f1d97da33948b2bc026",
+      "size_bytes": 22686560,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_SPECTRE_gl.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "84834290e4d276ca4b262d4a0dd657cb26c698ebee062f878b239dac19d6ef75",
+      "size_bytes": 23259024,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_SPECTRE_gs.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "9de020b18aaa0fa72e3d187fc1a2f3ef9d40e0b07faa20ba9e5bc60647fe1dfc",
+      "size_bytes": 23345128,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_SPECTRE_ha.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "b63ee0850f95aaa3f9c3a704cf1ad3d1e0b622959272cd57d4fa144ff31c3ad4",
+      "size_bytes": 22653136,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_SPECTRE_ja.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "0da938cfc3970bbd2aec38b5b8f5d29af4ba36e7170f758fc87e205464bd9487",
+      "size_bytes": 23280541,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_SPECTRE_mm.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "cb697432da5a64fa9005a4702b8051cf43e49a7fe1e53929dbbcc1f3166dc365",
+      "size_bytes": 23312318,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_SPECTRE_ni.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "52b0d550e3195c797895e155eb5f16addcfc16d1468d55c2e5b8c9b77bdb614e",
+      "size_bytes": 22737606,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_SPECTRE_oe.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "6a3bc4f334446891a3c1091a5b05dc644c3321b50d015e9b639026b217fe1237",
+      "size_bytes": 22950682,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_SPECTRE_pi.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "9179a004fb6f2eb44eb20a0e0aa7c9db4942fd0aecda3bbfc7069bb4cfb990aa",
+      "size_bytes": 22622548,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_SPECTRE_sh.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "33c2f12f2bf907868d60f9bf6534d03cda9125ecfd39f30e320b0ea2f86d9087",
+      "size_bytes": 22662323,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_SPECTRE_tr.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "2f64b1ffc03c9a8ad62bba369b87c2db4b33a5a0648442eec2606785e08effae",
+      "size_bytes": 23026764,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_dft.csv",
+      "scopes": [
+        "core",
+        "intel",
+        "sensitivity",
+        "workload"
+      ],
+      "sha256": "6d1fa32f3af0aa05a177d82b9652915e917aecc0b28c5cca6d47b3989d6c51d5",
+      "size_bytes": 21957602,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_dj.csv",
+      "scopes": [
+        "core",
+        "intel",
+        "sensitivity",
+        "workload"
+      ],
+      "sha256": "92887f7cf0ead670c36a73f7200f88029fc1d3adc2fede2fbf69025027a1a28f",
+      "size_bytes": 22732257,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_dp.csv",
+      "scopes": [
+        "core",
+        "intel",
+        "sensitivity",
+        "workload"
+      ],
+      "sha256": "966b4e8f809ad5667be2fd7c7bb5bf234330bab46c06ae86541afb04507b70ea",
+      "size_bytes": 22288850,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_gl.csv",
+      "scopes": [
+        "core",
+        "intel",
+        "sensitivity",
+        "workload"
+      ],
+      "sha256": "22288a4fdac5080262d03400fa8aa46928beb02510d14fb15015b518f5d57b7b",
+      "size_bytes": 22731038,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_gs.csv",
+      "scopes": [
+        "core",
+        "intel",
+        "sensitivity",
+        "workload"
+      ],
+      "sha256": "8b9014cc56cb940469fa681fb8357547ed4faf3a78b1ea2b70903c4ffa59b96a",
+      "size_bytes": 22974296,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_ha.csv",
+      "scopes": [
+        "core",
+        "intel",
+        "sensitivity",
+        "workload"
+      ],
+      "sha256": "3e70e20cb1cf1218efa51151b1c7afad4ef394b5c9e0ab3c8207decf2dbf6ff2",
+      "size_bytes": 22027326,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_ja.csv",
+      "scopes": [
+        "core",
+        "intel",
+        "sensitivity",
+        "workload"
+      ],
+      "sha256": "2ac48c64c703b06e0c9a56c484f38140dfa54ba959cdbf5ca13f09bb156ef728",
+      "size_bytes": 23257295,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_mm.csv",
+      "scopes": [
+        "core",
+        "intel",
+        "sensitivity",
+        "workload"
+      ],
+      "sha256": "c2c75aff844c20f241e65111105bad0ada7fac577b259d2d18cb7e54edba155b",
+      "size_bytes": 22942183,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_ni.csv",
+      "scopes": [
+        "core",
+        "intel",
+        "sensitivity",
+        "workload"
+      ],
+      "sha256": "166f0ce13699bed6ca6aae35f4988ddefcf83e3f2450131d8a2489bf2ff1eebb",
+      "size_bytes": 22176384,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_oe.csv",
+      "scopes": [
+        "core",
+        "intel",
+        "sensitivity",
+        "workload"
+      ],
+      "sha256": "d558db38942f099c6e4ed0328cf1a51f8c140ff9cd9e1b33f47b4e8606ce4aa8",
+      "size_bytes": 22651144,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_pi.csv",
+      "scopes": [
+        "core",
+        "intel",
+        "sensitivity",
+        "workload"
+      ],
+      "sha256": "733400ae2e579b29940626b7b6f2da82b6b0ffed9b0c1e312779d8034451dd85",
+      "size_bytes": 22029106,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_sh.csv",
+      "scopes": [
+        "core",
+        "intel",
+        "sensitivity",
+        "workload"
+      ],
+      "sha256": "1fd8c2b731844d6719d806c1764f125f5e41958d560da07fc6df30584cbcc52e",
+      "size_bytes": 21912911,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_tr.csv",
+      "scopes": [
+        "core",
+        "intel",
+        "sensitivity",
+        "workload"
+      ],
+      "sha256": "a78ef8a1fa7e9077946b662cae1488364bcb3b5c4c89b27d1093edf881cf2e03",
+      "size_bytes": 22420297,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/BROWSER__ATOMIC/tier0_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "9918e8819dcad20958b9c681232df36bf0743371206dd10177197f2ff28532dd",
+      "size_bytes": 2532304,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/BROWSER__BRANCH/tier0_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "fcd4eb8797424d778557c924fc8af35f798023af4faef7ebe63da63cbe3fe249",
+      "size_bytes": 2610228,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/BROWSER__CACHE/tier0_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "365773115da62afa353ca79ee1141c052cb5c9bde620fba1c99d8af2a48e307b",
+      "size_bytes": 2576445,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/BROWSER__MEMBW/tier0_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "62bb99755eaab3eb46d28b765f048c45926cda7130ba50b0c1b7572fecba01c7",
+      "size_bytes": 2572359,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/BROWSER__NOMINAL/tier0_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "f61832ece4e89ed21530dadb6f87dbd9a98b207499c4a921c39a3d01032fb252",
+      "size_bytes": 2571830,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/BROWSER__TLB/tier0_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "9e2298b709f8e79c072b8c951da2d12d4420aea3ca4537063d49f81ad94a56af",
+      "size_bytes": 2579347,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/PY_AI__ATOMIC/tier0_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "32770dfbd87254c130d7750cf0e804cee19d7fe4ad8246f9fa3fde5f309364dd",
+      "size_bytes": 2422063,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/PY_AI__BRANCH/tier0_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "391a4506546365d4e131313dccd15546c03fd643c84973bedb6218c33c75cf54",
+      "size_bytes": 2415433,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/PY_AI__CACHE/tier0_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "26443c476dc3c55c839361f53f08dbef1db44b6686536d6c08b65cc90711739a",
+      "size_bytes": 2414005,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/PY_AI__MEMBW/tier0_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "da67fce3c3a1e580b26acdb971d1901afc775d6a2152130e4d5bafe6adf2a075",
+      "size_bytes": 2415070,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/PY_AI__NOMINAL/tier0_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "32f0089464a9814d08ff694ccdb6a1cf469f85253334ade47f017c9b58dc378e",
+      "size_bytes": 2413918,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/PY_AI__TLB/tier0_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "184495bc4fa9b9223e9e2483c2ac05e7c2784124b600f2b573795bf84e2dd58d",
+      "size_bytes": 2415281,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/PY_STATS__ATOMIC/tier0_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "7eac84ad81bef4958b52f7cbe28d030399c18aafbc70c4dcf6c1027984e4c1c6",
+      "size_bytes": 2436760,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/PY_STATS__BRANCH/tier0_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "5433a004bf88fc5b41740edf3774512a4a1fe389938429ca8dd777678bda1625",
+      "size_bytes": 2370919,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/PY_STATS__CACHE/tier0_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "b9ba0c9fec0a56acafe9ee89755ccb9e7ff11fb9489b738248ffe38e14119915",
+      "size_bytes": 2391179,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/PY_STATS__MEMBW/tier0_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "9d9e1c6724252667ef886f2da32b1bc6275d2aba18969d28d3135cc2ccbab5a4",
+      "size_bytes": 2413193,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/PY_STATS__NOMINAL/tier0_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "7bbab5d5869eeb1240fb82e50895d8f9fa33722d42bf55b8d002b789a9f00425",
+      "size_bytes": 2384177,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/PY_STATS__TLB/tier0_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "e1617cb83fb24f4444491a7c66f4ead8f60eb6e7f2b279311d89ffa4b564f21d",
+      "size_bytes": 2401911,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/VIDEO_SW__ATOMIC/tier0_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "7372e92603a3193bc3ec00446d3fb894ba10e421df77bc4aaddb5f29cdfee303",
+      "size_bytes": 2473987,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/VIDEO_SW__BRANCH/tier0_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "1a42b1379cb8cd190fd45dc160e53a7df33efaf1bc4aaa30f052a061b6ff9335",
+      "size_bytes": 2376737,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/VIDEO_SW__CACHE/tier0_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "52e07df5013881c5107be6bc9430ef4868bc5b2536bc326d4eecbd3e8cbf8fc9",
+      "size_bytes": 2361891,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/VIDEO_SW__MEMBW/tier0_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "df7a924bf6c0a71144f71aadc9bcc7dd84e90c61406896cbd492f2064831a203",
+      "size_bytes": 2444521,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/VIDEO_SW__NOMINAL/tier0_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "9e6619583042396f5fadd7550d6a15b31bfdff44b62be8bba4f597c0c5e19618",
+      "size_bytes": 2377409,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier0/VIDEO_SW__TLB/tier0_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "436cc99e0c9705bea3d456d8db3300d025fa44b8e2a12d903c5a3d688c0a58a6",
+      "size_bytes": 2367145,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/BROWSER__ATOMIC/tier1_alt_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "43618195216f37bd15b51e895a30fc860321feed0405ab2d123cfd9a76e497c8",
+      "size_bytes": 639271,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/BROWSER__ATOMIC/tier1_alt_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "c62d32121b9f18e446af815a6c9a2790d9eebced3e5a26ae1d8759540aa6ecb9",
+      "size_bytes": 1411669,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/BROWSER__BRANCH/tier1_alt_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "a3059d43c6aa85ed5290b95e6c8dee296cb5680a097e47b52724b7eb5ed0fd25",
+      "size_bytes": 624957,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/BROWSER__BRANCH/tier1_alt_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "d72b707865c855bd97450b1f3158465f4d0b915e5a974f36adadd0e0ab1c298f",
+      "size_bytes": 1390254,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/BROWSER__CACHE/tier1_alt_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "60f31321bb2c013d0bc444e388fa02dfda6784c11a537ee5488b57f929b5f479",
+      "size_bytes": 643178,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/BROWSER__CACHE/tier1_alt_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "29ff8964155b8f15a670331b2e05c13c212bc8e1cfcdcfa8ea2fec6801b13df5",
+      "size_bytes": 1430434,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/BROWSER__MEMBW/tier1_alt_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "4109896235733fab6d194913030be85770201ef9b741c6b1c8b5ad00de7dddef",
+      "size_bytes": 628310,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/BROWSER__MEMBW/tier1_alt_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "3686961f5a937d5a9cdb9209495665b6f79d71941820924bed2811f20a11f0e3",
+      "size_bytes": 1401954,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/BROWSER__NOMINAL/tier1_alt_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "652d4b91549a8b01a866be83348ed02faedddd3ebc2fcfd1ad0017ae4cb1d160",
+      "size_bytes": 606284,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/BROWSER__NOMINAL/tier1_alt_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "9ac2858b4782fcd390373e92e476900194b33f02b5ea77454aa2866e9e980993",
+      "size_bytes": 1319367,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/BROWSER__TLB/tier1_alt_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "4bd01092a030bb41a8a40643cfadbd0fd25678542736dea39d377e59a7105378",
+      "size_bytes": 643133,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/BROWSER__TLB/tier1_alt_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "a679fefafd620045e4eb0969925f3a443d3432d2aa9fc19436283b6feac68543",
+      "size_bytes": 1453457,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_AI__ATOMIC/tier1_alt_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "de215b5d4c9fa30ba5b6cf6e4639ba9e70873325d6bef93a8d7539c836ccf89f",
+      "size_bytes": 645322,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_AI__ATOMIC/tier1_alt_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "5d384d4749f09de18e5b1b8811ee2f780870466038b87b4fe5b78ac76053a6ab",
+      "size_bytes": 1467948,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_AI__BRANCH/tier1_alt_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "ff0f676589ad3df14ce76a7c9177eff43ed46010771fa2c2ae546e9457c39ce7",
+      "size_bytes": 645792,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_AI__BRANCH/tier1_alt_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "8940e52ccd786250e3059b5a2199f87ce123e767b24a3cfcf31058820231bbb0",
+      "size_bytes": 1468460,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_AI__CACHE/tier1_alt_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "e0b453171e81da24ea35a48aa8a8acc88ab0203b1454704df5c77db7d1ecdd67",
+      "size_bytes": 522922,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_AI__CACHE/tier1_alt_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "a781a2a84171f687fd186671cb7e5fc101d634ae0a29b97c7fa989a97e3c8673",
+      "size_bytes": 1364411,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_AI__MEMBW/tier1_alt_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "9a7da91b270def4366062582caf4fdab832083ad326cc4cd4cebf7e5f22541f7",
+      "size_bytes": 644150,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_AI__MEMBW/tier1_alt_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "f0dca2044c5afae89a1ba589ace9f33d91c37cd16de24a1442055545b5b31ccd",
+      "size_bytes": 1407586,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_AI__NOMINAL/tier1_alt_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "143130ccdeb869e69cace73653f10873eb9ab04de8a72d1a08c6da4a092575ec",
+      "size_bytes": 645799,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_AI__NOMINAL/tier1_alt_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "2c4475c8a7b7f97519dc34508f13f65bf18f62ae23bc9e54c86da66dba2afd65",
+      "size_bytes": 1401103,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_AI__TLB/tier1_alt_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "ecbe228d76c72677277c4dd55d6b8dc9cbbb54d669a924ccdaebc8cd73ac8e11",
+      "size_bytes": 643792,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_AI__TLB/tier1_alt_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "fca151471d96de9d329b883b4e58331a53d2d281725d8032c52ec8177b85b557",
+      "size_bytes": 1461808,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_STATS__ATOMIC/tier1_alt_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "149a0afc6ae59cbf124e3a07e37407274346380fcf1ebc724aa1ad0070cd4a2e",
+      "size_bytes": 614291,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_STATS__ATOMIC/tier1_alt_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "379c82363fdec7f0f9b71b2b4d88ad34c61f3915f5f766aa79f519bcca72dec4",
+      "size_bytes": 1359584,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_STATS__BRANCH/tier1_alt_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "2d0731d3bec675d5c9729764aca9c58969b4f1fdac0180db3fe5bf574cd2bc0e",
+      "size_bytes": 645413,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_STATS__BRANCH/tier1_alt_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "acbffb1cc18d28d892c3ba2b2c59f4aec4eaca6c08b2d98a4c2de47407d2072c",
+      "size_bytes": 1424738,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_STATS__CACHE/tier1_alt_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "c7b620f38bf4b19c52dbb8ccb0eb705786ea138b0dfec753b7cb0c6c15e35721",
+      "size_bytes": 642224,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_STATS__CACHE/tier1_alt_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "824a37a89eb3bd4406cca84cdb5c8dbb6916574017693ad51757c1a8b43843a1",
+      "size_bytes": 1449463,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_STATS__MEMBW/tier1_alt_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "ef606e807884852e49a890fbbca3057f990636b8a79b27a7e4499360c5c305e9",
+      "size_bytes": 645277,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_STATS__MEMBW/tier1_alt_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "0ae6eefcfdcbe6814c644c3b798701e97900a420e6123c14f13bafe4824b9fc5",
+      "size_bytes": 1453479,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_STATS__NOMINAL/tier1_alt_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "7048cc8197ddda11f0f24a7d281296dfeaa198b682f36b03f65eb10498cab21c",
+      "size_bytes": 635122,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_STATS__NOMINAL/tier1_alt_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "15f4b7b90a2cbb141259ee97f32064fc349de1f5087fc612c5ad595a16f5190c",
+      "size_bytes": 1431772,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_STATS__TLB/tier1_alt_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "c800163cbd01a5d0bddb17ee3b736cd2851228b343467a6d94001dc7b7abe39c",
+      "size_bytes": 644355,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/PY_STATS__TLB/tier1_alt_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "272f26954e8fb862c85b5c7a83a249bfda7b807097d6aa0478d5690787f851a7",
+      "size_bytes": 1419248,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/VIDEO_SW__ATOMIC/tier1_alt_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "c231de6b1c62d0784a883360b6cda70a96f5e691e0c04dd40efda95df4e22887",
+      "size_bytes": 607969,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/VIDEO_SW__ATOMIC/tier1_alt_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "cca30402b87734c013d2301b035e901166bffca95cdcf0944ca1ed731e077360",
+      "size_bytes": 1343858,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/VIDEO_SW__BRANCH/tier1_alt_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "eab5d7e28f918b806c34eacc60f83b81994cec8a7ea00e692e4fb5fd8a4a6ead",
+      "size_bytes": 643531,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/VIDEO_SW__BRANCH/tier1_alt_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "de5c20dc867b8794ed6bef7a2e22577302238cbd51f550f89b80d7c061b9c15f",
+      "size_bytes": 1425413,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/VIDEO_SW__CACHE/tier1_alt_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "28c0f731c9474e27056fd774beb87f14873aea8ed1b2f3f3d5212815ac11eb88",
+      "size_bytes": 638996,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/VIDEO_SW__CACHE/tier1_alt_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "a61059418ce7fd4473a7f07a609652dbab7325885703ef69072da96926bba0bf",
+      "size_bytes": 1419312,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/VIDEO_SW__MEMBW/tier1_alt_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "0a706b61cd00ea04fe23c3aeec330a72cb882e522783f83495742339824570e5",
+      "size_bytes": 631663,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/VIDEO_SW__MEMBW/tier1_alt_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "35e0d19ee09c0b017af34f5be7f5c37d7d4c16d51870092194a3582f57099e25",
+      "size_bytes": 1399497,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/VIDEO_SW__NOMINAL/tier1_alt_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "445796626408b43ebe721e904d625e566bbcc17ba86da9e12efaa6daa172b7a2",
+      "size_bytes": 645994,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/VIDEO_SW__NOMINAL/tier1_alt_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "9f3f4df4c64a56d47622d35183c395d1b63561d9708b09bcb2cc3fda1baa9e93",
+      "size_bytes": 1429895,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/VIDEO_SW__TLB/tier1_alt_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "68959c8f8b0b800549c7c32de450ce87758fbff85242d987702b21ecff3223c2",
+      "size_bytes": 642489,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier1_alt/VIDEO_SW__TLB/tier1_alt_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "df00eb69c33651a7d4755d5bf04c3b390b5a02c23fc09cd5c06a3c683cf2f8bc",
+      "size_bytes": 1439065,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/BROWSER__ATOMIC/tier2_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "5051edad85ccc5853358a9a6a5d99a366760e8ffcf448b531f8751d1975bdf14",
+      "size_bytes": 367603,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/BROWSER__ATOMIC/tier2_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "9684e33ccc1bc022cc6b5dbad0c161254a66af677dab156669e42d8c9ee7f98b",
+      "size_bytes": 606594,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/BROWSER__BRANCH/tier2_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "d770011f579844044a38bf34e8b7023dd0ab752d02d3d4c8ef4c25c4c8245acc",
+      "size_bytes": 347544,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/BROWSER__BRANCH/tier2_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "b3ed2ea03e93599b6a20ae39ed340260272b1fec2fce57ccfbc65d6902664088",
+      "size_bytes": 586516,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/BROWSER__CACHE/tier2_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "cf424fa89a5bca612a841edd0f41bb2f09b01737dd51b49d258da6633c8212ae",
+      "size_bytes": 364528,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/BROWSER__CACHE/tier2_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "cf8dde82df36632d482abd7f88cf89644eb7d90d7049a72c6121f5b194858a60",
+      "size_bytes": 603521,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/BROWSER__MEMBW/tier2_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "741e5aa1e8a849ef0dbe18dcb1e92c17b640c34105d98ceaf94a8b3aa21ed1d2",
+      "size_bytes": 364971,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/BROWSER__MEMBW/tier2_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "8621fc7af9aaf6dca8a25c3bee71eb4f50b1913889df18027792c04589d5f8ce",
+      "size_bytes": 603998,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/BROWSER__NOMINAL/tier2_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "82ba761d06b0ea7b3af374576ee23cac7ebcf14931333aa6b45881967d9cf45e",
+      "size_bytes": 323861,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/BROWSER__NOMINAL/tier2_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "7647dfa8d6ca40069bcdf8af64d525d0d77f800eaa01fd02bacebcb693ef8bb5",
+      "size_bytes": 557243,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/BROWSER__TLB/tier2_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "23900cf6443fb3f9a2f0a8db9c35c1ac0885eb12547e07f3cd71e01c0f04c7df",
+      "size_bytes": 342956,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/BROWSER__TLB/tier2_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "80a6a0e01a99a2f35ac2f377d0fc67adc2b4b192f4c6921a569b1d57296b9340",
+      "size_bytes": 581928,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_AI__ATOMIC/tier2_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "5013be85e1f84493ba59d51c69f64e31f4e9dc2419c57eb910443a5deaef9cb2",
+      "size_bytes": 346828,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_AI__ATOMIC/tier2_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "72f370a617966d3de27c7f3e18efcee28391566471c5b033a1af1318a5017116",
+      "size_bytes": 585800,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_AI__BRANCH/tier2_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "f9772987ccee0a4149ba4589f2b37e6235c54a69e1104d603d709e6da7998555",
+      "size_bytes": 344693,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_AI__BRANCH/tier2_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "6e818163165206260e26ad858f3b5ea040e31b2731a7643392ac11cfb5341861",
+      "size_bytes": 583665,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_AI__CACHE/tier2_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "ce835023a55f8964e07a288fc826212693815f042eedf7f4a4fe83028be020d8",
+      "size_bytes": 350405,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_AI__CACHE/tier2_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "a188687eea5f383fc932554a04200c289637e13ff35817f73d711a1d3c4b0e4d",
+      "size_bytes": 589377,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_AI__MEMBW/tier2_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "55967d7e993303d85c6a08ba31b8660f823a939005219678db020b163170ca19",
+      "size_bytes": 351609,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_AI__MEMBW/tier2_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "0e430e07eedbd16d230e18bda711b47f5b4465bab2ceb32ebd5551dfa9c4a4b2",
+      "size_bytes": 590581,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_AI__NOMINAL/tier2_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "b9f8a0a9cee778a8c84dafd4fc0e96f816b9976c5607a8b9871ab138146c918b",
+      "size_bytes": 325596,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_AI__NOMINAL/tier2_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "81d539ac5723e611abadfd8e7a8b9d7bbc1f68826201820a9efd5a523b9754fd",
+      "size_bytes": 559526,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_AI__TLB/tier2_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "143c15d74124780847ea1c54591062a6ddb2cea24ea6d09280152e02c7e5b327",
+      "size_bytes": 343729,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_AI__TLB/tier2_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "8a6e5ba4a3334d6c03f6ea080beef01b390e89d36205b51e08e1b20655c5c0cb",
+      "size_bytes": 582701,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_STATS__ATOMIC/tier2_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "6a36a7e9327feec85712fb30a468b27c42c16a975cd5ec4822afae2a14458c76",
+      "size_bytes": 354530,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_STATS__ATOMIC/tier2_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "60a81158c4f3286ef611c8680e7300402775253e68135fee564cb07a455deb40",
+      "size_bytes": 593502,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_STATS__BRANCH/tier2_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "6e7c803b37657e4db4aac6485fa4f5fced63cc4b9cf12f4c2860e0253547f208",
+      "size_bytes": 352947,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_STATS__BRANCH/tier2_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "8f4628e9f6011f7b05e339c71f0e19a477a675c15bddd5149a2792c76d23eff7",
+      "size_bytes": 591919,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_STATS__CACHE/tier2_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "f05d5aed7c5f08ff3601791e6cb1432a55ceb0f2b58111e33bc98bd25d711ff5",
+      "size_bytes": 308062,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_STATS__CACHE/tier2_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "29d1d9ad70cf51299f7eaceaa3821e27488d201734cfa028097e9c0ec09cb5e9",
+      "size_bytes": 547034,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_STATS__MEMBW/tier2_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "e511d275cb75a45a5e5547e0587a4a71ddf3b67368ea7797578d34449c7da234",
+      "size_bytes": 295726,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_STATS__MEMBW/tier2_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "769eb285c8149880cf184ca2d40c7f2257fa320b33750b5de19e819d8383bfe2",
+      "size_bytes": 534698,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_STATS__NOMINAL/tier2_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "0c3ffa77f961230de8d3b2422a2f75584bbd07ac2aa9a343b34253d12c3951ea",
+      "size_bytes": 289492,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_STATS__NOMINAL/tier2_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "be7972efd29555c8099d17ceb9b57ce9f9493bb81cfa8f00fdd18d325d9a3698",
+      "size_bytes": 528464,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_STATS__TLB/tier2_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "a8a7c498526b61b0077e776b6902fd708b02b10cfbb75f0dc79364edb010f152",
+      "size_bytes": 353177,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/PY_STATS__TLB/tier2_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "a45a76c42663b29ed5364440dcb3df68deebedc53ac2493b60861ed49ddf2497",
+      "size_bytes": 592149,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/VIDEO_SW__ATOMIC/tier2_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "94fa03e4afb03cca5cbf98dee9b207b00d380c23638075b15a66ebf3964e01ac",
+      "size_bytes": 353189,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/VIDEO_SW__ATOMIC/tier2_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "4136e072776ef8c3b72bd9cbb8d58f398d5cc34c8c6db1ed9e6477e7076892be",
+      "size_bytes": 592161,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/VIDEO_SW__BRANCH/tier2_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "4f1ac140409bbf67575e03a74150a63012478e269884a29523f787021f7715fe",
+      "size_bytes": 354726,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/VIDEO_SW__BRANCH/tier2_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "40ca94d9aa0581a73788c8cba381f2bed4f48faedba209754f2e0727746caee2",
+      "size_bytes": 593698,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/VIDEO_SW__CACHE/tier2_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "76199d193344d66dec3df9eeeb599083d0da2b07993539c0feec7fb70c0e3d51",
+      "size_bytes": 364759,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/VIDEO_SW__CACHE/tier2_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "84415db1857344d5abfcfb96e7e7adbc8c148f92488600ab17ebfce0eb330fbc",
+      "size_bytes": 603759,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/VIDEO_SW__MEMBW/tier2_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "53618234440e3a416b2d686902daca7b59d4f9bf08a845dc1de925205562799f",
+      "size_bytes": 345460,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/VIDEO_SW__MEMBW/tier2_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "779b58472a714d76f84ecba99989e4cd11b9605baad57e8d86513bda4c3afb32",
+      "size_bytes": 584432,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/VIDEO_SW__NOMINAL/tier2_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "f3d509f0dfa6000c699f1f9c1f87e4507d4868862f0fce792d2e38b0c97710bb",
+      "size_bytes": 364240,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/VIDEO_SW__NOMINAL/tier2_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "f55d2d69bd94b64c7c2783261956cbca342759b1dc4c1d2bf836e978af100bcb",
+      "size_bytes": 603214,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/VIDEO_SW__TLB/tier2_core_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "95d2247a13cb0df1609d7f67c63ac383a8c2cc92605811ff29579b683c35c2f1",
+      "size_bytes": 354618,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "data/telemetry/raw/apple_data/tier2/VIDEO_SW__TLB/tier2_full_5hz.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "9fce35f2b50d7ec29593a9651fec6803fa55181f9f85b65a6175f64163c44e71",
+      "size_bytes": 593590,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "docs/anomaly_provenance.md",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "581b31db9ba4b1927fe892f58a062b265ab8328b32edd453f4c3ac696d954b67",
+      "size_bytes": 6151,
+      "storage": "git"
+    },
+    {
+      "path": "docs/apple_workload_transitions.md",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "aab65a5cde82593df47bad2b077f1a95e932d844daa7808b17daf7c799dae5e6",
+      "size_bytes": 5052,
+      "storage": "git"
+    },
+    {
+      "path": "docs/asu_server_runbook.md",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "efe36717f9bb8b9cd7bc06046c806c733f86d781d6427c9c2de6f3c08d89797b",
+      "size_bytes": 14421,
+      "storage": "git"
+    },
+    {
+      "path": "docs/data_schema.md",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "3bdec655ac17b455b1b5eb32a6f0d5b6076b27efcfc9bac13cd3a15a37b31b33",
+      "size_bytes": 1258,
+      "storage": "git"
+    },
+    {
+      "path": "docs/exact_to_citadel_extension.md",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "ed35fddb50b21bd8b3ec0cb3a763995331659df34e033a92e6aae52f20e59a52",
+      "size_bytes": 3996,
+      "storage": "git"
+    },
+    {
+      "path": "docs/graph_ranking_sensitivity.md",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "1f439dbf2a66a74c628eb86623753a4bc4749251e5b8c9d9062e88e288503e81",
+      "size_bytes": 8549,
+      "storage": "git"
+    },
+    {
+      "path": "docs/image_flow_methodology.md",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "00e4e412e95f7ab7e4516b8be40696a0c6cb5e1e24e50fbe0706e847966ecf4f",
+      "size_bytes": 10879,
+      "storage": "git"
+    },
+    {
+      "path": "docs/intel_continuous_workload_transitions.md",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "1b24d54b6a31de67d54ba8e0ab89713c53ec2b688072ec80b455d28ff82f09eb",
+      "size_bytes": 4791,
+      "storage": "git"
+    },
+    {
+      "path": "docs/intel_workload_order_stress_test.md",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "21c042b9ec2cb3d3f20e685dbef20f8ab1a7786ca9049adfb8a58bbd5bfa9837",
+      "size_bytes": 7095,
+      "storage": "git"
+    },
+    {
+      "path": "docs/paper_figures_tables.md",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "5d3779fd768fbeeaf32092dd05eda78ce2ce8af72f9912b3355c9fed2cbda6a5",
+      "size_bytes": 2588,
+      "storage": "git"
+    },
+    {
+      "path": "docs/reproducibility.md",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "790a7a93a7942b6855f33eae7f6ddabceb3cebce7d82d8c71ffb4213314be4e6",
+      "size_bytes": 9234,
+      "storage": "git"
+    },
+    {
+      "path": "docs/research_execution_plan.md",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "d71970fa01f69514b371326c6972aabeeaac2a06e6ad29f49825521dd7bfefae",
+      "size_bytes": 6350,
+      "storage": "git"
+    },
+    {
+      "path": "docs/reviewer_reproduction.md",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "714c8d0831425f078c062f01add7373118e3e5fe3c286f5da52d3c85680bf33b",
+      "size_bytes": 20507,
+      "storage": "git"
+    },
+    {
+      "path": "docs/rtl_plan.md",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "67d06e4c77a2e05ebd31598feae21a64b628fb5a1189c37df7132e144e6f7557",
+      "size_bytes": 3787,
+      "storage": "git"
+    },
+    {
+      "path": "docs/tcad_end_to_end_result_methodology.md",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "24d73c9d31a59c9b7d8bbf7595f80f226d3c644f7505a6ed814845cc6371fd9d",
+      "size_bytes": 15739,
+      "storage": "git"
+    },
+    {
+      "path": "docs/tcad_methodology.md",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "c0cee0c7faeb34a4721753d83b52e642aea0ac223b68a014a780e8645b2395a0",
+      "size_bytes": 11760,
+      "storage": "git"
+    },
+    {
+      "path": "docs/tcad_requirements_traceability.md",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "c6e1a59bea7b9c3debd61ce05c106a346587c07204219f03525f49c18a00f744",
+      "size_bytes": 3580,
+      "storage": "git"
+    },
+    {
+      "path": "docs/telemetry_collection.md",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "23ccaa70c5eb624861de35b25d31007b6c61b4898a8291cd521fffd8147ba554",
+      "size_bytes": 12704,
+      "storage": "git"
+    },
+    {
+      "path": "docs/telemetry_dictionary.csv",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "24114f732129707af32cea9de5df18849e00e89f1813ae7cedba25827642514e",
+      "size_bytes": 277460,
+      "storage": "git"
+    },
+    {
+      "path": "environment.yml",
+      "scopes": [
+        "intel",
+        "source"
+      ],
+      "sha256": "1d75f677ffa21f8fa86de86705bc81be6494714bfe287f64478581e59038c7b0",
+      "size_bytes": 335,
+      "storage": "git"
+    },
+    {
+      "path": "hardware/cintas_operator_costs.csv",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "ec8e96aca04afeacd800defd7ff40f87a7ae9664d48903095205cea5844c02c5",
+      "size_bytes": 320,
+      "storage": "git"
+    },
+    {
+      "path": "hardware/hw.csv",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "6410a7c7299c9545674e42a7e7ed9e80b6337a2a3c2f8e1a4c5833881417da44",
+      "size_bytes": 104,
+      "storage": "git"
+    },
+    {
+      "path": "notebooks/exact_tcad_all_experiments.ipynb",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "c65f5abb641037ca87873239d0b0f13bac1716e11b6649fa1600dd1e49a38a7e",
+      "size_bytes": 9285545,
+      "storage": "git"
+    },
+    {
+      "path": "pyproject.toml",
+      "scopes": [
+        "intel",
+        "source"
+      ],
+      "sha256": "29102e40c687b9da22cbf96d13122247d2e08feb4df7bff356140f85672a80db",
+      "size_bytes": 811,
+      "storage": "git"
+    },
+    {
+      "path": "reproducibility/artifact_inventory.json",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "3c7b369384f1007017de42e8954dd56a6a8921da614561dd23ca9787b28b4083",
+      "size_bytes": 20980,
+      "storage": "git"
+    },
+    {
+      "path": "reproducibility/artifact_inventory.md",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "7dc6299873203e0582ddc18c44fb6cbdcc84a306c6bb074d42b89919986ab63e",
+      "size_bytes": 16166,
+      "storage": "git"
+    },
+    {
+      "path": "reproducibility/legacy_provenance.md",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "f0cf14159bc44616a0ea57a640ea9d4634bfed4bc9f867dddae1e3911c47fabf",
+      "size_bytes": 6413,
+      "storage": "git"
+    },
+    {
+      "path": "reproducibility/result_contract.json",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "74730e97839f303760061f0ee9939815f0cb8e63e9e3b52c580a847714e287cd",
+      "size_bytes": 22563,
+      "storage": "git"
+    },
+    {
+      "path": "requirements.txt",
+      "scopes": [
+        "intel",
+        "source"
+      ],
+      "sha256": "fcdbebf3e43c25c04da41f58a75b78915ce83c48b16c80a11468b9157b2bbcf3",
+      "size_bytes": 219,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/apple_limited_observability/apple_observability_best_by_scenario.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "161f297d6c3964798b59a2b4524c1b5094b6e3cfa1e40cc62b89dc754248eb7a",
+      "size_bytes": 6871,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/apple_limited_observability/apple_observability_fold_results.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "e9944c5a5388a798146cef8d17177683deae9511ac4f1e050f5da08f83dbf404",
+      "size_bytes": 140964219,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/apple_limited_observability/apple_observability_inventory.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "b965b24748e6cc35b7c84bdaec43fbc391d05ccade4999325b3928724a21ed95",
+      "size_bytes": 206,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/apple_limited_observability/apple_observability_summary.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "efcdc373c0d0430a4cfb274b48d74cc6fcf50b729a8c570980ced0bf8656ef6d",
+      "size_bytes": 7929212,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/apple_limited_observability/apple_selected_features.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "699078009bf1161e0e99ff046b98d08ca9a66a7131cfbf5446d1c9a87733e6e4",
+      "size_bytes": 219633,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/apple_limited_observability/apple_workload_best_by_observability.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "9a6ac1c4ec6f375e1d79351bb084ca0290478135c03a31909eba08d664b4e618",
+      "size_bytes": 23190,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/apple_limited_observability/apple_workload_summary.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "878913d562603c438ef97441d9dc6e4a4bd2f5b1317b0ed1322331f520dbd87d",
+      "size_bytes": 2696,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/apple_limited_observability/paper_figures/fig_apple_portability_envelope.png",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "6db0b6c8d59b819dca7c5fc39850b1b4b571d0d8217fca1cafc2dea608496ee6",
+      "size_bytes": 121554,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/apple_limited_observability/paper_figures/fig_apple_portability_envelope_legend.png",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "33c39a7d85eb4de11905b9159ab7b65eb7ae2c45053f60c22c248c8c9f009683",
+      "size_bytes": 22647,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/apple_limited_observability/paper_figures/fig_apple_workload_robustness_dots.png",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "8e8ca07df4ca4944e3492943a5ab8d911915affead5752e59cc612d0e7498c83",
+      "size_bytes": 273217,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/apple_limited_observability/paper_figures/fig_apple_workload_robustness_dots_legend.png",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "2632533c6044b6684c5a2d98ea10f0b99c8161734d5e1f170d44d6431e3ac4b6",
+      "size_bytes": 21641,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/apple_limited_observability/run_manifest.json",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "8a07e1e6ac1cf73fb7911a526ec6d61a8363e5edae2deb75508950990da87754",
+      "size_bytes": 30468,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/apple_limited_observability/tier0_full/causal/SETUP_TIER0_FULL_causal_edges.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "38b433cda24cddf7190ad84526a69dae050657547c1e002e3534106417f26c57",
+      "size_bytes": 6497,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/apple_limited_observability/tier0_full/causal/SETUP_TIER0_FULL_causal_graph_and_top15.png",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "fd265cf865639cc7a3e7c6a4d6381159580df42b0d60eb5a770f8806ca63c518",
+      "size_bytes": 445619,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/apple_limited_observability/tier0_full/causal/SETUP_TIER0_FULL_causal_nodes.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "0c97ec4056b308eef1fac7ad0e532f8b2aa1b7e2594f6547ab7e4fc055293342",
+      "size_bytes": 6639,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/apple_limited_observability/tier0_full/causal/SETUP_TIER0_FULL_feature_ranks.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "45b8978089ce4fe2ebdbb0937a1b8b17f01855eaac2df1a4678e70c17952d58f",
+      "size_bytes": 6639,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/apple_limited_observability/tier1_alt_core/causal/SETUP_TIER1_ALT_CORE_causal_edges.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "a1bd25586a991c3eb9623790435ccec67640a75dcb0b91030c626c78c7607a6c",
+      "size_bytes": 825,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/apple_limited_observability/tier1_alt_core/causal/SETUP_TIER1_ALT_CORE_causal_graph_and_top11.png",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "355235af2de67f6bf228c1e772a4a8c5b5d9043c635d680749c2bc37b53fa36a",
+      "size_bytes": 303969,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/apple_limited_observability/tier1_alt_core/causal/SETUP_TIER1_ALT_CORE_causal_nodes.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "dec91564f4c06524428b6da691716af700a92d94b510cdc88bef263b0ba29f6a",
+      "size_bytes": 1382,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/apple_limited_observability/tier1_alt_core/causal/SETUP_TIER1_ALT_CORE_feature_ranks.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "5cd98e5c4337361708579fdbd279567a1a23009fc8cbba3c98643c085da1765a",
+      "size_bytes": 1382,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/apple_limited_observability/tier1_alt_full/causal/SETUP_TIER1_ALT_FULL_causal_edges.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "cc2e9803ba375911a943f5053090efbef62b4d56205e2547756fd12ee031ed47",
+      "size_bytes": 4460,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/apple_limited_observability/tier1_alt_full/causal/SETUP_TIER1_ALT_FULL_causal_graph_and_top15.png",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "7df51a77fc5a7e4e812550e6951fa724ae1fca8618079cb2bf7c19e4ef72bbf6",
+      "size_bytes": 508111,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/apple_limited_observability/tier1_alt_full/causal/SETUP_TIER1_ALT_FULL_causal_nodes.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "27862e01d2744a0a323598ce93842b59e1fef48010428166e27039a17b8fbf66",
+      "size_bytes": 2607,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/apple_limited_observability/tier1_alt_full/causal/SETUP_TIER1_ALT_FULL_feature_ranks.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "b1971a6be4b0bf9f7b217f15f4b9cf61e97910aab9bcd0ace173291221dcdea5",
+      "size_bytes": 2607,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/apple_limited_observability/tier2_core/causal/SETUP_TIER2_CORE_causal_edges.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "675b1661244b53b108da07b041a08308464e0a530a2c7d56d57b73af8bb41e96",
+      "size_bytes": 886,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/apple_limited_observability/tier2_core/causal/SETUP_TIER2_CORE_causal_graph_and_top7.png",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "c8b188b0af8af51ac944d23cc3f40fd5020c4ee707fbdb54a627167d1ccc7e7d",
+      "size_bytes": 234538,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/apple_limited_observability/tier2_core/causal/SETUP_TIER2_CORE_causal_nodes.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "ddf733b9949f15c83d0fa09335521abdc01f0daf71c8efd835e3d7872c6a71c4",
+      "size_bytes": 1063,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/apple_limited_observability/tier2_core/causal/SETUP_TIER2_CORE_feature_ranks.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "5507aeefd732be56e1d58be180966ff856e826baaa5217f62dc840a1552c1cc6",
+      "size_bytes": 1063,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/apple_limited_observability/tier2_full/causal/SETUP_TIER2_FULL_causal_edges.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "f68700f54e97606ed5ac6f77b5785882efb1ed8f2dcc9e7af2b26b8202b4a0dd",
+      "size_bytes": 1124,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/apple_limited_observability/tier2_full/causal/SETUP_TIER2_FULL_causal_graph_and_top8.png",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "632057f7efe3f443fb40bb34d74b1a9b3071690fda7527f2df842b41466c0ae0",
+      "size_bytes": 259039,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/apple_limited_observability/tier2_full/causal/SETUP_TIER2_FULL_causal_nodes.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "d61485f313d438b35b7499f1762ad2d07d405390dbb1c9f7ce87d714151e15af",
+      "size_bytes": 1194,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/apple_limited_observability/tier2_full/causal/SETUP_TIER2_FULL_feature_ranks.csv",
+      "scopes": [
+        "apple"
+      ],
+      "sha256": "48b1ce5d475f1a49b009c0787a705d804632fdd88004240b9bb84f4aad185742",
+      "size_bytes": 1194,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_ablation/droop_adaptive_best_by_setup.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "2e5a60d0697aa274b7208d56ff959f6673e2a4d2d80f7508da85f3d372b058c2",
+      "size_bytes": 797,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_ablation/droop_adaptive_fold_results_all_quantiles.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "4e172b43dee889f2b067c000cdd8aa44626196df92f248ca4a6a0fd7f4aef01c",
+      "size_bytes": 33091120,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_ablation/droop_adaptive_selected_features_all_quantiles.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "b8e6f90a43be5e94879f1282d01731899bba33d4512de44a53fb9bac9dbf4b70",
+      "size_bytes": 422931,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_ablation/droop_adaptive_summary_all_quantiles.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "b74f3aa844ae0ee134d22fe7f35866f111fdf2b9b8a5b6235ecdf5b979394786",
+      "size_bytes": 872244,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_ablation/fig_droop_adaptive_mcc_vs_block_length.png",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "7073ecde013351c5fba5f6dae1c5b58ee3ebdb3c59c8223b0b9753b971fae925",
+      "size_bytes": 111777,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_ablation/p0_975/causal/SETUP_A_causal_edges.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "02a2a3a64378de26efef88a277d0780a6cc98f3ad5606216bf88acc727c1db10",
+      "size_bytes": 62196,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_ablation/p0_975/causal/SETUP_A_causal_graph_and_top50.png",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "8a94a442a62e62e6c73c9d837820717c7bb827ac55c90179baaa85ef559171cd",
+      "size_bytes": 1061408,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_ablation/p0_975/causal/SETUP_A_causal_nodes.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "95e27b94af3dcdc570534a3e0e72b9ccd6cff20275ac41e7bb769a21ec45f2b8",
+      "size_bytes": 63915,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_ablation/p0_975/causal/SETUP_A_feature_ranks.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "f1cdf34db7c10054c74dba4fa72928d2f52b609d242acc7743cca8c7fa112f4e",
+      "size_bytes": 63915,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_ablation/p0_975/causal/SETUP_B_causal_edges.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "c0b2fdf0b628fccc6e769f098587e68e374fe9b3e7aba5a9099f93eb0a137a9e",
+      "size_bytes": 55741,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_ablation/p0_975/causal/SETUP_B_causal_graph_and_top50.png",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "89c5cb23769eb4f068a55fd1d23c492c9fabd54e16ccf03b2adc7e8c017e3c8e",
+      "size_bytes": 995049,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_ablation/p0_975/causal/SETUP_B_causal_nodes.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "94ede42ff7b18cd24b3d4e632327c81d7c1c97d392448cc1f9a74d8cc6e9ecee",
+      "size_bytes": 63709,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_ablation/p0_975/causal/SETUP_B_feature_ranks.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "9c0f2d341c1f844f56d8bad21f708c2e0bb81b593c43c72f0b011bcc2c8d7038",
+      "size_bytes": 63709,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_ablation/p0_975/run_manifest.json",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "0c2191b9454d40c7383cc596ab2799125568f564b4750f833229ddaf560f76a3",
+      "size_bytes": 14453,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_ablation/p0_975/tcad_ablation_fold_results.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "a8cc03542159ca362e1ca4c1ef5e44dd16a3126486a17eb4b176251d9bf283d2",
+      "size_bytes": 13799743,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_ablation/p0_975/tcad_ablation_summary.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "045db23d20207b61cd94e0bba944791615f0757f53552d86be483232b32c8d46",
+      "size_bytes": 368815,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_ablation/p0_975/tcad_config_resolved.json",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "504e9ffb28762075d54495ca1584785c42ea7840ad8c60addff8a6102a51995d",
+      "size_bytes": 555,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_ablation/p0_975/tcad_selected_features.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "cec1196058ef1e0006872eea06c2c9c700ca07d22371dbfc31990a22339223c0",
+      "size_bytes": 207090,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_ablation/p0_99/causal/SETUP_A_causal_edges.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "02a2a3a64378de26efef88a277d0780a6cc98f3ad5606216bf88acc727c1db10",
+      "size_bytes": 62196,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_ablation/p0_99/causal/SETUP_A_causal_graph_and_top50.png",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "8a94a442a62e62e6c73c9d837820717c7bb827ac55c90179baaa85ef559171cd",
+      "size_bytes": 1061408,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_ablation/p0_99/causal/SETUP_A_causal_nodes.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "95e27b94af3dcdc570534a3e0e72b9ccd6cff20275ac41e7bb769a21ec45f2b8",
+      "size_bytes": 63915,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_ablation/p0_99/causal/SETUP_A_feature_ranks.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "f1cdf34db7c10054c74dba4fa72928d2f52b609d242acc7743cca8c7fa112f4e",
+      "size_bytes": 63915,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_ablation/p0_99/causal/SETUP_B_causal_edges.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "c0b2fdf0b628fccc6e769f098587e68e374fe9b3e7aba5a9099f93eb0a137a9e",
+      "size_bytes": 55741,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_ablation/p0_99/causal/SETUP_B_causal_graph_and_top50.png",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "89c5cb23769eb4f068a55fd1d23c492c9fabd54e16ccf03b2adc7e8c017e3c8e",
+      "size_bytes": 995049,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_ablation/p0_99/causal/SETUP_B_causal_nodes.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "94ede42ff7b18cd24b3d4e632327c81d7c1c97d392448cc1f9a74d8cc6e9ecee",
+      "size_bytes": 63709,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_ablation/p0_99/causal/SETUP_B_feature_ranks.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "9c0f2d341c1f844f56d8bad21f708c2e0bb81b593c43c72f0b011bcc2c8d7038",
+      "size_bytes": 63709,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_ablation/p0_99/run_manifest.json",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "745fc1d21fefbee1cf3f64fadc324e70b7ba03f7267ad8e06e136aa596dd4ebd",
+      "size_bytes": 14446,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_ablation/p0_99/tcad_ablation_fold_results.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "c01ca12fc2a39154a74dded86af20efd70ca86b8aeec8d767d94813151a7f89a",
+      "size_bytes": 13573595,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_ablation/p0_99/tcad_ablation_summary.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "863e03b23fb23a24d0edeb1614c30670061da02fd8ea63ebd766aabfb08638aa",
+      "size_bytes": 367014,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_ablation/p0_99/tcad_config_resolved.json",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "b7302806305c43ea2c4de12effbd360795214e844fd3720a7d67820bf9f269ab",
+      "size_bytes": 554,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_ablation/p0_99/tcad_selected_features.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "cec1196058ef1e0006872eea06c2c9c700ca07d22371dbfc31990a22339223c0",
+      "size_bytes": 207090,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR4_DROOP_dft.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "e2574951d07d4c2123af5155c6a82fb50ddd9559d3eda809764aa1bea8ef092a",
+      "size_bytes": 31884179,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR4_DROOP_dj.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "bcb9aacf6c883a8d128c4d15b8b3bf4d7c37e5227256535fae2069ea8315cbed",
+      "size_bytes": 34903473,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR4_DROOP_dp.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "c22940bab72e4f49f74ef2ab1dbf2c265eef2d8895dd9c3fc1e988e53300fd27",
+      "size_bytes": 31730268,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR4_DROOP_gl.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "ec80b98371e43ebd3f42c803d7e1aa13dd29a7342405825d48a185a0bb7f0850",
+      "size_bytes": 35640941,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR4_DROOP_gs.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "9d67cf56df49a25c6397058868ba3372c2c45fff1212c9c49cf96950b6870c2c",
+      "size_bytes": 36654936,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR4_DROOP_ha.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "b1cdb0b095a6e7eb570288be35f61154956800891025607c3600a0dd0e5cf667",
+      "size_bytes": 32783106,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR4_DROOP_ja.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "0831e4ae5f91efec94db618826e235a15f7c313f7cdbe3024e6ca41c41daee54",
+      "size_bytes": 36028349,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR4_DROOP_mm.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "8f29e2e6f4c6b9dde65d7ac660e69f9c4d8050e90c37549e97c01b8f080f75c9",
+      "size_bytes": 33071390,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR4_DROOP_ni.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "a91477855e5c67e95276c8a99c5eb95517e71c65d90c60a77f87b28b1018229f",
+      "size_bytes": 31857454,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR4_DROOP_oe.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "b60db9c53e0a4566b908dacc4746d84cf53758adc70e6bb81b1a3cab5236e610",
+      "size_bytes": 35006819,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR4_DROOP_pi.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "147a3c893503505c116efa72ad1cb447ba38fd6bbd6b910e9b8d76b32b3a5cd0",
+      "size_bytes": 32347031,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR4_DROOP_sh.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "ad279bb6ef06bbc13ff79b8e8cdbe7e39e2512c83143af2f1e0dea9a43c162e8",
+      "size_bytes": 32154150,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR4_DROOP_tr.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "f4f077e91f9d03e3e7565b6e7d34c4b944ef9daff4819e317408c8658489f809",
+      "size_bytes": 34613564,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR4_benign_dft.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "fd8c40144a725f1fe165a24f2326d58da6de9b37c1e719e8b44eb817f298fa79",
+      "size_bytes": 30923005,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR4_benign_dj.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "281820c867f33043433fd60eea0c82916c8b04d236039ebcfe1c5b28c9773280",
+      "size_bytes": 36359206,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR4_benign_dp.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "517b3744d0df6d9cde3bc45e27912d0bc3a1e94c017c38aeaeb24189f7ba7d93",
+      "size_bytes": 31584176,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR4_benign_gl.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "3870b78e787fb5ac43c1a9a4cd1e143a83013863a3e8624bc47010d5c7fcc7ee",
+      "size_bytes": 37319754,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR4_benign_gs.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "1ccc66b8ae511a716167c76b5469e5187b0505e65838c3ce98d658fc8f494143",
+      "size_bytes": 38810783,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR4_benign_ha.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "15a314319c36f13429ebc4698970b62cdb21b771ded55c607510e824ac31d125",
+      "size_bytes": 31727505,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR4_benign_ja.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "0080a3b9fef8a05f1aa7d2eeb4b26f770e7835b6090db3fe3c414ec5c2cc6f86",
+      "size_bytes": 37657617,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR4_benign_mm.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "0cf9ec9b4e487dab24bec16dbd90c17df2915bff7f927c06c8897957efdc2121",
+      "size_bytes": 33050330,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR4_benign_ni.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "4e37a966d8a57098bc29d94bd2d04e8a936c86e807d87dc7139e7ac160d3d74e",
+      "size_bytes": 31941914,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR4_benign_oe.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "bbd25ca013236cbb725ae9456ce9eb0879e18962bbddf69d81b4e22e75c05781",
+      "size_bytes": 36360462,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR4_benign_pi.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "f9a94516e7eceb67297c3be598c0569c6d150bf0c7dba1dcbc0f89bc7aca7592",
+      "size_bytes": 32573411,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR4_benign_sh.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "bdc4bd1a8931f5e917ae40e4362719910ae8e39f976f6a595a5b64a0cfc988f5",
+      "size_bytes": 32262503,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR4_benign_tr.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "d44b2bdef72a2c0445c1a5972b2c3148a8a39e79d97153fd9afcd9b405403760",
+      "size_bytes": 35974481,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR5_DROOP_dft.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "8c16461670699539c32e79e927aed4d57dd8a223fe4446e6b08a46ee1bd117be",
+      "size_bytes": 48612161,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR5_DROOP_dj.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "d6cf9c02234f54e6bd69fb1ba3e90b8749c883e5c245b8da816e5915e7f6ac2e",
+      "size_bytes": 54419436,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR5_DROOP_dp.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "854785e1c4ff8c3da0b8588a3ba9ec98ac3fae761018602da8b1898dfc1ede32",
+      "size_bytes": 48566664,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR5_DROOP_gl.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "648b2ff68866b6b845bdf12144b607c6c015901c60f31b8afc9cccff6f737b36",
+      "size_bytes": 55114757,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR5_DROOP_gs.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "990b6282743ef78a0322e47d1b5217e3bf1aebab1ce38fa1cc2b9673c1b589ac",
+      "size_bytes": 55686167,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR5_DROOP_ha.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "c4b7630451d960f13da9608b973fe786a6499eeb774dc00a9d1522e10888648a",
+      "size_bytes": 48858904,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR5_DROOP_ja.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "acb4b1c7829c03d1cf58dbc3d8a6c5c5b8d2e6e7c7dbe683e397e71f77cf96c6",
+      "size_bytes": 57425065,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR5_DROOP_mm.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "ea799b6dc03309e9435b924ff80af3b32643588d4e2fd5df527ec37a6da9072d",
+      "size_bytes": 53376365,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR5_DROOP_ni.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "b367a662203b38331b37d0684509c429dd5e11919ad8d7e6c6e735694b27a0a6",
+      "size_bytes": 51070192,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR5_DROOP_oe.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "704415b7fb8e99e473a5d6509bd1c180d9fad7d5b3a10c7f3700a1c9fddd624e",
+      "size_bytes": 54759833,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR5_DROOP_pi.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "d7c7bb9fb1ce0801b079a9aff71306d208bd598d762883f7d0143b1b31307ba4",
+      "size_bytes": 48720593,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR5_DROOP_sh.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "d8090f6e571e88a4d3c90a024eb751d3d06856229cfc3f3f41e179e02143339c",
+      "size_bytes": 46805137,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR5_DROOP_tr.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "7b6e665e5685867f4fd86f6773909078a5cdd7d294f593ce971da6257ff662b8",
+      "size_bytes": 53795234,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR5_benign_dft.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "323bae033c1320c2baa58c7f3502c24228e03997d52f949fca77c0cb326f8349",
+      "size_bytes": 48765819,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR5_benign_dj.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "08ed3a57d71cff934e0f7a2250e5530958740021118fd4aafaab190456e66144",
+      "size_bytes": 55084733,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR5_benign_dp.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "5016a5a83f6a86f9db6fa67444858437013ec258c1a13aed2a25740448ad2b12",
+      "size_bytes": 48997280,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR5_benign_gl.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "d97d1e5c42dc5a50b90f779ebe97bb18ce17d24daea1e7d5bf07d68522723d75",
+      "size_bytes": 55648871,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR5_benign_gs.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "a63b45f993878f3c29d8e500b0fc47d68b6fdf9851bba5737dadf8ba024d4813",
+      "size_bytes": 56238554,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR5_benign_ha.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "cef5994d9c5d87205cedca7a26db071149f170b79556a57e03ef28115015e297",
+      "size_bytes": 48387466,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR5_benign_ja.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "d20890c0898d075cb7ef05fb9fe05bd6fd8fb7376765e5e9927364ebab41b9e8",
+      "size_bytes": 57831101,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR5_benign_mm.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "bfff662ad8131f69f8274d4ba9d4d64a674f6fef3245b485506f3b3fc481f9f2",
+      "size_bytes": 53751976,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR5_benign_ni.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "ac4aad89d8be3af011bb1a401946d3374324c91a41cba394d08244380d40f171",
+      "size_bytes": 51916281,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR5_benign_oe.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "3af1adf207948ff7f281ba811a45046770b7b5a91dc198f3cc1f11129255f5fd",
+      "size_bytes": 55298677,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR5_benign_pi.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "512be269f2e0abc0119c5ff202efbc11c8ba02b07478e10ece791c4652fe950a",
+      "size_bytes": 48964136,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR5_benign_sh.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "29b087c8896daafcbe1470735ae1b60bc26eeae466cba4544db5293a73d9b0c6",
+      "size_bytes": 47481201,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/droop_adaptive_data/DDR5_benign_tr.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "e15920273bbde2d21fa812e57ef54c87883949562a84a4b4b432d444e27588fe",
+      "size_bytes": 53744889,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/fpga/cintas_setupA_q18_golden_vectors.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "696769a30583a6eabe840609df641946521fdd4afd2d7f8531992947110d0612",
+      "size_bytes": 5524,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/graph_sensitivity/README.md",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "55d47ec9c24d762ee9901a51bd5600d16318f7ca325babd2b508cc0fa80f5369",
+      "size_bytes": 4198,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/graph_sensitivity/graph_sensitivity_claims.json",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "b02df631c7e5653813f5fcd08b0b8fe2132f2e19f82f5566853fca6d5592c267",
+      "size_bytes": 22967,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/graph_sensitivity/graph_sensitivity_feature_ranks.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "cf617bcf5a3d6a9f2e6c3187e0b9264c9c590a49f07826cd589fade1359cd171",
+      "size_bytes": 6466821,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/graph_sensitivity/graph_sensitivity_fold_results.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "6109c1acce4823a3a0d607737ec5513a7b27eb59033218f85e4170e9d95bb6cb",
+      "size_bytes": 2517573,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/graph_sensitivity/graph_sensitivity_graph_edges.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "ede945d1816759e56bc7337c8e1ba70e820ff445d03656f0ddcf50b581193d61",
+      "size_bytes": 4090583,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/graph_sensitivity/graph_sensitivity_selected_features.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "4b2bbbc5e093a860d689cdc2e1872cae55d8604bff51c623640a522207f47cea",
+      "size_bytes": 455021,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/graph_sensitivity/graph_sensitivity_summary.csv",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "6cfa02582912d919d7efc6e82b386c71ad2e132d3dd8e00aa4fdb2d4aa256e9c",
+      "size_bytes": 49561,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/graph_sensitivity/protocol.json",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "68fea2b17b0e641272ab7840c422bd648a36b05ba77186d19205450b05a0a01e",
+      "size_bytes": 5496,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/graph_sensitivity/run_manifest.json",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "ab92bfe5b9029c77deef0bb44592ddeb8e0db6120b6c0d138c5f9c0c5bdf51a1",
+      "size_bytes": 51671,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/graph_sensitivity/selected_operating_points.json",
+      "scopes": [
+        "core",
+        "sensitivity"
+      ],
+      "sha256": "df95954401b39c74881d482417875f15e5b52913fbf898e9d96189259fe4193b",
+      "size_bytes": 1585,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/lifecycle_drift/figures/fig_lifecycle_recalibration_fpr_tpr.png",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "74895e6f56cb6bb2de4bea8fe04205310f90a7c4b74bb3ae282fbb1fd3033770",
+      "size_bytes": 103062,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/lifecycle_drift/lifecycle_causal/SETUP_A_initial_benign_edges.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "711b0263d7e7ffcfce63afb1c11c32d09119432dcd582bdd9724790de6b5d624",
+      "size_bytes": 29725,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/lifecycle_drift/lifecycle_causal/SETUP_A_initial_benign_feature_ranks.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "1ef1aa2879f28b87238895492419457ebb6d6665b233f79a669cfe743bc4f068",
+      "size_bytes": 20632,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/lifecycle_drift/lifecycle_causal/SETUP_A_initial_benign_nodes.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "599989af057505c50503dba337c51f38c784e7f8e015af43077a43e811789117",
+      "size_bytes": 20632,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/lifecycle_drift/lifecycle_causal/SETUP_A_later_benign_edges.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "9e0453f66df13864183fc1ef6052d968eec24dee5915c9e7fe8fed7afa01cc94",
+      "size_bytes": 30467,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/lifecycle_drift/lifecycle_causal/SETUP_A_later_benign_feature_ranks.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "5379f28c9bc0d97d91128acc080d2a4ab131a5c05e9925e1a793b4d6c8107460",
+      "size_bytes": 20490,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/lifecycle_drift/lifecycle_causal/SETUP_A_later_benign_nodes.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "6245d04e697816763d172f0eda3e810ec44258cdf6958edc2e20a585c8e24bdc",
+      "size_bytes": 20490,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/lifecycle_drift/lifecycle_causal/SETUP_B_initial_benign_edges.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "22d2fce7dfb788759877ea7dbd4e78a64ed759e4b70c7fd8b61a5fcd51b21cbf",
+      "size_bytes": 22174,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/lifecycle_drift/lifecycle_causal/SETUP_B_initial_benign_feature_ranks.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "2d87568b90f71026bfad69d85e51c47f5f47bc405abd92c2d0ad6c2f13d584f1",
+      "size_bytes": 20494,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/lifecycle_drift/lifecycle_causal/SETUP_B_initial_benign_nodes.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "8f0aec5d541e66f6243a0f73c3bba418414ab3e454736a4bdc0f903cd1eff504",
+      "size_bytes": 20494,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/lifecycle_drift/lifecycle_causal/SETUP_B_later_benign_edges.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "a7116340c5bb3320872745141aea4ad4c181b311947adaa91e533129fe874097",
+      "size_bytes": 21724,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/lifecycle_drift/lifecycle_causal/SETUP_B_later_benign_feature_ranks.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "23f8a2fe6cb1be261911f841b8760f340d63e7c6d63a883df12d01e25ff90a8d",
+      "size_bytes": 20459,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/lifecycle_drift/lifecycle_causal/SETUP_B_later_benign_nodes.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "7a1a1f9318629bc14ff76184a39cf342ee60ebe63ddcb276c954ca58df1a7e3a",
+      "size_bytes": 20459,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/lifecycle_drift/lifecycle_config_resolved.json",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "d7c65ddb2e06ee2b554bd5ff69e20524f41e94447f944576063ecf46c0f3383c",
+      "size_bytes": 263,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/lifecycle_drift/lifecycle_feature_rank_stability.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "4c61ea99db82787f667be257029ef25a9526373410d5cd457e93a55bd9b8999d",
+      "size_bytes": 1694,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/lifecycle_drift/lifecycle_recalibration_by_scenario.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "5a3fd311b9798818097b126b3b93420869f579fa961079a9a427dfe718811d30",
+      "size_bytes": 1219,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/lifecycle_drift/lifecycle_recalibration_summary.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "d25b6d2500ff5ed13c2ffb0ab4e59f0eba2fbda2abf93630dabe6d57d1d34e4e",
+      "size_bytes": 6964,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/lifecycle_drift/lifecycle_recalibration_windows.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "79b60f4ea964a972e43a4c3d4498d7e0376fe7cf81911d7f6fab06bcb4a68f71",
+      "size_bytes": 1985601,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/lifecycle_drift/run_manifest.json",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "6e9ca483dd69caf2a5b7e6c1e5074825ae4ab60f7e20f4d4d18f067ab374ae42",
+      "size_bytes": 18717,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/notebook_progress.log",
+      "scopes": [],
+      "sha256": "520d7e9182f4d6a8121236db0b21bf9c7d3f263a3bcac251821f040be66e0adf",
+      "size_bytes": 22141,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/A_DROOP/post_synth.dcp",
+      "scopes": [
+        "rtl"
+      ],
+      "sha256": "0d5a91eaceabdb36aabd3197e531dbd14ace2bfb39a8df13cd5841d918a62053",
+      "size_bytes": 571563,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/A_DROOP/power.rpt",
+      "scopes": [
+        "rtl"
+      ],
+      "sha256": "9740c1ec1cd172b3404368c3643f74bdf3ddb8d3c82638177367ece06588f31f",
+      "size_bytes": 8338,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/A_DROOP/run_config.csv",
+      "scopes": [
+        "rtl"
+      ],
+      "sha256": "d14bc9720bbc88fcaf3b333c628e9b3b63e660ac81738578fdb95aba0cc9cfe3",
+      "size_bytes": 97,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/A_DROOP/timing_summary.rpt",
+      "scopes": [
+        "rtl"
+      ],
+      "sha256": "577ddb02575ce4afe98714386fba706d9099329864c8b90b3b915655e5a58a45",
+      "size_bytes": 25297,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/A_DROOP/utilization.rpt",
+      "scopes": [
+        "rtl"
+      ],
+      "sha256": "a07e07530bf9611a7a4e8999791436ff7931f42529c743d82d38419cc280176f",
+      "size_bytes": 8690,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/A_DROOP/vivado.jou",
+      "scopes": [
+        "rtl"
+      ],
+      "sha256": "ca1b353af861e11c059f9411a9399722ad73a76a2a83683282e51bb732790083",
+      "size_bytes": 1345,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/A_DROOP/vivado.log",
+      "scopes": [
+        "rtl"
+      ],
+      "sha256": "915ccfce5e4d925b6f3226e4481c5db7036820332bb35755165dec82f60dc1b8",
+      "size_bytes": 42508,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/A_RH/post_synth.dcp",
+      "scopes": [
+        "rtl"
+      ],
+      "sha256": "227780c9643dc1c9a73b88f171796b5c2d245872a4594a187659e98593bbedd8",
+      "size_bytes": 555878,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/A_RH/power.rpt",
+      "scopes": [
+        "rtl"
+      ],
+      "sha256": "dec9228b7d0fd2806995e0c57898107f272381db5e03fe2b9c51b9416dbd1cc3",
+      "size_bytes": 8335,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/A_RH/run_config.csv",
+      "scopes": [
+        "rtl"
+      ],
+      "sha256": "385fe693f57588ce6a333e3af5e055b40946f57321a856ceeec6aa867a6821b4",
+      "size_bytes": 92,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/A_RH/timing_summary.rpt",
+      "scopes": [
+        "rtl"
+      ],
+      "sha256": "fd0bb5c2d62967aff34f9251e943c4dbbee3fc6f52a1a228aef1c055cbf83940",
+      "size_bytes": 25033,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/A_RH/utilization.rpt",
+      "scopes": [
+        "rtl"
+      ],
+      "sha256": "4ed25002ec92f96efb946df6d6a28b0444640e8e6bdd3b961360d35ccd0c6a02",
+      "size_bytes": 8687,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/A_RH/vivado.jou",
+      "scopes": [
+        "rtl"
+      ],
+      "sha256": "5d272296e68d839f5e3a0c4810806ef3fce6903358736ff6e2e0a76f6cd881df",
+      "size_bytes": 1328,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/A_RH/vivado.log",
+      "scopes": [
+        "rtl"
+      ],
+      "sha256": "b482dc5174afe4c1b7ec236223fcc19e552f99f381e508eb4efe04484a55465c",
+      "size_bytes": 41747,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/B_DROOP/post_synth.dcp",
+      "scopes": [
+        "rtl"
+      ],
+      "sha256": "7d30ce069ef701be0521c6bc0ee2bdb23303cfae8a309b19c779cc02867e907a",
+      "size_bytes": 569598,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/B_DROOP/power.rpt",
+      "scopes": [
+        "rtl"
+      ],
+      "sha256": "c5a48be1097e30c8609fc9a5d288e6c930d21da154d57848342543be16b04337",
+      "size_bytes": 8338,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/B_DROOP/run_config.csv",
+      "scopes": [
+        "rtl"
+      ],
+      "sha256": "07329f52f64f6bbde25db155e22a9b7a3cf1b0692f1baf317e61695de7392cf7",
+      "size_bytes": 96,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/B_DROOP/timing_summary.rpt",
+      "scopes": [
+        "rtl"
+      ],
+      "sha256": "1a4e1816eda73c5b58f93deb58294c3cb09ca12af5de8f14b66217a844131c96",
+      "size_bytes": 25297,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/B_DROOP/utilization.rpt",
+      "scopes": [
+        "rtl"
+      ],
+      "sha256": "544be35412a380424617efb8ed3f92192bd2cc63993392df8ef7480f517d9726",
+      "size_bytes": 8690,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/B_DROOP/vivado.jou",
+      "scopes": [
+        "rtl"
+      ],
+      "sha256": "ae9df06b0dd39855a3edc4fef0e95d6b424e0d0755413bebf98a9bce9f0d4994",
+      "size_bytes": 1344,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/B_DROOP/vivado.log",
+      "scopes": [
+        "rtl"
+      ],
+      "sha256": "c40e2eee0cc9b411e7db65266a4105dfc3eb9e51b31c5dea8e92c5f39a1654d7",
+      "size_bytes": 42666,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/B_SPECTRE/post_synth.dcp",
+      "scopes": [
+        "rtl"
+      ],
+      "sha256": "342fbd04d7bdd867fadafaf03c5b36726314c04014dc2059869d2693914456cd",
+      "size_bytes": 562773,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/B_SPECTRE/power.rpt",
+      "scopes": [
+        "rtl"
+      ],
+      "sha256": "52e84fde5becba8a25536cf5bced8227f014473e7ff2afd94adf4c794d372529",
+      "size_bytes": 8340,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/B_SPECTRE/run_config.csv",
+      "scopes": [
+        "rtl"
+      ],
+      "sha256": "eca05f43f9fbcea02256c1c8055b8b9dc2012c871eec44b96dd23ecd02243165",
+      "size_bytes": 97,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/B_SPECTRE/timing_summary.rpt",
+      "scopes": [
+        "rtl"
+      ],
+      "sha256": "0d72ae0b5108b6f5339b9652534fd1a45f7c5cf27be6bd01f9cce9331db8ffea",
+      "size_bytes": 25029,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/B_SPECTRE/utilization.rpt",
+      "scopes": [
+        "rtl"
+      ],
+      "sha256": "ca963ee53958deeeec3e9152b2174283b049e9b5aa3d2dbb9ebd875c69491ca7",
+      "size_bytes": 8692,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/B_SPECTRE/vivado.jou",
+      "scopes": [
+        "rtl"
+      ],
+      "sha256": "c1169a762b4d460b077acb7403481ff3d871def394d31ae85ca50f954605ef32",
+      "size_bytes": 1353,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/B_SPECTRE/vivado.log",
+      "scopes": [
+        "rtl"
+      ],
+      "sha256": "81873484c6ff0fb4bd47ed1fad0433091742ae0c2e296cc3a790aa4107066280",
+      "size_bytes": 41782,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/rtl_resource_summary.csv",
+      "scopes": [
+        "core",
+        "rtl"
+      ],
+      "sha256": "029a373807183dc1e718c3639362e4cdbac536163d0aef19ba29cf312333abdb",
+      "size_bytes": 1179,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/causal/SETUP_A_causal_edges.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "e3bb1dc84d6af3326326ee17c25babc91d7274541a98ec9f0fb3df2368d929ca",
+      "size_bytes": 29823,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/causal/SETUP_A_causal_graph_and_top30.png",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "805db39657a37d5e8946f1889729666a7ccb308ede4e8f36e2ef4e368724a7f1",
+      "size_bytes": 655862,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/causal/SETUP_A_causal_nodes.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "b3095b6657478fb6ff5d09c499db8d32f5ecfed5b9fc60c4db94e5fc5234f283",
+      "size_bytes": 23809,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/causal/SETUP_A_feature_ranks.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "4d0b46e041dd15f11335cc55887c5570d1cb2a518042ebb37d7b69e8e7ca52d6",
+      "size_bytes": 23809,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/causal/SETUP_B_causal_edges.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "95f4c85e8f05c7565ae7fada142c8ff591c5e01fe187ee9db64f93bc0bda7905",
+      "size_bytes": 21721,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/causal/SETUP_B_causal_graph_and_top30.png",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "8b1ac23a91cb9536cff0ef1bb865af9b0b50f4f5f137173c56b2cd4bef781375",
+      "size_bytes": 648353,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/causal/SETUP_B_causal_nodes.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "dc813f9c184fff23cba3a64965c538e8d8cfd5230134e0e322a40edec4e9f7d4",
+      "size_bytes": 23669,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/causal/SETUP_B_feature_ranks.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "5f6fe9737eadc97ca5132fd6b636b338358f94420df1560c22715722c4be4269",
+      "size_bytes": 23669,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/paper_figures/gallery_fig1_dse_heatmap.png",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "19b224e2bfc88ac9c72764318fbd47cd032a59cc81682333b5c6691c198c79c0",
+      "size_bytes": 449968,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/paper_figures/gallery_fig1_dse_heatmap_legend.png",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "fad9c3dc9dda097462d09b08970970b0589ab5673bfc8308d5a84179af28b497",
+      "size_bytes": 21891,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/paper_figures/gallery_fig4_full_stable_graph_network.png",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "fccdcf4a569d466151280e16483b9fa26edd70ffaaf6538f2c6cf83ebe1f43d3",
+      "size_bytes": 2988435,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/paper_figures/gallery_fig4_full_stable_graph_network_legend.png",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "00aa104f85d72e5b2a05fa7120f966776a8d14b78d55819a741ccd1f4a5095e9",
+      "size_bytes": 94947,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/paper_figures/gallery_fig4_top_features_by_domain.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "9ef7ce5564ac32c36c9d9e639fd052601166a7275c17eb9046f75f93818f523e",
+      "size_bytes": 2378,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/paper_figures/gallery_fig5_stable_feature_compass.png",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "c108ef56546dc1dc1d39c588cce0d6e466c0c3f142edf78a1f20f440fff0a276",
+      "size_bytes": 744700,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/paper_figures/gallery_fig5_stable_feature_compass_legend.png",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "b12e088ad6b5cdfc2445e755eb5929bedb51bbd8882410eee6ab89ffbab13578",
+      "size_bytes": 51148,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/paper_figures/gallery_fig5_stable_feature_compass_rows.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "321a9498c1189b5e17611553d7eedc90ce39e06896024a6a67055c0041d832e2",
+      "size_bytes": 2759,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/paper_figures/gallery_fig6c_lifecycle_benign_drift_trend.png",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "13b5a802947ad0d68a28d64b9128a8638101c2ec7f60ba72afd72420129cbeac",
+      "size_bytes": 300563,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/paper_figures/gallery_fig6c_lifecycle_benign_drift_trend_legend.png",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "246452a3abd236e32eb3959971fa2122558a536997c641b18ad05446afc53b97",
+      "size_bytes": 45342,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/paper_figures/gallery_table1_selected_operating_points.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "45fd02357e03be0f326f832db859fb92d5e59ebc3151f5d951e3ab0fe4580520",
+      "size_bytes": 1235,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/paper_figures/gallery_table2_selected_setting_per_workload.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "4cea58d51796ec93788916d551de9a7a7e6ac2cb70301803acd7d782dc1b9376",
+      "size_bytes": 12664,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/paper_figures/gallery_table2_selected_setting_vs_workload_oracle.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "a5380013d3266bc9bf48fede55534585b3e0ebc55a7d5d67839113ed560610f7",
+      "size_bytes": 13931,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/paper_figures/gallery_table2_workload_robustness.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "7be213efcc9c69e2de121578c17493315d3d7ccc9dbd802d5e6aec6662feb680",
+      "size_bytes": 755,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/paper_figures/gallery_table3_feature_budget_tradeoff.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "defc6a9577ea100e8f80b4e02c8fe354104642cc5b789bcf8e782922a7df2d54",
+      "size_bytes": 1993,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/paper_figures/gallery_table4_stable_graph_top_features.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "a7b6123c47f1813a6a6e3365900865241bfd28f8967382fbdbd07dfa295645f4",
+      "size_bytes": 3261,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/paper_figures/gallery_table5_lifecycle_deployment.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "73140adb4b53762d3cc2e55270f99ea133e05cd360408cfe957cd4ed8e214e19",
+      "size_bytes": 838,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/paper_figures/rtl_fpga_deployment_passport.png",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "5e49e3a5572f5c38819617a2b9ed6af472e0f3391c9d7d4290d78e06f9abacb9",
+      "size_bytes": 347467,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/run_manifest.json",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "7769ffc74b13424b29a8ed3302b30d152dcc0833f050f155b048cbacedf65342",
+      "size_bytes": 19248,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/tcad_ablation_fold_results.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "62f13f73bdcdd0509b5b9775872ad059779d33d4d49d169f3ceed59d72f7ffac",
+      "size_bytes": 901192687,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/tcad_ablation_fold_results_integrated.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "62f13f73bdcdd0509b5b9775872ad059779d33d4d49d169f3ceed59d72f7ffac",
+      "size_bytes": 901192687,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/tcad_ablation_standard_fold_results.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "42e15fdfac08e0a2fd95dba927e9128122ee9e06f09e77d20d050f7980d9d66f",
+      "size_bytes": 863360901,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/tcad_ablation_standard_summary.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "b20f0377a50eb0781aedb5f15999ab8649e5086ac1263649d29e3b5bdcc18961",
+      "size_bytes": 15135416,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/tcad_ablation_summary.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "8a1d90ad882c528020127e7fb795e6aeeb2128e99e9f6286f0174815c68caf6b",
+      "size_bytes": 16079199,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/tcad_ablation_summary_integrated.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "8a1d90ad882c528020127e7fb795e6aeeb2128e99e9f6286f0174815c68caf6b",
+      "size_bytes": 16079199,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/tcad_config_resolved.json",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "cd5929823c21c2106713056914de2c90072b296eb218a8ed1e77da05009be97e",
+      "size_bytes": 754,
+      "storage": "git"
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/tcad_selected_features.csv",
+      "scopes": [
+        "core"
+      ],
+      "sha256": "93a01281386cc1b942c777422db18b7a7619f7443425dfa943f79f6b9ec05cd7",
+      "size_bytes": 774168,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "rtl/cintas/README.md",
+      "scopes": [
+        "rtl",
+        "source"
+      ],
+      "sha256": "d26dcebc730e76d6f220b8a0dc465a53429380d86f36f313fde5c4556d3a3530",
+      "size_bytes": 575,
+      "storage": "git"
+    },
+    {
+      "path": "rtl/cintas/cintas_stream.sv",
+      "scopes": [
+        "rtl",
+        "source"
+      ],
+      "sha256": "a8b492c039ea82329564389a427deadf914253fb4e70566ce0444b62c06a56ce",
+      "size_bytes": 4155,
+      "storage": "git"
+    },
+    {
+      "path": "scripts/analyze_apple_transition_campaign.py",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "c9d16d2ceae145a33a12ee701d62f3dbfc59f8dc2948f8af2a3682260e912cf8",
+      "size_bytes": 17476,
+      "storage": "git"
+    },
+    {
+      "path": "scripts/analyze_intel_transition_campaign.py",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "763464274e6ea58224271a57d82c3af75462bbadeea2fb3c63ba89d5e10b9e49",
+      "size_bytes": 34951,
+      "storage": "git"
+    },
+    {
+      "path": "scripts/analyze_intel_workload_orders.py",
+      "scopes": [
+        "intel",
+        "source"
+      ],
+      "sha256": "918752ffdbf1676df6bbedd6502d90c266b643fcd7b0524793484675a605f7fb",
+      "size_bytes": 42086,
+      "storage": "git"
+    },
+    {
+      "path": "scripts/build_archive_manifest.py",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "8fd27b94c05d8f4a9f0df47c52ba7d7bd36c572210b63697409c3d24fa165951",
+      "size_bytes": 4464,
+      "storage": "git"
+    },
+    {
+      "path": "scripts/collect_apple_workload_transitions.py",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "f4eae2b1bc79165353ae2f5226d8860166d6f9a6e7ea553983f174b162a96e5b",
+      "size_bytes": 28814,
+      "storage": "git"
+    },
+    {
+      "path": "scripts/collect_intel_workload_transitions.py",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "0fb2347a86ce015fdee4df5602c3bac82c0f286cee4f38fe006bae4a4be1a85e",
+      "size_bytes": 25486,
+      "storage": "git"
+    },
+    {
+      "path": "scripts/freeze_graph_sensitivity_features.py",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "da27c81cf0712aea461656a142b25e7c3c8d570e08b75b9f56cecc1e3991c55a",
+      "size_bytes": 2829,
+      "storage": "git"
+    },
+    {
+      "path": "scripts/parse_vivado_rtl_sweep.py",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "302239f8bb2b6627841fcd97abed61fea73d5618021c4d087644906b04ea6c4f",
+      "size_bytes": 18516,
+      "storage": "git"
+    },
+    {
+      "path": "scripts/reproduce.py",
+      "scopes": [
+        "intel",
+        "source"
+      ],
+      "sha256": "aac431078b0bb50107dd1cde7f85b197fc715a6b42c4321f6ac840c196bf0345",
+      "size_bytes": 41107,
+      "storage": "git"
+    },
+    {
+      "path": "scripts/reproduce_rtl.py",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "170c87b89bc5abb2749220e05699c429ed740ddc6ee08b79ed246e3698e538c0",
+      "size_bytes": 24673,
+      "storage": "git"
+    },
+    {
+      "path": "scripts/run_apple_transition_analysis.py",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "9deb23c32f3b84fb3a6c83bbbf9ef8ab22f7b103bd4817fb3f2e75ef25ee8fb1",
+      "size_bytes": 6532,
+      "storage": "git"
+    },
+    {
+      "path": "scripts/run_apple_transition_campaign.py",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "efdf0a843a712a43eaeeee4b08070ce9d9a8fe31a44879ead80cb62f7f2f65a0",
+      "size_bytes": 9057,
+      "storage": "git"
+    },
+    {
+      "path": "scripts/run_graph_sensitivity.py",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "4961dbb32821b4d0369480a86a1f86f9410702453cb469d5ef7d047f4f378255",
+      "size_bytes": 67930,
+      "storage": "git"
+    },
+    {
+      "path": "scripts/run_intel_transition_campaign.py",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "82cb3cfc7648ff81f88dfb5ccd74bb2ade7bdd0adf21528d8d5fb3535bbaa5e4",
+      "size_bytes": 9649,
+      "storage": "git"
+    },
+    {
+      "path": "scripts/verify_reproducibility.py",
+      "scopes": [
+        "intel",
+        "source"
+      ],
+      "sha256": "52b32fd0351031fc203a1ddd374139108d5d64ef67b0142dc0e49ed39e9c6ff9",
+      "size_bytes": 26496,
+      "storage": "git"
+    },
+    {
+      "path": "scripts/vivado_cintas_synth.tcl",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "522b4f13a218ebc9458583807c5b3587c77d42ad116c876ce538f557edeff62a",
+      "size_bytes": 1582,
+      "storage": "git"
+    },
+    {
+      "path": "tests/test_portability_contracts.py",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "c1dfa7068efeb081005f9259c5f02c0607df7cebc3fa65781cbada65ee508415",
+      "size_bytes": 7253,
+      "storage": "git"
+    },
+    {
+      "path": "tests/test_reproduce_rtl.py",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "d798cb4f50b03a18138ac7111edcfcfc2c9e873e4ab156440f0e75d06df76bec",
+      "size_bytes": 20936,
+      "storage": "git"
+    },
+    {
+      "path": "tests/test_reproducibility.py",
+      "scopes": [
+        "source"
+      ],
+      "sha256": "c470ecf0755b2d61fcb870fb650bba5480fefafe30b2ef701c7e0f63428c2ee5",
+      "size_bytes": 40759,
+      "storage": "git"
+    },
+    {
+      "path": "uv.lock",
+      "scopes": [
+        "intel",
+        "source"
+      ],
+      "sha256": "3902589967ce3769741293eece30b8ed0f1096232efc5e75096998357d63f389",
+      "size_bytes": 162982,
+      "storage": "git"
+    }
+  ],
+  "lfs_file_count": 343,
+  "schema_version": 1
+}

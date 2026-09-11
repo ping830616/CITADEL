@@ -4,7 +4,16 @@
     "repository": "https://github.com/ping830616/CITADEL.git",
     "commit": "b2541355b8e5f4853e63976a05af00b99244bde6",
     "audit_date": "2026-09-11",
-    "note": "Status describes the audited snapshot, not later-generated artifacts.",
+    "note": "Status describes the audited snapshot except for the explicitly refreshed graph/ranking-sensitivity bundle.",
+    "clean_replacements": {
+      "graph_ranking_sensitivity": {
+        "source_commit": "54b5cbf18bafc2472d4fccc65446af6c43d63b4c",
+        "input_records": 139,
+        "output_records": 9,
+        "archival_provenance_status": "PASS",
+        "claim_status": "PASS"
+      }
+    },
     "post_audit_remediation": [
       "exact CPython and cross-platform dependency lock",
       "scoped LFS preflight and archive checksum inventory",
@@ -192,7 +201,7 @@
         "run_manifest.json"
       ],
       "manifest": "results/notebook_run/graph_sensitivity/run_manifest.json",
-      "legacy_provenance": "Not legacy: clean source commit 0e8155e778af425fd7e25280ae9f4d412f53aca7, Python 3.11.15, one thread, pinned numerical versions, four passing baseline gates, archival_provenance_status=PASS, and claim_status=PASS.",
+      "legacy_provenance": "Post-audit clean replacement: source commit 54b5cbf18bafc2472d4fccc65446af6c43d63b4c, Python 3.11.15, one thread, pinned numerical versions, 139 input records, nine output records, four passing baseline gates, archival_provenance_status=PASS, and claim_status=PASS.",
       "reproduction_boundary": "The current runner does not consume archived TCAD ranks, edges, or summaries. Those files document historical derivation of the frozen feature-universe registry only. Scientific tables and claim endpoints are the comparison target; timestamps, runtime seconds, and rendered bytes are not."
     },
     {

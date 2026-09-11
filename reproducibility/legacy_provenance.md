@@ -26,6 +26,16 @@ They also do not hash the notebook source and every controlling config/hardware
 input. A new clean run must create a new manifest; editing the legacy manifest
 would erase rather than repair provenance.
 
+## Post-audit clean replacement
+
+The graph/ranking-sensitivity bundle has since been regenerated, rather than
+edited in place, from clean source commit
+`54b5cbf18bafc2472d4fccc65446af6c43d63b4c`. Its new manifest records Python
+3.11.15, one numerical thread, 139 hashed input records, nine hashed output
+records, unchanged source and inputs through completion, and passing provenance
+and claim audits. It supersedes only the graph/ranking row above; all other
+legacy assessments remain unchanged.
+
 ## What a Replacement Manifest Must Bind
 
 A submission-quality manifest should record all of the following at process

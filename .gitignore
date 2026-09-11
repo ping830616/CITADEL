@@ -13,3 +13,4 @@ data/telemetry/raw/apple_transition_campaigns/
 results/
 TELEMETRY_COLLECTION_SCRIPTS/collection_config.sh
 TELEMETRY_COLLECTION_SCRIPTS/output/
+TELEMETRY_COLLECTION_SCRIPTS/spectre_attack/spectre_poc

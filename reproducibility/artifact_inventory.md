@@ -6,6 +6,11 @@ repository snapshot `b2541355b8e5f4853e63976a05af00b99244bde6`; it does not
 upgrade a legacy result merely because the result is present in Git or Git LFS.
 The machine-readable counterpart is [`artifact_inventory.json`](artifact_inventory.json).
 
+The graph/ranking-sensitivity row is the one post-audit replacement: its bundle
+was regenerated from clean source commit
+`54b5cbf18bafc2472d4fccc65446af6c43d63b4c` under the locked environment and
+is archived with this release. The other status rows retain the baseline audit.
+
 The reproducibility hardening added after that baseline snapshot does not
 rewrite historical evidence. It supplies an exact Python/lockfile environment,
 scoped LFS preflight, isolated headless execution, repeat/archive comparison,
@@ -43,8 +48,8 @@ The current reviewer wrapper is `scripts/reproduce.py`. It provides scoped LFS
 fetch/preflight commands, isolated headless notebook execution, repeat runs, and
 scientific-result comparison through `scripts/verify_reproducibility.py`. The
 status column below still describes the preserved evidence at the audited
-snapshot; new automation does not retroactively make a dirty legacy manifest
-clean.
+snapshot, except for the explicitly refreshed graph/ranking bundle; new
+automation does not retroactively make any other dirty legacy manifest clean.
 
 ## Bundle Matrix
 
@@ -56,7 +61,7 @@ clean.
 | DROOP adaptive DSE, `p=0.975` | Archived-data reanalysis | Notebook Section 4 DROOP branch | `results/notebook_run/droop_adaptive_ablation/p0_975/` | `ARCHIVED_LEGACY_DIRTY` | Result tables, causal outputs, resolved config, and a manifest are present. The manifest records commit `08cf236...`, `git_dirty: true`, and Python 3.11.15. |
 | DROOP adaptive DSE, `p=0.99` | Archived-data reanalysis | Notebook Section 4 DROOP branch | `results/notebook_run/droop_adaptive_ablation/p0_99/` | `ARCHIVED_LEGACY_DIRTY` | Result tables, causal outputs, resolved config, and a manifest are present. The manifest records commit `08cf236...`, `git_dirty: true`, and Python 3.11.15. |
 | Combined DROOP adaptive tables | Archived-data reanalysis | Notebook Section 4 merge after the two quantile runs | `results/notebook_run/droop_adaptive_ablation/` | `ARCHIVED_PARTIAL` | Combined summary, fold, selected-feature, best-setting, and figure outputs are present, but no parent manifest records the two child manifests and merge code. |
-| Graph- and ranking-sensitivity study | Archived-data reanalysis | `python scripts/run_graph_sensitivity.py`, or the named notebook launch cell | `results/notebook_run/graph_sensitivity/` | `ARCHIVED_CLEAN_VERIFIED` | The run manifest records clean source commit `0e8155e778af425fd7e25280ae9f4d412f53aca7`, Python 3.11.15, one thread, pinned numerical packages, 144 input records, nine output records, four passing baseline gates, and `claim_status: PASS`. This is the strongest current evidence bundle. |
+| Graph- and ranking-sensitivity study | Archived-data reanalysis | `python scripts/run_graph_sensitivity.py`, or the named notebook launch cell | `results/notebook_run/graph_sensitivity/` | `ARCHIVED_CLEAN_VERIFIED` | The refreshed run manifest records clean source commit `54b5cbf18bafc2472d4fccc65446af6c43d63b4c`, Python 3.11.15, one thread, pinned numerical packages, 139 input records, nine output records, four passing baseline gates, and `claim_status: PASS`. This is the strongest current evidence bundle. |
 | Lifecycle drift and recalibration | Archived-data reanalysis | Notebook utility `notebook_run_lifecycle_drift(...)` | `results/notebook_run/lifecycle_drift/` | `ARCHIVED_LEGACY_DIRTY` | Tables, causal outputs, figure, config, and manifest are present. The manifest records commit `f030e7e...`, `git_dirty: true`, Python 3.13.5, NumPy 2.3.2, pandas 2.3.1, and scikit-learn 1.7.1. The audited `b254135` snapshot defined the utility but did not invoke it; the post-audit core profile now invokes it and fails if required lifecycle outputs are absent. |
 | Benign workload profiles | Archived-data reanalysis | Notebook cell “Benign workload profiles (Reviewer 1, Comment 6)” | `results/notebook_run/workload_profiles/` | `EXPECTED_NOT_ARCHIVED` | Stored notebook output says the experiment ran, but the result directory, plots, supporting CSVs, and manifest are not committed at this snapshot. |
 | Apple limited-observability study | Archived-data reanalysis | Notebook Section 11 | `results/notebook_run/apple_limited_observability/` | `ARCHIVED_LEGACY_DIRTY` | Tables, causal outputs, figures, and manifest are present. The manifest records commit `08cf236...`, `git_dirty: true`, and Python 3.11.15. `data/external_sources.json` now pins upstream DICE commit `b5e382e127e5ed3a187f6d328ab95729500ad7ae`; analysis should verify that ref and the archived Apple CSV hashes. |

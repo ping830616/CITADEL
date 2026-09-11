@@ -39,3 +39,8 @@ The original X-OCTANE history did not contain the four helper scripts, exact ext
 - [`docs/telemetry_dictionary.csv`](../docs/telemetry_dictionary.csv)
 
 Related projects used by the original experimental workflow include [PAMPAR](https://github.com/adrianomg/PAMPAR), [Intel PCM](https://github.com/intel/pcm), [Plundervolt](https://github.com/KitMurdock/plundervolt), [TRRespass](https://github.com/vusec/trrespass), and the in-repository Spectre proof of concept. Cite the corresponding works when using those tools.
+
+The Spectre directory preserves source only. Build it locally only on an
+authorized, isolated Linux collection host, and record the compiler, flags,
+source hash, and resulting executable hash. Archived-data analysis does not
+execute it.
