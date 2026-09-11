@@ -1,0 +1,818 @@
+{
+  "schema_version": 1,
+  "description": "Scientific-equivalence contract for independently generated CITADEL result tables. Numeric CSV and JSON values use declared tolerances; categorical values and schemas are exact. CSV row order is exact unless a rule declares scientific identity keys. Optional rules are compared whenever the reference run contains that output; candidate-only optional outputs are reported as unverified.",
+  "informational_output_globs": [
+    "**/run_manifest.json",
+    "workload_profiles/manifest.json",
+    "fpga/golden_vector_manifest.json",
+    "droop_adaptive_data/*.csv.cache.json"
+  ],
+  "ignore_csv_columns": [
+    "droop_adaptive_out_root"
+  ],
+  "unordered_delimited_csv_columns": {
+    "selected_features": "|",
+    "features": ","
+  },
+  "ignore_json_keys": [
+    "created_at_utc",
+    "finished_at_utc",
+    "generated_at_utc",
+    "git_dirty",
+    "git_dirty_at_start",
+    "git_status_at_start",
+    "output_files",
+    "output_root",
+    "platform",
+    "python_executable",
+    "repository_commit",
+    "runtime_seconds",
+    "started_at_utc"
+  ],
+  "profiles": {
+    "smoke": [
+      {
+        "glob": "tcad_ablation/causal/*_causal_edges.csv",
+        "mode": "csv",
+        "key_columns": ["src", "dst"],
+        "rtol": 1e-9,
+        "atol": 5e-11,
+        "required": false
+      },
+      {
+        "glob": "tcad_ablation/causal/*_causal_nodes.csv",
+        "mode": "csv",
+        "key_columns": ["feature"],
+        "rtol": 1e-9,
+        "atol": 5e-11,
+        "required": false
+      },
+      {
+        "glob": "tcad_ablation/causal/*_feature_ranks.csv",
+        "mode": "csv",
+        "key_columns": ["feature"],
+        "rtol": 1e-9,
+        "atol": 5e-11,
+        "required": false
+      },
+      {
+        "glob": "tcad_ablation/*.csv",
+        "mode": "csv"
+      },
+      {
+        "glob": "tcad_ablation/causal/*.csv",
+        "mode": "csv",
+        "required": false
+      },
+      {
+        "glob": "tcad_ablation/tcad_config_resolved.json",
+        "mode": "json"
+      }
+    ],
+    "workload": [
+      {
+        "glob": "workload_profiles/*.csv",
+        "mode": "csv"
+      }
+    ],
+    "core": [
+      {
+        "glob": "workload_profiles/*.csv",
+        "mode": "csv",
+        "required": false
+      },
+      {
+        "glob": "tcad_ablation/causal/*_causal_edges.csv",
+        "mode": "csv",
+        "key_columns": ["src", "dst"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "tcad_ablation/causal/*_causal_nodes.csv",
+        "mode": "csv",
+        "key_columns": ["feature"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "tcad_ablation/causal/*_feature_ranks.csv",
+        "mode": "csv",
+        "key_columns": ["feature"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "tcad_ablation/tcad_config_resolved.json",
+        "mode": "json"
+      },
+      {
+        "glob": "tcad_ablation/**/*.csv",
+        "mode": "csv"
+      },
+      {
+        "glob": "droop_adaptive_ablation/*/causal/*_causal_edges.csv",
+        "mode": "csv",
+        "key_columns": ["src", "dst"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "droop_adaptive_ablation/*/causal/*_causal_nodes.csv",
+        "mode": "csv",
+        "key_columns": ["feature"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "droop_adaptive_ablation/*/causal/*_feature_ranks.csv",
+        "mode": "csv",
+        "key_columns": ["feature"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "droop_adaptive_ablation/*/tcad_config_resolved.json",
+        "mode": "json"
+      },
+      {
+        "glob": "droop_adaptive_ablation/**/*.csv",
+        "mode": "csv"
+      },
+      {
+        "glob": "droop_adaptive_data/*.csv",
+        "mode": "csv"
+      },
+      {
+        "glob": "lifecycle_drift/lifecycle_causal/*_edges.csv",
+        "mode": "csv",
+        "key_columns": ["src", "dst"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "lifecycle_drift/lifecycle_causal/*_nodes.csv",
+        "mode": "csv",
+        "key_columns": ["feature"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "lifecycle_drift/lifecycle_causal/*_feature_ranks.csv",
+        "mode": "csv",
+        "key_columns": ["feature"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "lifecycle_drift/**/*.csv",
+        "mode": "csv"
+      },
+      {
+        "glob": "lifecycle_drift/lifecycle_config_resolved.json",
+        "mode": "json"
+      },
+      {
+        "glob": "graph_sensitivity/graph_sensitivity_summary.csv",
+        "mode": "csv",
+        "key_columns": ["variant_id"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "graph_sensitivity/graph_sensitivity_fold_results.csv",
+        "mode": "csv",
+        "key_columns": ["variant_id", "workload", "fold_idx"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "graph_sensitivity/graph_sensitivity_selected_features.csv",
+        "mode": "csv",
+        "key_columns": ["variant_id", "feature"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "graph_sensitivity/graph_sensitivity_feature_ranks.csv",
+        "mode": "csv",
+        "key_columns": ["variant_id", "feature"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "graph_sensitivity/graph_sensitivity_graph_edges.csv",
+        "mode": "csv",
+        "key_columns": ["variant_id", "src", "dst"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "graph_sensitivity/*.csv",
+        "mode": "csv",
+        "required": false,
+        "allow_candidate_without_reference": false
+      },
+      {
+        "glob": "graph_sensitivity/graph_sensitivity_claims.json",
+        "mode": "json",
+        "rtol": 1e-9,
+        "atol": 5e-11,
+        "ignore_json_keys": [
+          "archival_evidence_accepted",
+          "archival_provenance_status",
+          "edge_numeric_max_abs_delta",
+          "rank_numeric_max_abs_delta"
+        ]
+      },
+      {
+        "glob": "graph_sensitivity/protocol.json",
+        "mode": "json"
+      },
+      {
+        "glob": "graph_sensitivity/selected_operating_points.json",
+        "mode": "json"
+      },
+      {
+        "glob": "paper_tbd_replacements.csv",
+        "mode": "csv",
+        "required": false
+      },
+      {
+        "glob": "fpga/cintas_setupA_droop_q15_golden_vectors.csv",
+        "mode": "csv",
+        "required": false
+      },
+      {
+        "glob": "fpga/cintas_setupA_rh_q8_golden_vectors.csv",
+        "mode": "csv",
+        "required": false
+      },
+      {
+        "glob": "fpga/cintas_setupB_droop_q15_golden_vectors.csv",
+        "mode": "csv",
+        "required": false
+      },
+      {
+        "glob": "fpga/cintas_setupB_spectre_q8_golden_vectors.csv",
+        "mode": "csv",
+        "required": false
+      },
+      {
+        "glob": "fpga/golden_vector_index.csv",
+        "mode": "csv",
+        "required": false
+      },
+      {
+        "glob": "rtl_sweep/rtl_resource_summary.csv",
+        "mode": "sha256"
+      }
+    ],
+    "sensitivity": [
+      {
+        "glob": "graph_sensitivity/graph_sensitivity_summary.csv",
+        "mode": "csv",
+        "key_columns": ["variant_id"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "graph_sensitivity/graph_sensitivity_fold_results.csv",
+        "mode": "csv",
+        "key_columns": ["variant_id", "workload", "fold_idx"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "graph_sensitivity/graph_sensitivity_selected_features.csv",
+        "mode": "csv",
+        "key_columns": ["variant_id", "feature"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "graph_sensitivity/graph_sensitivity_feature_ranks.csv",
+        "mode": "csv",
+        "key_columns": ["variant_id", "feature"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "graph_sensitivity/graph_sensitivity_graph_edges.csv",
+        "mode": "csv",
+        "key_columns": ["variant_id", "src", "dst"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "graph_sensitivity/*.csv",
+        "mode": "csv",
+        "required": false,
+        "allow_candidate_without_reference": false
+      },
+      {
+        "glob": "graph_sensitivity/graph_sensitivity_claims.json",
+        "mode": "json",
+        "rtol": 1e-9,
+        "atol": 5e-11,
+        "ignore_json_keys": [
+          "archival_evidence_accepted",
+          "archival_provenance_status",
+          "edge_numeric_max_abs_delta",
+          "rank_numeric_max_abs_delta"
+        ]
+      },
+      {
+        "glob": "graph_sensitivity/protocol.json",
+        "mode": "json"
+      },
+      {
+        "glob": "graph_sensitivity/selected_operating_points.json",
+        "mode": "json"
+      }
+    ],
+    "apple": [
+      {
+        "glob": "apple_limited_observability/*/causal/*_causal_edges.csv",
+        "mode": "csv",
+        "key_columns": ["src", "dst"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "apple_limited_observability/*/causal/*_causal_nodes.csv",
+        "mode": "csv",
+        "key_columns": ["feature"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "apple_limited_observability/*/causal/*_feature_ranks.csv",
+        "mode": "csv",
+        "key_columns": ["feature"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "apple_limited_observability/**/*.csv",
+        "mode": "csv"
+      }
+    ],
+    "intel-orders": [
+      {
+        "glob": "intel_workload_orders/intel_workload_order_run_results.csv",
+        "mode": "csv",
+        "key_columns": ["setup", "replicate_index", "decision_rule"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "intel_workload_orders/intel_workload_order_block_results.csv",
+        "mode": "csv",
+        "key_columns": ["setup", "replicate_index", "start_sequence_index"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "intel_workload_orders/intel_workload_order_summary.csv",
+        "mode": "csv",
+        "key_columns": ["setup", "decision_rule", "metric"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "intel_workload_orders/intel_workload_order_by_workload.csv",
+        "mode": "csv",
+        "key_columns": ["setup", "decision_rule", "workload"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "intel_workload_orders/intel_workload_order_selected_features.csv",
+        "mode": "csv",
+        "key_columns": ["setup", "replicate_index", "feature"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "intel_workload_orders/intel_workload_order_feature_frequency.csv",
+        "mode": "csv",
+        "key_columns": ["setup", "feature"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "intel_workload_orders/runs/*/preprocessing_audit.csv",
+        "mode": "csv",
+        "key_columns": ["source_feature"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "intel_workload_orders/runs/*/rule_summary.csv",
+        "mode": "csv",
+        "key_columns": ["setup", "replicate_index", "decision_rule"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "intel_workload_orders/runs/*/evaluation_block_scores.csv",
+        "mode": "csv",
+        "key_columns": ["setup", "replicate_index", "start_sequence_index"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "intel_workload_orders/runs/*/calibration_block_scores.csv",
+        "mode": "csv",
+        "key_columns": ["start_sequence_index"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "intel_workload_orders/runs/*/selected_features.csv",
+        "mode": "csv",
+        "key_columns": ["setup", "replicate_index", "feature"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "intel_workload_orders/runs/*/lifecycle_causal/*_edges.csv",
+        "mode": "csv",
+        "key_columns": ["src", "dst"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "intel_workload_orders/runs/*/lifecycle_causal/*_nodes.csv",
+        "mode": "csv",
+        "key_columns": ["feature"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "intel_workload_orders/runs/*/lifecycle_causal/*_feature_ranks.csv",
+        "mode": "csv",
+        "key_columns": ["feature"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "intel_workload_orders/**/*.csv",
+        "mode": "csv",
+        "required": false,
+        "allow_candidate_without_reference": false,
+        "rtol": 1e-9,
+        "atol": 5e-11
+      }
+    ],
+    "rtl": [
+      {
+        "glob": "rtl_sweep/rtl_resource_summary.csv",
+        "mode": "csv"
+      },
+      {
+        "glob": "rtl_sweep/*/run_config.csv",
+        "mode": "csv"
+      }
+    ],
+    "all": [
+      {
+        "glob": "workload_profiles/*.csv",
+        "mode": "csv",
+        "required": false
+      },
+      {
+        "glob": "tcad_ablation/causal/*_causal_edges.csv",
+        "mode": "csv",
+        "key_columns": ["src", "dst"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "tcad_ablation/causal/*_causal_nodes.csv",
+        "mode": "csv",
+        "key_columns": ["feature"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "tcad_ablation/causal/*_feature_ranks.csv",
+        "mode": "csv",
+        "key_columns": ["feature"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "tcad_ablation/tcad_config_resolved.json",
+        "mode": "json"
+      },
+      {
+        "glob": "tcad_ablation/**/*.csv",
+        "mode": "csv"
+      },
+      {
+        "glob": "droop_adaptive_ablation/*/causal/*_causal_edges.csv",
+        "mode": "csv",
+        "key_columns": ["src", "dst"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "droop_adaptive_ablation/*/causal/*_causal_nodes.csv",
+        "mode": "csv",
+        "key_columns": ["feature"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "droop_adaptive_ablation/*/causal/*_feature_ranks.csv",
+        "mode": "csv",
+        "key_columns": ["feature"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "droop_adaptive_ablation/*/tcad_config_resolved.json",
+        "mode": "json"
+      },
+      {
+        "glob": "droop_adaptive_ablation/**/*.csv",
+        "mode": "csv"
+      },
+      {
+        "glob": "droop_adaptive_data/*.csv",
+        "mode": "csv"
+      },
+      {
+        "glob": "lifecycle_drift/lifecycle_causal/*_edges.csv",
+        "mode": "csv",
+        "key_columns": ["src", "dst"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "lifecycle_drift/lifecycle_causal/*_nodes.csv",
+        "mode": "csv",
+        "key_columns": ["feature"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "lifecycle_drift/lifecycle_causal/*_feature_ranks.csv",
+        "mode": "csv",
+        "key_columns": ["feature"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "lifecycle_drift/**/*.csv",
+        "mode": "csv"
+      },
+      {
+        "glob": "lifecycle_drift/lifecycle_config_resolved.json",
+        "mode": "json"
+      },
+      {
+        "glob": "graph_sensitivity/graph_sensitivity_summary.csv",
+        "mode": "csv",
+        "key_columns": ["variant_id"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "graph_sensitivity/graph_sensitivity_fold_results.csv",
+        "mode": "csv",
+        "key_columns": ["variant_id", "workload", "fold_idx"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "graph_sensitivity/graph_sensitivity_selected_features.csv",
+        "mode": "csv",
+        "key_columns": ["variant_id", "feature"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "graph_sensitivity/graph_sensitivity_feature_ranks.csv",
+        "mode": "csv",
+        "key_columns": ["variant_id", "feature"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "graph_sensitivity/graph_sensitivity_graph_edges.csv",
+        "mode": "csv",
+        "key_columns": ["variant_id", "src", "dst"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "graph_sensitivity/*.csv",
+        "mode": "csv",
+        "required": false,
+        "allow_candidate_without_reference": false
+      },
+      {
+        "glob": "graph_sensitivity/graph_sensitivity_claims.json",
+        "mode": "json",
+        "rtol": 1e-9,
+        "atol": 5e-11,
+        "ignore_json_keys": [
+          "archival_evidence_accepted",
+          "archival_provenance_status",
+          "edge_numeric_max_abs_delta",
+          "rank_numeric_max_abs_delta"
+        ]
+      },
+      {
+        "glob": "graph_sensitivity/protocol.json",
+        "mode": "json"
+      },
+      {
+        "glob": "graph_sensitivity/selected_operating_points.json",
+        "mode": "json"
+      },
+      {
+        "glob": "apple_limited_observability/*/causal/*_causal_edges.csv",
+        "mode": "csv",
+        "key_columns": ["src", "dst"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "apple_limited_observability/*/causal/*_causal_nodes.csv",
+        "mode": "csv",
+        "key_columns": ["feature"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "apple_limited_observability/*/causal/*_feature_ranks.csv",
+        "mode": "csv",
+        "key_columns": ["feature"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "apple_limited_observability/**/*.csv",
+        "mode": "csv"
+      },
+      {
+        "glob": "intel_workload_orders/intel_workload_order_run_results.csv",
+        "mode": "csv",
+        "key_columns": ["setup", "replicate_index", "decision_rule"],
+        "rtol": 1e-9,
+        "atol": 5e-11,
+        "required": false
+      },
+      {
+        "glob": "intel_workload_orders/intel_workload_order_block_results.csv",
+        "mode": "csv",
+        "key_columns": ["setup", "replicate_index", "start_sequence_index"],
+        "rtol": 1e-9,
+        "atol": 5e-11,
+        "required": false
+      },
+      {
+        "glob": "intel_workload_orders/intel_workload_order_summary.csv",
+        "mode": "csv",
+        "key_columns": ["setup", "decision_rule", "metric"],
+        "rtol": 1e-9,
+        "atol": 5e-11,
+        "required": false
+      },
+      {
+        "glob": "intel_workload_orders/intel_workload_order_by_workload.csv",
+        "mode": "csv",
+        "key_columns": ["setup", "decision_rule", "workload"],
+        "rtol": 1e-9,
+        "atol": 5e-11,
+        "required": false
+      },
+      {
+        "glob": "intel_workload_orders/intel_workload_order_selected_features.csv",
+        "mode": "csv",
+        "key_columns": ["setup", "replicate_index", "feature"],
+        "rtol": 1e-9,
+        "atol": 5e-11,
+        "required": false
+      },
+      {
+        "glob": "intel_workload_orders/intel_workload_order_feature_frequency.csv",
+        "mode": "csv",
+        "key_columns": ["setup", "feature"],
+        "rtol": 1e-9,
+        "atol": 5e-11,
+        "required": false
+      },
+      {
+        "glob": "intel_workload_orders/runs/*/preprocessing_audit.csv",
+        "mode": "csv",
+        "key_columns": ["source_feature"],
+        "rtol": 1e-9,
+        "atol": 5e-11,
+        "required": false
+      },
+      {
+        "glob": "intel_workload_orders/runs/*/rule_summary.csv",
+        "mode": "csv",
+        "key_columns": ["setup", "replicate_index", "decision_rule"],
+        "rtol": 1e-9,
+        "atol": 5e-11,
+        "required": false
+      },
+      {
+        "glob": "intel_workload_orders/runs/*/evaluation_block_scores.csv",
+        "mode": "csv",
+        "key_columns": ["setup", "replicate_index", "start_sequence_index"],
+        "rtol": 1e-9,
+        "atol": 5e-11,
+        "required": false
+      },
+      {
+        "glob": "intel_workload_orders/runs/*/calibration_block_scores.csv",
+        "mode": "csv",
+        "key_columns": ["start_sequence_index"],
+        "rtol": 1e-9,
+        "atol": 5e-11,
+        "required": false
+      },
+      {
+        "glob": "intel_workload_orders/runs/*/selected_features.csv",
+        "mode": "csv",
+        "key_columns": ["setup", "replicate_index", "feature"],
+        "rtol": 1e-9,
+        "atol": 5e-11,
+        "required": false
+      },
+      {
+        "glob": "intel_workload_orders/runs/*/lifecycle_causal/*_edges.csv",
+        "mode": "csv",
+        "key_columns": ["src", "dst"],
+        "rtol": 1e-9,
+        "atol": 5e-11,
+        "required": false
+      },
+      {
+        "glob": "intel_workload_orders/runs/*/lifecycle_causal/*_nodes.csv",
+        "mode": "csv",
+        "key_columns": ["feature"],
+        "rtol": 1e-9,
+        "atol": 5e-11,
+        "required": false
+      },
+      {
+        "glob": "intel_workload_orders/runs/*/lifecycle_causal/*_feature_ranks.csv",
+        "mode": "csv",
+        "key_columns": ["feature"],
+        "rtol": 1e-9,
+        "atol": 5e-11,
+        "required": false
+      },
+      {
+        "glob": "intel_workload_orders/**/*.csv",
+        "mode": "csv",
+        "required": false,
+        "allow_candidate_without_reference": false,
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "paper_tbd_replacements.csv",
+        "mode": "csv",
+        "required": false
+      },
+      {
+        "glob": "fpga/cintas_setupA_droop_q15_golden_vectors.csv",
+        "mode": "csv",
+        "required": false
+      },
+      {
+        "glob": "fpga/cintas_setupA_rh_q8_golden_vectors.csv",
+        "mode": "csv",
+        "required": false
+      },
+      {
+        "glob": "fpga/cintas_setupB_droop_q15_golden_vectors.csv",
+        "mode": "csv",
+        "required": false
+      },
+      {
+        "glob": "fpga/cintas_setupB_spectre_q8_golden_vectors.csv",
+        "mode": "csv",
+        "required": false
+      },
+      {
+        "glob": "fpga/golden_vector_index.csv",
+        "mode": "csv",
+        "required": false
+      },
+      {
+        "glob": "rtl_sweep/rtl_resource_summary.csv",
+        "mode": "sha256"
+      }
+    ]
+  }
+}

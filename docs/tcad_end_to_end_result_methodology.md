@@ -4,7 +4,7 @@ This document is the start-to-finish runbook for turning the CITADEL repository 
 
 The short version is:
 
-`MacBook notebook -> CITADEL full paper-point sweep -> frozen-point graph/ranking sensitivity -> paper tables/figures -> golden vectors -> ASU Vivado RTL/FPGA -> hardware CSV -> MacBook merge -> final TCAD figures/tables`.
+`immutable commit -> locked notebook and sensitivity runs -> isolated result bundles -> ASU Vivado RTL/FPGA -> manifest-backed comparison -> final TCAD evidence`.
 
 ## 1. Goal
 
@@ -36,8 +36,11 @@ results/notebook_run/tcad_ablation/paper_figures/
 results/notebook_run/lifecycle_drift/
 results/notebook_run/fpga/
 results/notebook_run/rtl_sweep/
-results/notebook_run/paper_tbd_replacements.csv
+results/reproduced/<unique-run-id>/
 ```
+
+The `results/notebook_run/` paths above are archived references. Reviewer runs
+write only to uniquely named directories below `results/reproduced/`.
 
 Important source files:
 
@@ -59,40 +62,50 @@ Use the machines this way.
 | Machine | Role | Why |
 |---|---|---|
 | MacBook M2 | Main notebook run, result inspection, figures, paper writing, final merge | Fast enough for notebook work and convenient for Overleaf/result review |
-| ASU Linux server | Long notebook run if needed, Vivado synthesis/place-and-route | Better for remote long jobs and vendor FPGA tools |
+| ASU Linux server | Long notebook run if needed, Vivado synthesis and post-synthesis reporting | Better for remote long jobs and vendor FPGA tools |
 | MacBook M2 with OSS CAD Suite | RTL lint, open-source synthesis checks, optional simulation workflow | Good for reproducible local hardware sanity checks |
 
 Recommended final workflow:
 
-1. Run notebook Sections 1--9 on MacBook or ASU.
-2. Generate fixed-point golden vectors from Section 9.
-3. Run Vivado synthesis/place-and-route on ASU/Linux.
-4. Save Vivado results in `results/notebook_run/rtl_sweep/rtl_resource_summary.csv`.
-5. Pull or copy results back to MacBook.
-6. Run notebook Section 10, then rerun the Section 5 results gallery to merge and display final paper results.
+1. Check out the same immutable artifact commit on MacBook and ASU.
+2. Run the locked notebook launcher into a unique `results/reproduced/` root.
+3. Run the strict Vivado launcher on ASU into another unique reproduced root.
+4. Retain its plan, manifest, comparison report, parsed CSV, and raw reports.
+5. Copy only the uniquely named reproduction bundle back to MacBook if needed.
+6. Compare with the archived results; never overwrite an archived reference.
 
 ## 4. Full Notebook Procedure
 
-From a fresh clone or updated clone:
+From an immutable checkout, use the locked reviewer launcher:
 
 ```bash
-cd ~/CITADEL
-git pull --ff-only origin main
-git lfs pull
-conda env update -f environment.yml --prune
-conda activate citadel-slm
-python -m jupyter lab notebooks/exact_tcad_all_experiments.ipynb
+uv python install 3.11.15
+uv sync --frozen
+uv run --frozen python scripts/reproduce.py fetch-lfs \
+  --scope core --include-reference
+uv run --frozen python scripts/reproduce.py notebook \
+  --profile core --preset full --data-mode real \
+  --verify --run-id reviewer-core
 ```
 
-Use these notebook settings for final paper results:
+For interactive inspection, start Jupyter with the equivalent controls already
+set in the process environment:
 
-```python
-SEED = 123
-THREADS = 1
-DATA_MODE = "real"
-TCAD_PRESET = "full"
-RUN_REPEAT_CHECK = True
+```bash
+export CITADEL_SEED=123 CITADEL_THREADS=1 CITADEL_PROFILE=core
+export CITADEL_DATA_MODE=real CITADEL_TCAD_PRESET=full
+export CITADEL_RUN_LIFECYCLE=1
+export CITADEL_RESULTS_ROOT=results/reproduced/reviewer-interactive/notebook_run
+export CITADEL_STRICT_RUNTIME=1 PYTHONHASHSEED=123
+export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1
+export NUMEXPR_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1
+export TZ=UTC LANG=C.UTF-8 LC_ALL=C.UTF-8 PYTHONIOENCODING=utf-8
+export MPLBACKEND=Agg MPLCONFIGDIR=/tmp/citadel-matplotlib
+uv run --frozen python -m jupyter lab notebooks/exact_tcad_all_experiments.ipynb
 ```
+
+Repeated-run verification is implemented by `scripts/reproduce.py --repeat` so
+the two executions use separate result roots; it is not a notebook Boolean.
 
 Set `TCAD_PRESET = "full"` when reconstructing the paper-selected Table VI operating points. The shorter `balanced` grid is a development/revalidation grid and omits median aggregation, `N=550/700`, `k=20`, and `lambda_res=0/1`. The dedicated graph/ranking sensitivity runner is a separate focused experiment: it uses the frozen Table VI points and does not execute either DSE grid.
 
@@ -168,62 +181,40 @@ The Apple study belongs in the last subsection or in an appendix/supplement. It 
 
 ## 8. MacBook To ASU Vivado Flow
 
-First run the notebook through the RTL/FPGA handoff cells. Then copy the generated handoff files to ASU. The `results/` folder is ignored by Git, so direct file transfer is clearer than committing generated artifacts:
+Use the same immutable CITADEL commit on the analysis host and the ASU Vivado
+host. Do not copy generated tables between mismatched source trees; the RTL
+launcher already contains the four frozen Table VI configurations and hashes
+the RTL, Tcl, parser, plan, and reports in its run manifest.
 
-```bash
-cd ~/CITADEL
-scp results/notebook_run/fpga/cintas_setupA_q15_golden_vectors.csv \
-  'asurite\hsiaopin@149.169.30.50:~/CITADEL/results/notebook_run/fpga/'
-scp results/notebook_run/tcad_ablation/tcad_ablation_summary.csv \
-  'asurite\hsiaopin@149.169.30.50:~/CITADEL/results/notebook_run/tcad_ablation/'
-scp results/notebook_run/tcad_ablation/tcad_selected_features.csv \
-  'asurite\hsiaopin@149.169.30.50:~/CITADEL/results/notebook_run/tcad_ablation/'
-scp results/notebook_run/tcad_ablation/paper_figures/section4_vivado_best_settings_queue.csv \
-  'asurite\hsiaopin@149.169.30.50:~/CITADEL/results/notebook_run/tcad_ablation/paper_figures/'
-```
-
-On ASU/Linux, set up Vivado 2025.2 from the ASU tools mount:
+On ASU/Linux, set up Vivado 2025.2 from the ASU tools mount. Run the
+vendor-provided C-shell setup through `tcsh`, even when your login shell is Bash:
 
 ```bash
 cd ~/CITADEL
 cp /usr/local/tools/vivado/2025.2/Vivado/settings64.csh ~/settings64_vivado_2025_2.csh
-source ~/settings64_vivado_2025_2.csh
-rehash
-vivado -version
+tcsh -c 'source ~/settings64_vivado_2025_2.csh; rehash; vivado -version'
 ```
 
-If Bash cannot source the `.csh` setup file, use `tcsh -c`. The ASU `tcsh` does not support `-lc`:
+Materialize the immutable archived reference, inspect the plan, and then run
+the strict launcher into a fresh output directory:
 
 ```bash
-tcsh -c 'source ~/settings64_vivado_2025_2.csh; vivado -version'
+cd ~/CITADEL
+git status --short
+uv run --frozen python scripts/reproduce.py fetch-lfs --scope rtl
+uv run --frozen python scripts/reproduce_rtl.py --dry-run
+tcsh -c 'source ~/settings64_vivado_2025_2.csh; cd ~/CITADEL; uv run --frozen python scripts/reproduce_rtl.py --output-root results/reproduced/asu-rtl'
 ```
 
-Fetch only the Vivado helper if `git pull` is blocked by local notebook edits or missing Git LFS:
+Never write a reproduction run into the archived
+`results/notebook_run/rtl_sweep` directory or replace its source helpers from
+`origin/main`. Choose a new output-root name for each attempt. The launcher
+requires Vivado 2025.2 build 6299465, part `xc7a200tfbg676-1`, and a 25 ns
+period, then produces an explicit `comparison_report.json`. The parser requires
+the exact `run_config.csv` schema and literal `25.000` ns value and verifies
+that every report and `post_synth.dcp` is present and materialized.
 
-```bash
-git fetch origin main
-mkdir -p scripts
-git show origin/main:scripts/vivado_cintas_synth.tcl > scripts/vivado_cintas_synth.tcl
-git show origin/main:scripts/parse_vivado_rtl_sweep.py > scripts/parse_vivado_rtl_sweep.py
-ls -lh scripts/vivado_cintas_synth.tcl
-```
-
-Create the output folders and run the four selected CITADEL operating points. The commands use a larger Artix-7 package and a 25 ns clock so the validation wrapper avoids the small-package I/O limit and is checked at a realistic post-synthesis timing target:
-
-```bash
-mkdir -p results/notebook_run/rtl_sweep/A_DROOP
-mkdir -p results/notebook_run/rtl_sweep/A_RH
-mkdir -p results/notebook_run/rtl_sweep/B_DROOP
-mkdir -p results/notebook_run/rtl_sweep/B_SPECTRE
-
-vivado -mode batch -source scripts/vivado_cintas_synth.tcl -log results/notebook_run/rtl_sweep/A_DROOP/vivado.log -journal results/notebook_run/rtl_sweep/A_DROOP/vivado.jou -tclargs A_DROOP xc7a200tfbg676-1 15 15 1000 25.000
-vivado -mode batch -source scripts/vivado_cintas_synth.tcl -log results/notebook_run/rtl_sweep/A_RH/vivado.log -journal results/notebook_run/rtl_sweep/A_RH/vivado.jou -tclargs A_RH xc7a200tfbg676-1 20 8 550 25.000
-vivado -mode batch -source scripts/vivado_cintas_synth.tcl -log results/notebook_run/rtl_sweep/B_DROOP/vivado.log -journal results/notebook_run/rtl_sweep/B_DROOP/vivado.jou -tclargs B_DROOP xc7a200tfbg676-1 15 15 200 25.000
-vivado -mode batch -source scripts/vivado_cintas_synth.tcl -log results/notebook_run/rtl_sweep/B_SPECTRE/vivado.log -journal results/notebook_run/rtl_sweep/B_SPECTRE/vivado.jou -tclargs B_SPECTRE xc7a200tfbg676-1 30 8 700 25.000
-python3 scripts/parse_vivado_rtl_sweep.py --root results/notebook_run/rtl_sweep
-```
-
-Each folder should contain:
+Each generated configuration folder should contain:
 
 ```text
 utilization.rpt
@@ -235,47 +226,46 @@ vivado.log
 vivado.jou
 ```
 
-Record these values for the RTL/FPGA validation subsection:
+Retain `reproduction_plan.json`, `run_manifest.json`, and
+`comparison_report.json`, and record these values for the RTL/FPGA validation
+subsection:
 
 ```text
 FPGA part, Vivado version, LUTs, FFs, DSPs, BRAMs, timing status, and FPGA power estimate
 ```
 
-Transfer the RTL sweep folder back to the MacBook:
+If local inspection is needed, transfer only the uniquely named reproduction
+bundle back to a different isolated directory on the MacBook:
 
 ```bash
-rsync -avz 'asurite\hsiaopin@149.169.30.50:~/CITADEL/results/notebook_run/rtl_sweep/' \
-  ~/CITADEL/results/notebook_run/rtl_sweep/
+mkdir -p ~/CITADEL/results/reproduced/from-asu
+rsync -avz 'asurite\hsiaopin@149.169.30.50:~/CITADEL/results/reproduced/asu-rtl/' \
+  ~/CITADEL/results/reproduced/from-asu/
 ```
 
-Back on MacBook:
+Back on the MacBook, inspect the recorded status and source identity directly:
 
 ```bash
 cd ~/CITADEL
+python -m json.tool results/reproduced/from-asu/comparison_report.json
+python -m json.tool results/reproduced/from-asu/run_manifest.json
 ```
 
-Then rerun:
-
-```text
-Section 10. Merge RTL/FPGA Results
-Section 5. Results Gallery
-```
-
-If you intentionally want to version the final hardware CSV despite `results/` being ignored, use `git add -f`:
-
-```bash
-git add -f results/notebook_run/rtl_sweep/rtl_resource_summary.csv
-git commit -m "Add Vivado FPGA synthesis results"
-git push origin main
-```
+Do not copy these files into `results/notebook_run/rtl_sweep/` or stage them as
+replacements for the archive. A separately curated artifact
+release is the appropriate publication mechanism for a new reference bundle.
 
 ## 9. Result Values To Update In The Paper
 
 Use:
 
 ```text
-results/notebook_run/paper_tbd_replacements.csv
+results/reproduced/<run-id>/notebook_run/paper_tbd_replacements.csv
 ```
+
+This table is generated inside each isolated core/all run; it is not an
+archived reference at the audited legacy snapshot. Use only the file belonging
+to the run whose receipt and comparison report passed.
 
 to replace:
 
@@ -308,7 +298,7 @@ drift false-positive reduction after recalibration
 
 Do not freeze paper results until all gates pass:
 
-1. `git status` is clean or the run manifest clearly records the final commit.
+1. `git status --porcelain` is empty at start and remains unchanged through completion; the manifest/receipt records the same full commit at both boundaries.
 2. `TCAD_PRESET = "full"` when reconstructing Table VI; use `"balanced"` only for a shorter development/revalidation DSE.
 3. `SEED = 123` and `THREADS = 1`.
 4. Git LFS telemetry files are materialized, not pointer files.
@@ -318,7 +308,7 @@ Do not freeze paper results until all gates pass:
 8. Fixed-point error is small enough that the chosen Q format preserves ranking and threshold behavior.
 9. RTL lint is clean or all warnings are explained.
 10. RTL simulation matches notebook golden vectors.
-11. Vivado synthesis/place-and-route reports timing, utilization, and power for the target FPGA.
+11. Vivado synthesis and post-synthesis reports provide timing estimates, utilization, and power for the target FPGA.
 12. Apple results are labeled supplemental and not mixed into hardware-cost claims.
 
 ## 11. How This Advances The Research
@@ -355,7 +345,7 @@ Before final submission:
 [ ] Paper TBD replacement CSV checked.
 [ ] RTL golden vectors exported.
 [ ] RTL lint and simulation completed.
-[ ] Vivado synthesis/place-and-route completed.
+[ ] Vivado synthesis and post-synthesis reporting completed.
 [ ] RTL/FPGA numbers merged through Section 10.
 [ ] Apple case study kept supplemental.
 [ ] Overleaf macros replaced.

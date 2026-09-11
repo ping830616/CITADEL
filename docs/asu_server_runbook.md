@@ -51,14 +51,22 @@ After you are on the server, switch to Bash first. This avoids shell errors such
 
 ## 3. Clone Or Update CITADEL
 
-For the first clone:
+For a comparison-grade first clone, replace `<artifact-commit-or-tag>` with the
+immutable identifier cited by the manuscript:
 
 ```text
 cd ~
+export GIT_LFS_SKIP_SMUDGE=1
 git clone https://github.com/ping830616/CITADEL.git
 cd CITADEL
+git checkout <artifact-commit-or-tag>
+git lfs install
 git log --oneline -1
+git status --porcelain
 ```
+
+The final command must print nothing. Updating to moving `main` is appropriate
+for development, but it is not an immutable reviewer run.
 
 If GitHub asks for credentials:
 
@@ -127,12 +135,12 @@ If that command is missing, install Git LFS through Conda:
 conda install -c conda-forge git-lfs -y
 ```
 
-Then fetch the data:
+Then fetch only the experiment profile rather than the entire archive:
 
 ```text
 cd ~/CITADEL
 git lfs install
-git lfs pull
+python3 scripts/reproduce.py fetch-lfs --scope core
 ```
 
 If `git clone` prints `git-lfs: command not found` and `Clone succeeded, but checkout failed`, install Git LFS and repair the checkout instead of recloning:
@@ -155,26 +163,32 @@ find data/telemetry -name "*.csv" | head -n 1 | xargs head -5
 
 If the first line says `version https://git-lfs.github.com/spec/v1`, run `git lfs pull` again and confirm your GitHub token can read this repository.
 
-## 6. Create The Conda Environment
+## 6. Create The Exact Environment
 
-Run:
+The primary reviewer path uses uv 0.12.13 and the complete checked-in lock:
+
+```text
+cd ~/CITADEL
+python3 -m venv ~/citadel-uv-bootstrap
+source ~/citadel-uv-bootstrap/bin/activate
+python -m pip install uv==0.12.13
+uv python install 3.11.15
+uv sync --frozen
+uv lock --check
+```
+
+Conda is an alternative with the same exact Python and direct package pins:
 
 ```text
 cd ~/CITADEL
 conda env create -f environment.yml
+conda activate citadel-slm
 ```
 
-If the environment already exists, update it instead:
+If that environment already exists, update it instead:
 
 ```text
-cd ~/CITADEL
 conda env update -f environment.yml --prune
-```
-
-Activate the environment:
-
-```text
-source ~/miniconda3/etc/profile.d/conda.sh
 conda activate citadel-slm
 ```
 
@@ -197,7 +211,7 @@ Then replace `~/miniconda3/etc/profile.d/conda.sh` with the printed path.
 
 ## 7. Start Jupyter In Tmux
 
-Use `tmux` so the notebook keeps running if your laptop disconnects. Start tmux with Bash directly so Conda activation works:
+Use `tmux` so the notebook keeps running if your laptop disconnects. Start tmux with Bash directly so the locked `uv` environment and the optional Conda alternative work normally:
 
 ```text
 tmux new -s citadel /bin/bash -l
@@ -226,8 +240,6 @@ Then run:
 
 ```text
 cd ~/CITADEL
-source ~/miniconda3/etc/profile.d/conda.sh
-conda activate citadel-slm
 export PYTHONHASHSEED=123
 export OMP_NUM_THREADS=1
 export OPENBLAS_NUM_THREADS=1
@@ -235,7 +247,9 @@ export MKL_NUM_THREADS=1
 export NUMEXPR_NUM_THREADS=1
 export VECLIB_MAXIMUM_THREADS=1
 export MPLBACKEND=Agg
-python -m jupyter lab --no-browser --ip=127.0.0.1 --port=8888 --notebook-dir=notebooks
+export CITADEL_INTERACTIVE_RUN=asu-interactive-$(date -u +%Y%m%dT%H%M%SZ)
+export CITADEL_RESULTS_ROOT=results/reproduced/$CITADEL_INTERACTIVE_RUN/notebook_run
+uv run --frozen python -m jupyter lab --no-browser --ip=127.0.0.1 --port=8888 --notebook-dir=notebooks
 ```
 
 Copy the URL printed by Jupyter. It will look like:
@@ -258,69 +272,74 @@ In JupyterLab, open:
 exact_tcad_all_experiments.ipynb
 ```
 
-For a quick reproducibility check, use these settings in the notebook configuration cell:
-
-```python
-SEED = 123
-THREADS = 1
-DATA_MODE = "real"
-TCAD_PRESET = "smoke"
-RUN_REPEAT_CHECK = True
-```
-
-To reconstruct the paper-selected Table VI operating points, change only:
-
-```python
-TCAD_PRESET = "full"
-```
-
-Use `TCAD_PRESET = "balanced"` for a shorter development/revalidation DSE; it does not contain every Table VI setting. Then run the notebook from top to bottom. The focused graph/ranking sensitivity study is separate from the exhaustive DSE and can be run with `python scripts/run_graph_sensitivity.py` after the required Git LFS data are materialized. Long cells show progress directly in the notebook output. The notebook also writes progress messages here:
+Run the lightweight, isolated repeat check first:
 
 ```text
-results/notebook_run/notebook_progress.log
+uv run --frozen python scripts/reproduce.py notebook \
+  --profile smoke --preset smoke --data-mode sample \
+  --repeat --run-id asu-smoke
+```
+
+To reconstruct and compare the paper-selected Table VI operating points, run:
+
+```text
+uv run --frozen python scripts/reproduce.py fetch-lfs \
+  --scope core --include-reference
+uv run --frozen python scripts/reproduce.py notebook \
+  --profile core --preset full --data-mode real \
+  --verify --run-id asu-core
+```
+
+Use the `balanced` preset only for development; it does not contain every Table
+VI setting. The focused graph/ranking sensitivity study is separate from the
+exhaustive DSE and has its own `scripts/reproduce.py sensitivity --verify`
+entry point. Long cells show progress directly in the notebook output. The
+named wrapper run also writes progress messages here:
+
+```text
+results/reproduced/asu-core/notebook_run/notebook_progress.log
 ```
 
 ## 9. Set Up Vivado On The ASU Tools Server
 
 ### MacBook To ASU Vivado Handoff
 
-Use this handoff when the notebook was run on the MacBook, but Vivado synthesis is run on the ASU tools server.
+Use this handoff when the notebook is run on the MacBook but synthesis is run
+on ASU. Clone the immutable artifact commit independently rather than mirroring
+a working tree, so the launcher's clean-checkout gate and source hashes remain
+meaningful.
 
-From the MacBook, copy the current repository to ASU:
+On both machines, confirm the manuscript's exact commit:
 
 ```text
-rsync -avz --progress --delete \
-  --exclude '.DS_Store' \
-  --exclude '.ipynb_checkpoints/' \
-  --exclude 'notebooks/.virtual_documents/' \
-  --exclude '__pycache__/' \
-  --exclude '*.pyc' \
-  /Users/hsiaopingni/CITADEL/ \
-  'asurite\hsiaopin@149.169.30.50:~/CITADEL/'
+cd ~/CITADEL
+git rev-parse HEAD
+git status --porcelain
 ```
 
-On ASU, run the Vivado commands in this section. After Vivado finishes, copy the RTL sweep reports back to the MacBook:
+The hashes must match and the status commands must print nothing. On ASU, use
+that immutable checkout, materialize the RTL reference scope, and write a fresh
+run only below `results/reproduced/`:
 
 ```text
+uv run --frozen python scripts/reproduce.py fetch-lfs --scope rtl
+tcsh -c 'source ~/settings64_vivado_2025_2.csh; cd ~/CITADEL; uv run --frozen python scripts/reproduce_rtl.py --output-root results/reproduced/asu-rtl-reviewer'
+```
+
+The launcher parses and compares the reports on ASU using the locked Python
+environment. Copy only that uniquely named reproduction bundle back to a
+different `results/reproduced/` directory on the MacBook:
+
+```text
+mkdir -p /Users/hsiaopingni/CITADEL/results/reproduced/from-asu
 rsync -avz --progress \
-  'asurite\hsiaopin@149.169.30.50:~/CITADEL/results/notebook_run/rtl_sweep/' \
-  /Users/hsiaopingni/CITADEL/results/notebook_run/rtl_sweep/
+  'asurite\hsiaopin@149.169.30.50:~/CITADEL/results/reproduced/asu-rtl-reviewer/' \
+  /Users/hsiaopingni/CITADEL/results/reproduced/from-asu/
 ```
 
-Parse the reports on the MacBook, because the default ASU `python3` may be too old for the parser:
-
-```text
-cd /Users/hsiaopingni/CITADEL
-python3 scripts/parse_vivado_rtl_sweep.py --root results/notebook_run/rtl_sweep
-```
-
-This creates:
-
-```text
-results/notebook_run/rtl_sweep/rtl_resource_summary.csv
-```
-
-Finally, rerun notebook Section 10 and then rerun the Section 5 results gallery so it includes the latest Vivado evidence.
+Never copy a reproduction over `results/notebook_run/rtl_sweep/`; that path is
+the immutable archived reference. Retain `reproduction_plan.json`,
+`run_manifest.json`, and `comparison_report.json` with the transferred reports.
 
 ### Vivado Setup
 
@@ -343,14 +362,11 @@ ls -l /usr/local/tools/vivado/2025.2/Vivado/settings64.csh
 
 If you use another ASU server, confirm that `/usr/local/tools` is mounted from `129.219.4.25:/data/tools`. The Vivado setup file is written for the `/usr/local/tools` path.
 
-Copy the setup file to your home folder and source it:
+Copy the setup file to your home folder and load it through `tcsh`:
 
 ```text
 cp /usr/local/tools/vivado/2025.2/Vivado/settings64.csh ~/settings64_vivado_2025_2.csh
-source ~/settings64_vivado_2025_2.csh
-rehash
-which vivado
-vivado -version
+tcsh -c 'source ~/settings64_vivado_2025_2.csh; rehash; which vivado; vivado -version'
 ```
 
 If you are in Bash, run Vivado commands through `tcsh -c`. The ASU `tcsh` does not support `-lc`:
@@ -359,52 +375,42 @@ If you are in Bash, run Vivado commands through `tcsh -c`. The ASU `tcsh` does n
 tcsh -c 'source ~/settings64_vivado_2025_2.csh; vivado -version'
 ```
 
-To launch the GUI from a terminal with display forwarding:
+To launch the GUI from Bash with display forwarding:
 
 ```text
-source ~/settings64_vivado_2025_2.csh
-vivado &
+tcsh -c 'source ~/settings64_vivado_2025_2.csh; exec vivado' &
 ```
 
-For paper artifacts, batch mode is preferred. From `~/CITADEL`, run FPGA-oriented synthesis for the selected CITADEL settings:
+For paper artifacts, keep the immutable checkout clean and use the strict RTL
+launcher. It pins the four selected configurations, Artix-7 part
+`xc7a200tfbg676-1`, 25 ns period, and Vivado 2025.2 build 6299465. First
+materialize the archived comparison reports and inspect the exact plan:
 
 ```text
 cd ~/CITADEL
-git fetch origin main
-mkdir -p scripts
-git show origin/main:scripts/vivado_cintas_synth.tcl > scripts/vivado_cintas_synth.tcl
-git show origin/main:scripts/parse_vivado_rtl_sweep.py > scripts/parse_vivado_rtl_sweep.py
-ls -lh scripts/vivado_cintas_synth.tcl
-
-mkdir -p results/notebook_run/rtl_sweep/A_DROOP
-mkdir -p results/notebook_run/rtl_sweep/A_RH
-mkdir -p results/notebook_run/rtl_sweep/B_DROOP
-mkdir -p results/notebook_run/rtl_sweep/B_SPECTRE
-
-vivado -mode batch -source scripts/vivado_cintas_synth.tcl -log results/notebook_run/rtl_sweep/A_DROOP/vivado.log -journal results/notebook_run/rtl_sweep/A_DROOP/vivado.jou -tclargs A_DROOP xc7a200tfbg676-1 15 15 1000 25.000
-vivado -mode batch -source scripts/vivado_cintas_synth.tcl -log results/notebook_run/rtl_sweep/A_RH/vivado.log -journal results/notebook_run/rtl_sweep/A_RH/vivado.jou -tclargs A_RH xc7a200tfbg676-1 20 8 550 25.000
-vivado -mode batch -source scripts/vivado_cintas_synth.tcl -log results/notebook_run/rtl_sweep/B_DROOP/vivado.log -journal results/notebook_run/rtl_sweep/B_DROOP/vivado.jou -tclargs B_DROOP xc7a200tfbg676-1 15 15 200 25.000
-vivado -mode batch -source scripts/vivado_cintas_synth.tcl -log results/notebook_run/rtl_sweep/B_SPECTRE/vivado.log -journal results/notebook_run/rtl_sweep/B_SPECTRE/vivado.jou -tclargs B_SPECTRE xc7a200tfbg676-1 30 8 700 25.000
+git status --short
+uv run --frozen python scripts/reproduce.py fetch-lfs --scope rtl
+uv run --frozen python scripts/reproduce_rtl.py --dry-run
 ```
 
-The `git show` commands above fetch only the Vivado Tcl helper and report parser. This is useful when `git pull` is blocked by local notebook edits or by missing Git LFS on the ASU server. The commands use a larger Artix-7 package and a 25 ns clock so the RTL validation wrapper is checked at a realistic post-synthesis target without the small-package I/O limit.
-
-If running from Bash, wrap each command with `tcsh -c`, for example:
+Do not fetch helpers from a moving branch or write into
+`results/notebook_run/rtl_sweep`; that directory is the archived reference.
+Run all four configurations into a new, isolated result directory. From Bash,
+load Vivado through `tcsh` while preserving the immutable repository sources:
 
 ```text
-tcsh -c 'source ~/settings64_vivado_2025_2.csh; cd ~/CITADEL; vivado -mode batch -source scripts/vivado_cintas_synth.tcl -log results/notebook_run/rtl_sweep/A_DROOP/vivado.log -journal results/notebook_run/rtl_sweep/A_DROOP/vivado.jou -tclargs A_DROOP xc7a200tfbg676-1 15 15 1000 25.000'
+tcsh -c 'source ~/settings64_vivado_2025_2.csh; cd ~/CITADEL; uv run --frozen python scripts/reproduce_rtl.py --output-root results/reproduced/asu-rtl'
 ```
 
-After the four Vivado runs complete, regenerate the summary CSV:
+Choose a new output-root name for every attempt. The launcher parses the fresh
+reports, writes a provenance manifest, and compares the scientific fields with
+the archived summary. It rejects a missing report/checkpoint, an unfetched LFS
+pointer, or any `run_config.csv` that differs from the four frozen tags, target
+part, feature/Q/sample parameters, or literal `25.000` ns period. The reports
+are written under:
 
 ```text
-python3 scripts/parse_vivado_rtl_sweep.py --root results/notebook_run/rtl_sweep
-```
-
-The reports are written under:
-
-```text
-results/notebook_run/rtl_sweep/<tag>/
+results/reproduced/asu-rtl/<tag>/
 ```
 
 The important files are:
@@ -418,7 +424,9 @@ run_config.csv
 rtl_resource_summary.csv
 ```
 
-Use the same FPGA part for all rows. If ASU provides a specific board part, replace the part argument with that device in every command.
+Do not substitute a different FPGA part for an archival comparison. A different
+device is a new experiment and must use a separately named output root and must
+not be described as reproducing the archived resource figures.
 
 ## 10. Leave And Return To The Run
 
@@ -457,17 +465,18 @@ After pulling notebook changes, refresh JupyterLab, restart the notebook kernel,
 
 Run these commands from your Mac terminal, not inside the ASU SSH session.
 
-Copy the main notebook results folder:
+Copy the named `asu-core` reproduction bundle, including its receipt and
+comparison report:
 
 ```text
 mkdir -p ~/Downloads/citadel_asu_results
-rsync -avz --progress 'asurite\hsiaopin@149.169.30.50:~/CITADEL/results/notebook_run/' ~/Downloads/citadel_asu_results/
+rsync -avz --progress 'asurite\hsiaopin@149.169.30.50:~/CITADEL/results/reproduced/asu-core/' ~/Downloads/citadel_asu_results/
 ```
 
 Copy any single file:
 
 ```text
-scp 'asurite\hsiaopin@149.169.30.50:~/CITADEL/results/notebook_run/tcad_ablation/tcad_ablation_summary.csv' ~/Downloads/
+scp 'asurite\hsiaopin@149.169.30.50:~/CITADEL/results/reproduced/asu-core/notebook_run/tcad_ablation/tcad_ablation_summary.csv' ~/Downloads/
 ```
 
 Copy any folder by replacing the server path and local destination:

@@ -7,9 +7,23 @@
   "runtime_versions": {
     "numpy": "2.1.3",
     "pandas": "2.2.3",
+    "certifi": "2025.8.3",
     "scikit-learn": "1.6.1",
-    "scipy": "1.17.1"
+    "scipy": "1.17.1",
+    "matplotlib": "3.10.8",
+    "networkx": "3.4.2",
+    "psutil": "7.0.0",
+    "jupyterlab": "4.3.4",
+    "ipykernel": "6.29.5",
+    "nbformat": "5.10.4",
+    "nbclient": "0.11.0",
+    "threadpoolctl": "3.6.0"
   },
+  "numerical_contract": {
+    "decision_decimals": 9,
+    "reason": "Quantize only graph admission/order and rank-order decisions so native BLAS/LAPACK noise below manuscript precision cannot change categorical identities; retain unrounded numerical values in evidence tables."
+  },
+  "feature_universe_file": "configs/graph_sensitivity_feature_universes.json",
   "graph": {
     "baseline_tau_c": 0.35,
     "tau_c_values": [0.25, 0.35, 0.45],
@@ -36,7 +50,7 @@
       "alignment"
     ],
     "ablation_rule": "Set one coefficient to zero and renormalize the remaining coefficients to sum to one.",
-    "tie_break_rule": "Round normalized importance scores to 12 decimal places, then order tied features lexically so an ablated term cannot re-enter through tie-breaking.",
+    "tie_break_rule": "Round normalized importance scores to 9 decimal places, then order tied features lexically so platform-level BLAS noise and an ablated term cannot re-enter through tie-breaking.",
     "telemetry_cost_rule": "Keep the telemetry-cost denominator unchanged.",
     "droop_rule": "Apply the changed ranking weights only inside the structural score; keep the outer structural weight 0.30 and DROOP semantic-prior weight 2.20 fixed.",
     "jaccard_reference": "The full-ranking baseline-graph top-k set for the same setup, event, and data view.",
@@ -82,7 +96,7 @@
       "fixed_point_q": 15,
       "p_quantile": 0.99,
       "n_splits": 3,
-      "candidate_rank_path": "results/notebook_run/droop_adaptive_ablation/p0_99/causal/SETUP_A_feature_ranks.csv"
+      "feature_universe_key": "A_DROOP"
     },
     {
       "setup": "A",
@@ -96,7 +110,7 @@
       "fixed_point_q": 8,
       "p_quantile": 0.99,
       "n_splits": 5,
-      "candidate_rank_path": "results/notebook_run/tcad_ablation/causal/SETUP_A_feature_ranks.csv"
+      "feature_universe_key": "A_RH"
     },
     {
       "setup": "B",
@@ -110,7 +124,7 @@
       "fixed_point_q": 15,
       "p_quantile": 0.99,
       "n_splits": 3,
-      "candidate_rank_path": "results/notebook_run/droop_adaptive_ablation/p0_99/causal/SETUP_B_feature_ranks.csv"
+      "feature_universe_key": "B_DROOP"
     },
     {
       "setup": "B",
@@ -124,7 +138,7 @@
       "fixed_point_q": 8,
       "p_quantile": 0.99,
       "n_splits": 5,
-      "candidate_rank_path": "results/notebook_run/tcad_ablation/causal/SETUP_B_feature_ranks.csv"
+      "feature_universe_key": "B_SPECTRE"
     }
   ]
 }

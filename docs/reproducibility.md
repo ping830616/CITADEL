@@ -1,224 +1,213 @@
-# Reproducibility Guide
+# Cross-Machine Reproducibility
 
-The target is same inputs plus same config plus same environment yields the same outputs across laptops, workstations, and servers.
+The supported target is scientific equivalence from an immutable CITADEL
+checkout and the archived inputs. This means exact configuration, schemas,
+categorical decisions, selected configurations, and feature sets, plus numeric
+agreement within the predeclared tolerance. It does not mean byte-identical
+plots, timestamps, Vivado reports, or newly collected hardware telemetry.
 
-## Environment
+For the complete reviewer procedure and the evidence status of every bundle,
+use the [reviewer reproduction guide](reviewer_reproduction.md) and
+[artifact inventory](../reproducibility/artifact_inventory.md).
 
-- Python is pinned to `>=3.11,<3.14`.
-- Package versions are pinned in `requirements.txt` and `environment.yml`.
-- Numerical execution is configured in the primary notebook and the focused sensitivity protocol/runner.
-- Default runs use `seed=123` and `threads=1`.
+## Canonical Environment
 
-## Data
+CITADEL pins CPython 3.11.15, every direct dependency, and the complete
+cross-platform dependency graph in `uv.lock`:
 
-Use immutable data snapshots:
-
-```text
-data/telemetry/raw/<snapshot_id>/
-data/telemetry/processed/<snapshot_id>/
-data/platforms/<setup>.json
+```bash
+uv python install 3.11.15
+uv sync --frozen
+uv lock --check
 ```
 
-Rules:
+The alternative Conda specification has the same Python and direct package
+pins:
 
-- add large CSVs with Git LFS
-- never edit a snapshot in place
-- store data-cleaning notebook cells and config next to generated outputs
-- require SHA-256 hashes in every run manifest
-
-## Running On A New Machine
-
-Use a Git client with Git LFS enabled so the tracked CSV files are materialized, not left as pointer files. Then open `notebooks/exact_tcad_all_experiments.ipynb` in Jupyter and run it from top to bottom. The notebook is the primary end-to-end entry point; `scripts/run_graph_sensitivity.py` is the focused frozen-operating-point runner invoked by its sensitivity cell.
-
-## ASU Linux Server
-
-Use the ASU server for reproducible research runs when you want the same notebook flow on Linux.
-
-Connect from your laptop with either quoted username syntax:
-
-```text
-ssh 'asurite\hsiaopin@149.169.30.50'
-```
-
-or escaped backslash syntax:
-
-```text
-ssh asurite\\hsiaopin@149.169.30.50
-```
-
-On the server:
-
-```text
-tmux new -s citadel
-cd ~
-if [ -d CITADEL ]; then
-  mv CITADEL CITADEL_previous_clone
-fi
-git clone git@github.com:ping830616/CITADEL.git
-cd CITADEL
-git lfs install
-git lfs pull
+```bash
 conda env create -f environment.yml
 conda activate citadel-slm
-export PYTHONHASHSEED=123
-export OMP_NUM_THREADS=1
-export OPENBLAS_NUM_THREADS=1
-export MKL_NUM_THREADS=1
-export NUMEXPR_NUM_THREADS=1
-export VECLIB_MAXIMUM_THREADS=1
-export MPLBACKEND=Agg
-python -m jupyter lab --no-browser --ip=127.0.0.1 --port=8888 notebooks/exact_tcad_all_experiments.ipynb
 ```
 
-If you manually run `mv ~/CITADEL ...` and it says `No such file or directory`, continue. There was no old clone to move.
+Use `uv run --frozen python ...` for the commands below. The launcher starts
+child processes with seed 123, one numerical thread, UTC, a fixed locale, and a
+noninteractive plotting backend. Manifests record the source state, environment
+files, package versions, NumPy build/BLAS information, active thread pools,
+configuration, and input/output hashes.
 
-If `git lfs` is not installed, use Conda:
+## Immutable Checkout and Scoped LFS
 
-```text
-conda install -c conda-forge git-lfs -y
-which git-lfs
-git-lfs --version
-cd ~/CITADEL
+```bash
+export GIT_LFS_SKIP_SMUDGE=1
+git clone https://github.com/ping830616/CITADEL.git
+cd CITADEL
+git checkout <full-artifact-commit-or-tag>
 git lfs install
-git lfs pull
+git status --porcelain
 ```
 
-Confirm that LFS downloaded real data:
+The last command must be empty before a comparison-grade run. Fetch only the
+profile being reproduced:
 
-```text
-find data/telemetry -name "*.csv" | head -n 1 | xargs head -5
+```bash
+uv run --frozen python scripts/reproduce.py fetch-lfs --scope workload
+uv run --frozen python scripts/reproduce.py fetch-lfs --scope core
+uv run --frozen python scripts/reproduce.py fetch-lfs --scope sensitivity
+uv run --frozen python scripts/reproduce.py fetch-lfs --scope apple
+uv run --frozen python scripts/reproduce.py fetch-lfs --scope intel
+uv run --frozen python scripts/reproduce.py fetch-lfs --scope rtl
 ```
 
-The output should show CSV content. If it starts with `version https://git-lfs.github.com/spec/v1`, the file is still a Git LFS pointer.
+These commands fetch computational inputs only. Before a command using
+`--verify`, repeat that profile's fetch with `--include-reference` so the
+archived comparison outputs are materialized without making ordinary
+generation depend on its predecessor.
 
-Before each run, check whether GitHub has newer commits:
+The preflight rejects pointer stubs instead of passing them to pandas. Check the
+repository inventory before execution:
 
-```text
-cd ~/CITADEL
-git fetch origin
-git status -sb
-git log --oneline HEAD..origin/main
+```bash
+uv run --frozen python scripts/reproduce.py verify-archive --scope source
+uv run --frozen python scripts/reproduce.py verify-archive \
+  --scope core --require-materialized
 ```
 
-If `git log --oneline HEAD..origin/main` prints commits, GitHub has updates that are not yet in this local folder.
+## Isolated, Headless Runs
 
-Update all tracked folders and files from GitHub:
+First run the no-download synthetic repeat check:
 
-```text
-cd ~/CITADEL
-git pull --ff-only origin main
-git lfs pull
+```bash
+uv run --frozen python scripts/reproduce.py notebook \
+  --profile smoke --preset smoke --data-mode sample \
+  --repeat --run-id reviewer-smoke
 ```
 
-If the server has local edits, commit or stash them before pulling:
+Then run the needed archived-data profile:
 
-```text
-git status
-git stash push -m "temporary ASU local changes"
-git pull --ff-only origin main
-git lfs pull
-git stash pop
+```bash
+# Benign workload characterization from exactly 26 inputs. This snapshot has
+# no workload-profile reference, so use a repeat comparison, not --verify.
+uv run --frozen python scripts/reproduce.py notebook \
+  --profile workload --preset smoke --data-mode real \
+  --repeat --run-id reviewer-workload
+
+# Full TCAD, DROOP, workload profile, lifecycle, sensitivity, and fixed-point outputs
+uv run --frozen python scripts/reproduce.py fetch-lfs \
+  --scope core --include-reference
+uv run --frozen python scripts/reproduce.py notebook \
+  --profile core --preset full --data-mode real \
+  --verify --run-id reviewer-core
+
+# Focused graph/ranking sensitivity without the full DSE
+uv run --frozen python scripts/reproduce.py fetch-lfs \
+  --scope sensitivity --include-reference
+uv run --frozen python scripts/reproduce.py sensitivity \
+  --verify --run-id reviewer-sensitivity
+
+# Apple limited-observability reanalysis
+uv run --frozen python scripts/reproduce.py fetch-lfs \
+  --scope apple --include-reference
+uv run --frozen python scripts/reproduce.py notebook \
+  --profile apple --preset full --data-mode real \
+  --verify --run-id reviewer-apple
+
+# Intel workload-order analysis from preserved benign recordings
+uv run --frozen python scripts/reproduce.py intel-orders \
+  --run-id reviewer-intel-orders
 ```
 
-After editing repo files on ASU, keep GitHub current:
+Runs are written under `results/reproduced/<run-id>/`; they never overwrite the
+archived reference. Use `--repeat` to compare two independent executions of the
+same profile. A full core run is a long job, so the focused sensitivity and
+synthetic smoke profiles are useful gates before scheduling it.
 
-```text
-git status
-git add README.md docs/ notebooks/ configs/ scripts/ hardware/ rtl/ data/ environment.yml requirements.txt .github/workflows/ci.yml
-git commit -m "Update CITADEL workflow"
-git push origin main
+For the Intel command, `--repeat` performs two full, isolated workload-order
+runs and compares their CSVs by scientific row identity with `rtol=1e-9` and
+`atol=5e-11`; categorical values, selected features, alarms, workload orders,
+and schemas remain exact. Each run receipt binds the clean source commit and
+hashes of the 26 benign DDR inputs, analyzer, notebook, environment files, and
+analyzer manifest to the locked Python/package versions and
+NumPy/BLAS/threadpool runtime. It also hashes the wrapper and external-source
+registry and records that notebook utilities were loaded in an isolated
+validation-free smoke/sample mode; the actual analysis still validates and
+hashes exactly the 26 benign inputs. The optional `--verify` flag uses the same
+contract against a committed Intel
+archive. It fails clearly when, as in the current audited snapshot, that
+archive is intentionally absent.
+
+## Comparison Contract
+
+`reproducibility/result_contract.json` and
+`scripts/verify_reproducibility.py` implement the acceptance rules:
+
+- exact CSV/JSON structure, strings, booleans, case IDs, and selected features;
+- exact row order for positional tables, with order-independent matching only
+  where the contract declares scientific identity keys or unordered feature sets;
+- numeric values compared with default `rtol=1e-10` and `atol=1e-12`;
+- explicit failure for missing results or reference/candidate LFS pointers;
+- volatile host, timestamp, absolute-path, duration, and rendering metadata
+  excluded from scientific equivalence.
+
+An optional candidate-only output is listed as `SKIPPED_NO_REFERENCE` under
+`unverified_outputs`, changes `status` to `PASS_WITH_UNVERIFIED`, and changes
+`verification_coverage` to `PARTIAL`; it is not silently treated as equivalent.
+Full claim-level equivalence therefore requires both `status: PASS` and
+`verification_coverage: COMPLETE`. `PASS_WITH_UNVERIFIED` returns exit code zero
+so optional-output workflows can finish, but those listed outputs remain outside
+the verified claim. Notebook completion
+alone is not an equivalence result. PNG/PDF files may be inspected visually,
+but their bytes are not portable across font and renderer stacks.
+
+`--allow-runtime-mismatch` is a development escape hatch. When supplied to the
+notebook wrapper, it disables both the outer version rejection and the matching
+in-notebook strict-runtime gate; the resulting preflight receipt still records
+the observed mismatch and must not be presented as a canonical run.
+
+## Docker
+
+The image pins the Linux CPython base by digest and installs from `uv.lock`:
+
+```bash
+docker build --platform linux/amd64 -t citadel-repro .
+docker run --rm --platform linux/amd64 \
+  -v "$PWD:/workspace/CITADEL" -w /workspace/CITADEL \
+  citadel-repro python scripts/reproduce.py notebook \
+  --profile smoke --preset smoke --data-mode sample \
+  --repeat --run-id docker-smoke
 ```
 
-Use two Mac terminal windows for remote Jupyter.
+Mounting the immutable checkout makes its Git state and selected LFS objects
+visible inside the image. The CI workflow runs the locked numerical smoke on
+Ubuntu and macOS and compares their normalized scientific fingerprint.
 
-Terminal 1 is only the tunnel. Start it on your Mac and keep it open:
+## Vivado and Live Hardware
 
-```text
-ssh -L 8888:127.0.0.1:8888 'asurite\hsiaopin@149.169.30.50'
+Vivado reproduction requires version 2025.2, SW Build 6299465, target
+`xc7a200tfbg676-1`, its device database/license, and the checked-in RTL/Tcl:
+
+```bash
+uv run --frozen python scripts/reproduce_rtl.py --dry-run
+uv run --frozen python scripts/reproduce_rtl.py \
+  --output-root results/reproduced/reviewer-rtl
 ```
 
-Terminal 2 starts Jupyter. Open a second Mac terminal, SSH normally, update the repo, activate the environment, and launch Jupyter:
+The launcher compares parsed configuration/resource fields exactly and timing
+or power numerically. Raw report and checkpoint bytes are not equality targets.
+The present RTL is a block-maximum starter datapath; the paper points use median
+aggregation, so this evidence must not be described as a bit-exact realization
+of all four configurations.
 
-```text
-ssh 'asurite\hsiaopin@149.169.30.50'
-cd ~/CITADEL
-git fetch origin
-git status -sb
-git log --oneline HEAD..origin/main
-git pull --ff-only origin main
-git lfs pull
-conda activate citadel-slm
-export PYTHONHASHSEED=123
-export OMP_NUM_THREADS=1
-export OPENBLAS_NUM_THREADS=1
-export MKL_NUM_THREADS=1
-export NUMEXPR_NUM_THREADS=1
-export VECLIB_MAXIMUM_THREADS=1
-export MPLBACKEND=Agg
-python -m jupyter lab --no-browser --ip=127.0.0.1 --port=8888 notebooks/exact_tcad_all_experiments.ipynb
-```
+Intel and Apple collection campaigns are different: a seed reproduces the
+schedule, not the physical samples. Retain the exact host, OS/CPU, privileges,
+tool and workload revisions/hashes, phase events, sampling audit, and statistical
+acceptance result. Follow
+[the Intel transition runbook](intel_continuous_workload_transitions.md) or
+[the Apple transition runbook](apple_workload_transitions.md).
 
-Open the local URL in your Mac browser and use the token printed by Terminal 2:
+## Legacy Results
 
-```text
-http://127.0.0.1:8888/lab?token=...
-```
-
-Run `TCAD_PRESET = "smoke"` first. After the smoke run matches locally, use `TCAD_PRESET = "balanced"` for a shorter development/revalidation DSE or `TCAD_PRESET = "full"` to reconstruct the paper-selected Table VI operating points. The graph/ranking sensitivity study is not the full DSE: run `python scripts/run_graph_sensitivity.py` to evaluate the four frozen Table VI configurations without re-selection.
-
-## Monitoring A Long Run
-
-The notebook shows a live progress card directly in long-running cell output. It also prints timestamped progress messages and appends the same lines to:
-
-```text
-results/notebook_run/notebook_progress.log
-```
-
-From another SSH terminal:
-
-```text
-ssh 'asurite\hsiaopin@149.169.30.50'
-cd ~/CITADEL
-tail -f results/notebook_run/notebook_progress.log
-```
-
-Useful one-time checks:
-
-```text
-find results/notebook_run -maxdepth 3 -type f -print | sort | tail -30
-du -sh results/notebook_run
-```
-
-After a complete notebook run, compare the main generated artifacts:
-
-- `results/notebook_run/ets_baseline/run_manifest.json`
-- `results/notebook_run/tcad_ablation/run_manifest.json`
-- `results/notebook_run/tcad_ablation/tcad_ablation_summary.csv`
-- `results/notebook_run/graph_sensitivity/run_manifest.json`
-- `results/notebook_run/graph_sensitivity/graph_sensitivity_claims.json`
-- `results/notebook_run/graph_sensitivity/graph_sensitivity_summary.csv`
-- `results/notebook_run/lifecycle_drift/run_manifest.json`
-- `results/notebook_run/lifecycle_drift/lifecycle_recalibration_summary.csv`
-- `results/notebook_run/paper_tbd_replacements.csv`
-
-## Apple Rapid Workload Transition Run
-
-The rapid benign workload transition campaign is intentionally opt in because it launches sustained workloads on the local Apple machine. In notebook Section 13, set `RUN_APPLE_TRANSITION_CAMPAIGN = True`, run the collection cell once, return the switch to `False`, and run the analysis cell. The default protocol records five independently seeded runs with randomized workload orders, two calibration cycles, three evaluation cycles, and a cool down between runs. It never overwrites earlier traces. Full protocol details and output checks are in [`docs/apple_workload_transitions.md`](apple_workload_transitions.md).
-
-Copy results back from the server with:
-
-```text
-rsync -avz 'asurite\hsiaopin@149.169.30.50:~/CITADEL/results/notebook_run/' ./citadel_asu_results/
-```
-
-## Manifest Check
-
-Compare these fields in `run_manifest.json`:
-
-- config values
-- Python and package versions
-- input file hashes
-- output file hashes
-- git commit
-
-If manifests differ, treat the run as non-identical until the cause is known.
+Older TCAD, DROOP, lifecycle, Apple, and figure bundles include dirty, stale, or
+partial provenance. Automation does not retroactively make those manifests
+clean. The [legacy provenance audit](../reproducibility/legacy_provenance.md)
+identifies the limitation of each bundle; a replacement must come from a clean
+run with a passing comparison report.

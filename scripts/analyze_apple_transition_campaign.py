@@ -38,6 +38,12 @@ FPR_METRICS = (
     ("transition_window_fpr", "Transition window"),
     ("steady_window_fpr", "Steady window"),
 )
+PER_RUN_ARTIFACTS = (
+    "transition_rule_summary.csv",
+    "transition_event_summary.csv",
+    "transition_selected_features.csv",
+    "run_manifest.json",
+)
 
 
 def _repo_root() -> Path:
@@ -80,7 +86,50 @@ def _latest_complete_campaign(root: Path) -> Path | None:
             continue
         if payload.get("status") == "complete":
             candidates.append(manifest_path.parent)
-    return max(candidates, key=lambda path: path.stat().st_mtime) if candidates else None
+    # Campaign directory names are UTC identifiers. Lexical selection is stable
+    # across clones; filesystem mtimes are not preserved by Git or rsync.
+    return sorted(candidates, key=lambda path: path.name)[-1] if candidates else None
+
+
+def _prepare_campaign_output(
+    output: Path,
+    run_results: list[dict[str, object]],
+    *,
+    skip_per_run_analysis: bool,
+) -> Path:
+    """Reserve a fresh campaign root or validate an intentional reuse."""
+    runs_output = output / "runs"
+    if not skip_per_run_analysis:
+        if output.exists():
+            raise FileExistsError(
+                f"Campaign analysis output already exists: {output}. Choose a new "
+                "--output-root; use --skip-per-run-analysis only to aggregate "
+                "previously completed per-run bundles intentionally."
+            )
+        runs_output.mkdir(parents=True)
+        return runs_output
+
+    if not runs_output.is_dir():
+        raise FileNotFoundError(
+            "--skip-per-run-analysis requires an existing campaign runs directory: "
+            f"{runs_output}"
+        )
+    missing: list[str] = []
+    for run in run_results:
+        run_index = int(run["run_index"])
+        seed = int(run["seed"])
+        run_output = runs_output / f"run_{run_index + 1:02d}_seed_{seed}"
+        missing.extend(
+            str(run_output / filename)
+            for filename in PER_RUN_ARTIFACTS
+            if not (run_output / filename).is_file()
+        )
+    if missing:
+        raise FileNotFoundError(
+            "--skip-per-run-analysis cannot reuse an incomplete per-run bundle; "
+            f"missing artifacts: {missing}"
+        )
+    return runs_output
 
 
 def _bootstrap_interval(
@@ -216,17 +265,24 @@ def main() -> int:
         else repo_root / "results" / "notebook_run" / "apple_transition_campaigns"
     )
     output = output_root / campaign_dir.name
-    runs_output = output / "runs"
-    runs_output.mkdir(parents=True, exist_ok=True)
+    run_results = campaign.get("run_results", [])
+    if not run_results:
+        raise RuntimeError("Campaign contains no completed runs")
+    for run in run_results:
+        if run.get("collection_status") != "complete" or int(run.get("returncode", 1)) != 0:
+            raise RuntimeError(f"Campaign contains an incomplete run: {run}")
+    runs_output = _prepare_campaign_output(
+        output,
+        run_results,
+        skip_per_run_analysis=bool(args.skip_per_run_analysis),
+    )
 
     runner = repo_root / "scripts" / "run_apple_transition_analysis.py"
     all_rules: list[pd.DataFrame] = []
     all_events: list[pd.DataFrame] = []
     all_selected: list[pd.DataFrame] = []
     run_manifests: list[Path] = []
-    for run in campaign.get("run_results", []):
-        if run.get("collection_status") != "complete" or int(run.get("returncode", 1)) != 0:
-            raise RuntimeError(f"Campaign contains an incomplete run: {run}")
+    for run in run_results:
         run_index = int(run["run_index"])
         seed = int(run["seed"])
         run_dir = repo_root / str(run["run_dir"])

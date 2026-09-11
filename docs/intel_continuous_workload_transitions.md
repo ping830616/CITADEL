@@ -45,8 +45,13 @@ After the campaign is complete, run:
 
 ```text
 python3 scripts/analyze_intel_transition_campaign.py \
-  --campaign-dir data/telemetry/raw/intel_transition_campaigns/<campaign_id>
+  --campaign-dir data/telemetry/raw/intel_transition_campaigns/<campaign_id> \
+  --output-root results/reproduced/intel-transition-analysis-<attempt>
 ```
+
+Choose a new `--output-root` for every attempt. The analyzer refuses an
+existing campaign-specific output directory so outputs from separate analyses
+cannot be mixed.
 
 The parser uses the Date and Time fields emitted by Intel PCM to align samples with the recorded phase timestamps. It rejects a file when those timestamps cannot be parsed. Cumulative counter state is not reconstructed: Intel PCM interval counts, ratios, energy, and residency values are retained, while temperature and voltage fields are converted to continuous first differences before calibration.
 

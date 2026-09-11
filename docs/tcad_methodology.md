@@ -109,7 +109,7 @@ Graph sensitivity is one-at-a-time around `(tau_c, pi_min)=(0.35, 0.50)`:
 
 Ranking sensitivity starts from `(centrality, edge stability, conditional dependence, alignment)=(0.35, 0.25, 0.20, 0.20)`. Remove one term at a time and renormalize the other three coefficients. Keep telemetry cost unchanged. For the DROOP-adaptive view, keep the outer structural coefficient `0.30`, semantic-prior coefficient `2.20`, and semantic prior fixed.
 
-For each variant, compare its selected top-`k` set with the full-ranking baseline-graph top-`k` set for the same setup/event/view. Archive the intersection count, union count, and Jaccard ratio. Reject a submission run if its baseline graph identities and values, rank values, selected top-`k` set, or Table VI MCC/FPR do not reproduce the archived baseline.
+For each variant, compare its selected top-`k` set with the full-ranking baseline-graph top-`k` set for the same setup/event/view. Archive the intersection count, union count, and Jaccard ratio. The candidate universe comes from the hashed frozen protocol file rather than an archived result table. Require the generator's uniqueness/cardinality/finite-metric gates, then use the separate identity-keyed scientific comparison to reject missing/extra graph identities, selected-feature membership changes, or numerical changes outside the declared cross-platform tolerance.
 
 Primary outputs:
 
@@ -256,7 +256,7 @@ Final gate:
 1. Rerun the notebook from a clean clone.
 2. Compare manifests across two environments.
 3. Archive data snapshot IDs.
-4. Require the graph/ranking sensitivity baseline gates and generated claim audit to pass.
+4. Require the graph/ranking sensitivity self-contained generation gates, claim audit, clean provenance, and separate archive comparison to pass.
 5. Verify every reported sensitivity endpoint resolves to a summary row, fold results, selected features, and hashed inputs.
 6. Freeze paper figures and tables.
 7. Tag the code used for submission.

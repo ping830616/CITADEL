@@ -54,6 +54,68 @@ def _git_commit(repo_root: Path) -> str:
         return "unknown"
 
 
+def _git_state(path: Path) -> dict[str, object]:
+    """Bind an external Git checkout to a commit and its exact dirty state."""
+    try:
+        root = subprocess.check_output(
+            ["git", "-C", str(path), "rev-parse", "--show-toplevel"],
+            text=True,
+            stderr=subprocess.DEVNULL,
+        ).strip()
+        commit = subprocess.check_output(
+            ["git", "-C", root, "rev-parse", "HEAD"], text=True
+        ).strip()
+        status = subprocess.check_output(
+            ["git", "-C", root, "status", "--porcelain"], text=True
+        ).strip()
+        return {
+            "root": str(Path(root).resolve()),
+            "commit": commit,
+            "dirty": bool(status),
+            "status": status.splitlines() if status else [],
+        }
+    except (OSError, subprocess.SubprocessError):
+        return {"root": str(path.resolve()), "commit": None, "dirty": None, "status": []}
+
+
+def _tool_version(executable: Path) -> str | None:
+    try:
+        completed = subprocess.run(
+            [str(executable), "--version"],
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            timeout=15,
+            check=False,
+        )
+    except (OSError, subprocess.SubprocessError):
+        return None
+    output = completed.stdout.strip()
+    return output[:4000] if output else None
+
+
+def _external_input_provenance(
+    args: argparse.Namespace,
+    workload_commands: dict[str, list[str]],
+) -> dict[str, object]:
+    pcm_bin = args.pcm_bin.expanduser().resolve()
+    files = {pcm_bin}
+    for command in workload_commands.values():
+        for token in command:
+            candidate = Path(token).expanduser()
+            if candidate.is_absolute() and candidate.is_file():
+                files.add(candidate.resolve())
+    records = [
+        {"path": str(path), "sha256": _sha256(path), "size_bytes": path.stat().st_size}
+        for path in sorted(files)
+    ]
+    return {
+        "pampar_git": _git_state(args.pampar_root.expanduser().resolve()),
+        "pcm_version_output": _tool_version(pcm_bin),
+        "files": records,
+    }
+
+
 def _portable_path(path: Path, repo_root: Path) -> str:
     try:
         return str(path.resolve().relative_to(repo_root.resolve()))
@@ -309,6 +371,7 @@ def _write_manifest(
         "started_at_utc": started_at,
         "finished_at_utc": datetime.now(timezone.utc).isoformat(),
         "git_commit": _git_commit(repo_root),
+        "citadel_git": _git_state(repo_root),
         "platform": platform.platform(),
         "machine": platform.machine(),
         "cpu_brand": _cpu_brand(),
@@ -326,6 +389,7 @@ def _write_manifest(
             "dwell_seconds": args.dwell_seconds,
             "pcm_requested_interval_seconds": args.pcm_interval_seconds,
             "pcm_warmup_seconds": args.pcm_warmup_seconds,
+            "pcm_timezone": "UTC",
             "continuous_pcm_process": True,
             "phase_orders": [
                 [
@@ -352,6 +416,7 @@ def _write_manifest(
         "source_files": {
             _portable_path(Path(__file__), repo_root): _sha256(Path(__file__)),
         },
+        "external_inputs": _external_input_provenance(args, workload_commands),
     }
     path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
@@ -386,6 +451,8 @@ def main() -> int:
     pcm_raw_placeholder = "<run_dir>/pcm_raw.csv"
     pcm_command_plan = [
         *privilege,
+        "env",
+        "TZ=UTC",
         str(pcm_bin),
         str(args.pcm_interval_seconds),
         f"-i={pcm_iterations}",
@@ -408,6 +475,7 @@ def main() -> int:
         "dwell_seconds": args.dwell_seconds,
         "estimated_collection_seconds": total_phase_seconds + args.pcm_warmup_seconds,
         "continuous_pcm_process": True,
+        "pcm_timezone": "UTC",
         "pcm_command": pcm_command_plan,
         "workload_commands": workload_commands,
     }
@@ -435,6 +503,8 @@ def main() -> int:
     manifest_path = run_dir / "collection_manifest.json"
     pcm_command = [
         *privilege,
+        "env",
+        "TZ=UTC",
         str(pcm_bin),
         str(args.pcm_interval_seconds),
         f"-i={pcm_iterations}",

@@ -1,10 +1,14 @@
 #!/usr/bin/env python3
-"""Run an Intel benign workload order stress test from preserved telemetry.
+"""Development entry point for the Intel workload-order stress test.
 
 The preserved DDR4 and DDR5 files were collected separately for each PAMPAR
 workload. This analysis constructs abrupt workload-order sequences from
 nonoverlapping row blocks. It measures held-out workload distribution changes,
 not the physical transient of a continuously collected hardware switch.
+
+Reviewers and archival runs should use ``scripts/reproduce.py intel-orders``.
+That wrapper enforces a clean locked runtime, writes into an isolated run root,
+records a provenance receipt, and can compare independent or archived runs.
 """
 
 from __future__ import annotations
@@ -53,6 +57,16 @@ WORKLOADS = (
 )
 SETUP_PREFIX = {"A": "DDR4", "B": "DDR5"}
 NOTEBOOK_CELL_IDS = ("0bbebb9d", "3d1f98fe", "integrated-utilities-code")
+NOTEBOOK_UTILITY_LOADER = {
+    "mode": "validation-free",
+    "profile": "smoke",
+    "data_mode": "sample",
+    "tcad_preset": "smoke",
+    "seed": 123,
+    "threads": 1,
+    "strict_runtime": False,
+    "experiment_sections_enabled": False,
+}
 
 
 @dataclass(frozen=True)
@@ -125,7 +139,11 @@ def _portable_path(path: Path, repo_root: Path) -> str:
 
 def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="Analyze randomized workload orders in preserved Intel benign telemetry."
+        description="Analyze randomized workload orders in preserved Intel benign telemetry.",
+        epilog=(
+            "This direct command is for development. For comparison-grade runs use "
+            "scripts/reproduce.py intel-orders. Every --output must be a new directory."
+        ),
     )
     parser.add_argument(
         "--data-root",
@@ -135,7 +153,8 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--output",
         type=Path,
-        default=_repo_root() / "results" / "notebook_run" / "intel_workload_orders",
+        required=True,
+        help="New output directory; existing directories are rejected to prevent mixed runs.",
     )
     parser.add_argument("--setups", nargs="+", choices=("A", "B"), default=["A", "B"])
     parser.add_argument("--replicates", type=int, default=10)
@@ -181,15 +200,39 @@ def _load_notebook_namespace(repo_root: Path) -> dict[str, object]:
     namespace = module.__dict__
     progress_log = repo_root / "results" / "notebook_run" / "notebook_progress.log"
     saved_progress = progress_log.read_bytes() if progress_log.is_file() else None
-    try:
-        for cell_id in NOTEBOOK_CELL_IDS:
-            source = "".join(cells[cell_id].get("source", []))
-            exec(compile(source, f"{notebook_path.name}:{cell_id}", "exec"), namespace)
-    finally:
-        if saved_progress is not None:
-            progress_log.write_bytes(saved_progress)
-        elif progress_log.exists():
-            progress_log.unlink()
+    saved_environment = dict(os.environ)
+    temporary_parent = repo_root / "results" / "reproduced"
+    temporary_parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory(
+        prefix=".intel-workload-utility-loader-", dir=temporary_parent
+    ) as temporary_directory:
+        utility_root = Path(temporary_directory)
+        os.environ.update(
+            {
+                "CITADEL_SEED": "123",
+                "CITADEL_THREADS": "1",
+                "CITADEL_PROFILE": "smoke",
+                "CITADEL_DATA_MODE": "sample",
+                "CITADEL_TCAD_PRESET": "smoke",
+                "CITADEL_RUN_LIFECYCLE": "0",
+                "CITADEL_RUN_INTEL_WORKLOAD_ORDERS": "0",
+                "CITADEL_RUN_APPLE_OBSERVABILITY": "0",
+                "CITADEL_STRICT_RUNTIME": "0",
+                "CITADEL_RESULTS_ROOT": str(utility_root / "notebook_run"),
+                "CITADEL_SAMPLE_ROOT": str(utility_root / "sample_data"),
+            }
+        )
+        try:
+            for cell_id in NOTEBOOK_CELL_IDS:
+                source = "".join(cells[cell_id].get("source", []))
+                exec(compile(source, f"{notebook_path.name}:{cell_id}", "exec"), namespace)
+        finally:
+            os.environ.clear()
+            os.environ.update(saved_environment)
+            if saved_progress is not None:
+                progress_log.write_bytes(saved_progress)
+            elif progress_log.exists():
+                progress_log.unlink()
     return namespace
 
 
@@ -634,7 +677,12 @@ def main() -> int:
     repo_root = _repo_root()
     data_root = args.data_root.expanduser().resolve()
     output = args.output.expanduser().resolve()
-    output.mkdir(parents=True, exist_ok=True)
+    if output.exists():
+        raise FileExistsError(
+            f"Output directory already exists: {output}. Choose a new path so stale "
+            "and regenerated artifacts cannot be mixed."
+        )
+    output.mkdir(parents=True)
     namespace = _load_notebook_namespace(repo_root)
     sanitize_columns = namespace["_sanitize_telemetry_columns"]
     fit_cintas = namespace["fit_cintas_from_benign"]
@@ -932,6 +980,7 @@ def main() -> int:
                 "git_commit": _git_commit(repo_root),
                 "git_dirty": _git_dirty(repo_root),
                 "config": asdict(cfg),
+                "notebook_utility_loader": NOTEBOOK_UTILITY_LOADER,
                 "interpretation_boundary": (
                     "The preserved workload files were collected separately. Constructed "
                     "boundaries test held-out workload-order sensitivity but do not contain "

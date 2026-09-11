@@ -41,17 +41,23 @@ scripts/vivado_cintas_synth.tcl
 
 It accepts `<tag> <part> <features> <q> <samples_per_block> <clock_period_ns>`. For the TCAD validation wrapper, use a larger package such as `xc7a200tfbg676-1` and a 25 ns clock. This avoids the small-package I/O limit of the starter top level and evaluates the current unpipelined datapath at a realistic post-synthesis target.
 
-It writes Vivado utilization, timing, power, configuration, and checkpoint artifacts under:
+For a reviewer run, use the strict wrapper rather than invoking the Tcl or
+parser directly. It checks the exact Vivado build and clean source state before
+synthesis, validates every configuration/report, writes provenance, and
+compares the parsed metrics with the immutable archive:
 
-```text
-results/notebook_run/rtl_sweep/<tag>/
+```bash
+uv run --frozen python scripts/reproduce_rtl.py \
+  --output-root results/reproduced/reviewer-rtl-2025-2/rtl_sweep
 ```
 
-After synthesis, build the summary CSV with:
-
-```text
-python3 scripts/parse_vivado_rtl_sweep.py --root results/notebook_run/rtl_sweep
-```
+Choose a new output name for every run. The wrapper never writes into
+`results/notebook_run/rtl_sweep/`, which remains the comparison reference.
+Direct Tcl/parser invocation is development-only and is not sufficient
+reproduction evidence because it bypasses the wrapper's preflight and receipt.
+The parser requires explicit fresh `--output` and `--manifest` paths and refuses
+to write beneath `results/notebook_run/rtl_sweep/`; malformed strict inputs are
+validated before either output is created.
 
 ## Reporting
 

@@ -1,0 +1,446 @@
+{
+  "schema_version": 1,
+  "audit_scope": {
+    "repository": "https://github.com/ping830616/CITADEL.git",
+    "commit": "b2541355b8e5f4853e63976a05af00b99244bde6",
+    "audit_date": "2026-09-11",
+    "note": "Status describes the audited snapshot, not later-generated artifacts.",
+    "post_audit_remediation": [
+      "exact CPython and cross-platform dependency lock",
+      "scoped LFS preflight and archive checksum inventory",
+      "isolated headless notebook profiles with repeat and archive comparison",
+      "post-merge TCAD and post-figure Apple manifest generation",
+      "core lifecycle invocation and four-case q8/q15 golden-vector export",
+      "strict Vivado 2025.2 build 6299465 reproduction launcher and RTL report manifest"
+    ]
+  },
+  "status_definitions": {
+    "ARCHIVED_CLEAN_VERIFIED": "Clean-source run with hashed inputs/outputs, runtime pins, and a passing claim-level check.",
+    "ARCHIVED_LEGACY_DIRTY": "Outputs and a manifest exist, but the manifest records a dirty source tree or cannot bind the exact executable source.",
+    "ARCHIVED_PARTIAL": "Some outputs exist, but a bundle-level manifest or required functional artifact is missing.",
+    "EXPECTED_NOT_ARCHIVED": "The experiment is defined, but its expected output bundle is not committed.",
+    "PROTOCOL_ONLY": "Collection and/or analysis protocol exists, but no completed campaign is committed."
+  },
+  "bundles": [
+    {
+      "id": "processed_ddr_snapshot",
+      "evidence_class": "archived_input",
+      "status": "ARCHIVED_PARTIAL",
+      "producer": [
+        "External X-OCTANE snapshot at cd669b97327deb1169f12cf8dfe45b08a5ed5ada",
+        "Historical helpers under TELEMETRY_COLLECTION_SCRIPTS/"
+      ],
+      "inputs": [],
+      "output_root": "data/telemetry/processed/ddr_data",
+      "expected_outputs": [
+        "78 DDR4/DDR5 BENIGN, DROOP, RH, and SPECTRE CSV files"
+      ],
+      "manifest": "data/external_sources.json",
+      "legacy_provenance": "External source commit and expected file count/bytes are recorded; original per-run acquisition manifests and historical event boundaries are not archived.",
+      "reproduction_boundary": "Use the archived snapshot for numerical reanalysis; a new telemetry collection is an independent experiment."
+    },
+    {
+      "id": "tcad_standard_integrated_dse",
+      "evidence_class": "archived_data_reanalysis",
+      "status": "ARCHIVED_LEGACY_DIRTY",
+      "producer": [
+        "scripts/reproduce.py notebook --profile core --preset full",
+        "notebooks/exact_tcad_all_experiments.ipynb Section 4",
+        "configs/tcad_grid_full.json"
+      ],
+      "inputs": [
+        "data/telemetry/processed/ddr_data/*.csv",
+        "hardware/cintas_operator_costs.csv"
+      ],
+      "output_root": "results/notebook_run/tcad_ablation",
+      "expected_outputs": [
+        "run_manifest.json",
+        "tcad_config_resolved.json",
+        "tcad_ablation_standard_summary.csv",
+        "tcad_ablation_standard_fold_results.csv",
+        "tcad_ablation_summary.csv",
+        "tcad_ablation_fold_results.csv",
+        "tcad_selected_features.csv",
+        "causal/*.csv"
+      ],
+      "manifest": "results/notebook_run/tcad_ablation/run_manifest.json",
+      "legacy_provenance": "Manifest records commit 08cf2368999a9eea3b234a931d899f704a4f0169, git_dirty=true, Python 3.11.15, and the standard RH/SPECTRE branch. Root summary/fold paths now contain later integrated content and do not correspond to that manifest's archived hashes.",
+      "reproduction_boundary": "A clean full notebook rerun plus a final integrated manifest is required before treating the combined table as independently verified archival evidence."
+    },
+    {
+      "id": "droop_adaptive_derived_data",
+      "evidence_class": "archived_data_reanalysis",
+      "status": "ARCHIVED_PARTIAL",
+      "producer": [
+        "scripts/reproduce.py notebook --profile core --preset full",
+        "notebooks/exact_tcad_all_experiments.ipynb Section 4 transient-feature generation"
+      ],
+      "inputs": [
+        "52 BENIGN/DROOP files under data/telemetry/processed/ddr_data"
+      ],
+      "output_root": "results/notebook_run/droop_adaptive_data",
+      "expected_outputs": [
+        "52 derived BENIGN/DROOP CSV files"
+      ],
+      "manifest": null,
+      "legacy_provenance": "Derived CSVs are tracked, but no bundle manifest binds source hashes, transformation code, and output hashes.",
+      "reproduction_boundary": "Regeneration must be verified before the downstream DROOP DSE is considered fully linked."
+    },
+    {
+      "id": "droop_adaptive_dse_p0_975",
+      "evidence_class": "archived_data_reanalysis",
+      "status": "ARCHIVED_LEGACY_DIRTY",
+      "producer": [
+        "scripts/reproduce.py notebook --profile core --preset full",
+        "notebooks/exact_tcad_all_experiments.ipynb Section 4 DROOP branch"
+      ],
+      "inputs": [
+        "results/notebook_run/droop_adaptive_data/*.csv"
+      ],
+      "output_root": "results/notebook_run/droop_adaptive_ablation/p0_975",
+      "expected_outputs": [
+        "run_manifest.json",
+        "tcad_config_resolved.json",
+        "tcad_ablation_summary.csv",
+        "tcad_ablation_fold_results.csv",
+        "tcad_selected_features.csv",
+        "causal/*.csv"
+      ],
+      "manifest": "results/notebook_run/droop_adaptive_ablation/p0_975/run_manifest.json",
+      "legacy_provenance": "Manifest records commit 08cf2368999a9eea3b234a931d899f704a4f0169, git_dirty=true, and Python 3.11.15.",
+      "reproduction_boundary": "Clean source and a linked derived-data manifest are required for archival replacement."
+    },
+    {
+      "id": "droop_adaptive_dse_p0_99",
+      "evidence_class": "archived_data_reanalysis",
+      "status": "ARCHIVED_LEGACY_DIRTY",
+      "producer": [
+        "scripts/reproduce.py notebook --profile core --preset full",
+        "notebooks/exact_tcad_all_experiments.ipynb Section 4 DROOP branch"
+      ],
+      "inputs": [
+        "results/notebook_run/droop_adaptive_data/*.csv"
+      ],
+      "output_root": "results/notebook_run/droop_adaptive_ablation/p0_99",
+      "expected_outputs": [
+        "run_manifest.json",
+        "tcad_config_resolved.json",
+        "tcad_ablation_summary.csv",
+        "tcad_ablation_fold_results.csv",
+        "tcad_selected_features.csv",
+        "causal/*.csv"
+      ],
+      "manifest": "results/notebook_run/droop_adaptive_ablation/p0_99/run_manifest.json",
+      "legacy_provenance": "Manifest records commit 08cf2368999a9eea3b234a931d899f704a4f0169, git_dirty=true, and Python 3.11.15.",
+      "reproduction_boundary": "Clean source and a linked derived-data manifest are required for archival replacement."
+    },
+    {
+      "id": "droop_adaptive_combined",
+      "evidence_class": "archived_data_reanalysis",
+      "status": "ARCHIVED_PARTIAL",
+      "producer": [
+        "scripts/reproduce.py notebook --profile core --preset full",
+        "notebooks/exact_tcad_all_experiments.ipynb Section 4 quantile merge"
+      ],
+      "inputs": [
+        "droop_adaptive_dse_p0_975",
+        "droop_adaptive_dse_p0_99"
+      ],
+      "output_root": "results/notebook_run/droop_adaptive_ablation",
+      "expected_outputs": [
+        "droop_adaptive_summary_all_quantiles.csv",
+        "droop_adaptive_fold_results_all_quantiles.csv",
+        "droop_adaptive_selected_features_all_quantiles.csv",
+        "droop_adaptive_best_by_setup.csv",
+        "fig_droop_adaptive_mcc_vs_block_length.png"
+      ],
+      "manifest": null,
+      "legacy_provenance": "Combined files are tracked without a parent merge manifest.",
+      "reproduction_boundary": "A parent manifest must link both child manifests and the merge code."
+    },
+    {
+      "id": "graph_ranking_sensitivity",
+      "evidence_class": "archived_data_reanalysis",
+      "status": "ARCHIVED_CLEAN_VERIFIED",
+      "producer": [
+        "scripts/reproduce.py sensitivity",
+        "scripts/run_graph_sensitivity.py",
+        "configs/graph_sensitivity.json",
+        "configs/graph_sensitivity_feature_universes.json",
+        "notebook cell: Graph and ranking sensitivity at frozen Table VI configurations"
+      ],
+      "inputs": [
+        "data/telemetry/processed/ddr_data/*.csv",
+        "results/notebook_run/droop_adaptive_data/*.csv",
+        "configs/graph_sensitivity_feature_universes.json",
+        ".python-version",
+        "requirements.txt",
+        "pyproject.toml",
+        "uv.lock"
+      ],
+      "output_root": "results/notebook_run/graph_sensitivity",
+      "expected_outputs": [
+        "README.md",
+        "protocol.json",
+        "selected_operating_points.json",
+        "graph_sensitivity_summary.csv",
+        "graph_sensitivity_fold_results.csv",
+        "graph_sensitivity_selected_features.csv",
+        "graph_sensitivity_feature_ranks.csv",
+        "graph_sensitivity_graph_edges.csv",
+        "graph_sensitivity_claims.json",
+        "run_manifest.json"
+      ],
+      "manifest": "results/notebook_run/graph_sensitivity/run_manifest.json",
+      "legacy_provenance": "Not legacy: clean source commit 0e8155e778af425fd7e25280ae9f4d412f53aca7, Python 3.11.15, one thread, pinned numerical versions, four passing baseline gates, archival_provenance_status=PASS, and claim_status=PASS.",
+      "reproduction_boundary": "The current runner does not consume archived TCAD ranks, edges, or summaries. Those files document historical derivation of the frozen feature-universe registry only. Scientific tables and claim endpoints are the comparison target; timestamps, runtime seconds, and rendered bytes are not."
+    },
+    {
+      "id": "lifecycle_drift",
+      "evidence_class": "archived_data_reanalysis",
+      "status": "ARCHIVED_LEGACY_DIRTY",
+      "producer": [
+        "the audited b254135 snapshot did not invoke this helper; the post-audit core profile does",
+        "notebook utility notebook_run_lifecycle_drift(...)"
+      ],
+      "inputs": [
+        "data/telemetry/processed/ddr_data/*.csv"
+      ],
+      "output_root": "results/notebook_run/lifecycle_drift",
+      "expected_outputs": [
+        "lifecycle_config_resolved.json",
+        "lifecycle_recalibration_summary.csv",
+        "lifecycle_recalibration_by_scenario.csv",
+        "lifecycle_recalibration_windows.csv",
+        "lifecycle_feature_rank_stability.csv",
+        "lifecycle_causal/*.csv",
+        "figures/fig_lifecycle_recalibration_fpr_tpr.png",
+        "run_manifest.json"
+      ],
+      "manifest": "results/notebook_run/lifecycle_drift/run_manifest.json",
+      "legacy_provenance": "Manifest records commit f030e7ef08b7351bc3bcb6df0b2ccb3266d292f9, git_dirty=true, Python 3.13.5, NumPy 2.3.2, pandas 2.3.1, and scikit-learn 1.7.1. The audited b254135 snapshot did not invoke the utility; the post-audit core profile now does.",
+      "reproduction_boundary": "Invoke explicitly and generate a clean manifest under the canonical environment."
+    },
+    {
+      "id": "workload_profiles",
+      "evidence_class": "archived_data_reanalysis",
+      "status": "EXPECTED_NOT_ARCHIVED",
+      "producer": [
+        "notebook cell: Benign workload profiles (Reviewer 1, Comment 6)"
+      ],
+      "inputs": [
+        "26 BENIGN files under data/telemetry/processed/ddr_data"
+      ],
+      "output_root": "results/notebook_run/workload_profiles",
+      "expected_outputs": [
+        "workload_profiles.png",
+        "workload_profiles.pdf",
+        "feature_metadata.csv",
+        "feature_statistics.csv",
+        "domain_variance.csv",
+        "workload_profiles.csv",
+        "input_quality.csv",
+        "workload_rationale.csv",
+        "manifest.json"
+      ],
+      "manifest": "results/notebook_run/workload_profiles/manifest.json",
+      "legacy_provenance": "Stored notebook output reports a completed run, but the result directory is not committed.",
+      "reproduction_boundary": "Rerun and deliberately archive all outputs because results/ is ignored by default."
+    },
+    {
+      "id": "apple_limited_observability",
+      "evidence_class": "archived_data_reanalysis",
+      "status": "ARCHIVED_LEGACY_DIRTY",
+      "producer": [
+        "scripts/reproduce.py notebook --profile apple --preset full",
+        "notebooks/exact_tcad_all_experiments.ipynb Section 11"
+      ],
+      "inputs": [
+        "data/telemetry/raw/apple_data/**/*.csv"
+      ],
+      "output_root": "results/notebook_run/apple_limited_observability",
+      "expected_outputs": [
+        "apple_observability_inventory.csv",
+        "apple_observability_fold_results.csv",
+        "apple_observability_summary.csv",
+        "apple_observability_best_by_scenario.csv",
+        "apple_selected_features.csv",
+        "apple_workload_best_by_observability.csv",
+        "apple_workload_summary.csv",
+        "tier*/causal/*.csv",
+        "paper_figures/*.png",
+        "run_manifest.json"
+      ],
+      "manifest": "results/notebook_run/apple_limited_observability/run_manifest.json",
+      "legacy_provenance": "Manifest records commit 08cf2368999a9eea3b234a931d899f704a4f0169, git_dirty=true, and Python 3.11.15. The current registry pins upstream DICE commit b5e382e127e5ed3a187f6d328ab95729500ad7ae.",
+      "reproduction_boundary": "Verify the pinned DICE ref and archived Apple input hashes; a clean rerun must hash notebook/config sources and inputs."
+    },
+    {
+      "id": "intel_workload_orders",
+      "evidence_class": "archived_data_reanalysis",
+      "status": "EXPECTED_NOT_ARCHIVED",
+      "producer": [
+        "uv run --frozen python scripts/reproduce.py intel-orders",
+        "development only: scripts/analyze_intel_workload_orders.py with a new explicit --output",
+        "development only: notebooks/exact_tcad_all_experiments.ipynb Section 12.1"
+      ],
+      "inputs": [
+        "26 BENIGN files under data/telemetry/processed/ddr_data"
+      ],
+      "output_root": "results/notebook_run/intel_workload_orders",
+      "expected_outputs": [
+        "intel_workload_order_run_results.csv",
+        "intel_workload_order_block_results.csv",
+        "intel_workload_order_summary.csv",
+        "intel_workload_order_by_workload.csv",
+        "intel_workload_order_selected_features.csv",
+        "intel_workload_order_feature_frequency.csv",
+        "fig_intel_workload_order_variation.png",
+        "intel_workload_order_paper_text.txt",
+        "run_manifest.json",
+        "runs/setup_<A-or-B>_block_<01-through-10>/*"
+      ],
+      "manifest": "results/notebook_run/intel_workload_orders/run_manifest.json",
+      "legacy_provenance": "Runner and protocol exist; no result bundle is committed.",
+      "reproduction_boundary": "The wrapper records the clean commit, 26 input hashes, locked runtime and NumPy/BLAS/threadpool details, plus the analyzer-manifest hash. Constructed order boundaries do not establish continuously measured switch-transient behavior."
+    },
+    {
+      "id": "ets_baseline",
+      "evidence_class": "archived_data_reanalysis",
+      "status": "EXPECTED_NOT_ARCHIVED",
+      "producer": [
+        "notebook utilities run_ets2026(...) and notebook_run_ets2026(...)"
+      ],
+      "inputs": [
+        "data/telemetry/processed/ddr_data/*.csv"
+      ],
+      "output_root": "results/notebook_run/ets_baseline",
+      "expected_outputs": [
+        "run_manifest.json",
+        "baseline result tables"
+      ],
+      "manifest": "results/notebook_run/ets_baseline/run_manifest.json",
+      "legacy_provenance": "Utilities are defined, but the notebook does not invoke them and no result bundle is committed.",
+      "reproduction_boundary": "Do not claim an archived CITADEL-internal EXACT baseline reproduction until run and archived."
+    },
+    {
+      "id": "paper_gallery",
+      "evidence_class": "derived_archived_analysis",
+      "status": "ARCHIVED_PARTIAL",
+      "producer": [
+        "notebooks/exact_tcad_all_experiments.ipynb Section 5 gallery cells"
+      ],
+      "inputs": [
+        "TCAD, DROOP, lifecycle, Apple, and RTL result tables as applicable"
+      ],
+      "output_root": "results/notebook_run/tcad_ablation/paper_figures",
+      "expected_outputs": [
+        "gallery_table*.csv",
+        "gallery_fig*.png",
+        "rtl_fpga_deployment_passport.png",
+        "tcad_detection_quality_paper_selected.csv"
+      ],
+      "manifest": null,
+      "legacy_provenance": "Several figures/tables are tracked, but no gallery manifest exists and tcad_detection_quality_paper_selected.csv is absent.",
+      "reproduction_boundary": "Compare plotted source tables and reported values, not renderer-dependent image hashes."
+    },
+    {
+      "id": "fpga_golden_vectors",
+      "evidence_class": "derived_archived_analysis",
+      "status": "ARCHIVED_PARTIAL",
+      "producer": [
+        "notebooks/exact_tcad_all_experiments.ipynb Section 9"
+      ],
+      "inputs": [
+        "results/notebook_run/tcad_ablation/tcad_selected_features.csv",
+        "selected TCAD operating point"
+      ],
+      "output_root": "results/notebook_run/fpga",
+      "expected_outputs": [
+        "per-operating-point vectors and fixed-point model constants",
+        "vector bundle manifest"
+      ],
+      "manifest": null,
+      "legacy_provenance": "Only cintas_setupA_q18_golden_vectors.csv is present; there is no complete four-case vector/model-constant bundle.",
+      "reproduction_boundary": "Insufficient for automated bit-exact RTL equivalence as archived."
+    },
+    {
+      "id": "rtl_vivado_sweep",
+      "evidence_class": "vivado_only_reproduction",
+      "status": "ARCHIVED_PARTIAL",
+      "producer": [
+        "scripts/vivado_cintas_synth.tcl",
+        "scripts/parse_vivado_rtl_sweep.py"
+      ],
+      "inputs": [
+        "rtl/cintas/*.sv",
+        "Vivado 2025.2 build 6299465",
+        "part xc7a200tfbg676-1",
+        "25 ns requested period"
+      ],
+      "output_root": "results/notebook_run/rtl_sweep",
+      "expected_outputs": [
+        "A_DROOP/{utilization,timing_summary,power}.rpt",
+        "A_RH/{utilization,timing_summary,power}.rpt",
+        "B_DROOP/{utilization,timing_summary,power}.rpt",
+        "B_SPECTRE/{utilization,timing_summary,power}.rpt",
+        "rtl_resource_summary.csv",
+        "sweep manifest"
+      ],
+      "manifest": null,
+      "legacy_provenance": "Four report directories and a parsed summary exist without a sweep manifest. RTL implements block maximum; selected paper cases use median.",
+      "reproduction_boundary": "Resource reports are starter-datapath evidence, not a bit-exact implementation proof for the frozen selected cases."
+    },
+    {
+      "id": "intel_transition_campaign",
+      "evidence_class": "live_collection",
+      "status": "PROTOCOL_ONLY",
+      "producer": [
+        "scripts/run_intel_transition_campaign.py",
+        "scripts/collect_intel_workload_transitions.py",
+        "scripts/analyze_intel_transition_campaign.py"
+      ],
+      "inputs": [
+        "intended Intel Setup A or B host",
+        "pinned PAMPAR tree",
+        "pinned Intel PCM executable",
+        "required privileges"
+      ],
+      "output_root": "results/notebook_run/intel_transition_campaigns/<campaign_id>",
+      "expected_outputs": [
+        "raw campaign and per-run collection manifests",
+        "continuous PCM and phase-event traces",
+        "aggregate rule/stabilization/feature/figure/paper-text outputs",
+        "campaign_analysis_manifest.json"
+      ],
+      "manifest": null,
+      "legacy_provenance": "Protocol and code only; no completed campaign is committed.",
+      "reproduction_boundary": "A new campaign reproduces the protocol but not identical telemetry samples."
+    },
+    {
+      "id": "apple_transition_campaign",
+      "evidence_class": "live_collection",
+      "status": "PROTOCOL_ONLY",
+      "producer": [
+        "scripts/run_apple_transition_campaign.py",
+        "scripts/collect_apple_workload_transitions.py",
+        "scripts/analyze_apple_transition_campaign.py"
+      ],
+      "inputs": [
+        "Apple host",
+        "live workload backends",
+        "network access for browser workload unless offline mode is allowed"
+      ],
+      "output_root": "results/notebook_run/apple_transition_campaigns/<campaign_id>",
+      "expected_outputs": [
+        "raw campaign and per-run manifests",
+        "continuous traces and phase records",
+        "per-run and aggregate rule/event/feature/figure/paper-text outputs",
+        "campaign_analysis_manifest.json"
+      ],
+      "manifest": null,
+      "legacy_provenance": "Protocol and code only; no completed campaign is committed.",
+      "reproduction_boundary": "A new campaign reproduces the protocol but not identical telemetry samples."
+    }
+  ]
+}

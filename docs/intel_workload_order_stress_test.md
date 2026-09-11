@@ -29,15 +29,56 @@ Use `docs/intel_continuous_workload_transitions.md` to collect the required inde
 
 Intel PCM columns are retained as interval metrics. Temperature and voltage columns are converted to first differences within each original workload recording before any randomized sequence is assembled. This prevents the analysis from creating a false jump by subtracting absolute values across separately collected files. Nonfinite values are imputed from calibration means, and nonfinite or constant calibration columns are removed. Each run writes a preprocessing audit.
 
-## Notebook Run
+## Reproducible Run
 
-Open `notebooks/exact_tcad_all_experiments.ipynb`. In a fresh kernel, run the repository import cell, Section 1, Section 2, and Section 12. The Section 12 code cell calls:
+Use the locked wrapper for reviewer or archival evidence:
 
 ```text
-python3 scripts/analyze_intel_workload_orders.py
+uv run --frozen python scripts/reproduce.py fetch-lfs --scope intel
+uv run --frozen python scripts/reproduce.py intel-orders --run-id reviewer-intel-orders
 ```
 
-Command line options can reduce the run for a development check:
+The wrapper requires a clean checkout and the exact locked runtime by default,
+writes only beneath a new `results/reproduced/<run-id>/` root, and records a
+receipt containing the commit, 26 input hashes, source and environment-file
+hashes, exact package versions, platform, NumPy/BLAS/threadpool details, and
+analyzer-manifest hash.
+The analyzer loads only shared notebook definitions under an isolated
+validation-free smoke/sample environment, then restores the caller environment.
+The workload-order analysis itself separately requires, validates, and hashes
+the exact 26 benign Intel recordings; non-benign DDR LFS objects are not needed.
+Add `--repeat` to execute two isolated full runs and compare all scientific
+tables. Use `--verify` only when the repository snapshot contains a committed
+`results/notebook_run/intel_workload_orders/` reference; the current audited
+snapshot does not.
+
+To compare results copied back from two different servers, keep each complete
+`notebook_run/` directory and run:
+
+```text
+uv run --frozen python scripts/verify_reproducibility.py compare \
+  --reference-root results/reproduced/server-a/notebook_run \
+  --candidate-root results/reproduced/server-b/notebook_run \
+  --profile intel-orders \
+  --report results/reproduced/intel_server_comparison.json
+```
+
+The comparison is row-order independent through declared scientific identity
+keys. Numeric cells use `rtol=1e-9` and `atol=5e-11`; schemas, workload orders,
+alarm decisions, and selected-feature membership must agree exactly.
+
+## Notebook Run
+
+Open `notebooks/exact_tcad_all_experiments.ipynb`. In a fresh kernel, run the repository import cell, Section 1, Section 2, and Section 12. The Section 12 code cell calls the development analyzer with the notebook's configured output root:
+
+```text
+python3 scripts/analyze_intel_workload_orders.py --output <RESULTS_ROOT>/intel_workload_orders
+```
+
+Direct analyzer invocation is for development only. It requires an explicit,
+previously nonexistent output directory and refuses reuse so that stale files
+cannot be mixed with a new run. Command line options can reduce the run for a
+development check:
 
 ```text
 python3 scripts/analyze_intel_workload_orders.py --setups A --replicates 1 --bootstrap-resamples 1000 --output /tmp/citadel_intel_order_check
@@ -47,7 +88,10 @@ Do not use a one block development check as a paper result.
 
 ## Outputs
 
-The full run writes these artifacts under `results/notebook_run/intel_workload_orders/`:
+The wrapper writes these artifacts under
+`results/reproduced/<run-id>/notebook_run/intel_workload_orders/`. A reviewed
+bundle may later be promoted to the canonical
+`results/notebook_run/intel_workload_orders/` archive:
 
 ```text
 intel_workload_order_run_results.csv

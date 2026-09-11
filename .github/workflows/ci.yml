@@ -1,18 +1,23 @@
-name: citadel-notebook-ci
+name: citadel-reproducibility-ci
 
 on:
   push:
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
-  smoke:
-    runs-on: ubuntu-latest
+  deterministic-smoke:
+    name: deterministic smoke (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.11", "3.12"]
+        os: [ubuntu-24.04, macos-14]
 
     env:
+      GIT_LFS_SKIP_SMUDGE: "1"
       PYTHONHASHSEED: "123"
       OMP_NUM_THREADS: "1"
       OPENBLAS_NUM_THREADS: "1"
@@ -20,24 +25,271 @@ jobs:
       NUMEXPR_NUM_THREADS: "1"
       VECLIB_MAXIMUM_THREADS: "1"
       MPLBACKEND: Agg
+      MPLCONFIGDIR: /tmp/citadel-matplotlib
+      XDG_CACHE_HOME: /tmp/citadel-cache
+      TZ: UTC
+      UV_PYTHON_DOWNLOADS: never
 
     steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
-          python-version: ${{ matrix.python-version }}
-          cache: pip
+          fetch-depth: 1
+          lfs: false
 
-      - name: Install notebook dependencies
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.11.15"
+
+      - uses: astral-sh/setup-uv@d0cc045d04ccac9d8b7881df0226f9e82c39688e # v6
+        with:
+          version: "0.12.13"
+          enable-cache: true
+
+      - name: Install the frozen environment
+        run: uv sync --frozen --no-dev
+
+      - name: Check lock and source integrity
         run: |
-          python -m pip install -U pip
-          python -m pip install -r requirements.txt
+          uv lock --check
+          uv run --frozen python -m compileall -q scripts APPLE_DATA_GENERATION
+          uv run --frozen python - <<'PY'
+          import ast
+          import json
+          import tomllib
+          from pathlib import Path
 
-      - name: Validate integrated notebook
-        run: python -c "import ast,json; from pathlib import Path; nb=json.loads(Path('notebooks/exact_tcad_all_experiments.ipynb').read_text()); [ast.parse(''.join(c.get('source', []))) for c in nb['cells'] if c.get('cell_type') == 'code']; print('notebook code cells compile')"
+          import yaml
 
-      - name: Validate graph sensitivity runner and protocol
+          project = tomllib.loads(Path("pyproject.toml").read_text(encoding="utf-8"))
+          project_dependencies = set(project["project"]["dependencies"])
+          requirement_dependencies = {
+              line.strip()
+              for line in Path("requirements.txt").read_text(encoding="utf-8").splitlines()
+              if line.strip() and not line.lstrip().startswith("#")
+          }
+          conda = yaml.safe_load(Path("environment.yml").read_text(encoding="utf-8"))
+          conda_dependencies = {
+              dependency.replace("=", "==", 1)
+              for dependency in conda["dependencies"]
+              if isinstance(dependency, str) and not dependency.startswith("python=")
+          }
+          if project_dependencies != requirement_dependencies or project_dependencies != conda_dependencies:
+              raise AssertionError("direct dependency pins differ across pyproject, requirements, and conda files")
+          if project["project"]["requires-python"] != "==3.11.15":
+              raise AssertionError("pyproject must retain the canonical Python 3.11.15 runtime")
+          if "python=3.11.15" not in conda["dependencies"]:
+              raise AssertionError("environment.yml must retain the canonical Python 3.11.15 runtime")
+          if Path(".python-version").read_text(encoding="utf-8").strip() != "3.11.15":
+              raise AssertionError(".python-version must retain the canonical Python 3.11.15 runtime")
+
+          notebook = json.loads(Path("notebooks/exact_tcad_all_experiments.ipynb").read_text(encoding="utf-8"))
+          for cell in notebook["cells"]:
+              if cell.get("cell_type") == "code":
+                  ast.parse("".join(cell.get("source", [])))
+          print("notebook code cells compile")
+          PY
+
+      - name: Confirm large artifacts remain unfetched LFS pointers
+        shell: bash
         run: |
-          python -m py_compile scripts/run_graph_sensitivity.py
-          python -m json.tool configs/graph_sensitivity.json >/dev/null
+          lfs_count="$(git lfs ls-files -n | wc -l | tr -d ' ')"
+          test "$lfs_count" -gt 0
+          materialized_count="$(git lfs ls-files | awk '$2 == "*" {count++} END {print count+0}')"
+          test "$materialized_count" -eq 0
+          echo "Validated $lfs_count tracked pointers without downloading the artifact archive."
+
+      - name: Verify the complete tracked archive inventory
+        run: uv run --frozen python scripts/reproduce.py verify-archive --scope all
+
+      - name: Run deterministic CINTAS numerical smoke test
+        run: |
+          uv run --frozen python - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+
+          import numpy as np
+          import pandas as pd
+
+          from scripts import run_graph_sensitivity as sensitivity
+
+          root = Path.cwd()
+          protocol = json.loads((root / "configs" / "graph_sensitivity.json").read_text(encoding="utf-8"))
+          sensitivity._configure(protocol)
+          sensitivity._check_runtime(protocol, root, allow_mismatch=False)
+          namespace = sensitivity._notebook_namespace(root)
+
+          rows = []
+          for workload_index, workload in enumerate(("W0", "W1", "W2")):
+              for scenario in ("BENIGN", "RH"):
+                  anomaly = int(scenario != "BENIGN")
+                  for time_index in range(96):
+                      rows.append(
+                          {
+                              "setup": "A",
+                              "scenario": scenario,
+                              "workload": workload,
+                              "time_idx": time_index,
+                              "label": anomaly,
+                              "is_anom": anomaly,
+                              "feature_0": ((time_index + workload_index) % 11) / 4 + 2 * anomaly,
+                              "feature_1": ((3 * time_index + workload_index) % 13) / 8 + anomaly,
+                              "feature_2": ((5 * time_index + 2 * workload_index) % 17) / 16 + anomaly / 2,
+                          }
+                      )
+
+          frame = pd.DataFrame(rows)
+          cleaned = namespace["clean_and_debias_telemetry"](frame)
+          features = ["feature_0", "feature_1", "feature_2"]
+          model = namespace["fit_cintas_from_benign"](
+              cleaned,
+              features,
+              lambda_res=0.5,
+              weight_mode="uniform",
+          )
+
+          def evaluate_once():
+              windows = namespace["build_window_dataset"](
+                  cleaned,
+                  model,
+                  scenario_anom="RH",
+                  window_size=8,
+                  agg_mode="median",
+                  seed=123,
+              )
+              return namespace["evaluate_windows_kfold"](
+                  windows,
+                  setup="A",
+                  scenario_eval="RH",
+                  window_size=8,
+                  agg_mode="median",
+                  lambda_res=0.5,
+                  p_quantile=0.99,
+                  n_splits=3,
+                  seed=123,
+              )
+
+          first = evaluate_once()
+          second = evaluate_once()
+          if first != second:
+              raise AssertionError("repeated numerical evaluation was not deterministic")
+
+          fixed_model = namespace["FixedPointCINTAS"].from_float_model(
+              model,
+              namespace["FixedPointConfig"](q=15),
+          )
+          fixed_first = fixed_model.score_dataframe(cleaned)
+          fixed_second = fixed_model.score_dataframe(cleaned)
+          np.testing.assert_array_equal(fixed_first, fixed_second)
+
+          graph_frame = cleaned.copy()
+          graph_frame["cias_sample_score"] = model.score_dataframe(graph_frame)[0]
+          _, graph_edges, graph_ranks = namespace["build_causal_and_rank_features_for_setup"](
+              setup="A",
+              df=graph_frame,
+              feature_cols=features,
+              out_root=Path("ci_graph_output"),
+              corr_threshold=0.35,
+              top_k_plot=3,
+              graph_bootstraps=8,
+              graph_subsample_frac=0.70,
+              graph_stability_threshold=0.50,
+              seed=123,
+          )
+          graph_identity = {
+              "edges": graph_edges[["src", "dst"]].astype(str).values.tolist(),
+              "feature_order": graph_ranks["feature"].astype(str).tolist(),
+          }
+
+          stable_rows = []
+          for row in first:
+              if row["workload"] != "ALL":
+                  continue
+              stable_rows.append(
+                  {
+                      key: round(value, 10) if isinstance(value, float) else value
+                      for key, value in row.items()
+                  }
+              )
+          if len(stable_rows) != 3:
+              raise AssertionError(f"expected three global folds, found {len(stable_rows)}")
+
+          payload = json.dumps(stable_rows, sort_keys=True, separators=(",", ":"))
+          fingerprint = {
+              "schema_version": 1,
+              "sha256": hashlib.sha256(
+                  (payload + json.dumps(graph_identity, sort_keys=True)).encode("utf-8")
+              ).hexdigest(),
+              "folds": stable_rows,
+              "graph_identity": graph_identity,
+          }
+          Path("ci_fingerprint.json").write_text(
+              json.dumps(fingerprint, indent=2, sort_keys=True) + "\n",
+              encoding="utf-8",
+          )
+          print(f"deterministic fingerprint: {fingerprint['sha256']}")
+          PY
+
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: citadel-fingerprint-${{ matrix.os }}
+          path: ci_fingerprint.json
+          if-no-files-found: error
+          retention-days: 7
+
+  cross-platform-fingerprint:
+    name: compare Linux and macOS fingerprints
+    needs: deterministic-smoke
+    runs-on: ubuntu-24.04
+
+    steps:
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          pattern: citadel-fingerprint-*
+          path: fingerprints
+
+      - name: Require identical deterministic results
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          paths = sorted(Path("fingerprints").glob("*/ci_fingerprint.json"))
+          if len(paths) != 2:
+              raise AssertionError(f"expected two platform fingerprints, found {len(paths)}")
+          payloads = [json.loads(path.read_text(encoding="utf-8")) for path in paths]
+          if payloads[0] != payloads[1]:
+              raise AssertionError(
+                  f"Linux/macOS numerical fingerprints differ: {paths[0]} vs {paths[1]}"
+              )
+          print(f"portable deterministic fingerprint: {payloads[0]['sha256']}")
+          PY
+
+  container-smoke:
+    name: pinned Linux container smoke
+    runs-on: ubuntu-24.04
+    env:
+      GIT_LFS_SKIP_SMUDGE: "1"
+
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 1
+          lfs: false
+
+      - name: Build the digest-pinned image
+        run: docker build --platform linux/amd64 -t citadel-repro .
+
+      - name: Run unit and notebook-kernel tests in the image
+        run: |
+          docker run --rm --platform linux/amd64 \
+            -v "$PWD:/workspace/CITADEL" -w /workspace/CITADEL \
+            citadel-repro python -m unittest discover -s tests -v
+
+      - name: Repeat the isolated synthetic notebook profile
+        run: |
+          docker run --rm --platform linux/amd64 \
+            -v "$PWD:/workspace/CITADEL" -w /workspace/CITADEL \
+            citadel-repro python scripts/reproduce.py notebook \
+            --profile smoke --preset smoke --data-mode sample \
+            --repeat --run-id ci-container-smoke

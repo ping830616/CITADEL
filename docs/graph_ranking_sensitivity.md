@@ -24,7 +24,7 @@ Endpoint provenance is explicit in `graph_sensitivity_claims.json`. In particula
 - B/DROOP supplies the `0.77%` lower FPR endpoint.
 - A/DROOP supplies the `0.992` upper MCC endpoint; removing edge stability preserves its baseline decision metrics.
 
-The largest MCC reductions named in the manuscript also reproduce: removing centrality is worst for A/DROOP, and removing alignment is worst for A/RH. Varying `pi_min` preserves MCC and FPR exactly in all four fixed cases. No graph variant uses the sparse-graph fallback. When normalized importance scores tie at a top-`k` boundary, the runner rounds them to 12 decimal places and uses feature name as a variant-neutral lexical tie-break; the claim audit lists every affected variant.
+The largest MCC reductions named in the manuscript also reproduce: removing centrality is worst for A/DROOP, and removing alignment is worst for A/RH. Varying `pi_min` preserves MCC and FPR exactly in all four fixed cases. No graph variant uses the sparse-graph fallback. When normalized importance scores tie at a top-`k` boundary, the runner rounds them to 9 decimal places and uses feature name as a variant-neutral lexical tie-break; the claim audit lists every affected variant. The coarser ordering key prevents last-bit BLAS/LAPACK differences from changing tie order while retaining the unrounded score in the evidence table.
 
 ## Frozen Operating Points
 
@@ -58,7 +58,7 @@ conditional dependence     0.20
 alignment                  0.20
 ```
 
-Remove one term at a time and renormalize the other three coefficients to sum to one. The telemetry-cost denominator remains fixed. For DROOP, the altered coefficients apply only inside the structural score; the outer structural coefficient `0.30`, semantic-prior coefficient `2.20`, and semantic prior itself remain fixed. Tied normalized scores are rounded to 12 decimal places and resolved lexically by feature name, so a removed term cannot re-enter through a secondary tie-break. This is a sensitivity-specific, variant-neutral tie policy: it can reorder features whose rounded primary scores are equal relative to the notebook's secondary component tie-breaks. Baseline acceptance therefore requires identical primary rank values and the identical top-`k` set, but does not require identical ordering outside that selected set.
+Remove one term at a time and renormalize the other three coefficients to sum to one. The telemetry-cost denominator remains fixed. For DROOP, the altered coefficients apply only inside the structural score; the outer structural coefficient `0.30`, semantic-prior coefficient `2.20`, and semantic prior itself remain fixed. Normalized scores are rounded to 9 decimal places for ordering and ties are resolved lexically by feature name, so platform-level numerical noise or a removed term cannot re-enter through a secondary tie-break. This is a sensitivity-specific, variant-neutral tie policy. Archive equivalence requires the same complete ordinal ranking and selected-feature ranks after that policy, as well as numerically equivalent unrounded score columns and an identical top-`k` set.
 
 Jaccard overlap is `|F_variant intersection F_baseline| / |F_variant union F_baseline|`, where both sets are top-`k` features for the same setup, event, and data view. It is not graph-edge overlap, full-rank correlation, lifecycle overlap, or an uncertainty interval.
 
@@ -83,7 +83,8 @@ The frozen `Q` value is recorded as operating-point metadata. Consistent with th
 | Question | Artifact |
 |---|---|
 | Did the run use the disclosed variants and operating points? | `protocol.json`, `selected_operating_points.json` |
-| Did each baseline reproduce the archived graph, rank values, top-`k` set, MCC, and FPR? | `run_manifest.json`, `graph_sensitivity_claims.json` |
+| Did each generated baseline have unique edges, the frozen feature universe, an exact top-`k` cardinality, and finite metrics? | `run_manifest.json`, `graph_sensitivity_claims.json` |
+| Is the independent run scientifically equivalent to the archived reference? | `archive_comparison.json` written by `scripts/reproduce.py sensitivity --verify` |
 | Which fold/workload rows underlie a mean metric? | `graph_sensitivity_fold_results.csv` |
 | Which variant produces each endpoint? | `graph_sensitivity_claims.json`, `graph_sensitivity_summary.csv` |
 | Which features were selected and how was Jaccard computed? | `graph_sensitivity_selected_features.csv`, `graph_sensitivity_feature_ranks.csv` |
@@ -95,11 +96,11 @@ The CSV files are tracked through Git LFS, so GitHub code search may not index t
 ## Reproduce
 
 ```bash
-git lfs pull --include='data/telemetry/processed/ddr_data/*.csv,results/notebook_run/droop_adaptive_data/*.csv,results/notebook_run/tcad_ablation/tcad_ablation_summary.csv,results/notebook_run/tcad_ablation/causal/*.csv,results/notebook_run/droop_adaptive_ablation/p0_99/causal/*.csv' --exclude=''
-conda env update -f environment.yml --prune
-conda activate citadel-slm
-export PYTHONHASHSEED=123
-python scripts/run_graph_sensitivity.py
+uv sync --frozen --no-dev
+uv run --frozen python scripts/reproduce.py fetch-lfs \
+  --scope sensitivity --include-reference
+uv run --frozen python scripts/reproduce.py sensitivity \
+  --verify --repeat --run-id reviewer-sensitivity
 ```
 
-The runner enforces the numerical package versions in the protocol because different NumPy/scikit-learn stacks can perturb precision-matrix coefficients near graph thresholds. It refuses an archival run unless the checkout is clean and all archived baseline gates pass. The notebook launch/display cell permits dirty execution metadata for interactive development, but marks such a manifest `DEVELOPMENT_DIRTY_WORKTREE`; only a clean direct run is the archival evidence.
+The runner enforces Python 3.11.15 and every direct package pin, validates the exact 78-file standard-DDR and 52-file derived-DROOP inventories, and records all input hashes plus the NumPy/BLAS/threadpool runtime. Candidate feature universes are frozen in `configs/graph_sensitivity_feature_universes.json`, so generation does not read the archived result it is meant to reproduce. Self-contained structural gates establish that a generated run is internally valid; the wrapper's identity-keyed comparison separately establishes archive equivalence. A dirty or mismatched-runtime development run is clearly marked and cannot be accepted as archival evidence.

@@ -22,7 +22,7 @@
   "apple_data": {
     "description": "Apple M2 Pro tier-0, tier-1, and tier-2 limited-observability telemetry from the DICE repository. CITADEL tracks it for platform-diversity and observability studies, separate from CINTAS hardware-cost claims.",
     "repo": "ping830616/DICE",
-    "ref": "main",
+    "ref": "b5e382e127e5ed3a187f6d328ab95729500ad7ae",
     "path": "data generation/dataset/ITC_M2Pro_DATA",
     "target": "data/telemetry/raw/apple_data",
     "preserve_tree": true,

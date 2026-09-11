@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Reproduce CITADEL graph/ranking sensitivity with archived baseline gates."""
+"""Reproduce CITADEL graph/ranking sensitivity from frozen protocol inputs.
+
+Generation enforces self-contained structural checks. Archive equivalence is a
+separate operation performed by ``scripts/reproduce.py sensitivity --verify``.
+"""
 
 from __future__ import annotations
 
@@ -16,6 +20,8 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any, Iterable
 
+from threadpoolctl import threadpool_info
+
 
 BASE_WEIGHTS: dict[str, float] = {}
 TAU_VALUES: tuple[float, ...] = ()
@@ -28,6 +34,8 @@ GRAPH_BOOTSTRAPS = 0
 GRAPH_SUBSAMPLE_FRAC = 0.0
 MAX_EDGES_PER_BOOT_FACTOR = 0
 GRAPH_SETUP_SEEDS: dict[str, int] = {}
+DECISION_DECIMALS = 9
+WORKLOAD_CODES = ("dft", "dj", "dp", "gl", "gs", "ha", "ja", "mm", "ni", "oe", "pi", "sh", "tr")
 
 
 @dataclass(frozen=True)
@@ -43,7 +51,7 @@ class Case:
     fixed_point_q: int
     p_quantile: float
     n_splits: int
-    candidate_rank_path: str
+    feature_universe_key: str
 
     @property
     def case_id(self) -> str:
@@ -58,28 +66,28 @@ EXPECTED_CASES: dict[str, dict[str, Any]] = {
         "window_size": 1000, "agg_mode": "median", "lambda_res": 0.0,
         "weight_mode": "inv_var", "fixed_point_q": 15, "p_quantile": 0.99,
         "n_splits": 3,
-        "candidate_rank_path": "results/notebook_run/droop_adaptive_ablation/p0_99/causal/SETUP_A_feature_ranks.csv",
+        "feature_universe_key": "A_DROOP",
     },
     "A_RH": {
         "setup": "A", "scenario": "RH", "view": "standard", "top_k": 20,
         "window_size": 550, "agg_mode": "median", "lambda_res": 1.0,
         "weight_mode": "uniform", "fixed_point_q": 8, "p_quantile": 0.99,
         "n_splits": 5,
-        "candidate_rank_path": "results/notebook_run/tcad_ablation/causal/SETUP_A_feature_ranks.csv",
+        "feature_universe_key": "A_RH",
     },
     "B_DROOP": {
         "setup": "B", "scenario": "DROOP", "view": "transient", "top_k": 15,
         "window_size": 200, "agg_mode": "median", "lambda_res": 0.5,
         "weight_mode": "inv_var", "fixed_point_q": 15, "p_quantile": 0.99,
         "n_splits": 3,
-        "candidate_rank_path": "results/notebook_run/droop_adaptive_ablation/p0_99/causal/SETUP_B_feature_ranks.csv",
+        "feature_universe_key": "B_DROOP",
     },
     "B_SPECTRE": {
         "setup": "B", "scenario": "SPECTRE", "view": "standard", "top_k": 30,
         "window_size": 700, "agg_mode": "median", "lambda_res": 0.75,
         "weight_mode": "uniform", "fixed_point_q": 8, "p_quantile": 0.99,
         "n_splits": 5,
-        "candidate_rank_path": "results/notebook_run/tcad_ablation/causal/SETUP_B_feature_ranks.csv",
+        "feature_universe_key": "B_SPECTRE",
     },
 }
 
@@ -87,7 +95,7 @@ EXPECTED_CASES: dict[str, dict[str, Any]] = {
 def _configure(protocol: dict[str, Any]) -> None:
     global BASE_WEIGHTS, TAU_VALUES, PI_VALUES, BASE_TAU, BASE_PI
     global SEED, THREADS, GRAPH_BOOTSTRAPS, GRAPH_SUBSAMPLE_FRAC
-    global MAX_EDGES_PER_BOOT_FACTOR, GRAPH_SETUP_SEEDS, CASES
+    global MAX_EDGES_PER_BOOT_FACTOR, GRAPH_SETUP_SEEDS, DECISION_DECIMALS, CASES
 
     graph = protocol["graph"]
     ranking = protocol["ranking"]
@@ -104,6 +112,9 @@ def _configure(protocol: dict[str, Any]) -> None:
     GRAPH_SETUP_SEEDS = {
         str(setup): int(seed) for setup, seed in graph["setup_bootstrap_seeds"].items()
     }
+    DECISION_DECIMALS = int(protocol["numerical_contract"]["decision_decimals"])
+    if DECISION_DECIMALS != 9:
+        raise ValueError("The archived sensitivity protocol requires decision_decimals=9")
     CASES = tuple(Case(**case) for case in protocol["cases"])
 
     expected_weights = {
@@ -140,8 +151,7 @@ def _configure(protocol: dict[str, Any]) -> None:
         raise ValueError("Cases must match the four frozen Table VI configurations exactly")
 
 
-def _runtime_versions() -> dict[str, str]:
-    names = ["numpy", "pandas", "scikit-learn", "scipy", "matplotlib", "networkx"]
+def _runtime_versions(names: Iterable[str]) -> dict[str, str]:
     versions: dict[str, str] = {}
     for name in names:
         try:
@@ -151,25 +161,63 @@ def _runtime_versions() -> dict[str, str]:
     return versions
 
 
-def _check_runtime(protocol: dict[str, Any], *, allow_mismatch: bool) -> dict[str, Any]:
-    observed = _runtime_versions()
-    expected = {key: str(value) for key, value in protocol["runtime_versions"].items()}
+def _direct_requirements(repo_root: Path) -> dict[str, str]:
+    expected: dict[str, str] = {}
+    for raw_line in (repo_root / "requirements.txt").read_text(encoding="utf-8").splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("#"):
+            continue
+        if line.count("==") != 1:
+            raise ValueError(f"Every direct requirement must be exactly pinned: {line!r}")
+        name, version = line.split("==", 1)
+        expected[name] = version
+    return expected
+
+
+def _check_runtime(
+    protocol: dict[str, Any],
+    repo_root: Path,
+    *,
+    allow_mismatch: bool,
+) -> dict[str, Any]:
+    expected = _direct_requirements(repo_root)
+    protocol_expected = {key: str(value) for key, value in protocol["runtime_versions"].items()}
+    for name, version in protocol_expected.items():
+        if expected.get(name) != version:
+            raise ValueError(
+                f"Protocol runtime pin {name}=={version} differs from requirements.txt "
+                f"({expected.get(name)!r})"
+            )
+    observed = _runtime_versions(expected)
     mismatches = {
         name: {"expected": version, "observed": observed.get(name, "not-installed")}
         for name, version in expected.items()
         if observed.get(name) != version
     }
+    expected_python = (repo_root / ".python-version").read_text(encoding="utf-8").strip()
+    observed_python = platform.python_version()
+    if observed_python != expected_python:
+        mismatches["python"] = {
+            "expected": expected_python,
+            "observed": observed_python,
+        }
     if mismatches and not allow_mismatch:
         details = ", ".join(
             f"{name}={item['observed']} (expected {item['expected']})"
             for name, item in mismatches.items()
         )
         raise RuntimeError(
-            "Pinned numerical environment required for archive-compatible graph coefficients: "
+            "The exact locked runtime is required for an archival sensitivity run: "
             + details
             + ". Create/update the environment from environment.yml or use --allow-version-mismatch for diagnostics only."
         )
-    return {"expected": expected, "observed": observed, "mismatches": mismatches}
+    return {
+        "expected_python": expected_python,
+        "observed_python": observed_python,
+        "expected": expected,
+        "observed": observed,
+        "mismatches": mismatches,
+    }
 
 
 def log(message: str) -> None:
@@ -193,11 +241,9 @@ def _notebook_namespace(repo_root: Path) -> dict[str, Any]:
         "DATA_SOURCE_CONFIG": repo_root / "data" / "external_sources.json",
         "DATA_MODE": "real",
         "TCAD_PRESET": "full",
-        "RUN_REPEAT_CHECK": True,
         "RESULTS_ROOT": results_root,
         "DATA_ROOT": data_root,
         "TCAD_OUT": results_root / "tcad_ablation",
-        "TCAD_REPEAT_OUT": results_root / "tcad_ablation_repeat",
         "LIFECYCLE_OUT": results_root / "lifecycle_drift",
         "FPGA_OUT": results_root / "fpga",
         "RTL_SWEEP_OUT": results_root / "rtl_sweep",
@@ -220,15 +266,12 @@ def _is_lfs_pointer(path: Path) -> bool:
         return stream.read(64).startswith(b"version https://git-lfs.github.com/spec")
 
 
-def _candidate_features(repo_root: Path, case: Case, pd) -> list[str]:
-    path = repo_root / case.candidate_rank_path
-    if _is_lfs_pointer(path):
-        raise RuntimeError(f"Git LFS object is not materialized: {path}")
-    features = sorted(pd.read_csv(path, usecols=["feature"])["feature"].astype(str).tolist())
+def _candidate_features(feature_registry: dict[str, Any], case: Case) -> list[str]:
+    features = sorted(str(value) for value in feature_registry["cases"][case.feature_universe_key])
     if not features:
-        raise RuntimeError(f"No candidate features in {path}")
+        raise RuntimeError(f"No candidate features for {case.feature_universe_key}")
     if len(features) != len(set(features)):
-        raise RuntimeError(f"Candidate feature names are not unique in {path}")
+        raise RuntimeError(f"Candidate feature names are not unique for {case.feature_universe_key}")
     return features
 
 
@@ -239,12 +282,41 @@ def _parse_scenario_workload(path: Path) -> tuple[str, str]:
     return parts[1].upper(), parts[2].upper()
 
 
+def _require_exact_input_inventory(
+    data_root: Path,
+    *,
+    prefix: str,
+    scenarios: Iterable[str],
+    label: str,
+) -> list[Path]:
+    expected_names = {
+        f"{prefix}{scenario}_{workload}.csv"
+        for scenario in scenarios
+        for workload in WORKLOAD_CODES
+    }
+    observed_paths = sorted(data_root.glob(f"{prefix}*.csv"))
+    observed_names = {path.name for path in observed_paths}
+    missing = sorted(expected_names - observed_names)
+    unexpected = sorted(observed_names - expected_names)
+    if missing or unexpected:
+        raise RuntimeError(
+            f"{label} input inventory differs from the frozen protocol for {prefix}: "
+            f"missing={missing}, unexpected={unexpected}"
+        )
+    return observed_paths
+
+
 def _load_standard_frame(repo_root: Path, case: Case, features: list[str], pd, np):
     data_root = repo_root / "data" / "telemetry" / "processed" / "ddr_data"
     prefix = "DDR4_" if case.setup == "A" else "DDR5_"
     frames = []
     feature_set = set(features)
-    source_paths = sorted(data_root.glob(f"{prefix}*.csv"))
+    source_paths = _require_exact_input_inventory(
+        data_root,
+        prefix=prefix,
+        scenarios=("benign", "DROOP", "RH" if case.setup == "A" else "SPECTRE"),
+        label="standard telemetry",
+    )
     for index, path in enumerate(source_paths, 1):
         if _is_lfs_pointer(path):
             raise RuntimeError(f"Git LFS object is not materialized: {path}")
@@ -267,15 +339,22 @@ def _load_standard_frame(repo_root: Path, case: Case, features: list[str], pd, n
     return full.sort_values(["workload", "scenario", "time_idx"]).reset_index(drop=True), source_paths
 
 
-def _load_droop_frame(repo_root: Path, case: Case, features: list[str], pd, np):
-    data_root = repo_root / "results" / "notebook_run" / "droop_adaptive_data"
+def _load_droop_frame(
+    repo_root: Path,
+    droop_data_root: Path,
+    case: Case,
+    features: list[str],
+    pd,
+    np,
+):
+    data_root = droop_data_root
     prefix = "DDR4_" if case.setup == "A" else "DDR5_"
-    source_paths = [
-        path for path in sorted(data_root.glob(f"{prefix}*.csv"))
-        if "_benign_" in path.name.lower() or "_droop_" in path.name.lower()
-    ]
-    if not source_paths:
-        raise RuntimeError(f"No archived DROOP-adaptive files for Setup {case.setup}")
+    source_paths = _require_exact_input_inventory(
+        data_root,
+        prefix=prefix,
+        scenarios=("benign", "DROOP"),
+        label="DROOP-adaptive telemetry",
+    )
     frames = []
     feature_set = set(features)
     for index, path in enumerate(source_paths, 1):
@@ -345,9 +424,19 @@ def _graph_stats_by_tau(df_benign, features: list[str], namespace: dict[str, Any
                 for j in range(i + 1, n_features):
                     value = float(partial[i, j])
                     absolute = abs(value)
-                    if absolute >= d_min:
+                    if round(absolute, DECISION_DECIMALS) >= d_min:
                         candidates.append((absolute, i, j, value))
-            candidates.sort(reverse=True, key=lambda item: item[0])
+            # BLAS/LAPACK implementations can differ in the last few bits of
+            # the pseudo-inverse. Quantize only the admission ordering and use
+            # lexical feature names as a total tie-break; retain raw values in
+            # the evidence tables.
+            candidates.sort(
+                key=lambda item: (
+                    -round(item[0], DECISION_DECIMALS),
+                    features[item[1]],
+                    features[item[2]],
+                )
+            )
             acc = accumulators[tau]
             for absolute, i, j, value in candidates[:max_edges]:
                 key = (features[i], features[j]) if features[i] <= features[j] else (features[j], features[i])
@@ -378,7 +467,7 @@ def _materialize_graph(
         stability = float(count) / GRAPH_BOOTSTRAPS
         mean_abs = accumulator["absolute"][(left, right)] / max(count, 1)
         mean_signed = accumulator["signed"][(left, right)] / max(count, 1)
-        retained = stability >= pi_min and mean_abs >= d_min
+        retained = stability >= pi_min and round(mean_abs, DECISION_DECIMALS) >= d_min
         dom_left, dom_right = domains[left], domains[right]
         if domain_order.get(dom_left, 99) < domain_order.get(dom_right, 99):
             src, dst, signed = left, right, mean_signed
@@ -404,8 +493,14 @@ def _materialize_graph(
     if not retained_records and candidate_records:
         fallback = sorted(
             candidate_records,
-            reverse=True,
-            key=lambda row: row["edge_stability"] * row["mean_admitted_abs_partial"],
+            key=lambda row: (
+                -round(
+                    row["edge_stability"] * row["mean_admitted_abs_partial"],
+                    DECISION_DECIMALS,
+                ),
+                row["src"],
+                row["dst"],
+            ),
         )[:max(1, min(len(candidate_records), len(features)))]
         fallback_pairs = {(row["src"], row["dst"]) for row in fallback}
         for row in candidate_records:
@@ -419,11 +514,7 @@ def _materialize_graph(
         row["graph_method"] = graph_method
     edges = pd.DataFrame(retained_records)
     if not edges.empty:
-        edges = edges.sort_values(
-            ["dependence_score", "src", "dst"],
-            ascending=[False, True, True],
-            kind="mergesort",
-        ).reset_index(drop=True)
+        edges = edges.sort_values(["src", "dst"], kind="mergesort").reset_index(drop=True)
     weighted_degree = {feature: 0.0 for feature in features}
     stability_sum = {feature: 0.0 for feature in features}
     dependence_sum = {feature: 0.0 for feature in features}
@@ -447,6 +538,8 @@ def _materialize_graph(
         "graph_method": "stable_rank_precision",
     })
     candidates = pd.DataFrame(candidate_records)
+    if not candidates.empty:
+        candidates = candidates.sort_values(["src", "dst"], kind="mergesort").reset_index(drop=True)
     return edges, nodes, candidates, graph_method
 
 
@@ -496,7 +589,7 @@ def _rank_features(df, features, nodes, weights, droop_only: bool, namespace):
         "hardware_cost_penalty": cost_norm,
         "droop_anchor_score": anchor,
         "importance_score": importance,
-        "importance_sort_score": np.round(importance, 12),
+        "importance_sort_score": np.round(importance, DECISION_DECIMALS),
         "ranking_method": "stable_rank_precision_droop_anchor" if droop_only else "stable_rank_precision",
     })
     ranked = ranked.sort_values(
@@ -544,25 +637,6 @@ def _jaccard(left: Iterable[str], right: Iterable[str]) -> tuple[int, int, float
     return intersection, union, float(intersection / union) if union else 1.0
 
 
-def _baseline_expected(repo_root: Path, case: Case, pd) -> tuple[float, float]:
-    summary = pd.read_csv(repo_root / "results/notebook_run/tcad_ablation/tcad_ablation_summary.csv", low_memory=False)
-    mask = (
-        (summary["setup"].astype(str) == case.setup)
-        & (summary["scenario"].astype(str).str.upper() == case.scenario)
-        & (summary["top_k"] == case.top_k)
-        & (summary["window_size"] == case.window_size)
-        & (summary["agg_mode"] == case.agg_mode)
-        & (summary["lambda_res"] == case.lambda_res)
-        & (summary["weight_mode"] == case.weight_mode)
-        & (summary["fixed_point_q"] == case.fixed_point_q)
-        & (summary["p_quantile"] == case.p_quantile)
-    )
-    rows = summary.loc[mask]
-    if len(rows) != 1:
-        raise RuntimeError(f"Expected one archived baseline row for {case.case_id}; found {len(rows)}")
-    return float(rows.iloc[0]["mcc"]), float(rows.iloc[0]["fpr"])
-
-
 def _sha256_file(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as stream:
@@ -603,12 +677,6 @@ def _variant_specs(protocol: dict[str, Any]) -> list[tuple[str, str, float, floa
         for term in protocol["ranking"]["removed_terms"]
     )
     return specs
-
-
-def _max_abs_delta(left, right, np) -> float:
-    if left.size == 0:
-        return 0.0
-    return float(np.max(np.abs(left - right)))
 
 
 def _endpoint_rows(frame, metric: str, value: float, scale: float, np) -> list[dict[str, Any]]:
@@ -751,7 +819,7 @@ def _build_claims(summary, protocol: dict[str, Any], baseline_validations: list[
         for case_id, variant in expected_worst.items()
     }
     fallback_rows = summary[summary["fallback_used"].astype(bool)]
-    tied_rows = summary[summary["top_k_boundary_tied_at_1e_12"].astype(bool)]
+    tied_rows = summary[summary["top_k_boundary_tied_at_1e_9"].astype(bool)]
     baselines_pass = all(item["all_checks_pass"] for item in baseline_validations)
     ranges_pass = all(item["matches_draft_at_reported_precision"] for item in ranges.values())
     stability_pass = bool(
@@ -858,20 +926,20 @@ def _render_readme(claims: dict[str, Any]) -> str:
             )
     lines.extend([
         "",
-        "## Baseline gates",
+        "## Self-contained generation gates",
         "",
-        "| Case | Graph edges | Rank values | Top-k set | MCC/FPR |",
+        "| Case | Unique graph edges | Frozen feature universe | Top-k cardinality | Finite metrics |",
         "|---|:---:|:---:|:---:|:---:|",
     ])
     for item in claims["baseline_validations"]:
         yn = lambda value: "yes" if value else "no"
         lines.append(
-            f"| {item['case_id']} | {yn(item['edge_identities_match'] and item['edge_values_match'])} | "
-            f"{yn(item['rank_values_match'])} | {yn(item['top_k_set_match'])} | {yn(item['metrics_match'])} |"
+            f"| {item['case_id']} | {yn(item['edge_identities_unique'])} | "
+            f"{yn(item['feature_universe_reproduced'])} | {yn(item['top_k_cardinality_valid'])} | {yn(item['metrics_finite'])} |"
         )
     lines.extend([
         "",
-        "Every baseline gate must pass before the sensitivity outputs are accepted. No graph fallback is allowed. Primary-score ties at a top-k boundary are resolved with the protocol's variant-neutral rounded-score/lexical rule and listed in the claim audit.",
+        "Every generation gate must pass before the sensitivity outputs are accepted. Archive equivalence is checked separately by scripts/reproduce.py sensitivity --verify. No graph fallback is allowed. Primary-score ties at a top-k boundary are resolved with the protocol's variant-neutral rounded-score/lexical rule and listed in the claim audit.",
         "",
         "## Files",
         "",
@@ -891,10 +959,12 @@ def _render_readme(claims: dict[str, Any]) -> str:
         "",
         "```bash",
         "git lfs pull --include='data/telemetry/processed/ddr_data/*.csv,results/notebook_run/droop_adaptive_data/*.csv,results/notebook_run/tcad_ablation/tcad_ablation_summary.csv,results/notebook_run/tcad_ablation/causal/*.csv,results/notebook_run/droop_adaptive_ablation/p0_99/causal/*.csv' --exclude=''",
-        "conda env update -f environment.yml --prune",
-        "conda activate citadel-slm",
-        "export PYTHONHASHSEED=123",
-        "python scripts/run_graph_sensitivity.py",
+        "uv python install 3.11.15",
+        "uv sync --frozen",
+        "export PYTHONHASHSEED=123 OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1",
+        "export MKL_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1",
+        "export MPLBACKEND=Agg TZ=UTC",
+        "uv run --frozen python scripts/run_graph_sensitivity.py --output-root results/reproduced/direct-sensitivity/notebook_run/graph_sensitivity",
         "```",
         "",
         "The direct command requires a clean checkout for archival provenance. The notebook contains a matching display cell that explicitly permits a dirty development run because notebook autosave changes execution metadata; such a manifest is marked `DEVELOPMENT_DIRTY_WORKTREE` and must not replace the committed archival bundle.",
@@ -918,9 +988,42 @@ def _file_record(repo_root: Path, path: Path) -> dict[str, Any]:
     }
 
 
+def _snapshot_file_records(repo_root: Path, paths: Iterable[Path]) -> list[dict[str, Any]]:
+    """Hash a frozen input set and reject files that change while being hashed."""
+    records: list[dict[str, Any]] = []
+    for path in sorted(set(paths)):
+        before = path.stat()
+        record = _file_record(repo_root, path)
+        after = path.stat()
+        if (before.st_size, before.st_mtime_ns) != (after.st_size, after.st_mtime_ns):
+            raise RuntimeError(f"Input changed while it was being hashed: {_display_path(repo_root, path)}")
+        records.append(record)
+    return records
+
+
+def _assert_unchanged_snapshot(
+    started: list[dict[str, Any]],
+    finished: list[dict[str, Any]],
+) -> None:
+    start_by_path = {str(item["path"]): item for item in started}
+    finish_by_path = {str(item["path"]): item for item in finished}
+    if start_by_path == finish_by_path:
+        return
+    changed = sorted(
+        path
+        for path in set(start_by_path).union(finish_by_path)
+        if start_by_path.get(path) != finish_by_path.get(path)
+    )
+    raise RuntimeError(
+        "Sensitivity source/input files changed during execution; the partial output "
+        f"is not valid evidence. Changed paths: {changed}"
+    )
+
+
 def run(
     repo_root: Path,
     output_root: Path,
+    droop_data_root: Path,
     protocol: dict[str, Any],
     config_path: Path,
     runtime_check: dict[str, Any],
@@ -975,9 +1078,62 @@ def run(
     except subprocess.CalledProcessError:
         repository_remote = ""
 
+    if output_root.exists():
+        raise FileExistsError(
+            f"Output root already exists: {output_root}. Choose a fresh directory so stale evidence cannot be mixed in."
+        )
+    feature_universe_path = (repo_root / str(protocol["feature_universe_file"])).resolve()
+    if not feature_universe_path.is_file() or _is_lfs_pointer(feature_universe_path):
+        raise FileNotFoundError(f"Frozen feature-universe protocol is unavailable: {feature_universe_path}")
+    feature_registry = json.loads(feature_universe_path.read_text(encoding="utf-8"))
+    expected_feature_keys = {case.feature_universe_key for case in CASES}
+    observed_feature_keys = set(feature_registry.get("cases", {}))
+    if observed_feature_keys != expected_feature_keys:
+        raise ValueError(
+            "Feature-universe case keys do not match the sensitivity protocol: "
+            f"expected {sorted(expected_feature_keys)}, observed {sorted(observed_feature_keys)}"
+        )
+
+    input_paths = {
+        config_path,
+        feature_universe_path,
+        repo_root / "notebooks" / "exact_tcad_all_experiments.ipynb",
+        repo_root / "scripts" / "run_graph_sensitivity.py",
+        repo_root / ".python-version",
+        repo_root / "pyproject.toml",
+        repo_root / "uv.lock",
+        repo_root / "requirements.txt",
+        repo_root / "environment.yml",
+    }
+    selected_cases = [case for case in CASES if not only_case or case.case_id == only_case]
+    if not selected_cases:
+        raise ValueError(f"Unknown case id: {only_case}")
+    standard_data_root = repo_root / "data" / "telemetry" / "processed" / "ddr_data"
+    for case in selected_cases:
+        prefix = "DDR4_" if case.setup == "A" else "DDR5_"
+        if case.view == "transient":
+            input_paths.update(
+                _require_exact_input_inventory(
+                    droop_data_root,
+                    prefix=prefix,
+                    scenarios=("benign", "DROOP"),
+                    label="DROOP-adaptive telemetry",
+                )
+            )
+        else:
+            input_paths.update(
+                _require_exact_input_inventory(
+                    standard_data_root,
+                    prefix=prefix,
+                    scenarios=("benign", "DROOP", "RH" if case.setup == "A" else "SPECTRE"),
+                    label="standard telemetry",
+                )
+            )
+    input_records_at_start = _snapshot_file_records(repo_root, input_paths)
+
     namespace = _notebook_namespace(repo_root)
     pd, np = namespace["pd"], namespace["np"]
-    output_root.mkdir(parents=True, exist_ok=True)
+    output_root.mkdir(parents=True)
     summary_rows: list[dict[str, Any]] = []
     fold_frames = []
     selected_rows: list[dict[str, Any]] = []
@@ -985,30 +1141,17 @@ def run(
     edge_frames = []
     case_manifests = []
     baseline_validations: list[dict[str, Any]] = []
-    input_paths = {
-        config_path,
-        repo_root / "notebooks" / "exact_tcad_all_experiments.ipynb",
-        repo_root / "scripts" / "run_graph_sensitivity.py",
-        repo_root / "results/notebook_run/tcad_ablation/tcad_ablation_summary.csv",
-        repo_root / "requirements.txt",
-        repo_root / "environment.yml",
-    }
-    selected_cases = [case for case in CASES if not only_case or case.case_id == only_case]
-    if not selected_cases:
-        raise ValueError(f"Unknown case id: {only_case}")
 
     for case in selected_cases:
         case_start = time.time()
         log(f"starting {case.case_id} ({case.view})")
-        rank_archive_path = repo_root / case.candidate_rank_path
-        edge_archive_path = repo_root / case.candidate_rank_path.replace("feature_ranks", "causal_edges")
-        input_paths.update({rank_archive_path, edge_archive_path})
-        features = _candidate_features(repo_root, case, pd)
+        features = _candidate_features(feature_registry, case)
         if case.view == "transient":
-            raw_frame, source_paths = _load_droop_frame(repo_root, case, features, pd, np)
+            raw_frame, source_paths = _load_droop_frame(
+                repo_root, droop_data_root, case, features, pd, np
+            )
         else:
             raw_frame, source_paths = _load_standard_frame(repo_root, case, features, pd, np)
-        input_paths.update(source_paths)
         frame = namespace["clean_and_debias_telemetry"](raw_frame)
         del raw_frame
         gc.collect()
@@ -1032,65 +1175,34 @@ def run(
         }
 
         baseline_edges, baseline_nodes, _, _ = graph_cache[(BASE_TAU, BASE_PI)]
-        archived_edges = pd.read_csv(edge_archive_path)
         edge_keys = ["src", "dst"]
-        edge_ids_match = set(map(tuple, baseline_edges[edge_keys].to_numpy())) == set(
-            map(tuple, archived_edges[edge_keys].to_numpy())
+        edge_identities_unique = bool(
+            not baseline_edges.empty and not baseline_edges.duplicated(edge_keys).any()
         )
-        edge_max_delta = None
-        edge_values_match = False
-        if edge_ids_match:
-            edge_numeric = ["rho", "abs_rho", "edge_stability", "dependence_score"]
-            observed_edge_values = baseline_edges.set_index(edge_keys)[edge_numeric].sort_index().to_numpy(dtype=float)
-            archived_edge_values = archived_edges.set_index(edge_keys)[edge_numeric].sort_index().to_numpy(dtype=float)
-            edge_max_delta = _max_abs_delta(observed_edge_values, archived_edge_values, np)
-            edge_values_match = bool(
-                np.allclose(observed_edge_values, archived_edge_values, rtol=1e-10, atol=1e-12)
-            )
 
         base_ranks = _rank_features(
             frame, features, baseline_nodes, BASE_WEIGHTS, case.view == "transient", namespace
         )
         baseline_selected = base_ranks.head(case.top_k)["feature"].tolist()
-        archived_ranks = pd.read_csv(rank_archive_path)
-        feature_universe_match = set(base_ranks["feature"]) == set(
-            archived_ranks["feature"].astype(str)
+        feature_universe_reproduced = bool(
+            len(base_ranks) == len(features)
+            and base_ranks["feature"].is_unique
+            and set(base_ranks["feature"]) == set(features)
         )
-        rank_max_delta = None
-        rank_values_match = False
-        if feature_universe_match:
-            rank_numeric = [
-                "importance_score",
-                "graph_centrality",
-                "edge_stability",
-                "conditional_dependence",
-                "cias_alignment",
-                "telemetry_cost",
-                "hardware_cost_penalty",
-                "droop_anchor_score",
-            ]
-            observed_rank_values = base_ranks.set_index("feature")[rank_numeric].sort_index().to_numpy(dtype=float)
-            archived_rank_values = archived_ranks.set_index("feature")[rank_numeric].sort_index().to_numpy(dtype=float)
-            rank_max_delta = _max_abs_delta(observed_rank_values, archived_rank_values, np)
-            rank_values_match = bool(
-                np.allclose(observed_rank_values, archived_rank_values, rtol=1e-10, atol=1e-12)
-            )
-        archived_selected = archived_ranks.head(case.top_k)["feature"].astype(str).tolist()
-        top_k_set_match = set(baseline_selected) == set(archived_selected)
-        rank_order_match = base_ranks["feature"].tolist() == archived_ranks["feature"].astype(str).tolist()
+        top_k_cardinality_valid = bool(
+            len(baseline_selected) == case.top_k
+            and len(set(baseline_selected)) == case.top_k
+        )
 
         structural_checks = {
-            "edge_identities_match": edge_ids_match,
-            "edge_values_match": edge_values_match,
-            "feature_universe_match": feature_universe_match,
-            "rank_values_match": rank_values_match,
-            "top_k_set_match": top_k_set_match,
+            "edge_identities_unique": edge_identities_unique,
+            "feature_universe_reproduced": feature_universe_reproduced,
+            "top_k_cardinality_valid": top_k_cardinality_valid,
         }
         if not all(structural_checks.values()):
             detail = ", ".join(f"{name}={value}" for name, value in structural_checks.items())
             raise AssertionError(
-                f"{case.case_id}: archived baseline structural validation failed ({detail}); "
-                "use the versions pinned in environment.yml"
+                f"{case.case_id}: self-contained baseline validation failed ({detail})"
             )
 
         evaluation_cache = {}
@@ -1102,9 +1214,13 @@ def run(
             )
             ranking_method = str(ranks["ranking_method"].iloc[0])
             selected = ranks.head(case.top_k)["feature"].tolist()
-            selection_key = tuple(selected)
+            # Model fitting depends on the selected set, not presentation rank.
+            # Canonical lexical ordering makes summation/column order identical
+            # when near-tied ranks are serialized differently by a platform.
+            model_features = sorted(selected)
+            selection_key = tuple(model_features)
             if selection_key not in evaluation_cache:
-                evaluation_cache[selection_key] = _evaluate(case, frame, selected, namespace)
+                evaluation_cache[selection_key] = _evaluate(case, frame, model_features, namespace)
             evaluation = evaluation_cache[selection_key].copy()
             metrics = _metric_summary(evaluation, pd)
             intersection, union, jaccard = _jaccard(baseline_selected, selected)
@@ -1161,7 +1277,7 @@ def run(
                 "feature_jaccard": jaccard,
                 "top_k_boundary_importance_gap": gap,
                 "top_k_boundary_importance_sort_gap": sort_gap,
-                "top_k_boundary_tied_at_1e_12": tied_at_boundary,
+                "top_k_boundary_tied_at_1e_9": tied_at_boundary,
                 "top_k_boundary_tie_break_rule": protocol["ranking"]["tie_break_rule"],
                 "selected_features": "|".join(selected),
             }
@@ -1201,42 +1317,28 @@ def run(
             and row["experiment_family"] == "graph_parameter"
             and row["variant"] == "baseline"
         )
-        expected_mcc, expected_fpr = _baseline_expected(repo_root, case, pd)
-        mcc_delta = abs(observed_baseline["mcc"] - expected_mcc)
-        fpr_delta = abs(observed_baseline["fpr"] - expected_fpr)
-        metrics_match = mcc_delta <= 1e-12 and fpr_delta <= 1e-12
+        metric_names = ("auc_roc", "auc_pr", "f1", "bal_acc", "mcc", "fpr", "brier", "ece")
+        metrics_finite = bool(
+            all(np.isfinite(float(observed_baseline[name])) for name in metric_names)
+        )
         validation = {
             "case_id": case.case_id,
-            "edge_identities_match": edge_ids_match,
-            "edge_values_match": edge_values_match,
-            "edge_numeric_max_abs_delta": edge_max_delta,
-            "feature_universe_match": feature_universe_match,
-            "rank_values_match": rank_values_match,
-            "rank_numeric_max_abs_delta": rank_max_delta,
-            "rank_order_match": rank_order_match,
-            "top_k_set_match": top_k_set_match,
-            "archived_mcc": expected_mcc,
+            **structural_checks,
+            "metrics_finite": metrics_finite,
             "observed_mcc": observed_baseline["mcc"],
-            "mcc_abs_delta": mcc_delta,
-            "archived_fpr": expected_fpr,
             "observed_fpr": observed_baseline["fpr"],
-            "fpr_abs_delta": fpr_delta,
-            "metrics_match": metrics_match,
         }
-        validation["all_checks_pass"] = all(structural_checks.values()) and metrics_match
+        validation["all_checks_pass"] = all(structural_checks.values()) and metrics_finite
         baseline_validations.append(validation)
-        if not metrics_match:
-            raise AssertionError(
-                f"{case.case_id}: baseline metrics do not reproduce the archived selected operating point"
-            )
+        if not validation["all_checks_pass"]:
+            raise AssertionError(f"{case.case_id}: generated baseline validation failed")
         case_manifests.append({
             **asdict(case),
             "case_id": case.case_id,
             "candidate_feature_count": len(features),
             "row_count": len(frame),
             "benign_row_count": len(benign),
-            "candidate_rank_archive": str(rank_archive_path.relative_to(repo_root)),
-            "edge_archive": str(edge_archive_path.relative_to(repo_root)),
+            "feature_universe_key": case.feature_universe_key,
             "source_files": [str(path.relative_to(repo_root)) for path in source_paths],
             "graph_subsamples": subsample_hashes,
             "baseline_validation": validation,
@@ -1270,7 +1372,11 @@ def run(
     protocol_copy = {
         **protocol,
         "source_config": _display_path(repo_root, config_path),
-        "source_config_sha256": _sha256_file(config_path),
+        "source_config_sha256": next(
+            str(item["sha256"])
+            for item in input_records_at_start
+            if item["path"] == _display_path(repo_root, config_path)
+        ),
     }
     _write_json(output_paths["protocol"], protocol_copy)
     _write_json(output_paths["selected_operating_points"], {
@@ -1286,8 +1392,16 @@ def run(
     _write_json(output_paths["claims"], claims)
     output_paths["readme"].write_text(_render_readme(claims), encoding="utf-8")
 
-    log("hashing input and output artifacts")
-    input_records = [_file_record(repo_root, path) for path in sorted(input_paths)]
+    log("verifying immutable source/input snapshot and hashing output artifacts")
+    input_records = _snapshot_file_records(repo_root, input_paths)
+    _assert_unchanged_snapshot(input_records_at_start, input_records)
+    repository_commit_at_finish = _git_text(repo_root, "rev-parse", "HEAD")
+    git_status_at_finish = _git_text(repo_root, "status", "--porcelain")
+    if repository_commit_at_finish != repository_commit or git_status_at_finish != git_status_at_start:
+        raise RuntimeError(
+            "Repository commit or worktree status changed during sensitivity execution; "
+            "the partial output is not valid evidence."
+        )
     combined_input = hashlib.sha256(
         "".join(f"{item['path']} {item['sha256']}\n" for item in input_records).encode("utf-8")
     ).hexdigest()
@@ -1303,16 +1417,30 @@ def run(
         "finished_utc": finished_utc,
         "runtime_seconds": time.time() - run_started,
         "repository_commit": repository_commit,
+        "repository_commit_at_finish": repository_commit_at_finish,
         "repository_remote": repository_remote,
         "git_dirty_at_start": bool(git_status_at_start),
         "git_status_at_start": git_status_at_start.splitlines(),
+        "git_status_at_finish": git_status_at_finish.splitlines(),
+        "source_and_inputs_unchanged_during_run": True,
         "archival_provenance_status": archival_provenance_status,
         "python": platform.python_version(),
+        "platform": {
+            "system": platform.system(),
+            "release": platform.release(),
+            "machine": platform.machine(),
+            "python_implementation": platform.python_implementation(),
+        },
         "runtime_versions": runtime_check,
+        "numerical_runtime": {
+            "numpy_config": np.__config__.show(mode="dicts"),
+            "threadpools": threadpool_info(),
+        },
         "seed": SEED,
         "threads": THREADS,
         "python_hash_seed_at_process_start": os.environ.get("PYTHONHASHSEED", ""),
         "config": _display_path(repo_root, config_path),
+        "droop_data_root": _display_path(repo_root, droop_data_root),
         "output_root": manifest_output_root,
         "only_case": only_case,
         "input_files": input_records,
@@ -1346,7 +1474,20 @@ def main() -> None:
         help="Repository root (defaults to the parent of scripts/).",
     )
     parser.add_argument("--config", type=Path, help="Protocol JSON (defaults to configs/graph_sensitivity.json).")
-    parser.add_argument("--output-root", type=Path, help="Evidence directory (defaults to results/notebook_run/graph_sensitivity).")
+    parser.add_argument(
+        "--output-root",
+        type=Path,
+        required=True,
+        help="Fresh evidence directory; always pass an isolated results/reproduced/<run-id> path.",
+    )
+    parser.add_argument(
+        "--droop-data-root",
+        type=Path,
+        help=(
+            "Frozen/generated DROOP-adaptive input directory. Defaults to "
+            "results/notebook_run/droop_adaptive_data."
+        ),
+    )
     parser.add_argument("--only-case", help="Development-only case id such as A_RH; incomplete runs cannot pass the draft claim audit.")
     parser.add_argument(
         "--allow-dirty",
@@ -1356,13 +1497,15 @@ def main() -> None:
     parser.add_argument(
         "--allow-version-mismatch",
         action="store_true",
-        help="Allow a diagnostic run outside the pinned numerical environment; baseline archive gates still apply.",
+        help="Allow a diagnostic run outside the pinned numerical environment; it cannot be archival evidence.",
     )
     args = parser.parse_args()
     repo_root = args.repo_root.resolve()
     config_path = (args.config or repo_root / "configs" / "graph_sensitivity.json").resolve()
-    output_root = (
-        args.output_root or repo_root / "results" / "notebook_run" / "graph_sensitivity"
+    output_root = args.output_root.resolve()
+    droop_data_root = (
+        args.droop_data_root
+        or repo_root / "results" / "notebook_run" / "droop_adaptive_data"
     ).resolve()
     protocol = json.loads(config_path.read_text(encoding="utf-8"))
     _configure(protocol)
@@ -1375,10 +1518,15 @@ def main() -> None:
             f"(observed {process_hash_seed!r}). The variable cannot change hash "
             "randomization after interpreter startup."
         )
-    runtime_check = _check_runtime(protocol, allow_mismatch=args.allow_version_mismatch)
+    runtime_check = _check_runtime(
+        protocol,
+        repo_root,
+        allow_mismatch=args.allow_version_mismatch,
+    )
     result = run(
         repo_root,
         output_root,
+        droop_data_root,
         protocol,
         config_path,
         runtime_check,

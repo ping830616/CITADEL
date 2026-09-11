@@ -2,7 +2,8 @@
 
 This folder preserves the Apple data-generation material used to support the
 CITADEL supplemental limited-observability study. It was copied from
-`ping830616/DICE` at commit `b5e382e` and is included here only to document how
+`ping830616/DICE` at commit
+`b5e382e127e5ed3a187f6d328ab95729500ad7ae` and is included here only to document how
 the Apple telemetry views were collected and checked.
 
 Included content:

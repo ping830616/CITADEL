@@ -17,6 +17,7 @@ import types
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 _mpl_config = Path(tempfile.gettempdir()) / "citadel-matplotlib"
 _mpl_config.mkdir(parents=True, exist_ok=True)
@@ -32,6 +33,16 @@ import pandas as pd
 
 
 NOTEBOOK_CELL_IDS = ("0bbebb9d", "3d1f98fe", "integrated-utilities-code")
+NOTEBOOK_UTILITY_LOADER = {
+    "mode": "validation-free",
+    "profile": "smoke",
+    "data_mode": "sample",
+    "tcad_preset": "smoke",
+    "seed": 123,
+    "threads": 1,
+    "strict_runtime": False,
+    "experiment_sections_enabled": False,
+}
 DATE_PATTERN = re.compile(r"^\d{4}[-/]\d{1,2}[-/]\d{1,2}$")
 
 
@@ -115,6 +126,14 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--window-size", type=int, default=50)
     parser.add_argument("--bootstrap-resamples", type=int, default=10_000)
     parser.add_argument("--seed", type=int, default=123)
+    parser.add_argument(
+        "--pcm-timezone",
+        default=None,
+        help=(
+            "IANA timezone for legacy PCM CSV Date/Time columns. New CITADEL "
+            "collections record UTC and do not require this option."
+        ),
+    )
     return parser
 
 
@@ -127,7 +146,9 @@ def _latest_complete_campaign(root: Path) -> Path | None:
             continue
         if payload.get("status") == "complete":
             candidates.append(manifest_path.parent)
-    return max(candidates, key=lambda path: path.stat().st_mtime) if candidates else None
+    # Campaign directory names are UTC identifiers. Lexical selection is stable
+    # across clones; filesystem mtimes are not preserved by Git or rsync.
+    return sorted(candidates, key=lambda path: path.name)[-1] if candidates else None
 
 
 def _load_notebook_namespace(repo_root: Path) -> dict[str, object]:
@@ -144,16 +165,49 @@ def _load_notebook_namespace(repo_root: Path) -> dict[str, object]:
     namespace = module.__dict__
     progress_log = repo_root / "results" / "notebook_run" / "notebook_progress.log"
     saved_progress = progress_log.read_bytes() if progress_log.is_file() else None
-    try:
-        for cell_id in NOTEBOOK_CELL_IDS:
-            source = "".join(cells[cell_id].get("source", []))
-            exec(compile(source, f"{notebook_path.name}:{cell_id}", "exec"), namespace)
-    finally:
-        if saved_progress is not None:
-            progress_log.write_bytes(saved_progress)
-        elif progress_log.exists():
-            progress_log.unlink()
+    saved_environment = dict(os.environ)
+    temporary_parent = repo_root / "results" / "reproduced"
+    temporary_parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory(
+        prefix=".intel-transition-utility-loader-", dir=temporary_parent
+    ) as temporary_directory:
+        utility_root = Path(temporary_directory)
+        os.environ.update(
+            {
+                "CITADEL_SEED": "123",
+                "CITADEL_THREADS": "1",
+                "CITADEL_PROFILE": "smoke",
+                "CITADEL_DATA_MODE": "sample",
+                "CITADEL_TCAD_PRESET": "smoke",
+                "CITADEL_RUN_LIFECYCLE": "0",
+                "CITADEL_RUN_INTEL_WORKLOAD_ORDERS": "0",
+                "CITADEL_RUN_APPLE_OBSERVABILITY": "0",
+                "CITADEL_STRICT_RUNTIME": "0",
+                "CITADEL_RESULTS_ROOT": str(utility_root / "notebook_run"),
+                "CITADEL_SAMPLE_ROOT": str(utility_root / "sample_data"),
+            }
+        )
+        try:
+            for cell_id in NOTEBOOK_CELL_IDS:
+                source = "".join(cells[cell_id].get("source", []))
+                exec(compile(source, f"{notebook_path.name}:{cell_id}", "exec"), namespace)
+        finally:
+            os.environ.clear()
+            os.environ.update(saved_environment)
+            if saved_progress is not None:
+                progress_log.write_bytes(saved_progress)
+            elif progress_log.exists():
+                progress_log.unlink()
     return namespace
+
+
+def _create_new_output_directory(output: Path) -> None:
+    if output.exists():
+        raise FileExistsError(
+            f"Campaign analysis output already exists: {output}. Choose a fresh "
+            "--output-root so stale and regenerated evidence cannot be mixed."
+        )
+    output.mkdir(parents=True)
 
 
 def _detect_delimiter(lines: list[str]) -> str:
@@ -189,7 +243,9 @@ def _unique_columns(header_rows: list[list[str]], width: int) -> list[str]:
     return names
 
 
-def read_pcm_csv(path: Path) -> tuple[pd.DataFrame, dict[str, object]]:
+def read_pcm_csv(
+    path: Path, *, pcm_timezone: str
+) -> tuple[pd.DataFrame, dict[str, object]]:
     lines = [
         line.rstrip("\r\n")
         for line in path.read_text(encoding="utf-8", errors="replace").splitlines()
@@ -229,6 +285,20 @@ def read_pcm_csv(path: Path) -> tuple[pd.DataFrame, dict[str, object]]:
     )
     if parsed.isna().any():
         raise RuntimeError("One or more PCM Date and Time values could not be parsed")
+    try:
+        timezone_info = ZoneInfo(pcm_timezone)
+    except ZoneInfoNotFoundError as exc:
+        raise ValueError(f"Unknown PCM timezone: {pcm_timezone!r}") from exc
+    try:
+        parsed = parsed.dt.tz_localize(
+            timezone_info,
+            ambiguous="raise",
+            nonexistent="raise",
+        )
+    except (TypeError, ValueError) as exc:
+        raise RuntimeError(
+            f"PCM timestamps could not be localized with timezone {pcm_timezone!r}"
+        ) from exc
     frame.insert(
         0,
         "timestamp_unix_s",
@@ -255,6 +325,7 @@ def read_pcm_csv(path: Path) -> tuple[pd.DataFrame, dict[str, object]]:
             float(np.max(intervals)) if len(intervals) else None
         ),
         "timestamp_source": f"{date_column} plus {time_column} from Intel PCM",
+        "pcm_timezone": pcm_timezone,
     }
     return frame, audit
 
@@ -441,12 +512,23 @@ def _analyze_run(
     cfg: AnalysisConfig,
     output: Path,
     notebook: dict[str, object],
+    pcm_timezone_override: str | None,
 ) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, dict[str, object]]:
     manifest_path = run_dir / "collection_manifest.json"
     collection = json.loads(manifest_path.read_text(encoding="utf-8"))
     if collection.get("status") != "complete":
         raise RuntimeError(f"Run is not complete: {manifest_path}")
-    pcm, parse_audit = read_pcm_csv(run_dir / "pcm_raw.csv")
+    protocol = collection.get("protocol", {})
+    pcm_timezone = pcm_timezone_override or protocol.get("pcm_timezone")
+    if not pcm_timezone:
+        raise RuntimeError(
+            "The collection manifest does not identify the timezone used by the "
+            "PCM Date/Time columns. Pass --pcm-timezone with an IANA name when "
+            "analyzing this legacy campaign."
+        )
+    pcm, parse_audit = read_pcm_csv(
+        run_dir / "pcm_raw.csv", pcm_timezone=str(pcm_timezone)
+    )
     events = pd.read_csv(run_dir / "phase_events.csv")
     trace = _align_phases(pcm, events)
     processed, preprocessing_audit, candidate_features = _preprocess_trace(trace)
@@ -678,7 +760,7 @@ def main() -> int:
     if len(completed_runs) < 3:
         raise RuntimeError("At least three completed physical runs are required")
     output = args.output_root.expanduser().resolve() / campaign_dir.name
-    output.mkdir(parents=True, exist_ok=True)
+    _create_new_output_directory(output)
     notebook = _load_notebook_namespace(repo_root)
     rules = []
     stabilizations = []
@@ -693,7 +775,13 @@ def main() -> int:
             run_dir = repo_root / run_dir
         print(f"Analyzing continuous Intel run {run_index + 1}", flush=True)
         rule, stabilization, selected_frame, parse_audit = _analyze_run(
-            run_dir, run_index, campaign, cfg, output, notebook
+            run_dir,
+            run_index,
+            campaign,
+            cfg,
+            output,
+            notebook,
+            args.pcm_timezone,
         )
         rules.append(rule)
         stabilization.insert(0, "run_index", run_index + 1)
@@ -767,6 +855,7 @@ def main() -> int:
                 "git_commit": _git_commit(repo_root),
                 "git_dirty": _git_dirty(repo_root),
                 "config": cfg.__dict__,
+                "notebook_utility_loader": NOTEBOOK_UTILITY_LOADER,
                 "campaign_manifest": {
                     "path": _portable_path(campaign_manifest, repo_root),
                     "sha256": _sha256(campaign_manifest),
