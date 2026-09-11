@@ -958,7 +958,7 @@ def _render_readme(claims: dict[str, Any]) -> str:
         "From the repository root, materialize Git LFS data and run:",
         "",
         "```bash",
-        "git lfs pull --include='data/telemetry/processed/ddr_data/*.csv,results/notebook_run/droop_adaptive_data/*.csv,results/notebook_run/tcad_ablation/tcad_ablation_summary.csv,results/notebook_run/tcad_ablation/causal/*.csv,results/notebook_run/droop_adaptive_ablation/p0_99/causal/*.csv' --exclude=''",
+        "git lfs pull --include='data/telemetry/processed/ddr_data/*.csv,results/notebook_run/droop_adaptive_data/*.csv' --exclude=''",
         "uv python install 3.11.15",
         "uv sync --frozen",
         "export PYTHONHASHSEED=123 OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1",
