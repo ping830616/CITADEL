@@ -6,7 +6,7 @@ This experiment measures CITADEL behavior during abrupt benign workload changes 
 
 1. Update the environment and open `notebooks/exact_tcad_all_experiments.ipynb` from the repository root.
 2. Run the repository import cell, Section 1 reproducibility configuration, and Section 2 integrated utilities.
-3. In Section 12, set `RUN_APPLE_TRANSITION_CAMPAIGN = True`.
+3. In Section 13, set `RUN_APPLE_TRANSITION_CAMPAIGN = True`.
 4. Run the collection cell once. Do not close the computer or allow it to sleep.
 5. Return the switch to `False` after collection.
 6. Run the analysis cell. It analyzes every complete run and displays the campaign summary and figure.

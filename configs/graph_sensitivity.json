@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "protocol_name": "CITADEL graph-parameter and ranking-term sensitivity",
+  "manuscript_section": "Section V-D",
+  "seed": 123,
+  "threads": 1,
+  "runtime_versions": {
+    "numpy": "2.1.3",
+    "pandas": "2.2.3",
+    "scikit-learn": "1.6.1",
+    "scipy": "1.17.1"
+  },
+  "graph": {
+    "baseline_tau_c": 0.35,
+    "tau_c_values": [0.25, 0.35, 0.45],
+    "baseline_pi_min": 0.5,
+    "pi_min_values": [0.375, 0.5, 0.625],
+    "dependence_cutoff_rule": "d_min = max(0.08, 0.35 * tau_c)",
+    "bootstraps": 8,
+    "workload_stratified_subsample_fraction": 0.7,
+    "setup_bootstrap_seeds": {"A": 123, "B": 1132},
+    "max_edges_per_bootstrap_factor": 4,
+    "variation_rule": "Change tau_c or pi_min one at a time while holding the other at baseline. The shared baseline is archived once per setup/event."
+  },
+  "ranking": {
+    "baseline_weights": {
+      "centrality": 0.35,
+      "edge_stability": 0.25,
+      "conditional_dependence": 0.2,
+      "alignment": 0.2
+    },
+    "removed_terms": [
+      "centrality",
+      "edge_stability",
+      "conditional_dependence",
+      "alignment"
+    ],
+    "ablation_rule": "Set one coefficient to zero and renormalize the remaining coefficients to sum to one.",
+    "tie_break_rule": "Round normalized importance scores to 12 decimal places, then order tied features lexically so an ablated term cannot re-enter through tie-breaking.",
+    "telemetry_cost_rule": "Keep the telemetry-cost denominator unchanged.",
+    "droop_rule": "Apply the changed ranking weights only inside the structural score; keep the outer structural weight 0.30 and DROOP semantic-prior weight 2.20 fixed.",
+    "jaccard_reference": "The full-ranking baseline-graph top-k set for the same setup, event, and data view.",
+    "jaccard_definition": "|baseline top-k intersection variant top-k| / |baseline top-k union variant top-k|"
+  },
+  "evaluation": {
+    "calibration": "Fit feature normalization and configured feature weights on all benign rows after each variant selects its top-k set.",
+    "blocks": "Use non-overlapping blocks within each workload/scenario recording and discard incomplete tails.",
+    "folds": "Reuse the deterministic block-level stratified folds produced with seed 123 for every variant at a fixed operating point.",
+    "threshold": "Estimate the 0.99 quantile from training-fold benign block scores; predict anomaly when score is greater than or equal to the threshold.",
+    "aggregation": "Report the arithmetic mean of workload=ALL fold metrics."
+  },
+  "range_membership": {
+    "graph_parameter": "All five unique graph configurations, including the baseline.",
+    "ranking_term": "The four term-removal variants; the baseline is retained only as a reference."
+  },
+  "draft_reference": {
+    "graph_parameter": {
+      "mcc": [0.94, 0.992],
+      "fpr_percent": [0.77, 1.71],
+      "feature_jaccard_percent": [37.9, 100.0]
+    },
+    "ranking_term": {
+      "mcc": [0.798, 0.992],
+      "fpr_percent": [0.77, 1.64],
+      "feature_jaccard_percent": [53.8, 100.0]
+    },
+    "expected_largest_reduction": {
+      "A_DROOP": "remove_centrality",
+      "A_RH": "remove_alignment"
+    }
+  },
+  "cases": [
+    {
+      "setup": "A",
+      "scenario": "DROOP",
+      "view": "transient",
+      "top_k": 15,
+      "window_size": 1000,
+      "agg_mode": "median",
+      "lambda_res": 0.0,
+      "weight_mode": "inv_var",
+      "fixed_point_q": 15,
+      "p_quantile": 0.99,
+      "n_splits": 3,
+      "candidate_rank_path": "results/notebook_run/droop_adaptive_ablation/p0_99/causal/SETUP_A_feature_ranks.csv"
+    },
+    {
+      "setup": "A",
+      "scenario": "RH",
+      "view": "standard",
+      "top_k": 20,
+      "window_size": 550,
+      "agg_mode": "median",
+      "lambda_res": 1.0,
+      "weight_mode": "uniform",
+      "fixed_point_q": 8,
+      "p_quantile": 0.99,
+      "n_splits": 5,
+      "candidate_rank_path": "results/notebook_run/tcad_ablation/causal/SETUP_A_feature_ranks.csv"
+    },
+    {
+      "setup": "B",
+      "scenario": "DROOP",
+      "view": "transient",
+      "top_k": 15,
+      "window_size": 200,
+      "agg_mode": "median",
+      "lambda_res": 0.5,
+      "weight_mode": "inv_var",
+      "fixed_point_q": 15,
+      "p_quantile": 0.99,
+      "n_splits": 3,
+      "candidate_rank_path": "results/notebook_run/droop_adaptive_ablation/p0_99/causal/SETUP_B_feature_ranks.csv"
+    },
+    {
+      "setup": "B",
+      "scenario": "SPECTRE",
+      "view": "standard",
+      "top_k": 30,
+      "window_size": 700,
+      "agg_mode": "median",
+      "lambda_res": 0.75,
+      "weight_mode": "uniform",
+      "fixed_point_q": 8,
+      "p_quantile": 0.99,
+      "n_splits": 5,
+      "candidate_rank_path": "results/notebook_run/tcad_ablation/causal/SETUP_B_feature_ranks.csv"
+    }
+  ]
+}

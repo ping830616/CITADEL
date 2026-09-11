@@ -110,7 +110,7 @@ Exit gate: claims are backed by uncertainty estimates, not only point metrics.
 
 ## Stage 10: Manuscript Assembly
 
-1. Generate every table and figure from the single notebook.
+1. Generate paper tables and figures from the primary notebook, with the focused graph/ranking sensitivity runner invoked from its dedicated cell.
 2. Link every table and figure to a run manifest.
 3. Archive raw data snapshot IDs and processed-data hashes.
 4. Tag the exact code release used for submission.

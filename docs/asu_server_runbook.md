@@ -268,13 +268,13 @@ TCAD_PRESET = "smoke"
 RUN_REPEAT_CHECK = True
 ```
 
-For the normal TCAD journal-scale run, change only:
+To reconstruct the paper-selected Table VI operating points, change only:
 
 ```python
-TCAD_PRESET = "balanced"
+TCAD_PRESET = "full"
 ```
 
-Use `TCAD_PRESET = "full"` only for an optional exhaustive ASU/Linux sensitivity run. Then run the notebook from top to bottom. Long cells show progress directly in the notebook output. The notebook also writes progress messages here:
+Use `TCAD_PRESET = "balanced"` for a shorter development/revalidation DSE; it does not contain every Table VI setting. Then run the notebook from top to bottom. The focused graph/ranking sensitivity study is separate from the exhaustive DSE and can be run with `python scripts/run_graph_sensitivity.py` after the required Git LFS data are materialized. Long cells show progress directly in the notebook output. The notebook also writes progress messages here:
 
 ```text
 results/notebook_run/notebook_progress.log
@@ -320,7 +320,7 @@ This creates:
 results/notebook_run/rtl_sweep/rtl_resource_summary.csv
 ```
 
-Finally, rerun the notebook RTL/FPGA merge section and then rerun Section 11 so the TCAD gallery includes the latest Vivado evidence.
+Finally, rerun notebook Section 10 and then rerun the Section 5 results gallery so it includes the latest Vivado evidence.
 
 ### Vivado Setup
 

@@ -4,7 +4,7 @@ This document is the start-to-finish runbook for turning the CITADEL repository 
 
 The short version is:
 
-`MacBook notebook -> CITADEL balanced sweep -> paper tables/figures -> golden vectors -> ASU Vivado RTL/FPGA -> hardware CSV -> MacBook merge -> final TCAD figures/tables`.
+`MacBook notebook -> CITADEL full paper-point sweep -> frozen-point graph/ranking sensitivity -> paper tables/figures -> golden vectors -> ASU Vivado RTL/FPGA -> hardware CSV -> MacBook merge -> final TCAD figures/tables`.
 
 ## 1. Goal
 
@@ -20,7 +20,8 @@ The Apple observability study is useful, but it should remain supplemental. It s
 
 ## 2. Main Artifacts
 
-Run everything from the single notebook:
+Use the end-to-end notebook as the primary entry point; it invokes the focused
+graph/ranking sensitivity runner where appropriate:
 
 ```text
 notebooks/exact_tcad_all_experiments.ipynb
@@ -30,6 +31,7 @@ Important output folders:
 
 ```text
 results/notebook_run/tcad_ablation/
+results/notebook_run/graph_sensitivity/
 results/notebook_run/tcad_ablation/paper_figures/
 results/notebook_run/lifecycle_drift/
 results/notebook_run/fpga/
@@ -42,6 +44,9 @@ Important source files:
 ```text
 configs/tcad_grid_balanced.json
 configs/tcad_grid_full.json
+configs/graph_sensitivity.json
+scripts/run_graph_sensitivity.py
+docs/graph_ranking_sensitivity.md
 rtl/cintas/cintas_stream.sv
 hardware/cintas_operator_costs.csv
 environment.yml
@@ -59,12 +64,12 @@ Use the machines this way.
 
 Recommended final workflow:
 
-1. Run notebook Sections 1--16 on MacBook or ASU.
-2. Generate fixed-point golden vectors from Section 16.
+1. Run notebook Sections 1--9 on MacBook or ASU.
+2. Generate fixed-point golden vectors from Section 9.
 3. Run Vivado synthesis/place-and-route on ASU/Linux.
 4. Save Vivado results in `results/notebook_run/rtl_sweep/rtl_resource_summary.csv`.
 5. Pull or copy results back to MacBook.
-6. Run notebook Sections 17 and 11 to merge and display final paper results.
+6. Run notebook Section 10, then rerun the Section 5 results gallery to merge and display final paper results.
 
 ## 4. Full Notebook Procedure
 
@@ -85,31 +90,31 @@ Use these notebook settings for final paper results:
 SEED = 123
 THREADS = 1
 DATA_MODE = "real"
-TCAD_PRESET = "balanced"
+TCAD_PRESET = "full"
 RUN_REPEAT_CHECK = True
 ```
 
-Use `"full"` only for an optional exhaustive ASU/Linux sensitivity run.
+Set `TCAD_PRESET = "full"` when reconstructing the paper-selected Table VI operating points. The shorter `balanced` grid is a development/revalidation grid and omits median aggregation, `N=550/700`, `k=20`, and `lambda_res=0/1`. The dedicated graph/ranking sensitivity runner is a separate focused experiment: it uses the frozen Table VI points and does not execute either DSE grid.
 
 Run the notebook from top to bottom. The key paper sections are:
 
 | Notebook Section | Purpose | Main Output |
 |---|---|---|
 | 4. Full Design-Space Sweep | Main CITADEL sweep | `tcad_ablation_summary.csv`, fold results, selected features |
-| 5. Detection Quality Across Anomaly Classes | Main accuracy summary | anomaly-class metrics |
-| 6. Feature-Budget and Telemetry-Cost Trade-Off | Compact telemetry evidence | feature-budget tables and plots |
-| 7. Causal Telemetry Graph Interpretation | Stable conditional graph evidence | feature ranks, graph files |
-| 8. Fixed-Point CINTAS Sensitivity | Numerical hardware evidence | fixed-point error by Q format |
-| 9. CINTAS Hardware-Cost Analysis | Analytical hardware-cost evidence | operator, area, power estimates |
-| 10. Lifecycle Drift and Recalibration | SLM lifecycle evidence | drift/recalibration CSVs |
-| 11. TCAD Results Gallery | Paper-facing tables and figures | selected operating points, cost tables, graph figures, RTL figure, lifecycle figure |
-| 16. Export Fixed-Point Golden Vectors For RTL | RTL verification input | golden-vector CSV |
-| 17. Merge Future RTL/FPGA Results Into The TCAD Table | Hardware result merge | merged paper hardware table |
-| 18. Supplemental Apple Case Study | Observability/portability supplement | Apple supplemental tables/figures |
+| 5. Results Gallery | Selected operating points, frozen-point sensitivity, workload robustness, feature-budget trade-offs, graph interpretation, lifecycle results, and paper figures | gallery CSVs/figures plus `graph_sensitivity/` evidence |
+| 6. Reproducibility Manifest Audit | Cross-artifact provenance check | manifest-audit display |
+| 7. Supplemental Cost Artifact | Additional cost analysis | supplemental cost outputs |
+| 8. RTL Workflow | Lint/simulation workflow | RTL validation outputs |
+| 9. Export Fixed-Point Golden Vectors | RTL verification input | golden-vector CSV |
+| 10. Merge RTL/FPGA Results | Hardware result merge | merged paper hardware table |
+| 11. Supplemental Apple Case Study | Observability/portability supplement | Apple supplemental tables/figures |
+| 12. Intel Workload-Order Stress Test | Workload-order robustness | Intel stress-test outputs |
+| 13. Optional Apple Transition Study | Optional transition robustness | Apple transition outputs |
+| 14. Final Reproducibility Checklist | Required-artifact and claim-status audit | explicit completion/incompletion status |
 
 ## 5. Main TCAD Tables
 
-Use Section 11 as the source for the result section. The five main tables are:
+Use the Section 5 results gallery as the source for the result section. The five main tables are:
 
 | Paper Table | Notebook Artifact | Why It Matters |
 |---|---|---|
@@ -127,15 +132,15 @@ LUTs, FFs, DSPs, BRAMs, Fmax, timing slack, latency cycles, dynamic power, stati
 
 ## 6. Main TCAD Figures
 
-Use these five figures from Section 11:
+Use these figures from the Section 5 results gallery:
 
 | Paper Figure | Notebook Artifact | Recommended Subsection |
 |---|---|---|
-| Figure 1. Full DSE heatmap | `gallery_fig1_full_dse_heatmap.png` | Full Design-Space Sweep |
-| Figure 2. Detection quality bars | `gallery_fig2_detection_quality.png` | Detection Quality Across Anomaly Classes |
-| Figure 3. Workload robustness heatmap | `gallery_fig3_workload_heatmap.png` | Detection Quality or Workload Robustness |
-| Figure 4. Stable feature map | `gallery_fig4_stable_feature_map.png` | Causal Telemetry Graph Interpretation |
-| Figure 5. Deployment feasibility | `gallery_fig5_deployment_feasibility.png` | Fixed-Point, Hardware Cost, and Lifecycle |
+| Figure 1. Full DSE heatmap | `gallery_fig1_dse_heatmap.png` | Design-space operating-point comparison |
+| Figure 2. Full stable graph network | `gallery_fig4_full_stable_graph_network.png` | Stable conditional telemetry structure |
+| Figure 3. Stable feature compass | `gallery_fig5_stable_feature_compass.png` | Hardware-aware feature ranking |
+| Figure 4. Lifecycle benign-drift trend | `gallery_fig6c_lifecycle_benign_drift_trend.png` | Drift and recalibration evidence |
+| Figure 5. RTL/FPGA deployment passport | `rtl_fpga_deployment_passport.png` | Hardware implementation summary |
 
 These figures are saved under:
 
@@ -252,8 +257,8 @@ cd ~/CITADEL
 Then rerun:
 
 ```text
-Section 17. Merge Future RTL/FPGA Results Into The TCAD Table
-Section 11. TCAD Results Gallery
+Section 10. Merge RTL/FPGA Results
+Section 5. Results Gallery
 ```
 
 If you intentionally want to version the final hardware CSV despite `results/` being ignored, use `git add -f`:
@@ -304,16 +309,17 @@ drift false-positive reduction after recalibration
 Do not freeze paper results until all gates pass:
 
 1. `git status` is clean or the run manifest clearly records the final commit.
-2. `TCAD_PRESET = "balanced"` for the normal paper run, or `"full"` for the optional exhaustive sensitivity run.
+2. `TCAD_PRESET = "full"` when reconstructing Table VI; use `"balanced"` only for a shorter development/revalidation DSE.
 3. `SEED = 123` and `THREADS = 1`.
 4. Git LFS telemetry files are materialized, not pointer files.
-5. `run_manifest.json` exists for TCAD ablation and lifecycle drift.
-6. Section 11 displays all five tables and five figures.
-7. Fixed-point error is small enough that the chosen Q format preserves ranking and threshold behavior.
-8. RTL lint is clean or all warnings are explained.
-9. RTL simulation matches notebook golden vectors.
-10. Vivado synthesis/place-and-route reports timing, utilization, and power for the target FPGA.
-11. Apple results are labeled supplemental and not mixed into hardware-cost claims.
+5. `run_manifest.json` exists for TCAD ablation, graph/ranking sensitivity, and lifecycle drift.
+6. `graph_sensitivity_claims.json` reports `PASS`, with every range endpoint tied to a setup/event and variant row.
+7. Section 5 displays the paper-facing tables and figures.
+8. Fixed-point error is small enough that the chosen Q format preserves ranking and threshold behavior.
+9. RTL lint is clean or all warnings are explained.
+10. RTL simulation matches notebook golden vectors.
+11. Vivado synthesis/place-and-route reports timing, utilization, and power for the target FPGA.
+12. Apple results are labeled supplemental and not mixed into hardware-cost claims.
 
 ## 11. How This Advances The Research
 
@@ -343,13 +349,14 @@ The highest-impact improvement is the RTL/FPGA validation. Once CINTAS is simula
 Before final submission:
 
 ```text
-[ ] Balanced notebook run completed.
-[ ] Section 11 tables and figures exported.
+[ ] Full paper-point notebook run completed.
+[ ] Frozen-point graph/ranking sensitivity claim audit passed.
+[ ] Section 5 tables and figures exported.
 [ ] Paper TBD replacement CSV checked.
 [ ] RTL golden vectors exported.
 [ ] RTL lint and simulation completed.
 [ ] Vivado synthesis/place-and-route completed.
-[ ] RTL/FPGA numbers merged through Section 17.
+[ ] RTL/FPGA numbers merged through Section 10.
 [ ] Apple case study kept supplemental.
 [ ] Overleaf macros replaced.
 [ ] Captions and claims match the generated artifacts.

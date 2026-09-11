@@ -1,6 +1,6 @@
 # CITADEL Research Methodology
 
-This document defines the research plan for **CITADEL: Causal In-Field Telemetry Analytics and Drift-Aware Edge Learning for Silicon Lifecycle Management**.
+This document defines the research plan for **CITADEL: Conditional Interdependence in Telemetry Analytics and Drift-Aware Edge Learning for Silicon Lifecycle Management**.
 
 Core flow:
 
@@ -23,6 +23,9 @@ Every question must map to a notebook section, a manifest, a table or figure, an
 - **Anomaly:** a deviation from benign behavior, such as voltage droop, RowHammer, Spectre, workload drift, firmware drift, or an aging proxy.
 - **Feature budget `k`:** the number of telemetry signals selected for runtime scoring.
 - **Decision block `N`:** a fixed group of consecutive samples that produces one anomaly decision.
+- **Graph control `tau_c`:** the disclosed graph sensitivity control; the implemented partial-dependence cutoff is `d_min=max(0.08, 0.35*tau_c)`.
+- **Graph stability `pi_min`:** the minimum fraction of benign graph bootstraps in which an edge must be selected.
+- **Feature Jaccard:** top-`k` set overlap against the baseline for the same setup, event, and data view, computed as intersection size divided by union size.
 - **CINTAS:** Causal Integrated Anomaly Scoring, the fixed-point runtime scoring block.
 - **Fixed-point arithmetic:** scaled integer arithmetic used instead of floating-point arithmetic.
 - **RTL:** register-transfer level hardware description used for cycle-level hardware verification.
@@ -92,6 +95,35 @@ Use this lane to answer whether benign calibration, compact feature selection, b
 7. Select the top `k` features.
 8. Save the selected features, group counts, graph edges, and feature-rank tables.
 
+### 6.1 Graph And Ranking Sensitivity At Frozen Operating Points
+
+Use the four paper-selected Table VI configurations in `configs/graph_sensitivity.json`; do not rerun the DSE or select a new configuration during this study.
+
+Graph sensitivity is one-at-a-time around `(tau_c, pi_min)=(0.35, 0.50)`:
+
+- `tau_c` in `{0.25, 0.35, 0.45}` while `pi_min=0.50`;
+- `pi_min` in `{0.375, 0.50, 0.625}` while `tau_c=0.35`;
+- eight workload-stratified benign bootstraps at a 70% subsample fraction;
+- seed 123 for Setup A and seed 1132 for Setup B; and
+- explicit export of retained edge count, graph method, and fallback status.
+
+Ranking sensitivity starts from `(centrality, edge stability, conditional dependence, alignment)=(0.35, 0.25, 0.20, 0.20)`. Remove one term at a time and renormalize the other three coefficients. Keep telemetry cost unchanged. For the DROOP-adaptive view, keep the outer structural coefficient `0.30`, semantic-prior coefficient `2.20`, and semantic prior fixed.
+
+For each variant, compare its selected top-`k` set with the full-ranking baseline-graph top-`k` set for the same setup/event/view. Archive the intersection count, union count, and Jaccard ratio. Reject a submission run if its baseline graph identities and values, rank values, selected top-`k` set, or Table VI MCC/FPR do not reproduce the archived baseline.
+
+Primary outputs:
+
+- `results/notebook_run/graph_sensitivity/README.md`
+- `results/notebook_run/graph_sensitivity/graph_sensitivity_summary.csv`
+- `results/notebook_run/graph_sensitivity/graph_sensitivity_fold_results.csv`
+- `results/notebook_run/graph_sensitivity/graph_sensitivity_selected_features.csv`
+- `results/notebook_run/graph_sensitivity/graph_sensitivity_feature_ranks.csv`
+- `results/notebook_run/graph_sensitivity/graph_sensitivity_graph_edges.csv`
+- `results/notebook_run/graph_sensitivity/graph_sensitivity_claims.json`
+- `results/notebook_run/graph_sensitivity/protocol.json`
+- `results/notebook_run/graph_sensitivity/selected_operating_points.json`
+- `results/notebook_run/graph_sensitivity/run_manifest.json`
+
 Feature groups:
 
 - `COM`: compute and execution counters.
@@ -160,6 +192,8 @@ Primary output:
 
 - `results/notebook_run/tcad_ablation/tcad_ablation_summary.csv`
 
+The shorter `balanced` grid is for development/revalidation. Reconstructing the selected Table VI configurations requires the `full` DSE because the balanced grid omits median aggregation, `N=550/700`, `k=20`, and `lambda_res=0/1`. The focused graph/ranking sensitivity study uses neither grid; it evaluates the already frozen Table VI configurations.
+
 ## 10. Lifecycle Drift And Recalibration
 
 Drift sources:
@@ -203,6 +237,7 @@ Tables:
 - platform and telemetry summary
 - anomaly and workload matrix
 - design-space ablation summary
+- graph-parameter and ranking-term sensitivity summary with selected-feature overlap
 - limited-observability macOS results
 - hardware-cost and RTL/FPGA resource summary
 - lifecycle recalibration summary
@@ -221,5 +256,7 @@ Final gate:
 1. Rerun the notebook from a clean clone.
 2. Compare manifests across two environments.
 3. Archive data snapshot IDs.
-4. Freeze paper figures and tables.
-5. Tag the code used for submission.
+4. Require the graph/ranking sensitivity baseline gates and generated claim audit to pass.
+5. Verify every reported sensitivity endpoint resolves to a summary row, fold results, selected features, and hashed inputs.
+6. Freeze paper figures and tables.
+7. Tag the code used for submission.

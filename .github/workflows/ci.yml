@@ -36,3 +36,8 @@ jobs:
 
       - name: Validate integrated notebook
         run: python -c "import ast,json; from pathlib import Path; nb=json.loads(Path('notebooks/exact_tcad_all_experiments.ipynb').read_text()); [ast.parse(''.join(c.get('source', []))) for c in nb['cells'] if c.get('cell_type') == 'code']; print('notebook code cells compile')"
+
+      - name: Validate graph sensitivity runner and protocol
+        run: |
+          python -m py_compile scripts/run_graph_sensitivity.py
+          python -m json.tool configs/graph_sensitivity.json >/dev/null

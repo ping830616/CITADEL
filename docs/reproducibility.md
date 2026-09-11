@@ -6,7 +6,7 @@ The target is same inputs plus same config plus same environment yields the same
 
 - Python is pinned to `>=3.11,<3.14`.
 - Package versions are pinned in `requirements.txt` and `environment.yml`.
-- Numerical execution is configured inside the single notebook.
+- Numerical execution is configured in the primary notebook and the focused sensitivity protocol/runner.
 - Default runs use `seed=123` and `threads=1`.
 
 ## Data
@@ -28,7 +28,7 @@ Rules:
 
 ## Running On A New Machine
 
-Use a Git client with Git LFS enabled so the tracked CSV files are materialized, not left as pointer files. Then open `notebooks/exact_tcad_all_experiments.ipynb` in Jupyter and run it from top to bottom. The notebook is the only experiment entry point.
+Use a Git client with Git LFS enabled so the tracked CSV files are materialized, not left as pointer files. Then open `notebooks/exact_tcad_all_experiments.ipynb` in Jupyter and run it from top to bottom. The notebook is the primary end-to-end entry point; `scripts/run_graph_sensitivity.py` is the focused frozen-operating-point runner invoked by its sensitivity cell.
 
 ## ASU Linux Server
 
@@ -124,7 +124,7 @@ After editing repo files on ASU, keep GitHub current:
 
 ```text
 git status
-git add README.md docs/ notebooks/ configs/ hardware/ rtl/ data/ environment.yml requirements.txt .github/workflows/ci.yml
+git add README.md docs/ notebooks/ configs/ scripts/ hardware/ rtl/ data/ environment.yml requirements.txt .github/workflows/ci.yml
 git commit -m "Update CITADEL workflow"
 git push origin main
 ```
@@ -164,7 +164,7 @@ Open the local URL in your Mac browser and use the token printed by Terminal 2:
 http://127.0.0.1:8888/lab?token=...
 ```
 
-Run `TCAD_PRESET = "smoke"` first. After the smoke run matches locally, change only `TCAD_PRESET` to `"balanced"` for the normal journal-scale run. Use `"full"` only for an optional exhaustive ASU/Linux sensitivity run.
+Run `TCAD_PRESET = "smoke"` first. After the smoke run matches locally, use `TCAD_PRESET = "balanced"` for a shorter development/revalidation DSE or `TCAD_PRESET = "full"` to reconstruct the paper-selected Table VI operating points. The graph/ranking sensitivity study is not the full DSE: run `python scripts/run_graph_sensitivity.py` to evaluate the four frozen Table VI configurations without re-selection.
 
 ## Monitoring A Long Run
 
@@ -194,13 +194,16 @@ After a complete notebook run, compare the main generated artifacts:
 - `results/notebook_run/ets_baseline/run_manifest.json`
 - `results/notebook_run/tcad_ablation/run_manifest.json`
 - `results/notebook_run/tcad_ablation/tcad_ablation_summary.csv`
+- `results/notebook_run/graph_sensitivity/run_manifest.json`
+- `results/notebook_run/graph_sensitivity/graph_sensitivity_claims.json`
+- `results/notebook_run/graph_sensitivity/graph_sensitivity_summary.csv`
 - `results/notebook_run/lifecycle_drift/run_manifest.json`
 - `results/notebook_run/lifecycle_drift/lifecycle_recalibration_summary.csv`
 - `results/notebook_run/paper_tbd_replacements.csv`
 
 ## Apple Rapid Workload Transition Run
 
-The rapid benign workload transition campaign is intentionally opt in because it launches sustained workloads on the local Apple machine. In notebook Section 12, set `RUN_APPLE_TRANSITION_CAMPAIGN = True`, run the collection cell once, return the switch to `False`, and run the analysis cell. The default protocol records five independently seeded runs with randomized workload orders, two calibration cycles, three evaluation cycles, and a cool down between runs. It never overwrites earlier traces. Full protocol details and output checks are in [`docs/apple_workload_transitions.md`](apple_workload_transitions.md).
+The rapid benign workload transition campaign is intentionally opt in because it launches sustained workloads on the local Apple machine. In notebook Section 13, set `RUN_APPLE_TRANSITION_CAMPAIGN = True`, run the collection cell once, return the switch to `False`, and run the analysis cell. The default protocol records five independently seeded runs with randomized workload orders, two calibration cycles, three evaluation cycles, and a cool down between runs. It never overwrites earlier traces. Full protocol details and output checks are in [`docs/apple_workload_transitions.md`](apple_workload_transitions.md).
 
 Copy results back from the server with:
 
