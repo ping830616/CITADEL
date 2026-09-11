@@ -1,59 +1,60 @@
 # CITADEL
 
-**CITADEL**—Conditional Interdependence in Telemetry Analytics and Drift-Aware
-Edge Learning—is a reproducible research artifact for hardware-aware CINTAS
-telemetry analysis. It includes the Intel DDR and Apple telemetry snapshots,
-the primary notebook, graph/ranking sensitivity analysis, lifecycle analysis,
-fixed-point and RTL evidence, and protocols for new hardware measurements.
+[![Reproducibility CI](https://github.com/ping830616/CITADEL/actions/workflows/ci.yml/badge.svg)](https://github.com/ping830616/CITADEL/actions/workflows/ci.yml)
 
-The supported end-to-end entry point is
-[`notebooks/exact_tcad_all_experiments.ipynb`](notebooks/exact_tcad_all_experiments.ipynb).
-For reviewer runs, use [`scripts/reproduce.py`](scripts/reproduce.py): it checks
-the source/runtime/data state, fixes seeds and numerical thread counts before
-Python starts, executes selected notebook sections headlessly, and writes to an
-isolated directory instead of overwriting the archive.
+This repository contains the code, preserved telemetry, locked software
+environment, and result records used for the CITADEL paper.
 
-## Reviewer Quick Start
+## Reproducibility status
 
-### 1. Check out an immutable source snapshot
+The deterministic sample-data check passes on Ubuntu 24.04 and macOS 14 with
+CPython 3.11.15. The graph- and ranking-sensitivity result bundle also has
+clean source provenance and passes its archived claim-level checks; the command
+below verifies it against the archive and compares two new runs.
 
-Replace `<artifact-commit-or-tag>` with the full commit or release tag cited by
-the manuscript. Do not use a moving branch name as the experiment identifier.
-Skipping LFS smudge avoids downloading the complete multi-gigabyte archive
-before the desired experiment is known.
+The main configuration, reference-validity, Apple, and FPGA result archives
+remain historical or partial evidence, and the workload-order analysis does
+not yet have a committed comparison bundle. The commands below can regenerate
+those analyses, but they become fully verified archival evidence only after a
+clean run reports `PASS` with `COMPLETE` coverage and its result bundle is
+committed. See the [artifact inventory](reproducibility/artifact_inventory.md)
+for the status of every bundle.
+
+## Step-by-step reproduction
+
+### 1. Get the exact source
+
+Install Git, Git LFS, and [uv](https://docs.astral.sh/uv/). The reviewer
+snapshot is tagged `paper-r1-reproducibility`; use that immutable tag rather
+than a moving branch as the experiment identifier.
 
 ```bash
-export GIT_LFS_SKIP_SMUDGE=1
-git clone https://github.com/ping830616/CITADEL.git
-cd CITADEL
-git checkout <artifact-commit-or-tag>
 git lfs install
+GIT_LFS_SKIP_SMUDGE=1 git clone https://github.com/ping830616/CITADEL.git
+cd CITADEL
+git checkout paper-r1-reproducibility
 git rev-parse HEAD
 git status --porcelain
 ```
 
-The final command must print nothing for a comparison-grade run.
+Record the full hash printed by `git rev-parse HEAD`. The final command must
+print nothing before a comparison-grade run.
 
-### 2. Install the exact environment
-
-The canonical environment is CPython **3.11.15** plus the complete dependency
-resolution in `uv.lock`:
+### 2. Install the locked environment
 
 ```bash
 uv python install 3.11.15
-uv sync --frozen
+uv sync --frozen --no-dev
 uv lock --check
+uv run --frozen python scripts/reproduce.py verify-archive --scope source
 ```
 
-`requirements.txt` and `environment.yml` retain the same direct pins for users
-who cannot use `uv`, but `uv sync --frozen` is the primary reviewer path. The
-launcher also sets seed 123, one numerical thread, UTC, a fixed locale, and the
-noninteractive Matplotlib backend before starting the notebook kernel.
+The launcher fixes the seed, numerical thread count, timezone, locale, and
+plotting backend before Python starts.
 
-### 3. Run the lightweight deterministic check
+### 3. Run the quick deterministic check
 
-This executes two isolated runs on bundled synthetic data and compares them. It
-is a quick code/environment check; it does not reproduce a paper-scale result.
+This uses bundled sample data and compares two isolated runs:
 
 ```bash
 uv run --frozen python scripts/reproduce.py notebook \
@@ -61,38 +62,20 @@ uv run --frozen python scripts/reproduce.py notebook \
   --repeat --run-id reviewer-smoke
 ```
 
-The two runs are stored under `results/reproduced/reviewer-smoke/` and
-`results/reproduced/reviewer-smoke-repeat/`, with the comparison report beside
-the second run.
+Inspect
+`results/reproduced/reviewer-smoke-repeat/repeat_comparison.json`. It must
+report `status: PASS` and `verification_coverage: COMPLETE`.
 
-## Reproduce Archived-Data Results
+### 4. Run the paper analyses
 
-Fetch only the Git LFS objects required by the selected experiment. The wrapper
-fails closed if an input remains an LFS pointer, the Python/package pins do not
-match, real data are unavailable, or the checkout is dirty.
-By default `fetch-lfs` downloads computational inputs only. Add
-`--include-reference` when the subsequent command uses `--verify`, so archived
-comparison outputs are materialized as well.
+Choose only the analysis you want. Each fetch command downloads the required
+Git LFS inputs without downloading the whole archive.
 
-### Benign workload profiles
+#### Main configuration and reference-validity analyses
 
-This focused profile consumes exactly the 26 benign DDR recordings and can be
-repeated without downloading anomaly or legacy result bundles:
-
-```bash
-uv run --frozen python scripts/reproduce.py fetch-lfs --scope workload
-uv run --frozen python scripts/reproduce.py verify-archive \
-  --scope workload --require-materialized
-uv run --frozen python scripts/reproduce.py notebook \
-  --profile workload --preset smoke --data-mode real \
-  --repeat --run-id reviewer-workload
-```
-
-The audited snapshot has no canonical workload-profile result bundle, so
-`--verify` is deliberately rejected for this profile. The repeat comparison
-must report `status: PASS` and `verification_coverage: COMPLETE`.
-
-### Full TCAD/DROOP/lifecycle core
+This run regenerates the main configuration search, detection tables,
+numerical comparison, analytical cost, reference-validity outputs, and paper
+figures. The full search took about 15 hours on the original source machine.
 
 ```bash
 uv run --frozen python scripts/reproduce.py fetch-lfs \
@@ -101,25 +84,10 @@ uv run --frozen python scripts/reproduce.py verify-archive \
   --scope core --require-materialized
 uv run --frozen python scripts/reproduce.py notebook \
   --profile core --preset full --data-mode real \
-  --verify --run-id reviewer-core
+  --verify --run-id reviewer-main
 ```
 
-The `full` preset is required to reconstruct the paper operating-point search;
-`smoke` and `balanced` are development grids. The archived source-machine log
-for the standard plus DROOP branches was approximately 15 hours, so a full run
-should be scheduled as a long job. Add `--repeat` only when resources permit a
-second full execution.
-
-At the audited baseline, workload-profile, paper-text replacement, and new
-four-case golden-vector outputs have no canonical reference. A core comparison
-that otherwise agrees therefore reports `PASS_WITH_UNVERIFIED`/`PARTIAL`, not
-full equivalence; each listed candidate-only output must be archived and then
-rechecked before claiming `PASS`/`COMPLETE` for every core result.
-
-### Focused graph/ranking sensitivity
-
-This re-evaluates the four frozen paper operating points without repeating the
-full design-space search:
+#### Graph- and ranking-sensitivity analysis
 
 ```bash
 uv run --frozen python scripts/reproduce.py fetch-lfs \
@@ -127,13 +95,23 @@ uv run --frozen python scripts/reproduce.py fetch-lfs \
 uv run --frozen python scripts/reproduce.py verify-archive \
   --scope sensitivity --require-materialized
 uv run --frozen python scripts/reproduce.py sensitivity \
-  --verify --run-id reviewer-sensitivity
+  --verify --repeat --run-id reviewer-sensitivity
 ```
 
-See [Graph and ranking sensitivity evidence](docs/graph_ranking_sensitivity.md)
-for the one-at-a-time protocol and claim-to-row mapping.
+#### Recorded benign workload-order analysis
 
-### Apple limited-observability analysis
+```bash
+uv run --frozen python scripts/reproduce.py fetch-lfs --scope intel
+uv run --frozen python scripts/reproduce.py verify-archive \
+  --scope intel --require-materialized
+uv run --frozen python scripts/reproduce.py intel-orders \
+  --repeat --run-id reviewer-intel-orders
+```
+
+This analysis uses boundaries constructed from preserved recordings; it is not
+a continuously measured physical workload switch.
+
+#### Apple limited-observability analysis
 
 ```bash
 uv run --frozen python scripts/reproduce.py fetch-lfs \
@@ -145,196 +123,93 @@ uv run --frozen python scripts/reproduce.py notebook \
   --verify --run-id reviewer-apple
 ```
 
-The external-source registry pins the Apple snapshot to DICE commit
-`b5e382e127e5ed3a187f6d328ab95729500ad7ae`; the archive manifest additionally
-binds the tracked CSV content hashes.
+#### FPGA-targeted RTL synthesis
 
-### Intel workload-order stress test
-
-This is an archived-data analysis of the preserved benign DDR recordings, not
-a measurement of a continuously sampled physical transition:
-
-```bash
-uv run --frozen python scripts/reproduce.py fetch-lfs --scope intel
-uv run --frozen python scripts/reproduce.py verify-archive \
-  --scope intel --require-materialized
-uv run --frozen python scripts/reproduce.py intel-orders \
-  --run-id reviewer-intel-orders
-```
-
-The command uses both setups, ten nonoverlapping recording-block replicates,
-two calibration cycles, three held-out evaluation cycles, and 10,000 bootstrap
-resamples. It writes a run receipt containing the clean source commit, all 26
-input hashes, hashes of the launcher, analyzer, notebook, external-source
-registry, and environment files, locked Python/package versions, platform and
-NumPy/BLAS/threadpool details, the validation-free notebook utility-loader mode,
-and the analyzer-manifest hash. Add `--repeat` to run the full protocol
-twice in separate directories and compare every scientific CSV under the
-declared tolerance contract. `--verify` compares against
-`results/notebook_run/intel_workload_orders/` when that archival bundle is
-present; the current audited snapshot deliberately reports that full bundle as
-not archived. See the [Intel workload-order protocol](docs/intel_workload_order_stress_test.md).
-
-### Archive integrity without running an experiment
-
-The checked-in archive inventory covers ordinary Git files and Git LFS object
-identities. Pointer metadata are enough for an inventory check; actual analysis
-requires materialized inputs.
-
-```bash
-uv run --frozen python scripts/reproduce.py verify-archive --scope source
-uv run --frozen python scripts/reproduce.py verify-archive --scope all
-```
-
-After fetching a profile, add `--require-materialized` for that scope. Available
-scopes are `source`, `workload`, `core`, `sensitivity`, `apple`, `intel`, `rtl`,
-and `all`.
-
-## What “the Same Result” Means
-
-[`reproducibility/result_contract.json`](reproducibility/result_contract.json)
-defines scientific equivalence. Result comparison requires exact schemas,
-categorical values, selected configurations, and nonnumeric fields. Row order
-is exact for positional tables; rules with declared identity keys permit only
-serialization reordering, and explicitly declared feature-list columns are
-compared as unordered sets.
-Numeric CSV cells use declared tolerances (by default `rtol=1e-10` and
-`atol=1e-12`) because low-order floating-point bits can vary across CPU, BLAS,
-and operating-system implementations. Manuscript-rounded values should agree.
-When an optional candidate output has no reference counterpart, the report
-lists it under `unverified_outputs` with `SKIPPED_NO_REFERENCE` and sets
-`status` to `PASS_WITH_UNVERIFIED` and `verification_coverage` to `PARTIAL`; it
-is never silently counted as verified. That status keeps a zero process exit
-code for optional-output workflows, but it does not establish full equivalence.
-
-PNG/PDF bytes, timestamps, absolute paths, host strings, run durations, and raw
-Vivado report bytes are not cross-platform equality targets. Plot renderers,
-fonts, compression, and tool session metadata can change those bytes while the
-underlying tables and parsed metrics remain equivalent.
-
-Generated runs live under `results/reproduced/<run-id>/`. Each receipt records
-the source commit, runtime audit, input preflight, notebook hash, selected cells,
-output root, and completion state. Comparison reports contain an explicit
-`PASS`, `PASS_WITH_UNVERIFIED`, or `FAIL` plus `COMPLETE` or `PARTIAL`
-verification coverage; notebook completion alone is not evidence of agreement.
-
-## Reproduce the Vivado Resource Sweep
-
-Vivado reproduction is separate from Python reanalysis. It requires **Vivado
-2025.2, SW Build 6299465**, the matching device database and license, target
-`xc7a200tfbg676-1`, and the checked-in RTL/Tcl inputs. Inspect the exact plan
-first, then run all four configurations into a fresh directory:
+This requires Vivado 2025.2, SW Build 6299465, its device database and license,
+and the XC7A200T target used in the paper.
 
 ```bash
 uv run --frozen python scripts/reproduce.py fetch-lfs --scope rtl
-uv run --frozen python scripts/reproduce_rtl.py --dry-run
+uv run --frozen python scripts/reproduce_rtl.py \
+  --output-root results/reproduced/reviewer-rtl --dry-run
 uv run --frozen python scripts/reproduce_rtl.py \
   --output-root results/reproduced/reviewer-rtl
 ```
 
-The RTL launcher refuses a different Vivado release/build, parses the new
-reports, and compares exact configuration/resource fields plus tolerance-based
-timing and power fields with the archived summary. The image-independent Python
-parser is [`scripts/parse_vivado_rtl_sweep.py`](scripts/parse_vivado_rtl_sweep.py).
+Use a new `--run-id`, or a new `--output-root` for FPGA synthesis, for every
+attempt. Generated results are isolated under `results/reproduced/`; the
+archived references are not overwritten.
 
-The current RTL uses block-maximum aggregation, whereas the frozen paper
-operating points use median aggregation. Accordingly, this sweep is
-starter-datapath resource evidence, not a claim of bit-exact implementation of
-all selected configurations. The Vivado launcher and full Docker image have not
-been claimed as locally executed by the portability audit; reviewers should
-retain their generated plan, manifest, comparison report, and CI evidence.
+### 5. Check the reports
 
-## Repeat Live Hardware Collection
+For `--verify`, inspect:
 
-Live collection is a protocol replication, not archived-data equality. New
-measurements on different hosts or at different times are independent samples
-and should be evaluated with the documented quality gates and statistical
-comparisons.
-
-- Intel continuous transitions require the intended Setup A or B server,
-  pinned PAMPAR and Intel PCM builds, PCM privileges, and the commands in the
-  [Intel transition runbook](docs/intel_continuous_workload_transitions.md).
-- Apple continuous transitions require an evaluated Apple host and the workload
-  backends described in the
-  [Apple transition runbook](docs/apple_workload_transitions.md).
-- Original DDR acquisition context, labels, and known historical limits are in
-  [Telemetry collection](docs/telemetry_collection.md) and
-  [Anomaly provenance and labels](docs/anomaly_provenance.md).
-
-No completed continuous-transition campaign is represented as an archived
-cross-machine-identical result.
-
-## Optional Container
-
-The pinned Docker definition provides a Linux CPython 3.11.15 environment. The
-repository is mounted so Git provenance and the selected LFS objects remain
-visible to the launcher:
-
-```bash
-docker build --platform linux/amd64 -t citadel-repro .
-docker run --rm --platform linux/amd64 \
-  -v "$PWD:/workspace/CITADEL" -w /workspace/CITADEL \
-  citadel-repro python scripts/reproduce.py notebook \
-  --profile smoke --preset smoke --data-mode sample \
-  --repeat --run-id docker-smoke
+```text
+results/reproduced/<run-id>/archive_comparison.json
 ```
 
-This is a reproducible recipe, not a statement that a Docker build or a full
-paper run was completed during the repository portability audit. Use the CI run
-attached to the cited artifact commit as the execution record.
+For `--repeat`, inspect:
 
-## Evidence Status and Known Limits
+```text
+results/reproduced/<run-id>-repeat/repeat_comparison.json
+```
 
-Automation cannot retroactively repair provenance. Some preserved TCAD, DROOP,
-lifecycle, Apple, figure, fixed-point, and RTL outputs are valuable evidence but
-have dirty, stale, partial, or missing legacy manifests. The graph/ranking
-sensitivity bundle is the strongest clean claim-linked archived bundle. The
-repository now discloses these states so a reviewer can distinguish a verified
-archive, a clean new rerun, an unarchived expected output, and a hardware-only
-protocol.
+For FPGA synthesis, inspect:
 
-- [Reviewer reproduction guide](docs/reviewer_reproduction.md): detailed
-  commands, acceptance checks, and interpretation boundaries
-- [Artifact inventory](reproducibility/artifact_inventory.md): bundle-by-bundle
-  producer, inputs, expected outputs, and audit status
-- [Legacy provenance audit](reproducibility/legacy_provenance.md): recorded
-  commits, dirty states, stale links, and replacement-manifest requirements
-- [Machine-readable inventory](reproducibility/artifact_inventory.json): status
-  data suitable for automated review
+```text
+results/reproduced/reviewer-rtl/comparison_report.json
+```
 
-Do not describe a legacy bundle as newly reproduced until its clean rerun and
-comparison report pass. No multi-gigabyte full core run, Apple run, live
-hardware campaign, or Vivado sweep is claimed to have been executed as part of
-the portability audit.
+The FPGA comparison must report `status: PASS`.
 
-## Repository Map
+`PASS` with `COMPLETE` coverage means every declared scientific output agrees.
+`PASS_WITH_UNVERIFIED` with `PARTIAL` coverage identifies outputs that do not
+yet have an archived comparison reference. Numeric tables use the tolerances
+in [the result contract](reproducibility/result_contract.json); schemas,
+categorical values, and selected configurations are exact. PNG bytes may differ
+with operating system, fonts, and renderer even when the underlying tables
+agree.
 
-- `notebooks/`: primary experiment notebook and paper-result gallery
-- `scripts/`: deterministic launcher, scientific verifier, focused analyses,
-  hardware collectors, and Vivado tooling
-- `reproducibility/`: checksum inventory, result contract, artifact audit, and
-  legacy-provenance disclosure
-- `configs/`: paper and development experiment configurations
-- `data/`: pinned external-source registry and Git LFS telemetry snapshots
-- `results/`: archived evidence; new reviewer runs use `results/reproduced/`
-- `rtl/cintas/`: CINTAS SystemVerilog starter datapath
-- `docs/`: detailed experiment, hardware, and interpretation runbooks
+## Results reported in the paper
 
-## Detailed Guides
+### Selected CINTAS configurations
 
-- [Reviewer reproduction](docs/reviewer_reproduction.md)
-- [End-to-end result methodology](docs/tcad_end_to_end_result_methodology.md)
-- [Requirements traceability](docs/tcad_requirements_traceability.md)
-- [ASU/Vivado server runbook](docs/asu_server_runbook.md)
-- [RTL validation plan](docs/rtl_plan.md)
-- [EXACT-to-CITADEL extension](docs/exact_to_citadel_extension.md)
+These are the selected operating points in Table VI and Fig. 3. All use median
+aggregation and `p=0.99`. The figure uses the labels **Cross-validation MCC**
+and **selected CINTAS configuration**.
 
-## Relationship to EXACT
+| Setup/event | Features | Block length | Score mixture | Weight | q | MCC | FPR | Area | Idle power |
+|---|---:|---:|---:|---|---:|---:|---:|---:|---:|
+| A/DROOP | 15/181 | 1000 | 0 | inverse | 15 | 0.992 | 0.78% | 0.083% | 0.060% |
+| A/RH | 20/181 | 550 | 1 | uniform | 8 | 0.992 | 0.85% | 0.110% | 0.080% |
+| B/DROOP | 15/460 | 200 | 0.50 | inverse | 15 | 0.991 | 0.77% | 0.083% | 0.060% |
+| B/SPECTRE | 30/460 | 700 | 0.75 | uniform | 8 | 0.989 | 1.10% | 0.161% | 0.118% |
 
-CITADEL starts from the portable EXACT codebase and adds stable conditional
-telemetry-graph learning, hardware-aware design-space exploration, fixed-point
-sensitivity, hardware-cost modeling, lifecycle drift checking, RTL/FPGA
-evidence, and auditable result manifests. In the manuscript, describe the EXACT
-result as an **EXACT baseline reproduction inside CITADEL** only after that
-internal bundle has been run and archived; otherwise cite the pinned upstream
-lineage and state the boundary explicitly.
+Across these four cases, ROC-AUC/AUC-PR is 0.999–1.000 and F1 is
+0.995–0.996. The same cross-validation results support configuration selection
+and reporting, so these values are an empirical configuration comparison, not
+an independent test of the complete selection procedure.
+
+### Other reported analyses
+
+| Paper location | Reported result | Evidence status |
+|---|---|---|
+| Sec. V-B | Across 13 recorded workloads, mean MCC is 0.989, 0.994, 0.991, and 0.990; mean FPR is 1.28%, 0.62%, 0.77%, and 1.28% for A/DROOP, A/RH, B/DROOP, and B/SPECTRE. | Historical archive; regenerate with `reviewer-main`. |
+| Table VII, Sec. V-C | Saturating feature budgets are 15, 20, 15, and 5 for A/DROOP, A/RH, B/DROOP, and B/SPECTRE. | Historical archive; regenerate with `reviewer-main`. |
+| Sec. V-D | Graph variants give MCC 0.940–0.992, benign FPR 0.77%–1.71%, and feature overlap 37.9%–100%; ranking-term removals give MCC 0.798–0.992, benign FPR 0.77%–1.64%, and overlap 53.8%–100%. | [Clean claim audit](results/notebook_run/graph_sensitivity/graph_sensitivity_claims.json). |
+| Table VIII, Sec. V-E | Mean absolute sample-score error ranges from 4.6 × 10⁻⁵ to 0.114; maximum error ranges from 2.6 × 10⁻⁴ to 2.09. | Partial archive; regenerate with `reviewer-main`. |
+| Table IX, Sec. V-F | Feature-count reduction is 89.0%–96.7%; analytical area is 0.083%–0.161% and idle power is 0.060%–0.118%. | Historical archive; regenerate with `reviewer-main`. |
+| Fig. 5 and Table XI, Sec. V-G | The prototype uses 863–907 LUTs, 242–259 flip-flops, 37–38 DSPs, no BRAM, and has estimates of 2.110–2.569 ns WNS, 43.69–44.58 MHz, and 157–158 mW. | Partial archive; reproduce with Vivado. |
+| Fig. 6, Sec. V-H | Initial benign FPR is 0.77% for Setup A and 1.73% for Setup B; recalibration gives 1.15% for both, with feature overlap of 76.5% and 66.7%. | Historical archive; regenerate with `reviewer-main`. |
+| Fig. 7, Sec. V-I | Mean benign FPR is 0.58% ± 0.82 percentage points for Setup A and 0.83% ± 1.00 for Setup B. | Repeatable runner; no committed comparison bundle yet. |
+| Fig. 8, Sec. V-J | Best MCC by Apple stress condition across the evaluated views and configurations is 0.917 CACHE, 0.878 ATOMIC, 0.754 MEMBW, 0.370 BRANCH, and 0.367 TLB. | Historical archive; regenerate with `reviewer-apple`. |
+
+The fixed-point values compare sample scores and do not by themselves establish
+identical block decisions. The FPGA study is a maximum-aggregation streaming
+prototype, unlike the selected median configurations, and is not a board-level
+measurement. Apple views use separate references and feature selection. New
+live telemetry is an independent experiment and is not expected to be
+byte-identical to the preserved recordings.
+
+For detailed provenance and acceptance criteria, use the
+[Reviewer Reproduction Guide](docs/reviewer_reproduction.md).
