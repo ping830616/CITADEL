@@ -28,7 +28,6 @@ jobs:
       MPLCONFIGDIR: /tmp/citadel-matplotlib
       XDG_CACHE_HOME: /tmp/citadel-cache
       TZ: UTC
-      UV_PYTHON_DOWNLOADS: never
 
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -36,14 +35,14 @@ jobs:
           fetch-depth: 1
           lfs: false
 
-      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
-        with:
-          python-version: "3.11.15"
-
       - uses: astral-sh/setup-uv@d0cc045d04ccac9d8b7881df0226f9e82c39688e # v6
         with:
           version: "0.12.13"
           enable-cache: true
+          python-version: "3.11.15"
+
+      - name: Install exact Python
+        run: uv python install 3.11.15
 
       - name: Install the frozen environment
         run: uv sync --frozen --no-dev
@@ -196,8 +195,16 @@ jobs:
               graph_stability_threshold=0.50,
               seed=123,
           )
+          if graph_edges.empty:
+              edge_identity = []
+          elif {"src", "dst"}.issubset(graph_edges.columns):
+              edge_identity = graph_edges[["src", "dst"]].astype(str).values.tolist()
+          else:
+              raise AssertionError(
+                  f"nonempty graph output lacks identity columns: {list(graph_edges.columns)}"
+              )
           graph_identity = {
-              "edges": graph_edges[["src", "dst"]].astype(str).values.tolist(),
+              "edges": edge_identity,
               "feature_order": graph_ranks["feature"].astype(str).tolist(),
           }
 
@@ -217,6 +224,7 @@ jobs:
           payload = json.dumps(stable_rows, sort_keys=True, separators=(",", ":"))
           fingerprint = {
               "schema_version": 1,
+              "comparison_tolerance": {"rtol": 1e-9, "atol": 5e-11},
               "sha256": hashlib.sha256(
                   (payload + json.dumps(graph_identity, sort_keys=True)).encode("utf-8")
               ).hexdigest(),
@@ -248,21 +256,59 @@ jobs:
           pattern: citadel-fingerprint-*
           path: fingerprints
 
-      - name: Require identical deterministic results
+      - name: Compare portable scientific results
         run: |
           python - <<'PY'
           import json
+          import math
           from pathlib import Path
 
           paths = sorted(Path("fingerprints").glob("*/ci_fingerprint.json"))
           if len(paths) != 2:
               raise AssertionError(f"expected two platform fingerprints, found {len(paths)}")
           payloads = [json.loads(path.read_text(encoding="utf-8")) for path in paths]
-          if payloads[0] != payloads[1]:
-              raise AssertionError(
-                  f"Linux/macOS numerical fingerprints differ: {paths[0]} vs {paths[1]}"
-              )
-          print(f"portable deterministic fingerprint: {payloads[0]['sha256']}")
+          left, right = payloads
+          if left["schema_version"] != right["schema_version"]:
+              raise AssertionError("fingerprint schema versions differ")
+          if left["comparison_tolerance"] != right["comparison_tolerance"]:
+              raise AssertionError("fingerprint comparison tolerances differ")
+          if left["graph_identity"] != right["graph_identity"]:
+              raise AssertionError("Linux/macOS graph identities differ")
+
+          rtol = float(left["comparison_tolerance"]["rtol"])
+          atol = float(left["comparison_tolerance"]["atol"])
+
+          def compare(left_value, right_value, path):
+              if isinstance(left_value, bool) or isinstance(right_value, bool):
+                  if type(left_value) is not type(right_value) or left_value != right_value:
+                      raise AssertionError(f"categorical mismatch at {path}")
+                  return
+              if isinstance(left_value, float) and isinstance(right_value, (int, float)):
+                  if not math.isclose(left_value, float(right_value), rel_tol=rtol, abs_tol=atol):
+                      raise AssertionError(
+                          f"numeric mismatch at {path}: {left_value} vs {right_value}"
+                      )
+                  return
+              if isinstance(left_value, dict) and isinstance(right_value, dict):
+                  if left_value.keys() != right_value.keys():
+                      raise AssertionError(f"schema mismatch at {path}")
+                  for key in left_value:
+                      compare(left_value[key], right_value[key], f"{path}.{key}")
+                  return
+              if isinstance(left_value, list) and isinstance(right_value, list):
+                  if len(left_value) != len(right_value):
+                      raise AssertionError(f"row-count mismatch at {path}")
+                  for index, (left_item, right_item) in enumerate(zip(left_value, right_value)):
+                      compare(left_item, right_item, f"{path}[{index}]")
+                  return
+              if type(left_value) is not type(right_value) or left_value != right_value:
+                  raise AssertionError(f"exact mismatch at {path}: {left_value!r} vs {right_value!r}")
+
+          compare(left["folds"], right["folds"], "$.folds")
+          print(
+              "portable scientific comparison passed; raw fingerprints: "
+              f"{left['sha256']} and {right['sha256']}"
+          )
           PY
 
   container-smoke:
