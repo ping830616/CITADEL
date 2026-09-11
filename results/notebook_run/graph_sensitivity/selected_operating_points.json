@@ -1,0 +1,66 @@
+{
+  "cases": [
+    {
+      "agg_mode": "median",
+      "candidate_rank_path": "results/notebook_run/droop_adaptive_ablation/p0_99/causal/SETUP_A_feature_ranks.csv",
+      "case_id": "A_DROOP",
+      "fixed_point_q": 15,
+      "lambda_res": 0.0,
+      "n_splits": 3,
+      "p_quantile": 0.99,
+      "scenario": "DROOP",
+      "setup": "A",
+      "top_k": 15,
+      "view": "transient",
+      "weight_mode": "inv_var",
+      "window_size": 1000
+    },
+    {
+      "agg_mode": "median",
+      "candidate_rank_path": "results/notebook_run/tcad_ablation/causal/SETUP_A_feature_ranks.csv",
+      "case_id": "A_RH",
+      "fixed_point_q": 8,
+      "lambda_res": 1.0,
+      "n_splits": 5,
+      "p_quantile": 0.99,
+      "scenario": "RH",
+      "setup": "A",
+      "top_k": 20,
+      "view": "standard",
+      "weight_mode": "uniform",
+      "window_size": 550
+    },
+    {
+      "agg_mode": "median",
+      "candidate_rank_path": "results/notebook_run/droop_adaptive_ablation/p0_99/causal/SETUP_B_feature_ranks.csv",
+      "case_id": "B_DROOP",
+      "fixed_point_q": 15,
+      "lambda_res": 0.5,
+      "n_splits": 3,
+      "p_quantile": 0.99,
+      "scenario": "DROOP",
+      "setup": "B",
+      "top_k": 15,
+      "view": "transient",
+      "weight_mode": "inv_var",
+      "window_size": 200
+    },
+    {
+      "agg_mode": "median",
+      "candidate_rank_path": "results/notebook_run/tcad_ablation/causal/SETUP_B_feature_ranks.csv",
+      "case_id": "B_SPECTRE",
+      "fixed_point_q": 8,
+      "lambda_res": 0.75,
+      "n_splits": 5,
+      "p_quantile": 0.99,
+      "scenario": "SPECTRE",
+      "setup": "B",
+      "top_k": 30,
+      "view": "standard",
+      "weight_mode": "uniform",
+      "window_size": 700
+    }
+  ],
+  "schema_version": 1,
+  "selection_policy": "Frozen Table VI configurations; no DSE re-selection occurs in this sensitivity study."
+}

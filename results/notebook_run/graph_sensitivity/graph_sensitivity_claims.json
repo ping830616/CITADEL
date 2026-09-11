@@ -1,0 +1,711 @@
+{
+  "all_baseline_validations_pass": true,
+  "all_top_k_boundary_ties_resolved": true,
+  "archival_evidence_accepted": true,
+  "archival_provenance_status": "PASS",
+  "baseline_validations": [
+    {
+      "all_checks_pass": true,
+      "archived_fpr": 0.0077519379844961,
+      "archived_mcc": 0.9924202817553172,
+      "case_id": "A_DROOP",
+      "edge_identities_match": true,
+      "edge_numeric_max_abs_delta": 9.71445146547012e-17,
+      "edge_values_match": true,
+      "feature_universe_match": true,
+      "fpr_abs_delta": 2.42861286636753e-17,
+      "mcc_abs_delta": 1.1102230246251565e-16,
+      "metrics_match": true,
+      "observed_fpr": 0.007751937984496124,
+      "observed_mcc": 0.9924202817553173,
+      "rank_numeric_max_abs_delta": 1.1102230246251565e-16,
+      "rank_order_match": false,
+      "rank_values_match": true,
+      "top_k_set_match": true
+    },
+    {
+      "all_checks_pass": true,
+      "archived_fpr": 0.0085106382978723,
+      "archived_mcc": 0.991662969499982,
+      "case_id": "A_RH",
+      "edge_identities_match": true,
+      "edge_numeric_max_abs_delta": 9.020562075079397e-17,
+      "edge_values_match": true,
+      "feature_universe_match": true,
+      "fpr_abs_delta": 3.9898639947466563e-17,
+      "mcc_abs_delta": 0.0,
+      "metrics_match": true,
+      "observed_fpr": 0.00851063829787234,
+      "observed_mcc": 0.991662969499982,
+      "rank_numeric_max_abs_delta": 1.1102230246251565e-16,
+      "rank_order_match": false,
+      "rank_values_match": true,
+      "top_k_set_match": true
+    },
+    {
+      "all_checks_pass": true,
+      "archived_fpr": 0.0076804915514592,
+      "archived_mcc": 0.990814535196872,
+      "case_id": "B_DROOP",
+      "edge_identities_match": true,
+      "edge_numeric_max_abs_delta": 1.1102230246251565e-16,
+      "edge_values_match": true,
+      "feature_universe_match": true,
+      "fpr_abs_delta": 9.367506770274758e-17,
+      "mcc_abs_delta": 1.1102230246251565e-16,
+      "metrics_match": true,
+      "observed_fpr": 0.007680491551459293,
+      "observed_mcc": 0.9908145351968721,
+      "rank_numeric_max_abs_delta": 1.1102230246251565e-16,
+      "rank_order_match": false,
+      "rank_values_match": true,
+      "top_k_set_match": true
+    },
+    {
+      "all_checks_pass": true,
+      "archived_fpr": 0.0109609609609609,
+      "archived_mcc": 0.989185182948768,
+      "case_id": "B_SPECTRE",
+      "edge_identities_match": true,
+      "edge_numeric_max_abs_delta": 1.1102230246251565e-16,
+      "edge_values_match": true,
+      "feature_universe_match": true,
+      "fpr_abs_delta": 6.071532165918825e-17,
+      "mcc_abs_delta": 1.1102230246251565e-16,
+      "metrics_match": true,
+      "observed_fpr": 0.01096096096096096,
+      "observed_mcc": 0.9891851829487681,
+      "rank_numeric_max_abs_delta": 1.1102230246251565e-16,
+      "rank_order_match": false,
+      "rank_values_match": true,
+      "top_k_set_match": true
+    }
+  ],
+  "calculation_basis": "Extrema of arithmetic mean workload=ALL cross-validation fold metrics at the four frozen operating points.",
+  "complete_case_set": true,
+  "draft_claims_match_at_reported_precision": true,
+  "draft_largest_reduction_checks": {
+    "A_DROOP": {
+      "expected": "remove_centrality",
+      "matches": true,
+      "observed": [
+        "remove_centrality"
+      ]
+    },
+    "A_RH": {
+      "expected": "remove_alignment",
+      "matches": true,
+      "observed": [
+        "remove_alignment"
+      ]
+    }
+  },
+  "expected_cases": [
+    "A_DROOP",
+    "A_RH",
+    "B_DROOP",
+    "B_SPECTRE"
+  ],
+  "expected_variant_row_count": 40,
+  "fallback_variant_ids": [],
+  "interpretation_limits": [
+    "This is one-at-a-time sensitivity, not a joint parameter grid or seed-robustness study.",
+    "Feature Jaccard is selected top-k set overlap, not graph-edge overlap, rank correlation, or a confidence interval.",
+    "MCC and FPR ranges are extrema of mean cross-validation metrics, not uncertainty intervals or field guarantees.",
+    "Feature discovery precedes cross-validation, matching the disclosed rank-before-fold design."
+  ],
+  "no_graph_fallback_used": true,
+  "observed_cases": [
+    "A_DROOP",
+    "A_RH",
+    "B_DROOP",
+    "B_SPECTRE"
+  ],
+  "observed_variant_row_count": 40,
+  "range_membership": {
+    "graph_parameter": "All five unique graph configurations, including the baseline.",
+    "ranking_term": "The four term-removal variants; the baseline is retained only as a reference."
+  },
+  "ranges": {
+    "graph_parameter": {
+      "feature_jaccard_percent": {
+        "display_decimal_places": 1,
+        "draft_reference_display": [
+          "37.9",
+          "100.0"
+        ],
+        "matches_draft_at_reported_precision": true,
+        "metric": "feature_jaccard",
+        "observed": {
+          "maximum": {
+            "display": "100.0",
+            "raw_value": 1.0,
+            "reported_unit_value": 100.0,
+            "source_rows": [
+              {
+                "case_id": "A_DROOP",
+                "raw_value": 1.0,
+                "reported_unit_value": 100.0,
+                "scenario": "DROOP",
+                "setup": "A",
+                "variant": "baseline",
+                "variant_id": "A_DROOP:graph_parameter:baseline"
+              },
+              {
+                "case_id": "A_DROOP",
+                "raw_value": 1.0,
+                "reported_unit_value": 100.0,
+                "scenario": "DROOP",
+                "setup": "A",
+                "variant": "pi_min_0.375",
+                "variant_id": "A_DROOP:graph_parameter:pi_min_0.375"
+              },
+              {
+                "case_id": "A_DROOP",
+                "raw_value": 1.0,
+                "reported_unit_value": 100.0,
+                "scenario": "DROOP",
+                "setup": "A",
+                "variant": "pi_min_0.625",
+                "variant_id": "A_DROOP:graph_parameter:pi_min_0.625"
+              },
+              {
+                "case_id": "A_RH",
+                "raw_value": 1.0,
+                "reported_unit_value": 100.0,
+                "scenario": "RH",
+                "setup": "A",
+                "variant": "baseline",
+                "variant_id": "A_RH:graph_parameter:baseline"
+              },
+              {
+                "case_id": "A_RH",
+                "raw_value": 1.0,
+                "reported_unit_value": 100.0,
+                "scenario": "RH",
+                "setup": "A",
+                "variant": "pi_min_0.375",
+                "variant_id": "A_RH:graph_parameter:pi_min_0.375"
+              },
+              {
+                "case_id": "B_DROOP",
+                "raw_value": 1.0,
+                "reported_unit_value": 100.0,
+                "scenario": "DROOP",
+                "setup": "B",
+                "variant": "baseline",
+                "variant_id": "B_DROOP:graph_parameter:baseline"
+              },
+              {
+                "case_id": "B_DROOP",
+                "raw_value": 1.0,
+                "reported_unit_value": 100.0,
+                "scenario": "DROOP",
+                "setup": "B",
+                "variant": "pi_min_0.375",
+                "variant_id": "B_DROOP:graph_parameter:pi_min_0.375"
+              },
+              {
+                "case_id": "B_DROOP",
+                "raw_value": 1.0,
+                "reported_unit_value": 100.0,
+                "scenario": "DROOP",
+                "setup": "B",
+                "variant": "pi_min_0.625",
+                "variant_id": "B_DROOP:graph_parameter:pi_min_0.625"
+              },
+              {
+                "case_id": "B_SPECTRE",
+                "raw_value": 1.0,
+                "reported_unit_value": 100.0,
+                "scenario": "SPECTRE",
+                "setup": "B",
+                "variant": "baseline",
+                "variant_id": "B_SPECTRE:graph_parameter:baseline"
+              },
+              {
+                "case_id": "B_SPECTRE",
+                "raw_value": 1.0,
+                "reported_unit_value": 100.0,
+                "scenario": "SPECTRE",
+                "setup": "B",
+                "variant": "pi_min_0.375",
+                "variant_id": "B_SPECTRE:graph_parameter:pi_min_0.375"
+              },
+              {
+                "case_id": "B_SPECTRE",
+                "raw_value": 1.0,
+                "reported_unit_value": 100.0,
+                "scenario": "SPECTRE",
+                "setup": "B",
+                "variant": "pi_min_0.625",
+                "variant_id": "B_SPECTRE:graph_parameter:pi_min_0.625"
+              }
+            ]
+          },
+          "minimum": {
+            "display": "37.9",
+            "raw_value": 0.3793103448275862,
+            "reported_unit_value": 37.93103448275862,
+            "source_rows": [
+              {
+                "case_id": "A_RH",
+                "raw_value": 0.3793103448275862,
+                "reported_unit_value": 37.93103448275862,
+                "scenario": "RH",
+                "setup": "A",
+                "variant": "tau_c_0.45",
+                "variant_id": "A_RH:graph_parameter:tau_c_0.45"
+              }
+            ]
+          }
+        },
+        "scale_from_csv": 100.0
+      },
+      "fpr_percent": {
+        "display_decimal_places": 2,
+        "draft_reference_display": [
+          "0.77",
+          "1.71"
+        ],
+        "matches_draft_at_reported_precision": true,
+        "metric": "fpr",
+        "observed": {
+          "maximum": {
+            "display": "1.71",
+            "raw_value": 0.017113783533765033,
+            "reported_unit_value": 1.7113783533765032,
+            "source_rows": [
+              {
+                "case_id": "A_RH",
+                "raw_value": 0.017113783533765033,
+                "reported_unit_value": 1.7113783533765032,
+                "scenario": "RH",
+                "setup": "A",
+                "variant": "tau_c_0.45",
+                "variant_id": "A_RH:graph_parameter:tau_c_0.45"
+              }
+            ]
+          },
+          "minimum": {
+            "display": "0.77",
+            "raw_value": 0.007680491551459293,
+            "reported_unit_value": 0.7680491551459293,
+            "source_rows": [
+              {
+                "case_id": "B_DROOP",
+                "raw_value": 0.007680491551459293,
+                "reported_unit_value": 0.7680491551459293,
+                "scenario": "DROOP",
+                "setup": "B",
+                "variant": "baseline",
+                "variant_id": "B_DROOP:graph_parameter:baseline"
+              },
+              {
+                "case_id": "B_DROOP",
+                "raw_value": 0.007680491551459293,
+                "reported_unit_value": 0.7680491551459293,
+                "scenario": "DROOP",
+                "setup": "B",
+                "variant": "tau_c_0.25",
+                "variant_id": "B_DROOP:graph_parameter:tau_c_0.25"
+              },
+              {
+                "case_id": "B_DROOP",
+                "raw_value": 0.007680491551459293,
+                "reported_unit_value": 0.7680491551459293,
+                "scenario": "DROOP",
+                "setup": "B",
+                "variant": "tau_c_0.45",
+                "variant_id": "B_DROOP:graph_parameter:tau_c_0.45"
+              },
+              {
+                "case_id": "B_DROOP",
+                "raw_value": 0.007680491551459293,
+                "reported_unit_value": 0.7680491551459293,
+                "scenario": "DROOP",
+                "setup": "B",
+                "variant": "pi_min_0.375",
+                "variant_id": "B_DROOP:graph_parameter:pi_min_0.375"
+              },
+              {
+                "case_id": "B_DROOP",
+                "raw_value": 0.007680491551459293,
+                "reported_unit_value": 0.7680491551459293,
+                "scenario": "DROOP",
+                "setup": "B",
+                "variant": "pi_min_0.625",
+                "variant_id": "B_DROOP:graph_parameter:pi_min_0.625"
+              }
+            ]
+          }
+        },
+        "scale_from_csv": 100.0
+      },
+      "matches_draft_at_reported_precision": true,
+      "mcc": {
+        "display_decimal_places": 3,
+        "draft_reference_display": [
+          "0.940",
+          "0.992"
+        ],
+        "matches_draft_at_reported_precision": true,
+        "metric": "mcc",
+        "observed": {
+          "maximum": {
+            "display": "0.992",
+            "raw_value": 0.9924202817553173,
+            "reported_unit_value": 0.9924202817553173,
+            "source_rows": [
+              {
+                "case_id": "A_DROOP",
+                "raw_value": 0.9924202817553173,
+                "reported_unit_value": 0.9924202817553173,
+                "scenario": "DROOP",
+                "setup": "A",
+                "variant": "baseline",
+                "variant_id": "A_DROOP:graph_parameter:baseline"
+              },
+              {
+                "case_id": "A_DROOP",
+                "raw_value": 0.9924202817553173,
+                "reported_unit_value": 0.9924202817553173,
+                "scenario": "DROOP",
+                "setup": "A",
+                "variant": "pi_min_0.375",
+                "variant_id": "A_DROOP:graph_parameter:pi_min_0.375"
+              },
+              {
+                "case_id": "A_DROOP",
+                "raw_value": 0.9924202817553173,
+                "reported_unit_value": 0.9924202817553173,
+                "scenario": "DROOP",
+                "setup": "A",
+                "variant": "pi_min_0.625",
+                "variant_id": "A_DROOP:graph_parameter:pi_min_0.625"
+              }
+            ]
+          },
+          "minimum": {
+            "display": "0.940",
+            "raw_value": 0.9401913427055126,
+            "reported_unit_value": 0.9401913427055126,
+            "source_rows": [
+              {
+                "case_id": "B_SPECTRE",
+                "raw_value": 0.9401913427055126,
+                "reported_unit_value": 0.9401913427055126,
+                "scenario": "SPECTRE",
+                "setup": "B",
+                "variant": "tau_c_0.45",
+                "variant_id": "B_SPECTRE:graph_parameter:tau_c_0.45"
+              }
+            ]
+          }
+        },
+        "scale_from_csv": 1.0
+      },
+      "membership_rule": "All five unique graph configurations, including the baseline.",
+      "row_count": 20
+    },
+    "ranking_term": {
+      "feature_jaccard_percent": {
+        "display_decimal_places": 1,
+        "draft_reference_display": [
+          "53.8",
+          "100.0"
+        ],
+        "matches_draft_at_reported_precision": true,
+        "metric": "feature_jaccard",
+        "observed": {
+          "maximum": {
+            "display": "100.0",
+            "raw_value": 1.0,
+            "reported_unit_value": 100.0,
+            "source_rows": [
+              {
+                "case_id": "B_DROOP",
+                "raw_value": 1.0,
+                "reported_unit_value": 100.0,
+                "scenario": "DROOP",
+                "setup": "B",
+                "variant": "remove_centrality",
+                "variant_id": "B_DROOP:ranking_term:remove_centrality"
+              },
+              {
+                "case_id": "B_DROOP",
+                "raw_value": 1.0,
+                "reported_unit_value": 100.0,
+                "scenario": "DROOP",
+                "setup": "B",
+                "variant": "remove_edge_stability",
+                "variant_id": "B_DROOP:ranking_term:remove_edge_stability"
+              },
+              {
+                "case_id": "B_DROOP",
+                "raw_value": 1.0,
+                "reported_unit_value": 100.0,
+                "scenario": "DROOP",
+                "setup": "B",
+                "variant": "remove_conditional_dependence",
+                "variant_id": "B_DROOP:ranking_term:remove_conditional_dependence"
+              }
+            ]
+          },
+          "minimum": {
+            "display": "53.8",
+            "raw_value": 0.5384615384615384,
+            "reported_unit_value": 53.84615384615385,
+            "source_rows": [
+              {
+                "case_id": "B_SPECTRE",
+                "raw_value": 0.5384615384615384,
+                "reported_unit_value": 53.84615384615385,
+                "scenario": "SPECTRE",
+                "setup": "B",
+                "variant": "remove_edge_stability",
+                "variant_id": "B_SPECTRE:ranking_term:remove_edge_stability"
+              }
+            ]
+          }
+        },
+        "scale_from_csv": 100.0
+      },
+      "fpr_percent": {
+        "display_decimal_places": 2,
+        "draft_reference_display": [
+          "0.77",
+          "1.64"
+        ],
+        "matches_draft_at_reported_precision": true,
+        "metric": "fpr",
+        "observed": {
+          "maximum": {
+            "display": "1.64",
+            "raw_value": 0.016366366366366368,
+            "reported_unit_value": 1.6366366366366367,
+            "source_rows": [
+              {
+                "case_id": "B_SPECTRE",
+                "raw_value": 0.016366366366366368,
+                "reported_unit_value": 1.6366366366366367,
+                "scenario": "SPECTRE",
+                "setup": "B",
+                "variant": "remove_edge_stability",
+                "variant_id": "B_SPECTRE:ranking_term:remove_edge_stability"
+              }
+            ]
+          },
+          "minimum": {
+            "display": "0.77",
+            "raw_value": 0.007680491551459293,
+            "reported_unit_value": 0.7680491551459293,
+            "source_rows": [
+              {
+                "case_id": "B_DROOP",
+                "raw_value": 0.007680491551459293,
+                "reported_unit_value": 0.7680491551459293,
+                "scenario": "DROOP",
+                "setup": "B",
+                "variant": "remove_centrality",
+                "variant_id": "B_DROOP:ranking_term:remove_centrality"
+              },
+              {
+                "case_id": "B_DROOP",
+                "raw_value": 0.007680491551459293,
+                "reported_unit_value": 0.7680491551459293,
+                "scenario": "DROOP",
+                "setup": "B",
+                "variant": "remove_edge_stability",
+                "variant_id": "B_DROOP:ranking_term:remove_edge_stability"
+              },
+              {
+                "case_id": "B_DROOP",
+                "raw_value": 0.007680491551459293,
+                "reported_unit_value": 0.7680491551459293,
+                "scenario": "DROOP",
+                "setup": "B",
+                "variant": "remove_conditional_dependence",
+                "variant_id": "B_DROOP:ranking_term:remove_conditional_dependence"
+              }
+            ]
+          }
+        },
+        "scale_from_csv": 100.0
+      },
+      "matches_draft_at_reported_precision": true,
+      "mcc": {
+        "display_decimal_places": 3,
+        "draft_reference_display": [
+          "0.798",
+          "0.992"
+        ],
+        "matches_draft_at_reported_precision": true,
+        "metric": "mcc",
+        "observed": {
+          "maximum": {
+            "display": "0.992",
+            "raw_value": 0.9924202817553173,
+            "reported_unit_value": 0.9924202817553173,
+            "source_rows": [
+              {
+                "case_id": "A_DROOP",
+                "raw_value": 0.9924202817553173,
+                "reported_unit_value": 0.9924202817553173,
+                "scenario": "DROOP",
+                "setup": "A",
+                "variant": "remove_edge_stability",
+                "variant_id": "A_DROOP:ranking_term:remove_edge_stability"
+              }
+            ]
+          },
+          "minimum": {
+            "display": "0.798",
+            "raw_value": 0.7982966415746175,
+            "reported_unit_value": 0.7982966415746175,
+            "source_rows": [
+              {
+                "case_id": "A_RH",
+                "raw_value": 0.7982966415746175,
+                "reported_unit_value": 0.7982966415746175,
+                "scenario": "RH",
+                "setup": "A",
+                "variant": "remove_alignment",
+                "variant_id": "A_RH:ranking_term:remove_alignment"
+              }
+            ]
+          }
+        },
+        "scale_from_csv": 1.0
+      },
+      "membership_rule": "The four term-removal variants; the baseline is retained only as a reference.",
+      "row_count": 16
+    }
+  },
+  "ranking_largest_mcc_reduction_by_case": {
+    "A_DROOP": {
+      "baseline_mcc": 0.9924202817553173,
+      "minimum_mcc_delta": -0.12521397957170666,
+      "variants": [
+        "remove_centrality"
+      ]
+    },
+    "A_RH": {
+      "baseline_mcc": 0.991662969499982,
+      "minimum_mcc_delta": -0.19336632792536446,
+      "variants": [
+        "remove_alignment"
+      ]
+    },
+    "B_DROOP": {
+      "baseline_mcc": 0.9908145351968721,
+      "minimum_mcc_delta": -0.0015392655474950612,
+      "variants": [
+        "remove_alignment"
+      ]
+    },
+    "B_SPECTRE": {
+      "baseline_mcc": 0.9891851829487681,
+      "minimum_mcc_delta": -0.04322351109573608,
+      "variants": [
+        "remove_centrality",
+        "remove_alignment"
+      ]
+    }
+  },
+  "schema_version": 1,
+  "stability_threshold_checks": [
+    {
+      "baseline_fpr": 0.007751937984496124,
+      "baseline_mcc": 0.9924202817553173,
+      "case_id": "A_DROOP",
+      "decision_metrics_exactly_preserved": true,
+      "decision_metrics_preserved_at_reported_precision": true,
+      "fpr": 0.007751937984496124,
+      "mcc": 0.9924202817553173,
+      "variant": "pi_min_0.375"
+    },
+    {
+      "baseline_fpr": 0.007751937984496124,
+      "baseline_mcc": 0.9924202817553173,
+      "case_id": "A_DROOP",
+      "decision_metrics_exactly_preserved": true,
+      "decision_metrics_preserved_at_reported_precision": true,
+      "fpr": 0.007751937984496124,
+      "mcc": 0.9924202817553173,
+      "variant": "pi_min_0.625"
+    },
+    {
+      "baseline_fpr": 0.00851063829787234,
+      "baseline_mcc": 0.991662969499982,
+      "case_id": "A_RH",
+      "decision_metrics_exactly_preserved": true,
+      "decision_metrics_preserved_at_reported_precision": true,
+      "fpr": 0.00851063829787234,
+      "mcc": 0.991662969499982,
+      "variant": "pi_min_0.375"
+    },
+    {
+      "baseline_fpr": 0.00851063829787234,
+      "baseline_mcc": 0.991662969499982,
+      "case_id": "A_RH",
+      "decision_metrics_exactly_preserved": true,
+      "decision_metrics_preserved_at_reported_precision": true,
+      "fpr": 0.00851063829787234,
+      "mcc": 0.991662969499982,
+      "variant": "pi_min_0.625"
+    },
+    {
+      "baseline_fpr": 0.007680491551459293,
+      "baseline_mcc": 0.9908145351968721,
+      "case_id": "B_DROOP",
+      "decision_metrics_exactly_preserved": true,
+      "decision_metrics_preserved_at_reported_precision": true,
+      "fpr": 0.007680491551459293,
+      "mcc": 0.9908145351968721,
+      "variant": "pi_min_0.375"
+    },
+    {
+      "baseline_fpr": 0.007680491551459293,
+      "baseline_mcc": 0.9908145351968721,
+      "case_id": "B_DROOP",
+      "decision_metrics_exactly_preserved": true,
+      "decision_metrics_preserved_at_reported_precision": true,
+      "fpr": 0.007680491551459293,
+      "mcc": 0.9908145351968721,
+      "variant": "pi_min_0.625"
+    },
+    {
+      "baseline_fpr": 0.01096096096096096,
+      "baseline_mcc": 0.9891851829487681,
+      "case_id": "B_SPECTRE",
+      "decision_metrics_exactly_preserved": true,
+      "decision_metrics_preserved_at_reported_precision": true,
+      "fpr": 0.01096096096096096,
+      "mcc": 0.9891851829487681,
+      "variant": "pi_min_0.375"
+    },
+    {
+      "baseline_fpr": 0.01096096096096096,
+      "baseline_mcc": 0.9891851829487681,
+      "case_id": "B_SPECTRE",
+      "decision_metrics_exactly_preserved": true,
+      "decision_metrics_preserved_at_reported_precision": true,
+      "fpr": 0.01096096096096096,
+      "mcc": 0.9891851829487681,
+      "variant": "pi_min_0.625"
+    }
+  ],
+  "stability_threshold_metrics_preserved_exactly": true,
+  "status": "PASS",
+  "top_k_boundary_tie_break_rule": "Round normalized importance scores to 12 decimal places, then order tied features lexically so an ablated term cannot re-enter through tie-breaking.",
+  "top_k_boundary_tie_variant_ids": [
+    "A_DROOP:graph_parameter:tau_c_0.25",
+    "A_DROOP:ranking_term:remove_centrality",
+    "B_SPECTRE:graph_parameter:baseline",
+    "B_SPECTRE:graph_parameter:pi_min_0.375",
+    "B_SPECTRE:graph_parameter:pi_min_0.625",
+    "B_SPECTRE:ranking_term:baseline"
+  ],
+  "variant_rows_complete_and_unique": true
+}
