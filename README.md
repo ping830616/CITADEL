@@ -5,34 +5,38 @@
 This repository contains the code, preserved telemetry, locked software
 environment, and result records used for the CITADEL paper.
 
-## Reproducibility status
+## Reproducibility target
 
-The deterministic sample-data check passes on Ubuntu 24.04 and macOS 14 with
-CPython 3.11.15. The graph- and ranking-sensitivity result bundle also has
-clean source provenance and passes its archived claim-level checks; the command
-below verifies it against the archive and compares two new runs.
+The target is the experimental evidence reported in Section V: Tables VI-IX
+and XI, Figures 3-8, and the numerical results in Sections V-B and V-D. Table
+X is a literature comparison; its CITADEL row can be checked against Tables VI
+and IX, while the cited prior-work rows are not new experimental outputs.
 
-The main configuration, reference-validity, Apple, and FPGA result archives
-remain historical or partial evidence, and the workload-order analysis does
-not yet have a committed comparison bundle. The commands below can regenerate
-those analyses, but they become fully verified archival evidence only after a
-clean run reports `PASS` with `COMPLETE` coverage and its result bundle is
-committed. See the [artifact inventory](reproducibility/artifact_inventory.md)
-for the status of every bundle.
+Reproduction does not require collecting new telemetry, matching every
+intermediate file, regenerating unused plots, or producing byte-identical PNG
+files. Scientific tables, schemas, categorical values, and selected
+configurations must agree; floating-point values use the declared tolerances,
+and figures are rebuilt from the verified source tables.
+
+The graph- and ranking-sensitivity results have clean archived evidence. The
+other paper-result families have deterministic entry points below, but their
+historical references are not all clean and complete. Do not describe the
+entire Section V result set as independently verified until clean runs of those
+paper-facing outputs have been retained.
 
 ## Step-by-step reproduction
 
 ### 1. Get the exact source
 
-Install Git, Git LFS, and [uv](https://docs.astral.sh/uv/). The reviewer
-snapshot is tagged `paper-r1-reproducibility`; use that immutable tag rather
-than a moving branch as the experiment identifier.
+Install Git, Git LFS, and [uv](https://docs.astral.sh/uv/). The paper-results
+snapshot is tagged `paper-r1-results-reproducibility`; use that immutable tag
+rather than a moving branch as the experiment identifier.
 
 ```bash
 git lfs install
 GIT_LFS_SKIP_SMUDGE=1 git clone https://github.com/ping830616/CITADEL.git
 cd CITADEL
-git checkout paper-r1-reproducibility
+git checkout paper-r1-results-reproducibility
 git rev-parse HEAD
 git status --porcelain
 ```
@@ -52,24 +56,11 @@ uv run --frozen python scripts/reproduce.py verify-archive --scope source
 The launcher fixes the seed, numerical thread count, timezone, locale, and
 plotting backend before Python starts.
 
-### 3. Run the quick deterministic check
+### 3. Run the paper analyses
 
-This uses bundled sample data and compares two isolated runs:
-
-```bash
-uv run --frozen python scripts/reproduce.py notebook \
-  --profile smoke --preset smoke --data-mode sample \
-  --repeat --run-id reviewer-smoke
-```
-
-Inspect
-`results/reproduced/reviewer-smoke-repeat/repeat_comparison.json`. It must
-report `status: PASS` and `verification_coverage: COMPLETE`.
-
-### 4. Run the paper analyses
-
-Choose only the analysis you want. Each fetch command downloads the required
-Git LFS inputs without downloading the whole archive.
+Run every subsection below to reproduce the complete Section V result set, or
+run only the mapped subsection when checking one paper item. Each fetch command
+downloads the required Git LFS inputs without downloading the whole archive.
 
 #### Main configuration and reference-validity analyses
 
@@ -140,7 +131,7 @@ Use a new `--run-id`, or a new `--output-root` for FPGA synthesis, for every
 attempt. Generated results are isolated under `results/reproduced/`; the
 archived references are not overwritten.
 
-### 5. Check the reports
+### 4. Check the paper results
 
 For `--verify`, inspect:
 
@@ -162,13 +153,17 @@ results/reproduced/reviewer-rtl/comparison_report.json
 
 The FPGA comparison must report `status: PASS`.
 
-`PASS` with `COMPLETE` coverage means every declared scientific output agrees.
-`PASS_WITH_UNVERIFIED` with `PARTIAL` coverage identifies outputs that do not
-yet have an archived comparison reference. Numeric tables use the tolerances
-in [the result contract](reproducibility/result_contract.json); schemas,
-categorical values, and selected configurations are exact. PNG bytes may differ
-with operating system, fonts, and renderer even when the underlying tables
-agree.
+For the paper claim, inspect only the mapped Section V outputs listed below.
+Every paper-facing table and the source data for every paper figure must agree.
+The broader archive report can mention optional intermediate outputs; those do
+not expand the paper reproducibility target. Any mismatch in a mapped paper
+result is a failure.
+
+Numeric tables use the tolerances in
+[the result contract](reproducibility/result_contract.json); schemas,
+categorical values, and selected configurations are exact. Figures 3-8 must be
+generated and nonempty, but their PNG bytes may differ with operating system,
+fonts, and renderer when the underlying data agree.
 
 ## Results reported in the paper
 
@@ -196,9 +191,11 @@ an independent test of the complete selection procedure.
 |---|---|---|
 | Sec. V-B | Across 13 recorded workloads, mean MCC is 0.989, 0.994, 0.991, and 0.990; mean FPR is 1.28%, 0.62%, 0.77%, and 1.28% for A/DROOP, A/RH, B/DROOP, and B/SPECTRE. | Historical archive; regenerate with `reviewer-main`. |
 | Table VII, Sec. V-C | Saturating feature budgets are 15, 20, 15, and 5 for A/DROOP, A/RH, B/DROOP, and B/SPECTRE. | Historical archive; regenerate with `reviewer-main`. |
+| Fig. 4, Sec. V-D | The stable conditional dependency graph and top-ranked features are rebuilt from the preserved benign telemetry. | Historical archive; regenerate with `reviewer-main`. |
 | Sec. V-D | Graph variants give MCC 0.940–0.992, benign FPR 0.77%–1.71%, and feature overlap 37.9%–100%; ranking-term removals give MCC 0.798–0.992, benign FPR 0.77%–1.64%, and overlap 53.8%–100%. | [Clean claim audit](results/notebook_run/graph_sensitivity/graph_sensitivity_claims.json). |
 | Table VIII, Sec. V-E | Mean absolute sample-score error ranges from 4.6 × 10⁻⁵ to 0.114; maximum error ranges from 2.6 × 10⁻⁴ to 2.09. | Partial archive; regenerate with `reviewer-main`. |
 | Table IX, Sec. V-F | Feature-count reduction is 89.0%–96.7%; analytical area is 0.083%–0.161% and idle power is 0.060%–0.118%. | Historical archive; regenerate with `reviewer-main`. |
+| Table X | The CITADEL comparison row is derived from Tables VI and IX; prior-work rows are cited literature values. | Derived cross-check against Tables VI and IX; literature rows are source-attributed constants. |
 | Fig. 5 and Table XI, Sec. V-G | The prototype uses 863–907 LUTs, 242–259 flip-flops, 37–38 DSPs, no BRAM, and has estimates of 2.110–2.569 ns WNS, 43.69–44.58 MHz, and 157–158 mW. | Partial archive; reproduce with Vivado. |
 | Fig. 6, Sec. V-H | Initial benign FPR is 0.77% for Setup A and 1.73% for Setup B; recalibration gives 1.15% for both, with feature overlap of 76.5% and 66.7%. | Historical archive; regenerate with `reviewer-main`. |
 | Fig. 7, Sec. V-I | Mean benign FPR is 0.58% ± 0.82 percentage points for Setup A and 0.83% ± 1.00 for Setup B. | Repeatable runner; no committed comparison bundle yet. |
