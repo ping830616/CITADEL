@@ -17,6 +17,12 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class RtlReproductionTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls) -> None:
+        # Fresh clones intentionally omit this ignored run root. Tests that
+        # exercise the output-boundary contract still need its parent.
+        reproduce_rtl.REPRODUCED_ROOT.mkdir(parents=True, exist_ok=True)
+
     def test_archived_configuration_matrix_is_exact(self) -> None:
         observed = [
             (
@@ -194,6 +200,8 @@ class RtlReproductionTests(unittest.TestCase):
             )
 
     def test_figure_5_renderer_accepts_the_archived_summary(self) -> None:
+        if reproduce_rtl.is_lfs_pointer(reproduce_rtl.ARCHIVED_SUMMARY):
+            self.skipTest("RTL archived summary is intentionally not materialized")
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory) / "figure_5.png"
             facts = render_rtl_figure5.render_figure5(

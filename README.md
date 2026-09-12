@@ -12,7 +12,7 @@ hashed bundle and an automated manuscript-value audit. This establishes result
 coverage and traceability. It does **not** by itself mean that every long
 experiment was freshly rerun on a second machine.
 
-The immutable reviewer snapshot is `paper-r1-reviewer-evidence-v2`. At this
+The immutable reviewer snapshot is `paper-r1-reviewer-evidence-v3`. At this
 snapshot:
 
 - the graph/ranking study has clean archived evidence;
@@ -35,7 +35,7 @@ Install Git, Git LFS, and [uv](https://docs.astral.sh/uv/), then run:
 git lfs install
 GIT_LFS_SKIP_SMUDGE=1 git clone https://github.com/ping830616/CITADEL.git
 cd CITADEL
-git checkout paper-r1-reviewer-evidence-v2
+git checkout paper-r1-reviewer-evidence-v3
 git status --porcelain
 ```
 

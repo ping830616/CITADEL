@@ -7,7 +7,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from scripts import build_paper_sensitivity_evidence
+from scripts import build_paper_sensitivity_evidence, verify_paper_results
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -147,7 +147,14 @@ class PaperSensitivityEvidenceTests(unittest.TestCase):
         self.assertEqual([item["metric"] for item in excluded], ["feature_jaccard"])
         self.assertIn("A_RH", excluded[0]["reason"])
         self.assertIn("pi_min=0.625", excluded[0]["reason"])
-        summary = read_csv(SOURCE / "graph_sensitivity_summary.csv")
+
+    def test_source_summary_confirms_excluded_feature_overlap_changed(self) -> None:
+        summary_path = SOURCE / "graph_sensitivity_summary.csv"
+        if verify_paper_results._content_identity(summary_path)[2]:
+            self.skipTest(
+                "Sensitivity source summary is intentionally an unfetched Git LFS object"
+            )
+        summary = read_csv(summary_path)
         baseline = next(
             row
             for row in summary
@@ -203,10 +210,11 @@ class PaperSensitivityEvidenceTests(unittest.TestCase):
         for record in self.manifest["source_files"]:
             path = ROOT / record["path"]
             self.assertTrue(path.is_file(), record["path"])
-            self.assertEqual(path.stat().st_size, record["size_bytes"])
-            self.assertEqual(
-                hashlib.sha256(path.read_bytes()).hexdigest(), record["sha256"]
+            identity, logical_size, _is_lfs_pointer = (
+                verify_paper_results._content_identity(path)
             )
+            self.assertEqual(logical_size, record["size_bytes"], record["path"])
+            self.assertEqual(identity, record["sha256"], record["path"])
         for record in self.manifest["outputs"]:
             path = BUNDLE / record["path"]
             self.assertTrue(path.is_file(), record["path"])
@@ -222,6 +230,16 @@ class PaperSensitivityEvidenceTests(unittest.TestCase):
         )
 
     def test_builder_is_byte_deterministic_and_tracked_bundle_is_current(self) -> None:
+        pointer_paths = [
+            record["path"]
+            for record in self.manifest["source_files"]
+            if verify_paper_results._content_identity(ROOT / record["path"])[2]
+        ]
+        if pointer_paths:
+            self.skipTest(
+                "Sensitivity source archive is intentionally not materialized: "
+                + ", ".join(pointer_paths)
+            )
         with tempfile.TemporaryDirectory() as directory:
             candidate = Path(directory) / "sensitivity"
             build_paper_sensitivity_evidence.build_bundle(SOURCE, candidate)
@@ -234,10 +252,15 @@ class PaperSensitivityEvidenceTests(unittest.TestCase):
         build_paper_sensitivity_evidence.check_bundle(SOURCE, BUNDLE)
 
     def test_claims_are_independently_recomputed_from_summary(self) -> None:
+        summary_path = SOURCE / "graph_sensitivity_summary.csv"
+        if verify_paper_results._content_identity(summary_path)[2]:
+            self.skipTest(
+                "Sensitivity source summary is intentionally an unfetched Git LFS object"
+            )
         source_claims = json.loads(
             (SOURCE / "graph_sensitivity_claims.json").read_text(encoding="utf-8")
         )
-        summary = read_csv(SOURCE / "graph_sensitivity_summary.csv")
+        summary = read_csv(summary_path)
         self.assertEqual(
             build_paper_sensitivity_evidence.calculate_ranges(summary, source_claims),
             self.claims["ranges"],

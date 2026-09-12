@@ -36,7 +36,7 @@ Do not describe every result as freshly rerun unless all three fields pass.
 git lfs install
 GIT_LFS_SKIP_SMUDGE=1 git clone https://github.com/ping830616/CITADEL.git
 cd CITADEL
-git checkout paper-r1-reviewer-evidence-v2
+git checkout paper-r1-reviewer-evidence-v3
 git rev-parse HEAD
 git status --porcelain
 ```

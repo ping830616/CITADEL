@@ -70,17 +70,11 @@ class PaperIntelEvidenceTests(unittest.TestCase):
         self.assertEqual(by_setup["B"]["paper_later_mean_percent"], "0.94")
 
     def test_section_v_i_protocol_traces_to_analyzer_run_and_result_rows(self) -> None:
-        source = (
-            ROOT
-            / "results"
-            / "reproduced"
-            / "figure7-clean-reference"
-            / "notebook_run"
-            / "intel_workload_orders"
-        )
         observed = build_intel_paper_evidence.paper_protocol(
-            source / "run_manifest.json",
-            source / "intel_workload_order_run_results.csv",
+            BUNDLE / "provenance" / "primary_analyzer_manifest.json",
+            BUNDLE
+            / "intel_workload_orders"
+            / "intel_workload_order_run_results.csv",
         )
         self.assertEqual(observed, self.manifest["paper_protocol"])
         self.assertEqual(

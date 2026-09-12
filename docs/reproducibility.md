@@ -29,7 +29,7 @@ platform, NumPy/BLAS/threadpool details, configuration, and file hashes.
 git lfs install
 GIT_LFS_SKIP_SMUDGE=1 git clone https://github.com/ping830616/CITADEL.git
 cd CITADEL
-git checkout paper-r1-reviewer-evidence-v2
+git checkout paper-r1-reviewer-evidence-v3
 git status --porcelain
 ```
 
