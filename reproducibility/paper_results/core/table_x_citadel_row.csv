@@ -1,0 +1,2 @@
+method,minimum_runtime_features,maximum_runtime_features,edge_scoring,minimum_area_overhead_percent,maximum_area_overhead_percent,minimum_idle_power_overhead_percent,maximum_idle_power_overhead_percent,drift_check,deployment_scope
+CITADEL,15,30,Fixed-point CINTAS,0.08253463414634146,0.16139953821138212,0.060425915492957734,0.11845408450704227,yes,"Stable graph, DSE, frozen workload, and drift checks."

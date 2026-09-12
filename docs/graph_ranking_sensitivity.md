@@ -97,8 +97,7 @@ The CSV files are tracked through Git LFS, so GitHub code search may not index t
 
 ```bash
 uv sync --frozen --no-dev
-uv run --frozen python scripts/reproduce.py fetch-lfs \
-  --scope sensitivity --include-reference
+uv run --frozen python scripts/reproduce.py fetch-lfs --scope sensitivity
 uv run --frozen python scripts/reproduce.py sensitivity \
   --verify --repeat --run-id reviewer-sensitivity
 ```

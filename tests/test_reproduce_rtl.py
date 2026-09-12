@@ -10,7 +10,7 @@ import unittest
 from pathlib import Path
 from unittest import mock
 
-from scripts import parse_vivado_rtl_sweep, reproduce_rtl
+from scripts import parse_vivado_rtl_sweep, render_rtl_figure5, reproduce_rtl
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -54,15 +54,15 @@ class RtlReproductionTests(unittest.TestCase):
                 "Vivado v2025.1 (64-bit)\nSW Build 6299465 on Fri Nov 14 2025\n"
             )
 
-    def test_metric_comparison_is_exact_for_counts_and_tolerant_for_floats(self) -> None:
+    def test_metric_comparison_is_exact_for_counts_and_tolerant_for_diagnostics(self) -> None:
         tags = [item.tag for item in reproduce_rtl.CONFIGURATIONS]
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             reference = root / "reference.csv"
             candidate = root / "candidate.csv"
-            fields = ["tag", "luts", "wns_ns", "status"]
+            fields = ["tag", "luts", "dynamic_power_mw", "status"]
 
-            def write(path: Path, *, lut_offset: int = 0, slack_offset: float = 0.0) -> None:
+            def write(path: Path, *, lut_offset: int = 0, power_offset: float = 0.0) -> None:
                 with path.open("w", newline="", encoding="utf-8") as handle:
                     writer = csv.DictWriter(handle, fieldnames=fields)
                     writer.writeheader()
@@ -71,13 +71,13 @@ class RtlReproductionTests(unittest.TestCase):
                             {
                                 "tag": tag,
                                 "luts": 860 + index + lut_offset,
-                                "wns_ns": 2.4 + slack_offset,
+                                "dynamic_power_mw": 27.0 + power_offset,
                                 "status": "synthesized",
                             }
                         )
 
             write(reference)
-            write(candidate, slack_offset=0.0005)
+            write(candidate, power_offset=0.0005)
             report = reproduce_rtl.compare_summaries(
                 reference, candidate, rtol=1e-3, atol=1e-3
             )
@@ -96,6 +96,115 @@ class RtlReproductionTests(unittest.TestCase):
                     for failure in report["failures"]
                 )
             )
+
+    def test_paper_values_must_match_manuscript_display_precision(self) -> None:
+        tags = [item.tag for item in reproduce_rtl.CONFIGURATIONS]
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            reference = root / "reference.csv"
+            candidate = root / "candidate.csv"
+            fields = ["tag", "wns_ns", "fmax_mhz_est", "total_power_mw"]
+
+            def write(path: Path, *, wns: str, fmax: str, total_power: str) -> None:
+                with path.open("w", newline="", encoding="utf-8") as handle:
+                    writer = csv.DictWriter(handle, fieldnames=fields)
+                    writer.writeheader()
+                    for tag in tags:
+                        writer.writerow(
+                            {
+                                "tag": tag,
+                                "wns_ns": wns,
+                                "fmax_mhz_est": fmax,
+                                "total_power_mw": total_power,
+                            }
+                        )
+
+            write(reference, wns="2.458", fmax="44.36", total_power="158")
+            write(candidate, wns="2.460", fmax="44.40", total_power="158.49")
+            report = reproduce_rtl.compare_summaries(
+                reference, candidate, rtol=1e-3, atol=1e-3
+            )
+            self.assertEqual(report["status"], "FAIL")
+            failures = {failure.get("field"): failure for failure in report["failures"]}
+            self.assertEqual(
+                failures["wns_ns"]["comparison"],
+                "paper display precision (3 decimal places)",
+            )
+            self.assertEqual(
+                failures["fmax_mhz_est"]["comparison"],
+                "paper display precision (2 decimal places)",
+            )
+            self.assertNotIn("total_power_mw", failures)
+
+            write(candidate, wns="2.4584", fmax="44.364", total_power="158.49")
+            report = reproduce_rtl.compare_summaries(
+                reference, candidate, rtol=0.0, atol=0.0
+            )
+            self.assertEqual(report["status"], "PASS")
+
+            write(candidate, wns="2.4584", fmax="44.364", total_power="158.51")
+            report = reproduce_rtl.compare_summaries(
+                reference, candidate, rtol=1.0, atol=1.0
+            )
+            self.assertEqual(report["status"], "FAIL")
+            self.assertTrue(
+                any(
+                    failure.get("field") == "total_power_mw"
+                    and failure.get("comparison")
+                    == "paper display precision (0 decimal places)"
+                    for failure in report["failures"]
+                )
+            )
+
+    def test_figure_5_percentages_match_one_decimal_display(self) -> None:
+        tags = [item.tag for item in reproduce_rtl.CONFIGURATIONS]
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            reference = root / "reference.csv"
+            candidate = root / "candidate.csv"
+            fields = ["tag", "luts_pct", "ffs_pct", "dsp_pct", "iob_pct", "bram_pct"]
+
+            def write(path: Path, values: tuple[str, str, str, str, str]) -> None:
+                with path.open("w", newline="", encoding="utf-8") as handle:
+                    writer = csv.DictWriter(handle, fieldnames=fields)
+                    writer.writeheader()
+                    for tag in tags:
+                        writer.writerow({"tag": tag, **dict(zip(fields[1:], values))})
+
+            reference_values = ("0.64", "0.09", "5.14", "73.50", "0.00")
+            write(reference, reference_values)
+            write(candidate, ("0.60", "0.10", "5.10", "73.54", "0.04"))
+            report = reproduce_rtl.compare_summaries(
+                reference, candidate, rtol=0.0, atol=0.0
+            )
+            self.assertEqual(report["status"], "PASS")
+
+            write(candidate, ("0.70", "0.10", "5.10", "73.54", "0.04"))
+            report = reproduce_rtl.compare_summaries(
+                reference, candidate, rtol=1.0, atol=1.0
+            )
+            self.assertEqual(report["status"], "FAIL")
+            self.assertTrue(
+                any(
+                    failure.get("field") == "luts_pct"
+                    and failure.get("comparison")
+                    == "paper display precision (1 decimal places)"
+                    for failure in report["failures"]
+                )
+            )
+
+    def test_figure_5_renderer_accepts_the_archived_summary(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "figure_5.png"
+            facts = render_rtl_figure5.render_figure5(
+                reproduce_rtl.ARCHIVED_SUMMARY,
+                output,
+            )
+            self.assertTrue(output.is_file())
+            self.assertTrue(facts["decoded_png"])
+            self.assertTrue(facts["nonuniform"])
+            self.assertGreaterEqual(facts["width_px"], 1000)
+            self.assertGreaterEqual(facts["height_px"], 900)
 
     def test_clock_period_is_exact_not_tolerance_aware(self) -> None:
         tags = [item.tag for item in reproduce_rtl.CONFIGURATIONS]

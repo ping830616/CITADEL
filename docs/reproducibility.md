@@ -1,56 +1,69 @@
 # Cross-Machine Reproducibility
 
-The supported target is scientific equivalence from an immutable CITADEL
-checkout and the archived inputs. This means exact configuration, schemas,
-categorical decisions, selected configurations, and feature sets, plus numeric
-agreement within the predeclared tolerance. It does not mean byte-identical
-plots, timestamps, Vivado reports, or newly collected hardware telemetry.
+CITADEL reproduces scientific results from an immutable source snapshot and
+the preserved inputs. Exact configuration, schemas, categorical choices,
+selected configurations, and feature sets must agree. Numeric values use the
+tolerances in `reproducibility/result_contract.json`.
 
-For the complete reviewer procedure and the evidence status of every bundle,
-use the [reviewer reproduction guide](reviewer_reproduction.md) and
-[artifact inventory](../reproducibility/artifact_inventory.md).
+Renderer-dependent image bytes, timestamps, absolute paths, runtime duration,
+and raw Vivado report bytes are not portable comparison targets.
 
-## Canonical Environment
+## Locked environment
 
-CITADEL pins CPython 3.11.15, every direct dependency, and the complete
-cross-platform dependency graph in `uv.lock`:
+The canonical environment is CPython 3.11.15 with the complete dependency
+graph in `uv.lock`:
 
 ```bash
 uv python install 3.11.15
-uv sync --frozen
+uv sync --frozen --no-dev
 uv lock --check
 ```
 
-The alternative Conda specification has the same Python and direct package
-pins:
+The launcher fixes seed 123, one numerical thread, UTC, locale, and the plotting
+backend before starting the analysis process. It records package versions,
+platform, NumPy/BLAS/threadpool details, configuration, and file hashes.
+
+## Immutable checkout
 
 ```bash
-conda env create -f environment.yml
-conda activate citadel-slm
-```
-
-Use `uv run --frozen python ...` for the commands below. The launcher starts
-child processes with seed 123, one numerical thread, UTC, a fixed locale, and a
-noninteractive plotting backend. Manifests record the source state, environment
-files, package versions, NumPy build/BLAS information, active thread pools,
-configuration, and input/output hashes.
-
-## Immutable Checkout and Scoped LFS
-
-```bash
-export GIT_LFS_SKIP_SMUDGE=1
-git clone https://github.com/ping830616/CITADEL.git
-cd CITADEL
-git checkout <full-artifact-commit-or-tag>
 git lfs install
+GIT_LFS_SKIP_SMUDGE=1 git clone https://github.com/ping830616/CITADEL.git
+cd CITADEL
+git checkout paper-r1-reviewer-evidence-v2
 git status --porcelain
 ```
 
-The last command must be empty before a comparison-grade run. Fetch only the
-profile being reproduced:
+The status command must be empty before a comparison-grade run.
+
+## Two different verification levels
+
+Audit compact evidence and manuscript claims without downloading telemetry:
 
 ```bash
-uv run --frozen python scripts/reproduce.py fetch-lfs --scope workload
+uv run --frozen python scripts/reproduce.py verify-paper --scope all
+```
+
+The JSON output deliberately separates:
+
+- `coverage_status`: every expected paper item and required compact file exists;
+- `traceability_status`: hashes, provenance records, declared figure
+  layout/main/legend assets, and manuscript-value checks pass;
+- `fresh_clean_rerun_status`: every requested experiment family has retained
+  clean-run evidence.
+
+A pass for the first two fields must not be described as a fresh rerun.
+
+Verify the tracked source/input inventory separately:
+
+```bash
+uv run --frozen python scripts/reproduce.py verify-archive --scope source
+```
+
+## Scoped input download
+
+Download only the inputs needed for one result family:
+
+```bash
 uv run --frozen python scripts/reproduce.py fetch-lfs --scope core
 uv run --frozen python scripts/reproduce.py fetch-lfs --scope sensitivity
 uv run --frozen python scripts/reproduce.py fetch-lfs --scope apple
@@ -58,158 +71,65 @@ uv run --frozen python scripts/reproduce.py fetch-lfs --scope intel
 uv run --frozen python scripts/reproduce.py fetch-lfs --scope rtl
 ```
 
-These commands fetch computational inputs only. Before a command using
-`--verify`, repeat that profile's fetch with `--include-reference` so the
-archived comparison outputs are materialized without making ordinary
-generation depend on its predecessor.
+Compact paper references are ordinary Git files under
+`reproducibility/paper_results/`; `--include-reference` is not required.
+Preflight rejects any required input that is still an LFS pointer.
 
-The preflight rejects pointer stubs instead of passing them to pandas. Check the
-repository inventory before execution:
+## Isolated runs
 
-```bash
-uv run --frozen python scripts/reproduce.py verify-archive --scope source
-uv run --frozen python scripts/reproduce.py fetch-lfs \
-  --scope core --include-reference
-uv run --frozen python scripts/reproduce.py verify-archive \
-  --scope core --require-materialized
-```
-
-## Isolated, Headless Runs
-
-First run the no-download synthetic repeat check:
+All commands write to a new `results/reproduced/<run-id>/` tree. Existing
+outputs are rejected rather than mixed with a new run.
 
 ```bash
-uv run --frozen python scripts/reproduce.py notebook \
-  --profile smoke --preset smoke --data-mode sample \
-  --repeat --run-id reviewer-smoke
-```
-
-Then run the needed archived-data profile:
-
-```bash
-# Benign workload characterization from exactly 26 inputs. This snapshot has
-# no workload-profile reference, so use a repeat comparison, not --verify.
-uv run --frozen python scripts/reproduce.py notebook \
-  --profile workload --preset smoke --data-mode real \
-  --repeat --run-id reviewer-workload
-
-# Full TCAD, DROOP, workload profile, lifecycle, sensitivity, and fixed-point outputs
-uv run --frozen python scripts/reproduce.py fetch-lfs \
-  --scope core --include-reference
+# Main paper results
 uv run --frozen python scripts/reproduce.py notebook \
   --profile core --preset full --data-mode real \
-  --verify --run-id reviewer-core
+  --verify --run-id reviewer-main
 
-# Focused graph/ranking sensitivity without the full DSE
-uv run --frozen python scripts/reproduce.py fetch-lfs \
-  --scope sensitivity --include-reference
+# Graph/ranking sensitivity
 uv run --frozen python scripts/reproduce.py sensitivity \
-  --verify --run-id reviewer-sensitivity
+  --verify --repeat --run-id reviewer-sensitivity
 
-# Apple limited-observability reanalysis
-uv run --frozen python scripts/reproduce.py fetch-lfs \
-  --scope apple --include-reference
+# Figure 7
+uv run --frozen python scripts/reproduce.py intel-orders \
+  --verify --repeat --run-id reviewer-intel-orders
+
+# Figure 8
 uv run --frozen python scripts/reproduce.py notebook \
   --profile apple --preset full --data-mode real \
   --verify --run-id reviewer-apple
-
-# Intel workload-order analysis from preserved benign recordings
-uv run --frozen python scripts/reproduce.py intel-orders \
-  --run-id reviewer-intel-orders
 ```
 
-Runs are written under `results/reproduced/<run-id>/`; they never overwrite the
-archived reference. Use `--repeat` to compare two independent executions of the
-same profile. A full core run is a long job, so the focused sensitivity and
-synthetic smoke profiles are useful gates before scheduling it.
+`--profile all --verify` is rejected because a notebook-wide development sweep
+is not the same as verifying every paper result. Use `verify-paper --scope all`
+for the compact audit and the named commands for fresh execution.
 
-For the Intel command, `--repeat` performs two full, isolated workload-order
-runs and compares their CSVs by scientific row identity with `rtol=1e-9` and
-`atol=5e-11`; categorical values, selected features, alarms, workload orders,
-and schemas remain exact. Each run receipt binds the clean source commit and
-hashes of the 26 benign DDR inputs, analyzer, notebook, environment files, and
-analyzer manifest to the locked Python/package versions and
-NumPy/BLAS/threadpool runtime. It also hashes the wrapper and external-source
-registry and records that notebook utilities were loaded in an isolated
-validation-free smoke/sample mode; the actual analysis still validates and
-hashes exactly the 26 benign inputs. The optional `--verify` flag uses the same
-contract against a committed Intel
-archive. It fails clearly when, as in the current audited snapshot, that
-archive is intentionally absent.
+## Scientific comparison contract
 
-## Comparison Contract
+`scripts/verify_reproducibility.py` enforces:
 
-`reproducibility/result_contract.json` and
-`scripts/verify_reproducibility.py` implement the acceptance rules:
+- exact CSV/JSON schemas, strings, booleans, case IDs, and selected features;
+- exact row order unless a rule declares scientific identity keys;
+- tolerance-based numeric comparison; the compact paper-result profile rules
+  use `rtol=1e-9` and `atol=5e-11`, while the comparison CLI defaults to
+  `rtol=1e-10` and `atol=1e-12` only when a rule does not override them;
+- failure for missing results and unresolved LFS pointers;
+- explicit reporting of any output outside the comparison contract.
 
-- exact CSV/JSON structure, strings, booleans, case IDs, and selected features;
-- exact row order for positional tables, with order-independent matching only
-  where the contract declares scientific identity keys or unordered feature sets;
-- numeric values compared with default `rtol=1e-10` and `atol=1e-12`;
-- explicit failure for missing results or reference/candidate LFS pointers;
-- volatile host, timestamp, absolute-path, duration, and rendering metadata
-  excluded from scientific equivalence.
+Full equivalence requires `status: PASS` and
+`verification_coverage: COMPLETE`. `PASS_WITH_UNVERIFIED` or successful
+notebook completion alone is not full result equivalence.
 
-An optional candidate-only output is listed as `SKIPPED_NO_REFERENCE` under
-`unverified_outputs`, changes `status` to `PASS_WITH_UNVERIFIED`, and changes
-`verification_coverage` to `PARTIAL`; it is not silently treated as equivalent.
-Full claim-level equivalence therefore requires both `status: PASS` and
-`verification_coverage: COMPLETE`. `PASS_WITH_UNVERIFIED` returns exit code zero
-so optional-output workflows can finish, but those listed outputs remain outside
-the verified claim. Notebook completion
-alone is not an equivalence result. PNG/PDF files may be inspected visually,
-but their bytes are not portable across font and renderer stacks.
+Figures are validated as decodable, nonuniform images with the declared layout
+and main/legend assets. Their source tables and labels are the cross-machine
+comparison targets; the PNG hash is provenance only, and the check does not
+claim visual-semantic equivalence.
 
-`--allow-runtime-mismatch` is a development escape hatch. When supplied to the
-notebook wrapper, it disables both the outer version rejection and the matching
-in-notebook strict-runtime gate; the resulting preflight receipt still records
-the observed mismatch and must not be presented as a canonical run.
+## Hardware boundary
 
-## Docker
+RTL regeneration requires Vivado 2025.2, SW Build 6299465, part
+`xc7a200tfbg676-1`, its device database, and a working license. The committed
+RTL evidence is an archived-report reanalysis, not a fresh synthesis run.
 
-The image pins the Linux CPython base by digest and installs from `uv.lock`:
-
-```bash
-docker build --platform linux/amd64 -t citadel-repro .
-docker run --rm --platform linux/amd64 \
-  -v "$PWD:/workspace/CITADEL" -w /workspace/CITADEL \
-  citadel-repro python scripts/reproduce.py notebook \
-  --profile smoke --preset smoke --data-mode sample \
-  --repeat --run-id docker-smoke
-```
-
-Mounting the immutable checkout makes its Git state and selected LFS objects
-visible inside the image. The CI workflow runs the locked numerical smoke on
-Ubuntu and macOS and compares their normalized scientific fingerprint.
-
-## Vivado and Live Hardware
-
-Vivado reproduction requires version 2025.2, SW Build 6299465, target
-`xc7a200tfbg676-1`, its device database/license, and the checked-in RTL/Tcl:
-
-```bash
-uv run --frozen python scripts/reproduce_rtl.py --dry-run
-uv run --frozen python scripts/reproduce_rtl.py \
-  --output-root results/reproduced/reviewer-rtl
-```
-
-The launcher compares parsed configuration/resource fields exactly and timing
-or power numerically. Raw report and checkpoint bytes are not equality targets.
-The present RTL is a block-maximum starter datapath; the paper points use median
-aggregation, so this evidence must not be described as a bit-exact realization
-of all four configurations.
-
-Intel and Apple collection campaigns are different: a seed reproduces the
-schedule, not the physical samples. Retain the exact host, OS/CPU, privileges,
-tool and workload revisions/hashes, phase events, sampling audit, and statistical
-acceptance result. Follow
-[the Intel transition runbook](intel_continuous_workload_transitions.md) or
-[the Apple transition runbook](apple_workload_transitions.md).
-
-## Legacy Results
-
-Older TCAD, DROOP, lifecycle, Apple, and figure bundles include dirty, stale, or
-partial provenance. Automation does not retroactively make those manifests
-clean. The [legacy provenance audit](../reproducibility/legacy_provenance.md)
-identifies the limitation of each bundle; a replacement must come from a clean
-run with a passing comparison report.
+For exact commands and current evidence tiers, see the
+[reviewer reproduction guide](reviewer_reproduction.md).

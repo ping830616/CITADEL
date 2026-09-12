@@ -1,0 +1,5 @@
+tag,setup,event,clock_period_ns,wns_ns,timing_met,luts,luts_pct,ffs,ffs_pct,dsps,dsp_pct,iobs,iob_pct,brams,bram_pct,total_power_mw,power_confidence
+A_DROOP,A,DROOP,25.000,2.458,True,867,0.64,244,0.09,38,5.14,294,73.50,0,0.00,158,Low
+A_RH,A,RH,25.000,2.569,True,863,0.64,259,0.10,37,5.00,294,73.50,0,0.00,157,Low
+B_DROOP,B,DROOP,25.000,2.474,True,884,0.66,242,0.09,38,5.14,294,73.50,0,0.00,158,Low
+B_SPECTRE,B,SPECTRE,25.000,2.110,True,907,0.67,259,0.10,37,5.00,294,73.50,0,0.00,157,Low

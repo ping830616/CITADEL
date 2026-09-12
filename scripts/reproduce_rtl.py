@@ -32,6 +32,7 @@ from typing import Iterable
 REPOSITORY = Path(__file__).resolve().parents[1]
 TCL_SCRIPT = REPOSITORY / "scripts" / "vivado_cintas_synth.tcl"
 PARSER_SCRIPT = REPOSITORY / "scripts" / "parse_vivado_rtl_sweep.py"
+FIGURE_SCRIPT = REPOSITORY / "scripts" / "render_rtl_figure5.py"
 ARCHIVED_ROOT = REPOSITORY / "results" / "notebook_run" / "rtl_sweep"
 ARCHIVED_SUMMARY = ARCHIVED_ROOT / "rtl_resource_summary.csv"
 
@@ -72,15 +73,21 @@ EXACT_INTEGER_FIELDS = {
     "iobs",
     "latency_cycles",
 }
+PAPER_DISPLAY_DECIMALS = {
+    # Figure 5 renders each utilization percentage with ``_pct(...):.1f``.
+    "luts_pct": 1,
+    "ffs_pct": 1,
+    "dsp_pct": 1,
+    "bram_pct": 1,
+    "iob_pct": 1,
+    # Table XI reports these metrics at the stated display precision.
+    "wns_ns": 3,
+    "fmax_mhz_est": 2,
+    "total_power_mw": 0,
+}
 TOLERANT_FLOAT_FIELDS = {
-    "luts_pct",
-    "ffs_pct",
-    "dsp_pct",
-    "bram_pct",
-    "iob_pct",
-    "wns_ns",
-    "fmax_mhz_est",
-    "total_power_mw",
+    # These diagnostics are archived but are not numeric results displayed in
+    # Figure 5 or Table XI.
     "dynamic_power_mw",
     "static_power_mw",
 }
@@ -102,6 +109,7 @@ def source_paths() -> tuple[Path, ...]:
         REPOSITORY / "uv.lock",
         Path(__file__).resolve(),
         PARSER_SCRIPT,
+        FIGURE_SCRIPT,
         TCL_SCRIPT,
         *sorted((REPOSITORY / "rtl" / "cintas").glob("*.sv")),
     )
@@ -296,10 +304,21 @@ def parser_command(output_root: Path) -> list[str]:
     ]
 
 
+def figure_command(summary_path: Path, output_path: Path) -> list[str]:
+    return [
+        sys.executable,
+        str(FIGURE_SCRIPT),
+        "--summary",
+        str(summary_path),
+        "--output",
+        str(output_path),
+    ]
+
+
 def build_plan(vivado: str, output_root: Path, reference: Path) -> dict[str, object]:
     placeholder = Path("$CITADEL_VIVADO_WORKDIR")
     return {
-        "schema_version": 2,
+        "schema_version": 3,
         "execution": "sequential",
         "required_vivado": {
             "release": REQUIRED_VIVADO_RELEASE,
@@ -322,10 +341,17 @@ def build_plan(vivado: str, output_root: Path, reference: Path) -> dict[str, obj
             for configuration in CONFIGURATIONS
         ],
         "parse_command": shlex.join(parser_command(output_root)),
+        "figure_command": shlex.join(
+            figure_command(
+                output_root / "rtl_resource_summary.csv",
+                output_root / "figure_5.png",
+            )
+        ),
         "comparison_scope": (
             "parsed metrics: configuration identity, clock period, and resource counts exact; "
-            "only measured resource percentages, timing, Fmax, and power values are "
-            "tolerance-aware; raw report/checkpoint bytes excluded"
+            "Figure 5/Table XI numeric results must match at manuscript display precision; "
+            "only non-paper dynamic/static power diagnostics are tolerance-aware; raw "
+            "report/checkpoint bytes excluded"
         ),
     }
 
@@ -355,6 +381,7 @@ def finalize_run_manifest(
     final_integrity_gate: dict[str, object],
     comparison_path: Path,
     comparison_status: str,
+    figure_path: Path | None = None,
 ) -> Path:
     """Attach launcher provenance and root-artifact hashes to the parser manifest."""
     manifest_path = output_root / "run_manifest.json"
@@ -368,26 +395,35 @@ def finalize_run_manifest(
     if "reproduction_plan.json" not in report_paths:
         raise RuntimeError("run_manifest.json does not hash reproduction_plan.json")
 
-    manifest.update(
-        {
-            "schema_version": max(int(manifest.get("schema_version", 1)), 3),
-            "source_commit": source_provenance["repository_commit"],
-            "archival_eligible": bool(
-                source_provenance["repository_clean"]
-                and final_integrity_gate.get("status") == "PASS"
-                and comparison_status == "PASS"
-            ),
-            "source_provenance": source_provenance,
-            "final_integrity_gate": final_integrity_gate,
-            "runtime": runtime,
-            "comparison": {
-                "path": comparison_path.relative_to(REPOSITORY).as_posix(),
-                "sha256": sha256_file(comparison_path),
-                "size_bytes": comparison_path.stat().st_size,
-                "status": comparison_status,
-            },
+    additions: dict[str, object] = {
+        "schema_version": max(int(manifest.get("schema_version", 1)), 3),
+        "source_commit": source_provenance["repository_commit"],
+        "archival_eligible": bool(
+            source_provenance["repository_clean"]
+            and final_integrity_gate.get("status") == "PASS"
+            and comparison_status == "PASS"
+        ),
+        "source_provenance": source_provenance,
+        "final_integrity_gate": final_integrity_gate,
+        "runtime": runtime,
+        "comparison": {
+            "path": comparison_path.relative_to(REPOSITORY).as_posix(),
+            "sha256": sha256_file(comparison_path),
+            "size_bytes": comparison_path.stat().st_size,
+            "status": comparison_status,
+        },
         }
-    )
+    if figure_path is not None:
+        if not figure_path.is_file():
+            raise FileNotFoundError(f"Rendered Figure 5 is missing: {figure_path}")
+        additions["paper_figure"] = {
+            "path": figure_path.relative_to(REPOSITORY).as_posix(),
+            "sha256": sha256_file(figure_path),
+            "size_bytes": figure_path.stat().st_size,
+            "renderer": FIGURE_SCRIPT.relative_to(REPOSITORY).as_posix(),
+            "composition": "timing_slack_panel_plus_four_case_resource_summary",
+        }
+    manifest.update(additions)
     manifest_path.write_text(
         json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
@@ -430,6 +466,26 @@ def _float_equal(reference: str, candidate: str, *, rtol: float, atol: float) ->
         return math.isclose(float(reference), float(candidate), rel_tol=rtol, abs_tol=atol)
     except ValueError:
         return reference == candidate
+
+
+def _paper_display_equal(reference: str, candidate: str, *, decimals: int) -> bool:
+    """Compare values exactly as the paper displays them.
+
+    The paper tables and Figure 5 are generated with Python fixed-point
+    formatting, so using the same operation here makes the verification gate
+    agree with the published representation rather than a broader numerical
+    tolerance.
+    """
+    if reference == "" or candidate == "":
+        return reference == candidate
+    try:
+        reference_value = float(reference)
+        candidate_value = float(candidate)
+    except ValueError:
+        return reference == candidate
+    if not math.isfinite(reference_value) or not math.isfinite(candidate_value):
+        return reference == candidate
+    return f"{reference_value:.{decimals}f}" == f"{candidate_value:.{decimals}f}"
 
 
 def compare_summaries(
@@ -480,9 +536,13 @@ def compare_summaries(
             if field in EXACT_INTEGER_FIELDS:
                 equal = _integer_equal(expected, observed)
                 comparison = "exact integer"
+            elif field in PAPER_DISPLAY_DECIMALS:
+                decimals = PAPER_DISPLAY_DECIMALS[field]
+                equal = _paper_display_equal(expected, observed, decimals=decimals)
+                comparison = f"paper display precision ({decimals} decimal places)"
             elif field in TOLERANT_FLOAT_FIELDS:
                 equal = _float_equal(expected, observed, rtol=rtol, atol=atol)
-                comparison = "numeric tolerance"
+                comparison = "non-paper diagnostic numeric tolerance"
             else:
                 equal = expected == observed
                 comparison = "exact text"
@@ -499,12 +559,13 @@ def compare_summaries(
                 )
 
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "status": "PASS" if not failures else "FAIL",
         "reference": str(reference_path),
         "candidate": str(candidate_path),
         "required_tags": required_tags,
         "exact_integer_fields": sorted(EXACT_INTEGER_FIELDS),
+        "paper_display_decimals": dict(sorted(PAPER_DISPLAY_DECIMALS.items())),
         "tolerant_float_fields": sorted(TOLERANT_FLOAT_FIELDS),
         "rtol": rtol,
         "atol": atol,
@@ -528,8 +589,8 @@ def execute(args: argparse.Namespace) -> int:
         print("DRY RUN: no directories were created and no commands were executed.")
         return 0
 
-    if not TCL_SCRIPT.is_file() or not PARSER_SCRIPT.is_file():
-        raise FileNotFoundError("Canonical Vivado Tcl or parser script is missing")
+    if not all(path.is_file() for path in (TCL_SCRIPT, PARSER_SCRIPT, FIGURE_SCRIPT)):
+        raise FileNotFoundError("Canonical Vivado Tcl, parser, or Figure 5 renderer is missing")
     if not reference.is_file() or is_lfs_pointer(reference):
         raise FileNotFoundError(
             f"Archived summary is unavailable: {reference}. Materialize the RTL LFS scope first."
@@ -603,6 +664,20 @@ def execute(args: argparse.Namespace) -> int:
         json.dumps(comparison, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
     print(f"Wrote {comparison_path} ({comparison['status']})")
+    figure_path = output_root / "figure_5.png"
+    with tempfile.TemporaryDirectory(prefix="citadel-rtl-figure-") as figure_temp:
+        figure_environment = dict(environment)
+        figure_environment.update(
+            {
+                "MPLBACKEND": "Agg",
+                "MPLCONFIGDIR": str(Path(figure_temp) / "matplotlib"),
+            }
+        )
+        run_checked(
+            figure_command(output_root / "rtl_resource_summary.csv", figure_path),
+            cwd=REPOSITORY,
+            env=figure_environment,
+        )
     final_integrity_gate = require_final_snapshot_unchanged(
         source_provenance,
         reference=reference,
@@ -616,6 +691,7 @@ def execute(args: argparse.Namespace) -> int:
         final_integrity_gate=final_integrity_gate,
         comparison_path=comparison_path,
         comparison_status=str(comparison["status"]),
+        figure_path=figure_path,
     )
     print(f"Finalized {manifest_path} with source/runtime provenance.")
     if final_integrity_gate["status"] != "PASS":
@@ -649,8 +725,18 @@ def build_argument_parser() -> argparse.ArgumentParser:
         default=ARCHIVED_SUMMARY,
         help="Archived parsed summary used as the comparison reference",
     )
-    parser.add_argument("--rtol", type=float, default=1e-3, help="Relative tolerance for floats")
-    parser.add_argument("--atol", type=float, default=1e-3, help="Absolute tolerance for floats")
+    parser.add_argument(
+        "--rtol",
+        type=float,
+        default=1e-3,
+        help="Relative tolerance for non-paper dynamic/static power diagnostics",
+    )
+    parser.add_argument(
+        "--atol",
+        type=float,
+        default=1e-3,
+        help="Absolute tolerance for non-paper dynamic/static power diagnostics",
+    )
     parser.add_argument(
         "--dry-run",
         action="store_true",

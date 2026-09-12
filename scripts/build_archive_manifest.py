@@ -70,6 +70,18 @@ def scopes_for(path: str) -> list[str]:
         scopes.append("rtl")
     if path.startswith("results/notebook_run/intel_workload_orders/"):
         scopes.append("intel")
+    if path.startswith("reproducibility/paper_results/intel/"):
+        scopes.append("intel")
+    if path.startswith("reproducibility/paper_results/core/"):
+        scopes.append("core")
+    if path.startswith("reproducibility/paper_results/sensitivity/"):
+        scopes.append("sensitivity")
+    if path.startswith("reproducibility/paper_results/rtl/"):
+        scopes.append("rtl")
+    if path.startswith("reproducibility/paper_results/apple/"):
+        scopes.append("apple")
+    if path == "reproducibility/paper_results/README.md":
+        scopes.extend(["core", "sensitivity", "rtl", "intel", "apple"])
     if path in {
         ".python-version",
         "pyproject.toml",
@@ -77,10 +89,23 @@ def scopes_for(path: str) -> list[str]:
         "requirements.txt",
         "environment.yml",
         "scripts/analyze_intel_workload_orders.py",
+        "scripts/build_intel_paper_evidence.py",
         "scripts/reproduce.py",
         "scripts/verify_reproducibility.py",
     }:
         scopes.append("intel")
+    if path == "scripts/build_paper_result_bundles.py":
+        scopes.extend(["core", "apple"])
+    if path == "scripts/build_paper_sensitivity_evidence.py":
+        scopes.append("sensitivity")
+    if path in {
+        "scripts/build_paper_rtl_evidence.py",
+        "scripts/render_rtl_figure5.py",
+        "scripts/reproduce_rtl.py",
+    }:
+        scopes.append("rtl")
+    if path == "scripts/verify_paper_results.py":
+        scopes.extend(["core", "sensitivity", "rtl", "intel", "apple"])
     return sorted(set(scopes))
 
 

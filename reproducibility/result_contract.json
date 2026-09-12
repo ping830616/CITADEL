@@ -3,6 +3,8 @@
   "description": "Scientific-equivalence contract for independently generated CITADEL result tables. Numeric CSV and JSON values use declared tolerances; categorical values and schemas are exact. CSV row order is exact unless a rule declares scientific identity keys. Optional rules are compared whenever the reference run contains that output; candidate-only optional outputs are reported as unverified.",
   "informational_output_globs": [
     "**/run_manifest.json",
+    "**/evidence_manifest.json",
+    "paper_results/**/*.csv",
     "workload_profiles/manifest.json",
     "fpga/golden_vector_manifest.json",
     "droop_adaptive_data/*.csv.cache.json"
@@ -73,6 +75,14 @@
       {
         "glob": "workload_profiles/*.csv",
         "mode": "csv"
+      }
+    ],
+    "core-paper": [
+      {
+        "glob": "core/*.csv",
+        "mode": "csv",
+        "rtol": 1e-9,
+        "atol": 5e-11
       }
     ],
     "core": [
@@ -268,6 +278,20 @@
         "mode": "sha256"
       }
     ],
+    "sensitivity-paper": [
+      {
+        "glob": "sensitivity/*.csv",
+        "mode": "csv",
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "sensitivity/section_vd_claims.json",
+        "mode": "json",
+        "rtol": 1e-9,
+        "atol": 5e-11
+      }
+    ],
     "sensitivity": [
       {
         "glob": "graph_sensitivity/graph_sensitivity_summary.csv",
@@ -356,6 +380,30 @@
       {
         "glob": "apple_limited_observability/**/*.csv",
         "mode": "csv"
+      }
+    ],
+    "apple-paper": [
+      {
+        "glob": "apple/*.csv",
+        "mode": "csv",
+        "rtol": 1e-9,
+        "atol": 5e-11
+      }
+    ],
+    "intel-paper": [
+      {
+        "glob": "intel_workload_orders/intel_workload_order_run_results.csv",
+        "mode": "csv",
+        "key_columns": ["setup", "replicate_index", "decision_rule"],
+        "rtol": 1e-9,
+        "atol": 5e-11
+      },
+      {
+        "glob": "intel_workload_orders/intel_workload_order_summary.csv",
+        "mode": "csv",
+        "key_columns": ["setup", "decision_rule", "metric"],
+        "rtol": 1e-9,
+        "atol": 5e-11
       }
     ],
     "intel-orders": [

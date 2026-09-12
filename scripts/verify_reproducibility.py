@@ -673,7 +673,14 @@ def build_parser() -> argparse.ArgumentParser:
     compare.add_argument("--reference-root", type=Path, required=True)
     compare.add_argument("--candidate-root", type=Path, required=True)
     compare.add_argument("--contract", type=Path)
-    compare.add_argument("--profile", choices=("smoke", "workload", "core", "sensitivity", "apple", "intel-orders", "rtl", "all"), required=True)
+    compare.add_argument(
+        "--profile",
+        choices=(
+            "smoke", "workload", "core-paper", "core", "sensitivity-paper", "sensitivity",
+            "apple-paper", "apple", "intel-paper", "intel-orders", "rtl", "all",
+        ),
+        required=True,
+    )
     compare.add_argument("--rtol", type=float, default=1e-10)
     compare.add_argument("--atol", type=float, default=1e-12)
     compare.add_argument("--report", type=Path)

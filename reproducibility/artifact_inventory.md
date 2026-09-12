@@ -48,7 +48,8 @@ The current reviewer wrapper is `scripts/reproduce.py`. It provides scoped LFS
 fetch/preflight commands, isolated headless notebook execution, repeat runs, and
 scientific-result comparison through `scripts/verify_reproducibility.py`. The
 status column below still describes the preserved evidence at the audited
-snapshot, except for the explicitly refreshed graph/ranking bundle; new
+snapshot, except for the explicitly refreshed graph/ranking and Figure 7
+bundles; new
 automation does not retroactively make any other dirty legacy manifest clean.
 
 ## Bundle Matrix
@@ -65,7 +66,7 @@ automation does not retroactively make any other dirty legacy manifest clean.
 | Lifecycle drift and recalibration | Archived-data reanalysis | Notebook utility `notebook_run_lifecycle_drift(...)` | `results/notebook_run/lifecycle_drift/` | `ARCHIVED_LEGACY_DIRTY` | Tables, causal outputs, figure, config, and manifest are present. The manifest records commit `f030e7e...`, `git_dirty: true`, Python 3.13.5, NumPy 2.3.2, pandas 2.3.1, and scikit-learn 1.7.1. The audited `b254135` snapshot defined the utility but did not invoke it; the post-audit core profile now invokes it and fails if required lifecycle outputs are absent. |
 | Benign workload profiles | Archived-data reanalysis | Notebook cell “Benign workload profiles (Reviewer 1, Comment 6)” | `results/notebook_run/workload_profiles/` | `EXPECTED_NOT_ARCHIVED` | Stored notebook output says the experiment ran, but the result directory, plots, supporting CSVs, and manifest are not committed at this snapshot. |
 | Apple limited-observability study | Archived-data reanalysis | Notebook Section 11 | `results/notebook_run/apple_limited_observability/` | `ARCHIVED_LEGACY_DIRTY` | Tables, causal outputs, figures, and manifest are present. The manifest records commit `08cf236...`, `git_dirty: true`, and Python 3.11.15. `data/external_sources.json` now pins upstream DICE commit `b5e382e127e5ed3a187f6d328ab95729500ad7ae`; analysis should verify that ref and the archived Apple CSV hashes. |
-| Intel workload-order stress test | Archived-data reanalysis | `uv run --frozen python scripts/reproduce.py intel-orders`; direct analyzer/notebook use is development-only | `results/notebook_run/intel_workload_orders/` | `EXPECTED_NOT_ARCHIVED` | The locked wrapper writes isolated results and a source/input/runtime/manifest receipt, but no full output bundle is committed. The constructed workload boundaries test order/distribution sensitivity, not a continuously measured physical switch transient. |
+| Intel workload-order stress test | Archived-data reanalysis | `uv run --frozen python scripts/reproduce.py intel-orders --verify --repeat`; direct analyzer/notebook use is development-only | Generated: `results/reproduced/<run-id>/notebook_run/intel_workload_orders/`; paper reference: `reproducibility/paper_results/intel/` | `ARCHIVED_CLEAN_VERIFIED` | Two clean complete runs from source commit `2a496d2...` agreed on all 166 scientific CSVs. The compact archive retains the Figure 7 source/summary tables, rendered figure, 26 input hashes, exact source/environment/runtime evidence, and a passing `0.58% +/- 0.82` / `0.83% +/- 1.00` claim audit. Constructed boundaries test order/distribution sensitivity, not a continuously measured physical switch transient. |
 | EXACT baseline reproduction | Archived-data reanalysis | Notebook utilities `run_ets2026(...)` and `notebook_run_ets2026(...)` | `results/notebook_run/ets_baseline/` | `EXPECTED_NOT_ARCHIVED` | The functions are defined, but the current notebook does not invoke them and no result bundle is committed. Do not cite a CITADEL-internal EXACT reproduction until it is actually run and archived. |
 | Paper tables and figures | Derived from archived analysis | Notebook Section 5 and later gallery cells | `results/notebook_run/tcad_ablation/paper_figures/` | `ARCHIVED_PARTIAL` | Multiple gallery tables and figures are present. They have no gallery-level manifest; the final audit now requires the actually generated `gallery_table1_selected_operating_points.csv`. Validate the underlying CSV values rather than PNG byte hashes. |
 | Fixed-point golden vectors | Derived from archived analysis | Notebook Section 9 | `results/notebook_run/fpga/` | `ARCHIVED_PARTIAL` | Only `cintas_setupA_q18_golden_vectors.csv` is present. There is no vector-bundle manifest and no complete per-operating-point set of model constants and vectors for all four selected cases. |
@@ -194,6 +195,20 @@ results/notebook_run/intel_workload_orders/
   runs/setup_<A-or-B>_block_<01-through-10>/*
 ```
 
+The committed Figure 7 subset is:
+
+```text
+reproducibility/paper_results/intel/
+  README.md
+  evidence_manifest.json
+  figure7_claims.json
+  repeat_verification.json
+  intel_workload_orders/
+    intel_workload_order_run_results.csv
+    intel_workload_order_summary.csv
+    fig_intel_workload_order_variation.png
+```
+
 ### Live campaigns
 
 The live Intel collector writes a campaign manifest and per-run PCM, phase,
@@ -209,7 +224,8 @@ and [`docs/apple_workload_transitions.md`](../docs/apple_workload_transitions.md
 ## Known Missing or Unlinked Artifacts at the Audited Snapshot
 
 - The complete `workload_profiles/` result bundle.
-- The complete `intel_workload_orders/` result bundle.
+- Intermediate Intel workload-order diagnostics are regenerated on demand; the
+  complete Figure 7 source and evidence subset is archived and verified.
 - The complete `ets_baseline/` result bundle.
 - `results/notebook_run/paper_tbd_replacements.csv`.
 - A gallery-level manifest remains desirable; the underlying gallery CSVs are

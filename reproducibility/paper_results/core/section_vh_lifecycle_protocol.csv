@@ -1,0 +1,2 @@
+selected_features,block_length,aggregation,weighting,score_mixture,threshold_quantile,initial_reference_fraction,remaining_fraction,graph_subsamples,rank_centrality_weight,rank_stability_weight,rank_dependence_weight,rank_alignment_weight,uses_anomaly_alignment,remaining_benign_blocks_per_setup,trailing_window_blocks,trailing_minimum_blocks,stale_fpr_limit
+15,100,max,uniform,0.5,0.99,0.6,0.4,6,0.45,0.35,0.2,0.0,False,520,25,6,0.01

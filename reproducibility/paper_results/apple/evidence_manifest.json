@@ -1,0 +1,93 @@
+{
+  "archival_status": "REFERENCE_ONLY",
+  "comparison_policy": {
+    "csv_numeric_values": "tolerance-based",
+    "csv_schema_and_categorical_values": "exact",
+    "png_hashes": "informational_only"
+  },
+  "evidence_class": "historical_non_archival_reference",
+  "interpretation": "The CSVs are deterministic projections of paper-facing results. REFERENCE_ONLY means the preserved source run was dirty or lacks a clean commit; it becomes independent clean-run evidence only after a clean rerun compares PASS.",
+  "outputs": [
+    {
+      "paper_items": [
+        "Figure 8",
+        "Section V-J"
+      ],
+      "path": "apple/figure_8_portability_envelope.csv",
+      "sha256": "b1f9d1d28e1774a9b13e71df9714d3a8c0e87141183037dbbc31a7fefb63b0cc",
+      "size_bytes": 1051
+    },
+    {
+      "paper_items": [
+        "Section V-J"
+      ],
+      "path": "apple/section_vj_workload_averages.csv",
+      "sha256": "6b621c1c5692e9d69d6edc803298d3490d7c3b86591a561ae0c2f384b272af63",
+      "size_bytes": 421
+    },
+    {
+      "paper_items": [
+        "Section V-J"
+      ],
+      "path": "apple/section_vj_study_scope.csv",
+      "sha256": "163474a5f30a4d4d533db5b1b01b39dc50d3f6b564cf1b178b5423e710f76050",
+      "size_bytes": 530
+    }
+  ],
+  "profile": "apple",
+  "rendered_figures": [
+    {
+      "decoded_png": true,
+      "height_px": 1075,
+      "nonuniform": true,
+      "path": "results/notebook_run/apple_limited_observability/paper_figures/fig_apple_portability_envelope.png",
+      "role": "Figure 8 rendered output; hash informational",
+      "sha256": "6db0b6c8d59b819dca7c5fc39850b1b4b571d0d8217fca1cafc2dea608496ee6",
+      "size_bytes": 121554,
+      "width_px": 2027
+    },
+    {
+      "decoded_png": true,
+      "height_px": 203,
+      "nonuniform": true,
+      "path": "results/notebook_run/apple_limited_observability/paper_figures/fig_apple_portability_envelope_legend.png",
+      "role": "Figure 8 legend; hash informational",
+      "sha256": "33c39a7d85eb4de11905b9159ab7b65eb7ae2c45053f60c22c248c8c9f009683",
+      "size_bytes": 22647,
+      "width_px": 2020
+    }
+  ],
+  "schema_version": 1,
+  "scope": [
+    "Figure 8",
+    "Section V-J"
+  ],
+  "source_files": [
+    {
+      "path": "results/notebook_run/apple_limited_observability/apple_observability_best_by_scenario.csv",
+      "role": "Figure 8",
+      "sha256": "161f297d6c3964798b59a2b4524c1b5094b6e3cfa1e40cc62b89dc754248eb7a",
+      "size_bytes": 6871
+    },
+    {
+      "path": "results/notebook_run/apple_limited_observability/apple_workload_summary.csv",
+      "role": "Section V-J workload averages",
+      "sha256": "878913d562603c438ef97441d9dc6e4a4bd2f5b1317b0ed1322331f520dbd87d",
+      "size_bytes": 2696
+    },
+    {
+      "path": "results/notebook_run/apple_limited_observability/apple_workload_best_by_observability.csv",
+      "role": "Section V-J workload and view inventory",
+      "sha256": "9a6ac1c4ec6f375e1d79351bb084ca0290478135c03a31909eba08d664b4e618",
+      "size_bytes": 23190
+    }
+  ],
+  "source_run_manifests": [
+    {
+      "git_commit": "08cf2368999a9eea3b234a931d899f704a4f0169",
+      "git_dirty_at_start": true,
+      "path": "results/notebook_run/apple_limited_observability/run_manifest.json",
+      "sha256": "8a07e1e6ac1cf73fb7911a526ec6d61a8363e5edae2deb75508950990da87754"
+    }
+  ]
+}

@@ -486,7 +486,10 @@ def _plot_variation(
         else np.asarray([0.0])
     )
     rng = np.random.default_rng(123)
-    fig, axes = plt.subplots(1, 3, figsize=(14.4, 4.4), dpi=220, sharey=False)
+    # Figure 7 is a single-column manuscript figure.  Keep the three views
+    # vertically stacked so the generated artifact matches the composition in
+    # the paper rather than merely containing the same numerical points.
+    fig, axes = plt.subplots(3, 1, figsize=(7.2, 10.0), dpi=220, sharey=False)
     for axis, (metric, title) in zip(axes, metrics, strict=True):
         for setup_index, setup in enumerate(setup_order):
             for rule in rule_order:
@@ -550,7 +553,12 @@ def _plot_variation(
         )
         axis.set_ylim(0.0, 1.04 * max(observed_max, summary_max, 1.0))
         axis.locator_params(axis="y", nbins=5)
-    axes[0].set_ylabel("Benign false positive rate (%)", fontsize=13.5, fontweight="bold", labelpad=8)
+        axis.set_ylabel(
+            "Benign false positive rate (%)",
+            fontsize=12.5,
+            fontweight="bold",
+            labelpad=8,
+        )
     legend_handles = [
         plt.Line2D(
             [0],
@@ -578,29 +586,21 @@ def _plot_variation(
     )
     fig.legend(
         handles=legend_handles,
-        loc="upper center",
-        bbox_to_anchor=(0.5, 0.885),
+        loc="lower center",
+        bbox_to_anchor=(0.5, 0.012),
         ncol=3,
         frameon=False,
         fontsize=11.7,
         columnspacing=1.6,
         handletextpad=0.7,
     )
-    fig.suptitle(
-        "Intel Benign Workload Order Stress Test",
-        fontsize=19,
-        fontweight="bold",
-        y=0.975,
+    fig.subplots_adjust(
+        top=0.985,
+        bottom=0.095,
+        left=0.17,
+        right=0.99,
+        hspace=0.46,
     )
-    fig.text(
-        0.5,
-        0.012,
-        "Panel y limits follow the displayed data. Points are recording block replicates; boundaries are constructed from separate recordings.",
-        ha="center",
-        fontsize=10.5,
-        color="#475569",
-    )
-    fig.subplots_adjust(top=0.71, bottom=0.21, left=0.08, right=0.995, wspace=0.10)
     fig.savefig(path, dpi=300, bbox_inches="tight", pad_inches=0.015, facecolor="white")
     plt.close(fig)
 

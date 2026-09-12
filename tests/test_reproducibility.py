@@ -291,7 +291,8 @@ class ReproducibilityTests(unittest.TestCase):
         self.assertIn("data/telemetry/processed/ddr_data/*.csv", core_inputs)
         self.assertIn("results/notebook_run/rtl_sweep/rtl_resource_summary.csv", core_inputs)
         self.assertNotIn("results/notebook_run/lifecycle_drift/**/*.csv", core_inputs)
-        self.assertIn("results/notebook_run/lifecycle_drift/**/*.csv", core_verify)
+        self.assertEqual(core_verify, core_inputs)
+        self.assertTrue((ROOT / "reproducibility/paper_results/core/evidence_manifest.json").is_file())
 
         sensitivity_inputs = self.runner.lfs_patterns("sensitivity")
         sensitivity_verify = self.runner.lfs_patterns(
@@ -300,17 +301,19 @@ class ReproducibilityTests(unittest.TestCase):
         self.assertNotIn(
             "results/notebook_run/graph_sensitivity/*.csv", sensitivity_inputs
         )
-        self.assertIn(
-            "results/notebook_run/graph_sensitivity/*.csv", sensitivity_verify
+        self.assertEqual(sensitivity_verify, sensitivity_inputs)
+        self.assertTrue(
+            (ROOT / "reproducibility/paper_results/sensitivity/evidence_manifest.json").is_file()
         )
         self.assertNotIn(
             "results/notebook_run/apple_limited_observability/**/*.csv",
             self.runner.lfs_patterns("apple"),
         )
-        self.assertIn(
-            "results/notebook_run/apple_limited_observability/**/*.csv",
+        self.assertEqual(
             self.runner.lfs_patterns("apple", include_reference=True),
+            self.runner.lfs_patterns("apple"),
         )
+        self.assertTrue((ROOT / "reproducibility/paper_results/apple/evidence_manifest.json").is_file())
 
     def test_rtl_scope_matches_material_files_not_only_directories(self) -> None:
         paths = self.runner.expand_patterns(ROOT, self.runner.LFS_PATTERNS["rtl"])
@@ -504,6 +507,26 @@ class ReproducibilityTests(unittest.TestCase):
             data_mode="real",
             verify=True,
         )
+        with self.assertRaisesRegex(ValueError, "verify-paper --scope all"):
+            self.runner.validate_notebook_request(
+                profile="all",
+                preset="full",
+                data_mode="real",
+                verify=True,
+            )
+
+    def test_verify_paper_command_is_explicitly_scoped(self) -> None:
+        args = self.runner.build_parser().parse_args(
+            ["verify-paper", "--scope", "sensitivity"]
+        )
+        self.assertEqual(args.scope, "sensitivity")
+        self.assertIsNone(args.output)
+        with mock.patch.object(self.runner.subprocess, "run") as run:
+            run.return_value.returncode = 0
+            self.assertEqual(self.runner.command_verify_paper(args), 0)
+        command = run.call_args.args[0]
+        self.assertIn("scripts/verify_paper_results.py", command[1])
+        self.assertEqual(command[-2:], ["--family", "sensitivity"])
 
     def test_run_ids_cannot_escape_or_reuse_the_output_directory(self) -> None:
         for unsafe in ("../escape", "/tmp/escape", "has space", ""):
@@ -776,12 +799,19 @@ class ReproducibilityTests(unittest.TestCase):
         )
         self.assertEqual(contract["schema_version"], 1)
         self.assertTrue(
-            {"smoke", "workload", "core", "sensitivity", "apple", "intel-orders", "rtl", "all"}
+            {
+                "smoke", "workload", "core-paper", "core", "sensitivity",
+                "apple-paper", "apple", "intel-paper", "intel-orders", "rtl", "all",
+            }
             <= set(contract["profiles"])
         )
         self.assertEqual(
             contract["profiles"]["workload"],
             [{"glob": "workload_profiles/*.csv", "mode": "csv"}],
+        )
+        self.assertIn(
+            "paper_results/**/*.csv",
+            contract["informational_output_globs"],
         )
         for profile in ("core", "all"):
             rules = contract["profiles"][profile]

@@ -1,0 +1,331 @@
+{
+  "archival_status": "REFERENCE_ONLY",
+  "comparison_policy": {
+    "csv_numeric_values": "tolerance-based",
+    "csv_schema_and_categorical_values": "exact",
+    "png_hashes": "informational_only"
+  },
+  "evidence_class": "historical_non_archival_reference",
+  "interpretation": "The CSVs are deterministic projections of paper-facing results. REFERENCE_ONLY means the preserved source run was dirty or lacks a clean commit; it becomes independent clean-run evidence only after a clean rerun compares PASS.",
+  "outputs": [
+    {
+      "paper_items": [
+        "Table VI"
+      ],
+      "path": "core/table_vi_selected_configurations.csv",
+      "sha256": "cae4b8abb95d3e792efe1449ca15795097827206adb4504990db0ff300107973",
+      "size_bytes": 1017
+    },
+    {
+      "paper_items": [
+        "Figure 3"
+      ],
+      "path": "core/figure_3_dse_envelope.csv",
+      "sha256": "3c75ec5c676e90004dd2cfc37cb593d6bc212f254613953af13ef860b230a821",
+      "size_bytes": 25311
+    },
+    {
+      "paper_items": [
+        "Section V-B"
+      ],
+      "path": "core/section_vb_workload_results.csv",
+      "sha256": "b28637e1dbc1fa0f61df7adac4b83bc5b8863f3757896bfe78f044b7f5cfc259",
+      "size_bytes": 633
+    },
+    {
+      "paper_items": [
+        "Section V-B"
+      ],
+      "path": "core/section_vb_workload_details.csv",
+      "sha256": "7aa6f454305fded271658a8bcce8309e196805f1d0454e1a93d7e6d0f05ad376",
+      "size_bytes": 1883
+    },
+    {
+      "paper_items": [
+        "Table VII"
+      ],
+      "path": "core/table_vii_feature_budget_tradeoff.csv",
+      "sha256": "5f9e2945f702e406e49d9363af5a3c674a89f2380e06780647a0a1c8ed841404",
+      "size_bytes": 826
+    },
+    {
+      "paper_items": [
+        "Figure 4"
+      ],
+      "path": "core/figure_4_graph_nodes.csv",
+      "sha256": "a804c229d98b626b8404595446e7386f93aeed5aac8614b7b99dcd06ebb2e5ac",
+      "size_bytes": 47857
+    },
+    {
+      "paper_items": [
+        "Figure 4"
+      ],
+      "path": "core/figure_4_graph_edges.csv",
+      "sha256": "de403ab46e43e142f46e7857acab52d33f75c046acd807ac9ad305f19addcfa3",
+      "size_bytes": 52251
+    },
+    {
+      "paper_items": [
+        "Figure 4"
+      ],
+      "path": "core/figure_4_top_features.csv",
+      "sha256": "9ef7ce5564ac32c36c9d9e639fd052601166a7275c17eb9046f75f93818f523e",
+      "size_bytes": 2378
+    },
+    {
+      "paper_items": [
+        "Table VIII"
+      ],
+      "path": "core/table_viii_integer_reference_error.csv",
+      "sha256": "0601a1b2d132fdad14fcad7a01d8cd5bb382d58d8f4a151594592abd4f90d89c",
+      "size_bytes": 362
+    },
+    {
+      "paper_items": [
+        "Table IX",
+        "Table X CITADEL row"
+      ],
+      "path": "core/table_ix_analytical_cost.csv",
+      "sha256": "a67ebb554025940cc1ae7322d62e565f2fa5cd6a20b7865b4ad238700548187a",
+      "size_bytes": 491
+    },
+    {
+      "paper_items": [
+        "Section V-F"
+      ],
+      "path": "core/section_vf_operator_constants.csv",
+      "sha256": "e1c204cf51c51f8df128d4d3fff15f1f2e5846c04b751c77f0f61601b0384ab0",
+      "size_bytes": 128
+    },
+    {
+      "paper_items": [
+        "Section V-F"
+      ],
+      "path": "core/section_vf_cost_basis.csv",
+      "sha256": "8d408c320181c65aa82026eac5878070c38dd27d18f65a5f45f9cb57acc5b958",
+      "size_bytes": 84
+    },
+    {
+      "paper_items": [
+        "Table X CITADEL row"
+      ],
+      "path": "core/table_x_citadel_row.csv",
+      "sha256": "09edaf87fdb4b0fdf76c21f0953d08b22c64f6d77990cf3288ca86e46f24b0eb",
+      "size_bytes": 405
+    },
+    {
+      "paper_items": [
+        "Figure 6"
+      ],
+      "path": "core/figure_6_reference_validity_trend.csv",
+      "sha256": "65bce8d7359527c17a24591eeb491dd76de136d52bc271fedb5c5d8003c885ef",
+      "size_bytes": 76464
+    },
+    {
+      "paper_items": [
+        "Figure 6",
+        "Section V-H"
+      ],
+      "path": "core/figure_6_reference_validity_summary.csv",
+      "sha256": "7d97f100ad196c7d0d07ce2163cd1739d48d78e0b882bc8664c4e1378b844c69",
+      "size_bytes": 373
+    },
+    {
+      "paper_items": [
+        "Section V-H"
+      ],
+      "path": "core/section_vh_lifecycle_protocol.csv",
+      "sha256": "2c0ceec2a36ccc84f4834075f9710825a48bd2342292972cb54c3a002845bb10",
+      "size_bytes": 435
+    }
+  ],
+  "profile": "core",
+  "rendered_figures": [
+    {
+      "decoded_png": true,
+      "height_px": 3239,
+      "nonuniform": true,
+      "path": "results/notebook_run/tcad_ablation/paper_figures/gallery_fig1_dse_heatmap.png",
+      "role": "Figure 3 rendered output; hash informational",
+      "sha256": "19b224e2bfc88ac9c72764318fbd47cd032a59cc81682333b5c6691c198c79c0",
+      "size_bytes": 449968,
+      "width_px": 4938
+    },
+    {
+      "decoded_png": true,
+      "height_px": 371,
+      "nonuniform": true,
+      "path": "results/notebook_run/tcad_ablation/paper_figures/gallery_fig1_dse_heatmap_legend.png",
+      "role": "Figure 3 legend containing selected-configuration wording; hash informational",
+      "sha256": "fad9c3dc9dda097462d09b08970970b0589ab5673bfc8308d5a84179af28b497",
+      "size_bytes": 21891,
+      "width_px": 2036
+    },
+    {
+      "decoded_png": true,
+      "height_px": 2431,
+      "nonuniform": true,
+      "path": "results/notebook_run/tcad_ablation/paper_figures/gallery_fig4_full_stable_graph_network.png",
+      "role": "Figure 4 rendered output; hash informational",
+      "sha256": "fccdcf4a569d466151280e16483b9fa26edd70ffaaf6538f2c6cf83ebe1f43d3",
+      "size_bytes": 2988435,
+      "width_px": 5766
+    },
+    {
+      "decoded_png": true,
+      "height_px": 602,
+      "nonuniform": true,
+      "path": "results/notebook_run/tcad_ablation/paper_figures/gallery_fig4_full_stable_graph_network_legend.png",
+      "role": "Figure 4 legend; hash informational",
+      "sha256": "00aa104f85d72e5b2a05fa7120f966776a8d14b78d55819a741ccd1f4a5095e9",
+      "size_bytes": 94947,
+      "width_px": 3354
+    },
+    {
+      "decoded_png": true,
+      "height_px": 1812,
+      "nonuniform": true,
+      "path": "results/notebook_run/tcad_ablation/paper_figures/gallery_fig6c_lifecycle_benign_drift_trend.png",
+      "role": "Figure 6 rendered output; hash informational",
+      "sha256": "13b5a802947ad0d68a28d64b9128a8638101c2ec7f60ba72afd72420129cbeac",
+      "size_bytes": 300563,
+      "width_px": 2309
+    },
+    {
+      "decoded_png": true,
+      "height_px": 325,
+      "nonuniform": true,
+      "path": "results/notebook_run/tcad_ablation/paper_figures/gallery_fig6c_lifecycle_benign_drift_trend_legend.png",
+      "role": "Figure 6 legend; hash informational",
+      "sha256": "246452a3abd236e32eb3959971fa2122558a536997c641b18ad05446afc53b97",
+      "size_bytes": 45342,
+      "width_px": 2534
+    }
+  ],
+  "schema_version": 1,
+  "scope": [
+    "Table VI",
+    "Figure 3",
+    "Section V-B",
+    "Table VII",
+    "Figure 4",
+    "Table VIII",
+    "Section V-F",
+    "Table IX",
+    "Table X CITADEL row",
+    "Figure 6",
+    "Section V-H"
+  ],
+  "source_files": [
+    {
+      "path": "results/notebook_run/tcad_ablation/paper_figures/gallery_table1_selected_operating_points.csv",
+      "role": "Tables VI and VIII; Table IX selection",
+      "sha256": "45fd02357e03be0f326f832db859fb92d5e59ebc3151f5d951e3ab0fe4580520",
+      "size_bytes": 1235
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/tcad_ablation_summary.csv",
+      "role": "Figure 3 and Table IX",
+      "sha256": "8a1d90ad882c528020127e7fb795e6aeeb2128e99e9f6286f0174815c68caf6b",
+      "size_bytes": 16079199
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/paper_figures/gallery_table2_workload_robustness.csv",
+      "role": "Section V-B",
+      "sha256": "7be213efcc9c69e2de121578c17493315d3d7ccc9dbd802d5e6aec6662feb680",
+      "size_bytes": 755
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/paper_figures/gallery_table2_selected_setting_vs_workload_oracle.csv",
+      "role": "Section V-B per-workload statements",
+      "sha256": "a5380013d3266bc9bf48fede55534585b3e0ebc55a7d5d67839113ed560610f7",
+      "size_bytes": 13931
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/paper_figures/gallery_table3_feature_budget_tradeoff.csv",
+      "role": "Table VII",
+      "sha256": "defc6a9577ea100e8f80b4e02c8fe354104642cc5b789bcf8e782922a7df2d54",
+      "size_bytes": 1993
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/paper_figures/gallery_fig4_top_features_by_domain.csv",
+      "role": "Figure 4 labels",
+      "sha256": "9ef7ce5564ac32c36c9d9e639fd052601166a7275c17eb9046f75f93818f523e",
+      "size_bytes": 2378
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/causal/SETUP_A_causal_nodes.csv",
+      "role": "Figure 4 graph",
+      "sha256": "b3095b6657478fb6ff5d09c499db8d32f5ecfed5b9fc60c4db94e5fc5234f283",
+      "size_bytes": 23809
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/causal/SETUP_A_causal_edges.csv",
+      "role": "Figure 4 graph",
+      "sha256": "e3bb1dc84d6af3326326ee17c25babc91d7274541a98ec9f0fb3df2368d929ca",
+      "size_bytes": 29823
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/causal/SETUP_B_causal_nodes.csv",
+      "role": "Figure 4 graph",
+      "sha256": "dc813f9c184fff23cba3a64965c538e8d8cfd5230134e0e322a40edec4e9f7d4",
+      "size_bytes": 23669
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/causal/SETUP_B_causal_edges.csv",
+      "role": "Figure 4 graph",
+      "sha256": "95f4c85e8f05c7565ae7fada142c8ff591c5e01fe187ee9db64f93bc0bda7905",
+      "size_bytes": 21721
+    },
+    {
+      "path": "results/notebook_run/lifecycle_drift/lifecycle_recalibration_windows.csv",
+      "role": "Figure 6",
+      "sha256": "79b60f4ea964a972e43a4c3d4498d7e0376fe7cf81911d7f6fab06bcb4a68f71",
+      "size_bytes": 1985601
+    },
+    {
+      "path": "results/notebook_run/lifecycle_drift/lifecycle_config_resolved.json",
+      "role": "Section V-H protocol",
+      "sha256": "d7c65ddb2e06ee2b554bd5ff69e20524f41e94447f944576063ecf46c0f3383c",
+      "size_bytes": 263
+    },
+    {
+      "path": "results/notebook_run/lifecycle_drift/lifecycle_recalibration_summary.csv",
+      "role": "Figure 6 summary",
+      "sha256": "d25b6d2500ff5ed13c2ffb0ab4e59f0eba2fbda2abf93630dabe6d57d1d34e4e",
+      "size_bytes": 6964
+    },
+    {
+      "path": "hardware/cintas_operator_costs.csv",
+      "role": "Section V-F analytical operator constants",
+      "sha256": "ec8e96aca04afeacd800defd7ff40f87a7ae9664d48903095205cea5844c02c5",
+      "size_bytes": 320
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_dft.csv",
+      "role": "Setup A recorded channel inventory",
+      "sha256": "59382b9ef0fef1c746ddb92f636f272e332aeface104a65c92dea55100d531fa",
+      "size_bytes": 7238798
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_dft.csv",
+      "role": "Setup B recorded channel inventory",
+      "sha256": "6d1fa32f3af0aa05a177d82b9652915e917aecc0b28c5cca6d47b3989d6c51d5",
+      "size_bytes": 21957602
+    }
+  ],
+  "source_run_manifests": [
+    {
+      "git_commit": "08cf2368999a9eea3b234a931d899f704a4f0169",
+      "git_dirty_at_start": true,
+      "path": "results/notebook_run/tcad_ablation/run_manifest.json",
+      "sha256": "7769ffc74b13424b29a8ed3302b30d152dcc0833f050f155b048cbacedf65342"
+    },
+    {
+      "git_commit": "f030e7ef08b7351bc3bcb6df0b2ccb3266d292f9",
+      "git_dirty_at_start": true,
+      "path": "results/notebook_run/lifecycle_drift/run_manifest.json",
+      "sha256": "6e9ca483dd69caf2a5b7e6c1e5074825ae4ab60f7e20f4d4d18f067ab374ae42"
+    }
+  ]
+}

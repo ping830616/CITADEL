@@ -10,6 +10,7 @@ kernel or numerical library starts.
 from __future__ import annotations
 
 import argparse
+import csv
 import hashlib
 import importlib.metadata
 import json
@@ -89,30 +90,20 @@ LFS_REFERENCE_PATTERNS = {
     "smoke": (),
     "workload": (),
     "core": (
-        "results/notebook_run/tcad_ablation/**/*.csv",
-        "results/notebook_run/droop_adaptive_ablation/**/*.csv",
-        "results/notebook_run/droop_adaptive_data/*.csv",
-        "results/notebook_run/lifecycle_drift/**/*.csv",
-        "results/notebook_run/lifecycle_drift/*.json",
-        "results/notebook_run/graph_sensitivity/*.csv",
-        "results/notebook_run/graph_sensitivity/*.json",
-        "results/notebook_run/fpga/*.csv",
-        "results/notebook_run/workload_profiles/*.csv",
-        "results/notebook_run/workload_profiles/*.json",
-        "results/notebook_run/paper_tbd_replacements.csv",
+        # Paper-facing references are compact ordinary-Git files under
+        # reproducibility/paper_results/core.
     ),
     "sensitivity": (
-        "results/notebook_run/graph_sensitivity/*.csv",
-        "results/notebook_run/graph_sensitivity/*.json",
+        # The compact paper-facing reference is ordinary Git content under
+        # reproducibility/paper_results/sensitivity.
     ),
     "apple": (
-        "results/notebook_run/apple_limited_observability/**/*.csv",
-        "results/notebook_run/apple_limited_observability/*.json",
+        # Paper-facing references are compact ordinary-Git files under
+        # reproducibility/paper_results/apple.
     ),
-    "intel": (
-        "results/notebook_run/intel_workload_orders/**/*.csv",
-        "results/notebook_run/intel_workload_orders/*.json",
-    ),
+    # The compact Intel paper reference is ordinary Git content under
+    # reproducibility/paper_results/intel, not a Git-LFS result archive.
+    "intel": (),
     # The Vivado launcher always validates against this preserved report set,
     # so its archive is already part of the rtl computational-input scope.
     "rtl": (),
@@ -453,9 +444,15 @@ def validate_notebook_request(
             "does not contain a scientifically comparable archived reference. "
             "Use --repeat to compare two isolated runs."
         )
-    if verify and profile in {"core", "all"} and (preset != "full" or data_mode != "real"):
+    if verify and profile == "all":
         raise ValueError(
-            "Archive verification for the core/all profile requires --preset full "
+            "--profile all is a development notebook sweep, not an all-paper-results "
+            "verification command. Run `scripts/reproduce.py verify-paper --scope all` "
+            "for the compact evidence audit, then use the named reproduction commands."
+        )
+    if verify and profile == "core" and (preset != "full" or data_mode != "real"):
+        raise ValueError(
+            "Archive verification for the core profile requires --preset full "
             "and --data-mode real. Use --repeat for development presets or sample data."
         )
 
@@ -635,6 +632,27 @@ def execute_notebook(
     command = nbclient_command(prepared_path, executed_path, root)
     try:
         subprocess.run(command, cwd=root, env=environment, check=True)
+        paper_profile = profile if profile in {"core", "apple", "all"} else None
+        if paper_profile is not None:
+            paper_output_root = result_root / "paper_results"
+            subprocess.run(
+                [
+                    sys.executable,
+                    str(root / "scripts" / "build_paper_result_bundles.py"),
+                    "--repo-root",
+                    str(root),
+                    "--source-root",
+                    str(result_root),
+                    "--output-root",
+                    str(paper_output_root),
+                    "--profile",
+                    paper_profile,
+                ],
+                cwd=root,
+                env=environment,
+                check=True,
+            )
+            receipt["paper_result_bundle"] = paper_output_root.relative_to(root).as_posix()
         receipt.update(
             assert_repository_snapshot_unchanged(
                 root,
@@ -683,6 +701,181 @@ def compare_roots(root: Path, reference: Path, candidate: Path, profile: str, re
     )
 
 
+def png_validation(path: Path, *, minimum_width: int = 300, minimum_height: int = 300) -> dict[str, Any]:
+    """Decode a plotted result and reject tiny or visually uniform placeholders."""
+    result: dict[str, Any] = {
+        "path": str(path),
+        "decoded": False,
+        "width_px": 0,
+        "height_px": 0,
+        "nonuniform": False,
+        "status": "FAIL",
+    }
+    if not path.is_file() or path.stat().st_size <= 8:
+        return result
+    try:
+        from PIL import Image, ImageStat
+
+        with Image.open(path) as opened:
+            if opened.format != "PNG":
+                return result
+            opened.verify()
+        with Image.open(path) as opened:
+            width, height = opened.size
+            sample = opened.convert("L")
+            sample.thumbnail((256, 256))
+            variance = float(ImageStat.Stat(sample).var[0])
+        result.update(
+            {
+                "decoded": True,
+                "width_px": int(width),
+                "height_px": int(height),
+                "nonuniform": variance > 1.0,
+                "sample_variance": variance,
+            }
+        )
+        result["status"] = (
+            "PASS"
+            if width >= minimum_width
+            and height >= minimum_height
+            and result["nonuniform"]
+            else "FAIL"
+        )
+    except (OSError, ValueError):
+        pass
+    return result
+
+
+def intel_paper_projection(result_root: Path) -> Path:
+    """Copy only Fig. 7 scientific inputs into a comparison-sized root."""
+    source = result_root / "intel_workload_orders"
+    projection = result_root.parent / "paper_result_projection"
+    destination = projection / "intel_workload_orders"
+    destination.mkdir(parents=True)
+    for filename in (
+        "intel_workload_order_run_results.csv",
+        "intel_workload_order_summary.csv",
+        "fig_intel_workload_order_variation.png",
+    ):
+        source_path = source / filename
+        if not source_path.is_file():
+            raise FileNotFoundError(f"Missing generated Figure 7 artifact: {source_path}")
+        (destination / filename).write_bytes(source_path.read_bytes())
+    return projection
+
+
+def verify_intel_paper_claims(
+    reference_root: Path,
+    candidate_root: Path,
+    report_path: Path,
+) -> None:
+    """Trace the displayed Fig. 7 statement to regenerated summary cells."""
+    claims_path = reference_root / "figure7_claims.json"
+    claims = json.loads(claims_path.read_text(encoding="utf-8"))
+    summary_path = (
+        candidate_root
+        / "intel_workload_orders"
+        / "intel_workload_order_summary.csv"
+    )
+    with summary_path.open(newline="", encoding="utf-8") as handle:
+        rows = list(csv.DictReader(handle))
+    details = []
+    for claim in claims["claims"]:
+        matches = {
+            row["metric"]: row
+            for row in rows
+            if row["setup"] == claim["setup"]
+            and row["decision_rule"] == claim["decision_rule"]
+            and row["metric"] in {
+                "overall_benign_fpr",
+                "boundary_block_fpr",
+                "within_phase_fpr",
+            }
+        }
+        if set(matches) != {
+            "overall_benign_fpr",
+            "boundary_block_fpr",
+            "within_phase_fpr",
+        }:
+            details.append(
+                {
+                    "setup": claim["setup"],
+                    "status": "SUMMARY_ROW_COUNT_MISMATCH",
+                    "observed_metrics": sorted(matches),
+                }
+            )
+            continue
+        row = matches["overall_benign_fpr"]
+        boundary = matches["boundary_block_fpr"]
+        later = matches["within_phase_fpr"]
+        decimals = int(claim["display_decimal_places"])
+        displayed_mean = f"{100.0 * float(row['mean']):.{decimals}f}"
+        displayed_sd = f"{100.0 * float(row['sample_sd']):.{decimals}f}"
+        displayed_boundary = f"{100.0 * float(boundary['mean']):.{decimals}f}"
+        displayed_later = f"{100.0 * float(later['mean']):.{decimals}f}"
+        status = (
+            "PASS"
+            if displayed_mean == claim["paper_mean_percent"]
+            and displayed_sd == claim["paper_sample_sd_percentage_points"]
+            and displayed_boundary == claim["paper_boundary_mean_percent"]
+            and displayed_later == claim["paper_later_mean_percent"]
+            else "CLAIM_MISMATCH"
+        )
+        details.append(
+            {
+                "setup": claim["setup"],
+                "displayed_mean_percent": displayed_mean,
+                "displayed_sample_sd_percentage_points": displayed_sd,
+                "displayed_boundary_mean_percent": displayed_boundary,
+                "displayed_later_mean_percent": displayed_later,
+                "paper_mean_percent": claim["paper_mean_percent"],
+                "paper_sample_sd_percentage_points": claim[
+                    "paper_sample_sd_percentage_points"
+                ],
+                "paper_boundary_mean_percent": claim["paper_boundary_mean_percent"],
+                "paper_later_mean_percent": claim["paper_later_mean_percent"],
+                "status": status,
+            }
+        )
+    figure_path = (
+        candidate_root
+        / "intel_workload_orders"
+        / "fig_intel_workload_order_variation.png"
+    )
+    figure_validation = png_validation(
+        figure_path,
+        minimum_width=900,
+        minimum_height=1800,
+    )
+    figure_validation["portrait"] = (
+        figure_validation["height_px"] > figure_validation["width_px"]
+    )
+    figure_validation["layout"] = (
+        "three_vertical_panels"
+        if figure_validation["status"] == "PASS" and figure_validation["portrait"]
+        else "invalid"
+    )
+    figure_valid = (
+        figure_validation["status"] == "PASS"
+        and figure_validation["layout"] == "three_vertical_panels"
+    )
+    failures = sum(item["status"] != "PASS" for item in details) + (not figure_valid)
+    payload = {
+        "schema_version": 1,
+        "check": "figure7_paper_claims",
+        "paper_item": claims["paper_item"],
+        "details": details,
+        "figure_nonempty_png": figure_valid,
+        "figure_validation": figure_validation,
+        "failures": int(failures),
+        "status": "PASS" if not failures else "FAIL",
+    }
+    report_path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    print(json.dumps(payload, indent=2, sort_keys=True), flush=True)
+    if failures:
+        raise RuntimeError("Regenerated Figure 7 evidence does not match the paper claims")
+
+
 def command_preflight(args: argparse.Namespace) -> int:
     payload = run_preflight(
         args.repo_root.resolve(),
@@ -728,14 +921,22 @@ def command_notebook(args: argparse.Namespace) -> int:
         include_reference=args.verify,
     )
     if args.verify:
-        profile = "core" if args.profile == "core" else args.profile
-        compare_roots(
-            root,
-            root / "results" / "notebook_run",
-            first,
-            profile,
-            first.parent / "archive_comparison.json",
-        )
+        if args.profile in {"core", "apple"}:
+            compare_roots(
+                root,
+                root / "reproducibility" / "paper_results",
+                first / "paper_results",
+                f"{args.profile}-paper",
+                first.parent / "paper_result_comparison.json",
+            )
+        else:
+            compare_roots(
+                root,
+                root / "results" / "notebook_run",
+                first,
+                args.profile,
+                first.parent / "archive_comparison.json",
+            )
     if args.repeat:
         second = execute_notebook(
             root,
@@ -747,7 +948,22 @@ def command_notebook(args: argparse.Namespace) -> int:
             allow_runtime_mismatch=args.allow_runtime_mismatch,
             include_reference=False,
         )
-        compare_roots(root, first, second, args.profile, second.parent / "repeat_comparison.json")
+        if args.profile in {"core", "apple"}:
+            compare_roots(
+                root,
+                first / "paper_results",
+                second / "paper_results",
+                f"{args.profile}-paper",
+                second.parent / "paper_result_repeat_comparison.json",
+            )
+        else:
+            compare_roots(
+                root,
+                first,
+                second,
+                args.profile,
+                second.parent / "repeat_comparison.json",
+            )
     return 0
 
 
@@ -788,6 +1004,20 @@ def execute_sensitivity(
     if allow_runtime_mismatch:
         command.append("--allow-version-mismatch")
     subprocess.run(command, cwd=root, env=environment, check=True)
+    paper_output = run_root / "paper_results" / "sensitivity"
+    subprocess.run(
+        [
+            sys.executable,
+            str(root / "scripts" / "build_paper_sensitivity_evidence.py"),
+            "--source-root",
+            str(output),
+            "--output-root",
+            str(paper_output),
+        ],
+        cwd=root,
+        env=environment,
+        check=True,
+    )
     return output.parent
 
 
@@ -800,15 +1030,15 @@ def command_sensitivity(args: argparse.Namespace) -> int:
         run_id=run_id,
         allow_dirty=args.allow_dirty,
         allow_runtime_mismatch=args.allow_runtime_mismatch,
-        include_reference=args.verify,
+        include_reference=False,
     )
     if args.verify:
         compare_roots(
             root,
-            root / "results" / "notebook_run",
-            first,
-            "sensitivity",
-            first.parent / "archive_comparison.json",
+            root / "reproducibility" / "paper_results",
+            first.parent / "paper_results",
+            "sensitivity-paper",
+            first.parent / "paper_result_comparison.json",
         )
     if args.repeat:
         second = execute_sensitivity(
@@ -876,6 +1106,14 @@ def execute_intel_orders(
         "evaluation_cycles": 3,
         "top_k": 8,
         "window_size": 50,
+        "aggregation": "mean",
+        "lambda_res": 0.5,
+        "weight_mode": "uniform",
+        "persistence_blocks": 2,
+        "boundary_window_blocks": 1,
+        "eta": 0.01,
+        "reference_alpha": 0.05,
+        "correlation_threshold": 0.35,
         "seed": SEED,
         "bootstrap_resamples": 10000,
     }
@@ -1003,12 +1241,11 @@ def execute_intel_orders(
 def command_intel_orders(args: argparse.Namespace) -> int:
     root = args.repo_root.resolve()
     run_id = args.run_id or f"intel-orders-{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}"
-    archived = root / "results" / "notebook_run" / "intel_workload_orders"
-    if args.verify and not archived.is_dir():
+    archived = root / "reproducibility" / "paper_results" / "intel"
+    if args.verify and not (archived / "evidence_manifest.json").is_file():
         raise FileNotFoundError(
-            "--verify requires an archived Intel workload-order bundle at "
-            f"{archived}; this snapshot does not contain one. Use --repeat to "
-            "verify independent execution reproducibility."
+            "--verify requires the committed Figure 7 reference bundle at "
+            f"{archived}; this snapshot does not contain one."
         )
     assert_planned_run_roots_available(root, run_id, repeat=args.repeat)
     first = execute_intel_orders(
@@ -1019,12 +1256,18 @@ def command_intel_orders(args: argparse.Namespace) -> int:
         include_reference=args.verify,
     )
     if args.verify:
+        projection = intel_paper_projection(first)
         compare_roots(
             root,
-            root / "results" / "notebook_run",
-            first,
-            "intel-orders",
-            first.parent / "archive_comparison.json",
+            archived,
+            projection,
+            "intel-paper",
+            first.parent / "figure7_archive_comparison.json",
+        )
+        verify_intel_paper_claims(
+            archived,
+            projection,
+            first.parent / "figure7_claim_verification.json",
         )
     if args.repeat:
         second = execute_intel_orders(
@@ -1057,6 +1300,23 @@ def command_verify_archive(args: argparse.Namespace) -> int:
     ]
     if args.require_materialized:
         command.append("--require-materialized")
+    return subprocess.run(command, cwd=root, check=False).returncode
+
+
+def command_verify_paper(args: argparse.Namespace) -> int:
+    """Audit compact manuscript evidence without implying a fresh experiment run."""
+
+    root = args.repo_root.resolve()
+    command = [
+        sys.executable,
+        str(root / "scripts" / "verify_paper_results.py"),
+        "--repo-root",
+        str(root),
+    ]
+    if args.scope != "all":
+        command.extend(["--family", args.scope])
+    if args.output is not None:
+        command.extend(["--output", str(args.output.resolve())])
     return subprocess.run(command, cwd=root, check=False).returncode
 
 
@@ -1116,6 +1376,22 @@ def build_parser() -> argparse.ArgumentParser:
     archive.add_argument("--scope", choices=("source", "workload", "core", "sensitivity", "apple", "intel", "rtl", "all"), default="all")
     archive.add_argument("--require-materialized", action="store_true")
     archive.set_defaults(func=command_verify_archive)
+
+    paper = subparsers.add_parser(
+        "verify-paper",
+        help="Audit compact paper-result coverage, integrity, and manuscript claims.",
+    )
+    paper.add_argument(
+        "--scope",
+        choices=("core", "sensitivity", "rtl", "intel", "apple", "all"),
+        default="all",
+    )
+    paper.add_argument(
+        "--output",
+        type=Path,
+        help="Optionally save the machine-readable audit JSON outside the repository.",
+    )
+    paper.set_defaults(func=command_verify_paper)
     return parser
 
 

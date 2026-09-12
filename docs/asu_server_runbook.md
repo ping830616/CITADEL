@@ -283,8 +283,7 @@ uv run --frozen python scripts/reproduce.py notebook \
 To reconstruct and compare the paper-selected Table VI operating points, run:
 
 ```text
-uv run --frozen python scripts/reproduce.py fetch-lfs \
-  --scope core --include-reference
+uv run --frozen python scripts/reproduce.py fetch-lfs --scope core
 uv run --frozen python scripts/reproduce.py notebook \
   --profile core --preset full --data-mode real \
   --verify --run-id asu-core

@@ -1,0 +1,297 @@
+{
+  "archived_report_bundle_commit": "08cf2368999a9eea3b234a931d899f704a4f0169",
+  "checks": {
+    "archived_summary_matches_reports": "PASS",
+    "figure_5_rendered_composition": "PASS",
+    "figure_5_source_rows_complete": "PASS",
+    "raw_report_byte_identity_required_for_future_runs": false,
+    "strict_archived_report_contract": "PASS",
+    "synthesis_source_matches_report_commit": "PASS",
+    "table_xi_matches_manuscript_values": "PASS"
+  },
+  "evidence_class": "archived_reanalysis",
+  "fresh_vivado_synthesis": false,
+  "generator": {
+    "path": "scripts/build_paper_rtl_evidence.py",
+    "sha256": "31750320ed7126002470d43c0f55c9ea1cc025bbeb3d6de0b41672a5b6253fc0",
+    "version": "1.0.0"
+  },
+  "limitations": [
+    "This bundle re-parses committed Vivado reports; it is not a fresh Vivado synthesis.",
+    "The paper prototype and archived reports use maximum aggregation, whereas the selected analytical settings in Table VI use median aggregation.",
+    "The power values are low-confidence vectorless estimates and exclude telemetry acquisition and board integration.",
+    "A fresh comparison-grade run requires Vivado 2025.2 SW Build 6299465, the xc7a200tfbg676-1 device database, and an appropriate license."
+  ],
+  "outputs": [
+    {
+      "path": "table_xi.csv",
+      "row_count": 4,
+      "sha256": "0dbac38c0686832b8c4dfab70c3535a9027de4bdb56a759c4fa27ba8a60b0d03",
+      "size_bytes": 232
+    },
+    {
+      "path": "figure_5_source.csv",
+      "row_count": 4,
+      "sha256": "17afda14dbcf57d25bae0433aad5e6e1111f195af9dede015b8d5b896fee4cd3",
+      "size_bytes": 487
+    },
+    {
+      "path": "figure_5.png",
+      "sha256": "2efbcfcffa0c623dffb2241627deff6c9be23193bd7b1b0d46ef9d6a76fda5ec",
+      "size_bytes": 307346
+    }
+  ],
+  "paper_items": [
+    "Figure 5",
+    "Table XI"
+  ],
+  "rendered_figure": {
+    "composition": "timing_slack_panel_plus_four_case_resource_summary",
+    "decoded_png": true,
+    "height_px": 2440,
+    "nonuniform": true,
+    "path": "figure_5.png",
+    "separate_legend_present": true,
+    "width_px": 2562
+  },
+  "required_tool": {
+    "name": "AMD Vivado",
+    "release": "2025.2",
+    "sw_build": "6299465",
+    "target_part": "xc7a200tfbg676-1"
+  },
+  "schema_version": 1,
+  "sources": [
+    {
+      "path": "notebooks/exact_tcad_all_experiments.ipynb",
+      "role": "Figure 5 renderer",
+      "sha256": "69e4b08afe31a1c1fa4d6f6f9774c282fd7560e20ba2df2403b2405998263d49",
+      "size_bytes": 9285729
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/A_DROOP/post_synth.dcp",
+      "role": "archived Vivado evidence for A_DROOP",
+      "sha256": "0d5a91eaceabdb36aabd3197e531dbd14ace2bfb39a8df13cd5841d918a62053",
+      "size_bytes": 571563
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/A_DROOP/power.rpt",
+      "role": "archived Vivado evidence for A_DROOP",
+      "sha256": "9740c1ec1cd172b3404368c3643f74bdf3ddb8d3c82638177367ece06588f31f",
+      "size_bytes": 8338
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/A_DROOP/run_config.csv",
+      "role": "archived Vivado evidence for A_DROOP",
+      "sha256": "d14bc9720bbc88fcaf3b333c628e9b3b63e660ac81738578fdb95aba0cc9cfe3",
+      "size_bytes": 97
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/A_DROOP/timing_summary.rpt",
+      "role": "archived Vivado evidence for A_DROOP",
+      "sha256": "577ddb02575ce4afe98714386fba706d9099329864c8b90b3b915655e5a58a45",
+      "size_bytes": 25297
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/A_DROOP/utilization.rpt",
+      "role": "archived Vivado evidence for A_DROOP",
+      "sha256": "a07e07530bf9611a7a4e8999791436ff7931f42529c743d82d38419cc280176f",
+      "size_bytes": 8690
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/A_DROOP/vivado.jou",
+      "role": "archived Vivado evidence for A_DROOP",
+      "sha256": "ca1b353af861e11c059f9411a9399722ad73a76a2a83683282e51bb732790083",
+      "size_bytes": 1345
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/A_DROOP/vivado.log",
+      "role": "archived Vivado evidence for A_DROOP",
+      "sha256": "915ccfce5e4d925b6f3226e4481c5db7036820332bb35755165dec82f60dc1b8",
+      "size_bytes": 42508
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/A_RH/post_synth.dcp",
+      "role": "archived Vivado evidence for A_RH",
+      "sha256": "227780c9643dc1c9a73b88f171796b5c2d245872a4594a187659e98593bbedd8",
+      "size_bytes": 555878
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/A_RH/power.rpt",
+      "role": "archived Vivado evidence for A_RH",
+      "sha256": "dec9228b7d0fd2806995e0c57898107f272381db5e03fe2b9c51b9416dbd1cc3",
+      "size_bytes": 8335
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/A_RH/run_config.csv",
+      "role": "archived Vivado evidence for A_RH",
+      "sha256": "385fe693f57588ce6a333e3af5e055b40946f57321a856ceeec6aa867a6821b4",
+      "size_bytes": 92
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/A_RH/timing_summary.rpt",
+      "role": "archived Vivado evidence for A_RH",
+      "sha256": "fd0bb5c2d62967aff34f9251e943c4dbbee3fc6f52a1a228aef1c055cbf83940",
+      "size_bytes": 25033
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/A_RH/utilization.rpt",
+      "role": "archived Vivado evidence for A_RH",
+      "sha256": "4ed25002ec92f96efb946df6d6a28b0444640e8e6bdd3b961360d35ccd0c6a02",
+      "size_bytes": 8687
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/A_RH/vivado.jou",
+      "role": "archived Vivado evidence for A_RH",
+      "sha256": "5d272296e68d839f5e3a0c4810806ef3fce6903358736ff6e2e0a76f6cd881df",
+      "size_bytes": 1328
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/A_RH/vivado.log",
+      "role": "archived Vivado evidence for A_RH",
+      "sha256": "b482dc5174afe4c1b7ec236223fcc19e552f99f381e508eb4efe04484a55465c",
+      "size_bytes": 41747
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/B_DROOP/post_synth.dcp",
+      "role": "archived Vivado evidence for B_DROOP",
+      "sha256": "7d30ce069ef701be0521c6bc0ee2bdb23303cfae8a309b19c779cc02867e907a",
+      "size_bytes": 569598
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/B_DROOP/power.rpt",
+      "role": "archived Vivado evidence for B_DROOP",
+      "sha256": "c5a48be1097e30c8609fc9a5d288e6c930d21da154d57848342543be16b04337",
+      "size_bytes": 8338
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/B_DROOP/run_config.csv",
+      "role": "archived Vivado evidence for B_DROOP",
+      "sha256": "07329f52f64f6bbde25db155e22a9b7a3cf1b0692f1baf317e61695de7392cf7",
+      "size_bytes": 96
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/B_DROOP/timing_summary.rpt",
+      "role": "archived Vivado evidence for B_DROOP",
+      "sha256": "1a4e1816eda73c5b58f93deb58294c3cb09ca12af5de8f14b66217a844131c96",
+      "size_bytes": 25297
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/B_DROOP/utilization.rpt",
+      "role": "archived Vivado evidence for B_DROOP",
+      "sha256": "544be35412a380424617efb8ed3f92192bd2cc63993392df8ef7480f517d9726",
+      "size_bytes": 8690
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/B_DROOP/vivado.jou",
+      "role": "archived Vivado evidence for B_DROOP",
+      "sha256": "ae9df06b0dd39855a3edc4fef0e95d6b424e0d0755413bebf98a9bce9f0d4994",
+      "size_bytes": 1344
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/B_DROOP/vivado.log",
+      "role": "archived Vivado evidence for B_DROOP",
+      "sha256": "c40e2eee0cc9b411e7db65266a4105dfc3eb9e51b31c5dea8e92c5f39a1654d7",
+      "size_bytes": 42666
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/B_SPECTRE/post_synth.dcp",
+      "role": "archived Vivado evidence for B_SPECTRE",
+      "sha256": "342fbd04d7bdd867fadafaf03c5b36726314c04014dc2059869d2693914456cd",
+      "size_bytes": 562773
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/B_SPECTRE/power.rpt",
+      "role": "archived Vivado evidence for B_SPECTRE",
+      "sha256": "52e84fde5becba8a25536cf5bced8227f014473e7ff2afd94adf4c794d372529",
+      "size_bytes": 8340
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/B_SPECTRE/run_config.csv",
+      "role": "archived Vivado evidence for B_SPECTRE",
+      "sha256": "eca05f43f9fbcea02256c1c8055b8b9dc2012c871eec44b96dd23ecd02243165",
+      "size_bytes": 97
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/B_SPECTRE/timing_summary.rpt",
+      "role": "archived Vivado evidence for B_SPECTRE",
+      "sha256": "0d72ae0b5108b6f5339b9652534fd1a45f7c5cf27be6bd01f9cce9331db8ffea",
+      "size_bytes": 25029
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/B_SPECTRE/utilization.rpt",
+      "role": "archived Vivado evidence for B_SPECTRE",
+      "sha256": "ca963ee53958deeeec3e9152b2174283b049e9b5aa3d2dbb9ebd875c69491ca7",
+      "size_bytes": 8692
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/B_SPECTRE/vivado.jou",
+      "role": "archived Vivado evidence for B_SPECTRE",
+      "sha256": "c1169a762b4d460b077acb7403481ff3d871def394d31ae85ca50f954605ef32",
+      "size_bytes": 1353
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/B_SPECTRE/vivado.log",
+      "role": "archived Vivado evidence for B_SPECTRE",
+      "sha256": "81873484c6ff0fb4bd47ed1fad0433091742ae0c2e296cc3a790aa4107066280",
+      "size_bytes": 41782
+    },
+    {
+      "path": "results/notebook_run/rtl_sweep/rtl_resource_summary.csv",
+      "role": "archived summary consumed by the notebook",
+      "sha256": "029a373807183dc1e718c3639362e4cdbac536163d0aef19ba29cf312333abdb",
+      "size_bytes": 1179
+    },
+    {
+      "path": "results/notebook_run/tcad_ablation/paper_figures/rtl_fpga_deployment_passport.png",
+      "role": "archived Figure 5 render; PNG bytes are provenance only",
+      "sha256": "5e49e3a5572f5c38819617a2b9ed6af472e0f3391c9d7d4290d78e06f9abacb9",
+      "size_bytes": 347467
+    },
+    {
+      "path": "rtl/cintas/cintas_stream.sv",
+      "role": "synthesized RTL",
+      "sha256": "a8b492c039ea82329564389a427deadf914253fb4e70566ce0444b62c06a56ce",
+      "size_bytes": 4155
+    },
+    {
+      "path": "scripts/parse_vivado_rtl_sweep.py",
+      "role": "archived-report parser and contract validator",
+      "sha256": "302239f8bb2b6627841fcd97abed61fea73d5618021c4d087644906b04ea6c4f",
+      "size_bytes": 18516
+    },
+    {
+      "path": "scripts/render_rtl_figure5.py",
+      "role": "Figure 5 renderer used by archived and fresh summaries",
+      "sha256": "128d6866f79830270b57d2a897976e3c25b874ecda621f8d1c3ecd28835121e4",
+      "size_bytes": 11174
+    },
+    {
+      "path": "scripts/reproduce_rtl.py",
+      "role": "fresh-synthesis launcher and summary comparator",
+      "sha256": "9821368801909d0d4306da6c7af4877d0352653c622ea751b21dfb569f8ef5a3",
+      "size_bytes": 28066
+    },
+    {
+      "path": "scripts/vivado_cintas_synth.tcl",
+      "role": "Vivado synthesis recipe",
+      "sha256": "522b4f13a218ebc9458583807c5b3587c77d42ad116c876ce538f557edeff62a",
+      "size_bytes": 1582
+    }
+  ],
+  "status": "PASS",
+  "synthesis_source_alignment": [
+    {
+      "current_sha256": "522b4f13a218ebc9458583807c5b3587c77d42ad116c876ce538f557edeff62a",
+      "match": true,
+      "path": "scripts/vivado_cintas_synth.tcl",
+      "report_commit_sha256": "522b4f13a218ebc9458583807c5b3587c77d42ad116c876ce538f557edeff62a"
+    },
+    {
+      "current_sha256": "a8b492c039ea82329564389a427deadf914253fb4e70566ce0444b62c06a56ce",
+      "match": true,
+      "path": "rtl/cintas/cintas_stream.sv",
+      "report_commit_sha256": "a8b492c039ea82329564389a427deadf914253fb4e70566ce0444b62c06a56ce"
+    }
+  ]
+}

@@ -100,6 +100,9 @@ jobs:
       - name: Verify the complete tracked archive inventory
         run: uv run --frozen python scripts/reproduce.py verify-archive --scope all
 
+      - name: Verify compact paper-result evidence and manuscript claims
+        run: uv run --frozen python scripts/reproduce.py verify-paper --scope all
+
       - name: Run deterministic CINTAS numerical smoke test
         run: |
           uv run --frozen python - <<'PY'

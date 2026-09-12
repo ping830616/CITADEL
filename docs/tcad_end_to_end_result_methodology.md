@@ -1,5 +1,12 @@
 # TCAD End-To-End Result Methodology
 
+> **Legacy, non-reviewer-facing development note.** This document predates the
+> current manuscript numbering and retains obsolete gallery filenames. Its
+> Table I--V and Figure 1--5 mappings below are not the current paper-result
+> map. Reviewers should use the [Reviewer Reproduction
+> Guide](reviewer_reproduction.md) and the root
+> [README](../README.md#results-and-evidence-locations) instead.
+
 This document is the start-to-finish runbook for turning the CITADEL repository into the result section of the TCAD paper. It explains what to run, where each result comes from, which figures and tables should appear in the manuscript, and how to combine MacBook notebook results with ASU/Linux Vivado hardware results.
 
 The short version is:
@@ -81,8 +88,7 @@ From an immutable checkout, use the locked reviewer launcher:
 ```bash
 uv python install 3.11.15
 uv sync --frozen
-uv run --frozen python scripts/reproduce.py fetch-lfs \
-  --scope core --include-reference
+uv run --frozen python scripts/reproduce.py fetch-lfs --scope core
 uv run --frozen python scripts/reproduce.py notebook \
   --profile core --preset full --data-mode real \
   --verify --run-id reviewer-core

@@ -1,0 +1,3 @@
+operator,bit_width,area_mm2,power_mw_at_1ghz,delay_ps,cycles
+add,16,0.001165234,0.178,62.7,3
+mult,16,0.004532164,0.5146,29.09,2

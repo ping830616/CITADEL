@@ -1,0 +1,5 @@
+setup,event,fixed_point_q,mean_absolute_score_error,maximum_absolute_score_error,view,observations_compared
+A,DROOP,15,4.638036234247863e-05,0.0002586411168428,Transient,5000
+A,RH,8,0.0373791504389284,0.0478276403583388,Standard,5000
+B,DROOP,15,0.0003875759324546,0.0048855304055521,Transient,5000
+B,SPECTRE,8,0.1140906916464508,2.0911247372528763,Standard,5000

@@ -35,7 +35,8 @@ Use the locked wrapper for reviewer or archival evidence:
 
 ```text
 uv run --frozen python scripts/reproduce.py fetch-lfs --scope intel
-uv run --frozen python scripts/reproduce.py intel-orders --run-id reviewer-intel-orders
+uv run --frozen python scripts/reproduce.py intel-orders \
+  --verify --repeat --run-id reviewer-intel-orders
 ```
 
 The wrapper requires a clean checkout and the exact locked runtime by default,
@@ -47,10 +48,12 @@ The analyzer loads only shared notebook definitions under an isolated
 validation-free smoke/sample environment, then restores the caller environment.
 The workload-order analysis itself separately requires, validates, and hashes
 the exact 26 benign Intel recordings; non-benign DDR LFS objects are not needed.
-Add `--repeat` to execute two isolated full runs and compare all scientific
-tables. Use `--verify` only when the repository snapshot contains a committed
-`results/notebook_run/intel_workload_orders/` reference; the current audited
-snapshot does not.
+`--repeat` executes two isolated full runs and compares all 166 scientific
+tables. `--verify` also projects the two Figure 7 source tables, compares them
+with the clean committed reference in
+`reproducibility/paper_results/intel/`, checks the two displayed numerical
+claims at their reported precision, and validates that the regenerated figure
+is a nonempty PNG.
 
 To compare results copied back from two different servers, keep each complete
 `notebook_run/` directory and run:
@@ -89,9 +92,7 @@ Do not use a one block development check as a paper result.
 ## Outputs
 
 The wrapper writes these artifacts under
-`results/reproduced/<run-id>/notebook_run/intel_workload_orders/`. A reviewed
-bundle may later be promoted to the canonical
-`results/notebook_run/intel_workload_orders/` archive:
+`results/reproduced/<run-id>/notebook_run/intel_workload_orders/`:
 
 ```text
 intel_workload_order_run_results.csv
@@ -107,3 +108,11 @@ runs/setup_<A-or-B>_block_<01-through-10>/
 ```
 
 Before reporting the result, confirm that the manifest is complete, `git_dirty` is false for the submitted commit, both setups have ten recording block replicates, and all individual values and the figure have been inspected.
+
+The committed paper-facing subset is under
+`reproducibility/paper_results/intel/`. Its evidence manifest records two clean
+runs from the exact source commit named in that manifest, exact source,
+environment, and input hashes, full repeated-run equivalence, the vertical
+three-panel Figure 7 render, and the claim audit for overall, boundary, and
+later-block values. Intermediate per-block diagnostic files remain generated
+outputs; they are not required members of the paper reference bundle.

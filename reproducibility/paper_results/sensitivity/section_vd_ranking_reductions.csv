@@ -1,0 +1,5 @@
+case_id,baseline_mcc,largest_reduction_delta_mcc,largest_reduction_variants,paper_claim_applies,paper_claim_variant,matches_paper_claim
+A_DROOP,0.9924202817553173,-0.12521397957170666,remove_centrality,True,remove_centrality,True
+A_RH,0.991662969499982,-0.19336632792536446,remove_alignment,True,remove_alignment,True
+B_DROOP,0.9908145351968721,-0.0015392655474950612,remove_alignment,False,,True
+B_SPECTRE,0.9891851829487681,-0.04322351109573608,remove_alignment|remove_centrality,False,,True

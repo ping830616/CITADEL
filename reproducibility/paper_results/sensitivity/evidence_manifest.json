@@ -1,0 +1,141 @@
+{
+  "archival_status": "CLEAN_ARCHIVED",
+  "calculation_basis": "Extrema of arithmetic mean workload=ALL cross-validation fold metrics at the four frozen operating points.",
+  "claim_audit": {
+    "path": "section_vd_claims.json",
+    "sha256": "8e94e56010b4ea61e4fb6ec0694bfb9ca11d04c7097933debeb64e23d1bbbb51",
+    "status": "PASS"
+  },
+  "clean_run_evidence": {
+    "archival_provenance_status": "PASS",
+    "claim_status": "PASS",
+    "combined_input_sha256": "ffc585797f719cf836b8c935cb7d01240d7216b8b2b6f1b1e7722db6e09405a3",
+    "draft_claims_match_at_reported_precision": true,
+    "finished_utc": "2026-09-11T23:03:04Z",
+    "git_dirty_at_start": false,
+    "git_status_at_finish": [],
+    "git_status_at_start": [],
+    "python_hash_seed_at_process_start": "123",
+    "repository_commit": "54b5cbf18bafc2472d4fccc65446af6c43d63b4c",
+    "repository_commit_at_finish": "54b5cbf18bafc2472d4fccc65446af6c43d63b4c",
+    "runtime_seconds": 413.0247519016266,
+    "runtime_version_mismatches": {},
+    "seed": 123,
+    "source_and_inputs_unchanged_during_run": true,
+    "started_utc": "2026-09-11T22:56:11Z",
+    "threads": 1
+  },
+  "evidence_class": "clean_archived_evidence",
+  "generator_version": "1.1.0",
+  "outputs": [
+    {
+      "path": "section_vd_claims.json",
+      "sha256": "8e94e56010b4ea61e4fb6ec0694bfb9ca11d04c7097933debeb64e23d1bbbb51",
+      "size_bytes": 20347,
+      "status": "PASS"
+    },
+    {
+      "path": "section_vd_ranking_reductions.csv",
+      "row_count": 4,
+      "sha256": "15805941e4e485659c51d552baef8cddf2ce6fb22a81af8837436fec1a327d42",
+      "size_bytes": 494
+    },
+    {
+      "path": "section_vd_sensitivity_ranges.csv",
+      "row_count": 6,
+      "sha256": "d32dbe688087c5834a8eed503e5f5f0024000f8ab1b0c55cab6a7a54d45f2851",
+      "size_bytes": 2739
+    },
+    {
+      "path": "section_vd_stability_threshold_invariance.csv",
+      "row_count": 8,
+      "sha256": "bace39eda0a943fca11f1091aa1e1b00a54b086d6f4908bfac245173dfae62bf",
+      "size_bytes": 2595
+    }
+  ],
+  "paper_items": [
+    "Section V-D graph-parameter sensitivity ranges",
+    "Section V-D stability-threshold decision-metric invariance",
+    "Section V-D ranking-term-removal ranges",
+    "Section V-D largest-MCC-reduction statements"
+  ],
+  "schema_version": 1,
+  "source_commit": "54b5cbf18bafc2472d4fccc65446af6c43d63b4c",
+  "source_files": [
+    {
+      "path": "results/notebook_run/graph_sensitivity/README.md",
+      "role": "human-readable source-archive summary",
+      "sha256": "55d47ec9c24d762ee9901a51bd5600d16318f7ca325babd2b508cc0fa80f5369",
+      "size_bytes": 4198
+    },
+    {
+      "path": "results/notebook_run/graph_sensitivity/graph_sensitivity_claims.json",
+      "role": "archived machine-readable claim audit",
+      "sha256": "b02df631c7e5653813f5fcd08b0b8fe2132f2e19f82f5566853fca6d5592c267",
+      "size_bytes": 22967
+    },
+    {
+      "path": "results/notebook_run/graph_sensitivity/graph_sensitivity_feature_ranks.csv",
+      "role": "complete feature ranks and ranking terms",
+      "sha256": "cf617bcf5a3d6a9f2e6c3187e0b9264c9c590a49f07826cd589fade1359cd171",
+      "size_bytes": 6466821
+    },
+    {
+      "path": "results/notebook_run/graph_sensitivity/graph_sensitivity_fold_results.csv",
+      "role": "fold- and workload-level metric records",
+      "sha256": "6109c1acce4823a3a0d607737ec5513a7b27eb59033218f85e4170e9d95bb6cb",
+      "size_bytes": 2517573
+    },
+    {
+      "path": "results/notebook_run/graph_sensitivity/graph_sensitivity_graph_edges.csv",
+      "role": "retained-edge and graph-fallback audit",
+      "sha256": "ede945d1816759e56bc7337c8e1ba70e820ff445d03656f0ddcf50b581193d61",
+      "size_bytes": 4090583
+    },
+    {
+      "path": "results/notebook_run/graph_sensitivity/graph_sensitivity_selected_features.csv",
+      "role": "selected-feature membership records",
+      "sha256": "4b2bbbc5e093a860d689cdc2e1872cae55d8604bff51c623640a522207f47cea",
+      "size_bytes": 455021
+    },
+    {
+      "path": "results/notebook_run/graph_sensitivity/graph_sensitivity_summary.csv",
+      "role": "source rows for the paper-facing calculations",
+      "sha256": "6cfa02582912d919d7efc6e82b386c71ad2e132d3dd8e00aa4fdb2d4aa256e9c",
+      "size_bytes": 49561
+    },
+    {
+      "path": "results/notebook_run/graph_sensitivity/protocol.json",
+      "role": "frozen one-at-a-time sensitivity protocol",
+      "sha256": "68fea2b17b0e641272ab7840c422bd648a36b05ba77186d19205450b05a0a01e",
+      "size_bytes": 5496
+    },
+    {
+      "path": "results/notebook_run/graph_sensitivity/run_manifest.json",
+      "role": "clean-run provenance and source/input/output hashes",
+      "sha256": "ab92bfe5b9029c77deef0bb44592ddeb8e0db6120b6c0d138c5f9c0c5bdf51a1",
+      "size_bytes": 51671
+    },
+    {
+      "path": "results/notebook_run/graph_sensitivity/selected_operating_points.json",
+      "role": "four frozen operating points",
+      "sha256": "df95954401b39c74881d482417875f15e5b52913fbf898e9d96189259fe4193b",
+      "size_bytes": 1585
+    },
+    {
+      "path": "scripts/build_paper_sensitivity_evidence.py",
+      "role": "paper-facing projection and independent claim validator",
+      "sha256": "59fc3c5a500d32d9ca0988bfedda5906523a0b7429a61fd9f84c5e79e70a7399",
+      "size_bytes": 37889
+    }
+  ],
+  "status": "COMPLETE_CLEAN_ARCHIVED_VERIFIED",
+  "verification_scope": {
+    "claims_independently_recomputed_from_summary": true,
+    "fresh_clean_run_recorded": true,
+    "independent_repeat_recorded": false,
+    "projection_reruns_experiment": false,
+    "source_archive_hashes_verified": true,
+    "stability_threshold_invariance_recomputed_from_summary": true
+  }
+}

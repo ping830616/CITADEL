@@ -1,0 +1,428 @@
+{
+  "archived_artifacts": [
+    {
+      "path": "intel_workload_orders/intel_workload_order_run_results.csv",
+      "sha256": "e95c1bfa069b3c47e99df0bb605c2205cf5c7778b6c9741fcb8a4f5de46e6b7d",
+      "size_bytes": 27165
+    },
+    {
+      "path": "intel_workload_orders/intel_workload_order_summary.csv",
+      "sha256": "30cd6db17dbfaabfb931ad18373e253ee17c3fba3fe4c3681e0fb0019215c125",
+      "size_bytes": 1914
+    },
+    {
+      "path": "intel_workload_orders/fig_intel_workload_order_variation.png",
+      "sha256": "6befe23f21aa5acecfdd2c7f8c85bb25a3ad33ae93f6fcb814bd80a85707e77e",
+      "size_bytes": 207705
+    },
+    {
+      "path": "figure7_claims.json",
+      "sha256": "2cd14cc690988cd0a48a2d4d8bf48d0f78ccf67606087c9b6794f0573711733c",
+      "size_bytes": 1746
+    },
+    {
+      "path": "repeat_verification.json",
+      "sha256": "cb0f282776bfaf8be57bd23b8ec2caf738c8391921667563ae4cc9c0ff171b6b",
+      "size_bytes": 287
+    }
+  ],
+  "claim_audit": {
+    "path": "figure7_claims.json",
+    "sha256": "2cd14cc690988cd0a48a2d4d8bf48d0f78ccf67606087c9b6794f0573711733c",
+    "status": "PASS"
+  },
+  "clean_run_evidence": {
+    "primary": {
+      "analyzer_run_manifest_sha256": "68061816570745002f338114cab7bc9b8872a9a845e42473e449893cf1bb3350",
+      "clean_checkout_at_start": true,
+      "finished_at_utc": "2026-09-12T00:42:03.898175+00:00",
+      "git_status_at_finish": [],
+      "repository_snapshot_unchanged_during_run": true,
+      "started_at_utc": "2026-09-12T00:40:50.928869+00:00"
+    },
+    "repeat": {
+      "analyzer_run_manifest_sha256": "d22a2541165db10b1898a0c570fefee93536b6fabaeafd0481ffcfcba2dd20f5",
+      "clean_checkout_at_start": true,
+      "finished_at_utc": "2026-09-12T00:43:06.555010+00:00",
+      "git_status_at_finish": [],
+      "repository_snapshot_unchanged_during_run": true,
+      "started_at_utc": "2026-09-12T00:42:04.624648+00:00"
+    }
+  },
+  "configuration": {
+    "bootstrap_resamples": 10000,
+    "calibration_cycles": 2,
+    "evaluation_cycles": 3,
+    "recording_block_rows": 1000,
+    "replicates": 10,
+    "seed": 123,
+    "setups": [
+      "A",
+      "B"
+    ],
+    "top_k": 8,
+    "window_size": 50
+  },
+  "environment_files": [
+    {
+      "path": ".python-version",
+      "sha256": "db82937e1f1830581a9553c7814f5c5fcacb6dfdef8310b43e9a812c887acaf5",
+      "size_bytes": 8
+    },
+    {
+      "path": "pyproject.toml",
+      "sha256": "29102e40c687b9da22cbf96d13122247d2e08feb4df7bff356140f85672a80db",
+      "size_bytes": 811
+    },
+    {
+      "path": "uv.lock",
+      "sha256": "3902589967ce3769741293eece30b8ed0f1096232efc5e75096998357d63f389",
+      "size_bytes": 162982
+    },
+    {
+      "path": "requirements.txt",
+      "sha256": "fcdbebf3e43c25c04da41f58a75b78915ce83c48b16c80a11468b9157b2bbcf3",
+      "size_bytes": 219
+    },
+    {
+      "path": "environment.yml",
+      "sha256": "1d75f677ffa21f8fa86de86705bc81be6494714bfe287f64478581e59038c7b0",
+      "size_bytes": 335
+    }
+  ],
+  "figure_validation": {
+    "comparison_policy": "Raster bytes are archived for inspection; regenerated scientific CSVs are the cross-machine comparison target.",
+    "nonempty": true,
+    "path": "intel_workload_orders/fig_intel_workload_order_variation.png",
+    "png_signature_valid": true
+  },
+  "inputs": [
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_dft.csv",
+      "sha256": "59382b9ef0fef1c746ddb92f636f272e332aeface104a65c92dea55100d531fa",
+      "size_bytes": 7238798
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_dj.csv",
+      "sha256": "904db3d691030ebd8b860cc248016755551891902e1aa3761aced28bd55fc84e",
+      "size_bytes": 8945672
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_dp.csv",
+      "sha256": "3553c930b5973ccadc61dc9b3b31cdb82d2002b169b8e52ddef01c8a5b510a79",
+      "size_bytes": 8668309
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_gl.csv",
+      "sha256": "5c48a11602bdb90d93dd1faf7b99bb1dd229588ef106e78db7889e7aa9bd8872",
+      "size_bytes": 8951899
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_gs.csv",
+      "sha256": "755726cabfe2b9b3532a58cf22bfcc76a78f0718f364ee81779a3c4a6cce5133",
+      "size_bytes": 9012433
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_ha.csv",
+      "sha256": "578dd76da8143a6b309dda7a33fffbfe84fcc327decaf4a17169e52de26228b2",
+      "size_bytes": 8689040
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_ja.csv",
+      "sha256": "b63af296f7a6daefde9f07128ca3888a72a9ba4028485b89407f1bd6bf2258b8",
+      "size_bytes": 9064267
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_mm.csv",
+      "sha256": "ff48e38cdf2ff2e802042a94cf704890c5b24577057b2ac3e10a81a32e448835",
+      "size_bytes": 9011909
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_ni.csv",
+      "sha256": "ca3b362e761d7cbb12a2608f6d719647cdd0a0c52b7d0897849a5d67d549b0a5",
+      "size_bytes": 8690011
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_oe.csv",
+      "sha256": "6fbb31005828d7a522066e8951f336d11765e4b0ee2ebb3ffc91f9defda57d56",
+      "size_bytes": 8931166
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_pi.csv",
+      "sha256": "be22a150f5601c59253c10e17a834365813388b2d6740d0f484b331089728f16",
+      "size_bytes": 8733003
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_sh.csv",
+      "sha256": "26c0987820a93a8f937609a5e943a1a43e1ebbd254c43c7eb0ff10cde6e85d1f",
+      "size_bytes": 8694446
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_tr.csv",
+      "sha256": "442f753586a7a0944a7b8ed669efaa7b838201126d9770b1eb6f7c56cd13d14d",
+      "size_bytes": 8879811
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_dft.csv",
+      "sha256": "6d1fa32f3af0aa05a177d82b9652915e917aecc0b28c5cca6d47b3989d6c51d5",
+      "size_bytes": 21957602
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_dj.csv",
+      "sha256": "92887f7cf0ead670c36a73f7200f88029fc1d3adc2fede2fbf69025027a1a28f",
+      "size_bytes": 22732257
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_dp.csv",
+      "sha256": "966b4e8f809ad5667be2fd7c7bb5bf234330bab46c06ae86541afb04507b70ea",
+      "size_bytes": 22288850
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_gl.csv",
+      "sha256": "22288a4fdac5080262d03400fa8aa46928beb02510d14fb15015b518f5d57b7b",
+      "size_bytes": 22731038
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_gs.csv",
+      "sha256": "8b9014cc56cb940469fa681fb8357547ed4faf3a78b1ea2b70903c4ffa59b96a",
+      "size_bytes": 22974296
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_ha.csv",
+      "sha256": "3e70e20cb1cf1218efa51151b1c7afad4ef394b5c9e0ab3c8207decf2dbf6ff2",
+      "size_bytes": 22027326
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_ja.csv",
+      "sha256": "2ac48c64c703b06e0c9a56c484f38140dfa54ba959cdbf5ca13f09bb156ef728",
+      "size_bytes": 23257295
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_mm.csv",
+      "sha256": "c2c75aff844c20f241e65111105bad0ada7fac577b259d2d18cb7e54edba155b",
+      "size_bytes": 22942183
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_ni.csv",
+      "sha256": "166f0ce13699bed6ca6aae35f4988ddefcf83e3f2450131d8a2489bf2ff1eebb",
+      "size_bytes": 22176384
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_oe.csv",
+      "sha256": "d558db38942f099c6e4ed0328cf1a51f8c140ff9cd9e1b33f47b4e8606ce4aa8",
+      "size_bytes": 22651144
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_pi.csv",
+      "sha256": "733400ae2e579b29940626b7b6f2da82b6b0ffed9b0c1e312779d8034451dd85",
+      "size_bytes": 22029106
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_sh.csv",
+      "sha256": "1fd8c2b731844d6719d806c1764f125f5e41958d560da07fc6df30584cbcc52e",
+      "size_bytes": 21912911
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_tr.csv",
+      "sha256": "a78ef8a1fa7e9077946b662cae1488364bcb3b5c4c89b27d1093edf881cf2e03",
+      "size_bytes": 22420297
+    }
+  ],
+  "paper_items": [
+    "Figure 7",
+    "Section V-I numerical statement"
+  ],
+  "repeat_verification": {
+    "absolute_tolerance": 1e-12,
+    "check": "scientific_result_equivalence",
+    "compared_files": 166,
+    "failures": 0,
+    "profile": "intel-orders",
+    "relative_tolerance": 1e-10,
+    "schema_version": 1,
+    "status": "PASS",
+    "unverified_files": 0,
+    "verification_coverage": "COMPLETE"
+  },
+  "runtime": {
+    "deterministic_environment": {
+      "CITADEL_SEED": "123",
+      "CITADEL_THREADS": "1",
+      "LANG": "C.UTF-8",
+      "LC_ALL": "C.UTF-8",
+      "MKL_NUM_THREADS": "1",
+      "MPLBACKEND": "Agg",
+      "NUMEXPR_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "PYTHONHASHSEED": "123",
+      "TZ": "UTC",
+      "VECLIB_MAXIMUM_THREADS": "1"
+    },
+    "locked_runtime": {
+      "machine": "arm64",
+      "mismatches": [],
+      "packages": {
+        "certifi": {
+          "expected": "2025.8.3",
+          "observed": "2025.8.3"
+        },
+        "ipykernel": {
+          "expected": "6.29.5",
+          "observed": "6.29.5"
+        },
+        "jupyterlab": {
+          "expected": "4.3.4",
+          "observed": "4.3.4"
+        },
+        "matplotlib": {
+          "expected": "3.10.8",
+          "observed": "3.10.8"
+        },
+        "nbclient": {
+          "expected": "0.11.0",
+          "observed": "0.11.0"
+        },
+        "nbformat": {
+          "expected": "5.10.4",
+          "observed": "5.10.4"
+        },
+        "networkx": {
+          "expected": "3.4.2",
+          "observed": "3.4.2"
+        },
+        "numpy": {
+          "expected": "2.1.3",
+          "observed": "2.1.3"
+        },
+        "pandas": {
+          "expected": "2.2.3",
+          "observed": "2.2.3"
+        },
+        "psutil": {
+          "expected": "7.0.0",
+          "observed": "7.0.0"
+        },
+        "scikit-learn": {
+          "expected": "1.6.1",
+          "observed": "1.6.1"
+        },
+        "scipy": {
+          "expected": "1.17.1",
+          "observed": "1.17.1"
+        },
+        "threadpoolctl": {
+          "expected": "3.6.0",
+          "observed": "3.6.0"
+        }
+      },
+      "platform": "macOS-26.6.2-arm64-arm-64bit",
+      "python": "3.11.15"
+    },
+    "numerical_runtime": {
+      "numpy_configuration": {
+        "Build Dependencies": {
+          "blas": {
+            "detection method": "system",
+            "found": true,
+            "include directory": "unknown",
+            "lib directory": "unknown",
+            "name": "accelerate",
+            "openblas configuration": "unknown",
+            "pc file directory": "unknown",
+            "version": "unknown"
+          },
+          "lapack": {
+            "detection method": "system",
+            "found": true,
+            "include directory": "unknown",
+            "lib directory": "unknown",
+            "name": "accelerate",
+            "openblas configuration": "unknown",
+            "pc file directory": "unknown",
+            "version": "unknown"
+          }
+        },
+        "Compilers": {
+          "c": {
+            "commands": "cc",
+            "linker": "ld64",
+            "name": "clang",
+            "version": "15.0.0"
+          },
+          "c++": {
+            "commands": "c++",
+            "linker": "ld64",
+            "name": "clang",
+            "version": "15.0.0"
+          },
+          "cython": {
+            "commands": "cython",
+            "linker": "cython",
+            "name": "cython",
+            "version": "3.0.11"
+          }
+        },
+        "Machine Information": {
+          "build": {
+            "cpu": "aarch64",
+            "endian": "little",
+            "family": "aarch64",
+            "system": "darwin"
+          },
+          "host": {
+            "cpu": "aarch64",
+            "endian": "little",
+            "family": "aarch64",
+            "system": "darwin"
+          }
+        },
+        "Python Information": {
+          "path": "/private/var/folders/g6/rgtlsw6n123b0gt5483s5_cm0000gn/T/build-env-66yva2l8/bin/python",
+          "version": "3.11"
+        },
+        "SIMD Extensions": {
+          "baseline": [
+            "NEON",
+            "NEON_FP16",
+            "NEON_VFPV4",
+            "ASIMD"
+          ],
+          "found": [
+            "ASIMDHP"
+          ],
+          "not found": [
+            "ASIMDFHM"
+          ]
+        }
+      },
+      "numpy_version": "2.1.3",
+      "threadpools": []
+    }
+  },
+  "schema_version": 1,
+  "source_commit": "2a496d24051a5b4b72e867a9a4cc66d1a53bc07a",
+  "sources": [
+    {
+      "path": "scripts/reproduce.py",
+      "sha256": "aac431078b0bb50107dd1cde7f85b197fc715a6b42c4321f6ac840c196bf0345",
+      "size_bytes": 41107
+    },
+    {
+      "path": "scripts/analyze_intel_workload_orders.py",
+      "sha256": "918752ffdbf1676df6bbedd6502d90c266b643fcd7b0524793484675a605f7fb",
+      "size_bytes": 42086
+    },
+    {
+      "path": "notebooks/exact_tcad_all_experiments.ipynb",
+      "sha256": "c65f5abb641037ca87873239d0b0f13bac1716e11b6649fa1600dd1e49a38a7e",
+      "size_bytes": 9285545
+    },
+    {
+      "path": "data/external_sources.json",
+      "sha256": "1edb94f9292662a619c64b157025f8291a6c9facb294620557a36b8231392376",
+      "size_bytes": 1582
+    }
+  ],
+  "status": "COMPLETE_CLEAN_REPEAT_VERIFIED"
+}

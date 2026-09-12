@@ -1,0 +1,41 @@
+{
+  "calculation_basis": "Arithmetic mean and sample standard deviation across ten nonoverlapping recording-block replicates for the current decision rule.",
+  "claims": [
+    {
+      "decision_rule": "current",
+      "display_decimal_places": 2,
+      "displayed_mean_percent": "0.58",
+      "displayed_sample_sd_percentage_points": "0.82",
+      "matches_paper_at_reported_precision": true,
+      "metric": "overall_benign_fpr",
+      "n_recording_block_replicates": 10,
+      "observed_mean_fraction": 0.005769230769230769,
+      "observed_mean_percent": 0.5769230769230769,
+      "observed_sample_sd_fraction": 0.008247973959666146,
+      "observed_sample_sd_percentage_points": 0.8247973959666146,
+      "paper_mean_percent": "0.58",
+      "paper_sample_sd_percentage_points": "0.82",
+      "setup": "A"
+    },
+    {
+      "decision_rule": "current",
+      "display_decimal_places": 2,
+      "displayed_mean_percent": "0.83",
+      "displayed_sample_sd_percentage_points": "1.00",
+      "matches_paper_at_reported_precision": true,
+      "metric": "overall_benign_fpr",
+      "n_recording_block_replicates": 10,
+      "observed_mean_fraction": 0.008333333333333333,
+      "observed_mean_percent": 0.8333333333333334,
+      "observed_sample_sd_fraction": 0.010045007926105264,
+      "observed_sample_sd_percentage_points": 1.0045007926105263,
+      "paper_mean_percent": "0.83",
+      "paper_sample_sd_percentage_points": "1.00",
+      "setup": "B"
+    }
+  ],
+  "interpretation_boundary": "Constructed workload-order boundaries use separately recorded benign files; they do not measure a physical switch transient.",
+  "paper_item": "Figure 7 and its accompanying Section V-I numerical statement",
+  "schema_version": 1,
+  "status": "PASS"
+}
