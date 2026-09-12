@@ -1,0 +1,311 @@
+{
+  "artifacts": [
+    {
+      "path": "results/reproduced/figure7-vertical-v2/notebook_run/intel_workload_orders/intel_workload_order_run_results.csv",
+      "sha256": "e95c1bfa069b3c47e99df0bb605c2205cf5c7778b6c9741fcb8a4f5de46e6b7d",
+      "size_bytes": 27165
+    },
+    {
+      "path": "results/reproduced/figure7-vertical-v2/notebook_run/intel_workload_orders/intel_workload_order_block_results.csv",
+      "sha256": "28b5abe170ef6128f2862b3cd1a786be417bca43b0e9c0095c034e0878986f65",
+      "size_bytes": 225707
+    },
+    {
+      "path": "results/reproduced/figure7-vertical-v2/notebook_run/intel_workload_orders/intel_workload_order_summary.csv",
+      "sha256": "30cd6db17dbfaabfb931ad18373e253ee17c3fba3fe4c3681e0fb0019215c125",
+      "size_bytes": 1914
+    },
+    {
+      "path": "results/reproduced/figure7-vertical-v2/notebook_run/intel_workload_orders/intel_workload_order_by_workload.csv",
+      "sha256": "be14254c5321c297f7e1f8a2f0cec815000d101a37ce92e52834ddba94ae95c1",
+      "size_bytes": 2413
+    },
+    {
+      "path": "results/reproduced/figure7-vertical-v2/notebook_run/intel_workload_orders/intel_workload_order_selected_features.csv",
+      "sha256": "7133d8410c2b8cee29fac48005a3f5d54a373ba667d56e7a52f98151c7748e68",
+      "size_bytes": 24000
+    },
+    {
+      "path": "results/reproduced/figure7-vertical-v2/notebook_run/intel_workload_orders/intel_workload_order_feature_frequency.csv",
+      "sha256": "9d988b8b30668d11cb02bbce03e41bbc14b37da8727cb85d858b7c80b0df45a5",
+      "size_bytes": 1882
+    },
+    {
+      "path": "results/reproduced/figure7-vertical-v2/notebook_run/intel_workload_orders/fig_intel_workload_order_variation.png",
+      "sha256": "ae2f39c7841c85145644dffb3f54d68c81db857aa9abea0cbbfe01a2ccb04aac",
+      "size_bytes": 232501
+    },
+    {
+      "path": "results/reproduced/figure7-vertical-v2/notebook_run/intel_workload_orders/intel_workload_order_paper_text.txt",
+      "sha256": "f8f324365a0197f1d56fdc527e2dd3aaa13a0d36b3426826b54b289c5b8f5825",
+      "size_bytes": 1432
+    }
+  ],
+  "config": {
+    "aggregation": "mean",
+    "bootstrap_resamples": 10000,
+    "boundary_window_blocks": 1,
+    "calibration_cycles": 2,
+    "correlation_threshold": 0.35,
+    "eta": 0.01,
+    "evaluation_cycles": 3,
+    "lambda_res": 0.5,
+    "persistence_blocks": 2,
+    "recording_block_rows": 1000,
+    "reference_alpha": 0.05,
+    "replicates": 10,
+    "seed": 123,
+    "setups": [
+      "A",
+      "B"
+    ],
+    "top_k": 8,
+    "weight_mode": "uniform",
+    "window_size": 50,
+    "workloads": [
+      "DFT",
+      "DJ",
+      "DP",
+      "GL",
+      "GS",
+      "HA",
+      "JA",
+      "MM",
+      "NI",
+      "OE",
+      "PI",
+      "SH",
+      "TR"
+    ]
+  },
+  "created_at_utc": "2026-09-12T01:53:37.352864+00:00",
+  "git_commit": "c0a31de0b58ca2cb5c806dbb608e636fc2648f85",
+  "git_dirty": false,
+  "inputs": [
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_dft.csv",
+      "sha256": "59382b9ef0fef1c746ddb92f636f272e332aeface104a65c92dea55100d531fa",
+      "size_bytes": 7238798
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_dj.csv",
+      "sha256": "904db3d691030ebd8b860cc248016755551891902e1aa3761aced28bd55fc84e",
+      "size_bytes": 8945672
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_dp.csv",
+      "sha256": "3553c930b5973ccadc61dc9b3b31cdb82d2002b169b8e52ddef01c8a5b510a79",
+      "size_bytes": 8668309
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_gl.csv",
+      "sha256": "5c48a11602bdb90d93dd1faf7b99bb1dd229588ef106e78db7889e7aa9bd8872",
+      "size_bytes": 8951899
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_gs.csv",
+      "sha256": "755726cabfe2b9b3532a58cf22bfcc76a78f0718f364ee81779a3c4a6cce5133",
+      "size_bytes": 9012433
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_ha.csv",
+      "sha256": "578dd76da8143a6b309dda7a33fffbfe84fcc327decaf4a17169e52de26228b2",
+      "size_bytes": 8689040
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_ja.csv",
+      "sha256": "b63af296f7a6daefde9f07128ca3888a72a9ba4028485b89407f1bd6bf2258b8",
+      "size_bytes": 9064267
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_mm.csv",
+      "sha256": "ff48e38cdf2ff2e802042a94cf704890c5b24577057b2ac3e10a81a32e448835",
+      "size_bytes": 9011909
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_ni.csv",
+      "sha256": "ca3b362e761d7cbb12a2608f6d719647cdd0a0c52b7d0897849a5d67d549b0a5",
+      "size_bytes": 8690011
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_oe.csv",
+      "sha256": "6fbb31005828d7a522066e8951f336d11765e4b0ee2ebb3ffc91f9defda57d56",
+      "size_bytes": 8931166
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_pi.csv",
+      "sha256": "be22a150f5601c59253c10e17a834365813388b2d6740d0f484b331089728f16",
+      "size_bytes": 8733003
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_sh.csv",
+      "sha256": "26c0987820a93a8f937609a5e943a1a43e1ebbd254c43c7eb0ff10cde6e85d1f",
+      "size_bytes": 8694446
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR4_benign_tr.csv",
+      "sha256": "442f753586a7a0944a7b8ed669efaa7b838201126d9770b1eb6f7c56cd13d14d",
+      "size_bytes": 8879811
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_dft.csv",
+      "sha256": "6d1fa32f3af0aa05a177d82b9652915e917aecc0b28c5cca6d47b3989d6c51d5",
+      "size_bytes": 21957602
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_dj.csv",
+      "sha256": "92887f7cf0ead670c36a73f7200f88029fc1d3adc2fede2fbf69025027a1a28f",
+      "size_bytes": 22732257
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_dp.csv",
+      "sha256": "966b4e8f809ad5667be2fd7c7bb5bf234330bab46c06ae86541afb04507b70ea",
+      "size_bytes": 22288850
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_gl.csv",
+      "sha256": "22288a4fdac5080262d03400fa8aa46928beb02510d14fb15015b518f5d57b7b",
+      "size_bytes": 22731038
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_gs.csv",
+      "sha256": "8b9014cc56cb940469fa681fb8357547ed4faf3a78b1ea2b70903c4ffa59b96a",
+      "size_bytes": 22974296
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_ha.csv",
+      "sha256": "3e70e20cb1cf1218efa51151b1c7afad4ef394b5c9e0ab3c8207decf2dbf6ff2",
+      "size_bytes": 22027326
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_ja.csv",
+      "sha256": "2ac48c64c703b06e0c9a56c484f38140dfa54ba959cdbf5ca13f09bb156ef728",
+      "size_bytes": 23257295
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_mm.csv",
+      "sha256": "c2c75aff844c20f241e65111105bad0ada7fac577b259d2d18cb7e54edba155b",
+      "size_bytes": 22942183
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_ni.csv",
+      "sha256": "166f0ce13699bed6ca6aae35f4988ddefcf83e3f2450131d8a2489bf2ff1eebb",
+      "size_bytes": 22176384
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_oe.csv",
+      "sha256": "d558db38942f099c6e4ed0328cf1a51f8c140ff9cd9e1b33f47b4e8606ce4aa8",
+      "size_bytes": 22651144
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_pi.csv",
+      "sha256": "733400ae2e579b29940626b7b6f2da82b6b0ffed9b0c1e312779d8034451dd85",
+      "size_bytes": 22029106
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_sh.csv",
+      "sha256": "1fd8c2b731844d6719d806c1764f125f5e41958d560da07fc6df30584cbcc52e",
+      "size_bytes": 21912911
+    },
+    {
+      "path": "data/telemetry/processed/ddr_data/DDR5_benign_tr.csv",
+      "sha256": "a78ef8a1fa7e9077946b662cae1488364bcb3b5c4c89b27d1093edf881cf2e03",
+      "size_bytes": 22420297
+    }
+  ],
+  "interpretation_boundary": "The preserved workload files were collected separately. Constructed boundaries test held-out workload-order sensitivity but do not contain the physical transient of a continuously collected workload switch.",
+  "notebook_utility_loader": {
+    "data_mode": "sample",
+    "experiment_sections_enabled": false,
+    "mode": "validation-free",
+    "profile": "smoke",
+    "seed": 123,
+    "strict_runtime": false,
+    "tcad_preset": "smoke",
+    "threads": 1
+  },
+  "recording_block_boundary_status": "The original scripts requested ten 1000-row trials per workload, and each preserved file contains 10000 rows. Original trial event identifiers are not available, so the analysis reports nonoverlapping recording blocks rather than independently verified trials.",
+  "run_manifests": [
+    {
+      "path": "results/reproduced/figure7-vertical-v2/notebook_run/intel_workload_orders/runs/setup_A_block_01/run_manifest.json",
+      "sha256": "19d778ad6b5b9e273cfaa0d5f8be8961d0944d6babac67a31867743351d297b5"
+    },
+    {
+      "path": "results/reproduced/figure7-vertical-v2/notebook_run/intel_workload_orders/runs/setup_A_block_02/run_manifest.json",
+      "sha256": "c61916264d3bb5bc1cc4147da7f5d6fa9fe3d46b15736ed47bff059e058af3a8"
+    },
+    {
+      "path": "results/reproduced/figure7-vertical-v2/notebook_run/intel_workload_orders/runs/setup_A_block_03/run_manifest.json",
+      "sha256": "1f7e640ffb985db7c7f69ab2a6e0f4130330a60954ab1fe6dd702c116def8aa2"
+    },
+    {
+      "path": "results/reproduced/figure7-vertical-v2/notebook_run/intel_workload_orders/runs/setup_A_block_04/run_manifest.json",
+      "sha256": "2101ed89910755934f83dda6ef2ecfa06e5bdf9fa6e057f841784c3871dcbf75"
+    },
+    {
+      "path": "results/reproduced/figure7-vertical-v2/notebook_run/intel_workload_orders/runs/setup_A_block_05/run_manifest.json",
+      "sha256": "77982a4e21f365abdc8cb268a01cabeade14d42fada9e9e352c1db522c3a535b"
+    },
+    {
+      "path": "results/reproduced/figure7-vertical-v2/notebook_run/intel_workload_orders/runs/setup_A_block_06/run_manifest.json",
+      "sha256": "1d2179145aa0d737088877dad8ababdb76f2603cc0f544d603e6fe7715b85649"
+    },
+    {
+      "path": "results/reproduced/figure7-vertical-v2/notebook_run/intel_workload_orders/runs/setup_A_block_07/run_manifest.json",
+      "sha256": "3e236eb6dfbcf1a45ec3480d184ed7e923edc154c0840c9979c2e07bbc0005d7"
+    },
+    {
+      "path": "results/reproduced/figure7-vertical-v2/notebook_run/intel_workload_orders/runs/setup_A_block_08/run_manifest.json",
+      "sha256": "c3b67b588b085833845cacac43fc5cdcff187f4086d40bf4b4c5b5f296878fa6"
+    },
+    {
+      "path": "results/reproduced/figure7-vertical-v2/notebook_run/intel_workload_orders/runs/setup_A_block_09/run_manifest.json",
+      "sha256": "b309c70e4d0bc08613abb231c5c07f098ddfd6962e7860f8f8c20ee4ab455d07"
+    },
+    {
+      "path": "results/reproduced/figure7-vertical-v2/notebook_run/intel_workload_orders/runs/setup_A_block_10/run_manifest.json",
+      "sha256": "f24cfb16e54d5e3fd98d690133c4b4d7d9b7a27ddd00930e0685773b755f442a"
+    },
+    {
+      "path": "results/reproduced/figure7-vertical-v2/notebook_run/intel_workload_orders/runs/setup_B_block_01/run_manifest.json",
+      "sha256": "96ebdca354d4591b340b1d3b24cb7a8ddef21eeca23dc86e87f7c06a3cad62ab"
+    },
+    {
+      "path": "results/reproduced/figure7-vertical-v2/notebook_run/intel_workload_orders/runs/setup_B_block_02/run_manifest.json",
+      "sha256": "45763728718f53e079f0d069571dff2c80ea9ff4296c6960d8e986194ba8f8fa"
+    },
+    {
+      "path": "results/reproduced/figure7-vertical-v2/notebook_run/intel_workload_orders/runs/setup_B_block_03/run_manifest.json",
+      "sha256": "abb1ae24335f1d1d36a24b24d3dca660a5bb4a647ae5ea62d15a53953abc0782"
+    },
+    {
+      "path": "results/reproduced/figure7-vertical-v2/notebook_run/intel_workload_orders/runs/setup_B_block_04/run_manifest.json",
+      "sha256": "313ed38eb4f6cb9d61dd66f3ccd8befd8e4399f416386a049faab1337040a133"
+    },
+    {
+      "path": "results/reproduced/figure7-vertical-v2/notebook_run/intel_workload_orders/runs/setup_B_block_05/run_manifest.json",
+      "sha256": "c10497b036a3c4b9c5c4c5d651828909544d5febfed364ef7a00600afce4ea96"
+    },
+    {
+      "path": "results/reproduced/figure7-vertical-v2/notebook_run/intel_workload_orders/runs/setup_B_block_06/run_manifest.json",
+      "sha256": "67eb9fd7b0a9f552fce62fe5af90ca07c196943154ac75a7ff39bb68b59a5cc3"
+    },
+    {
+      "path": "results/reproduced/figure7-vertical-v2/notebook_run/intel_workload_orders/runs/setup_B_block_07/run_manifest.json",
+      "sha256": "1926ba1db9c70a733ab0002c5c897847b6d20ac1463d454ee91a29ff682cab86"
+    },
+    {
+      "path": "results/reproduced/figure7-vertical-v2/notebook_run/intel_workload_orders/runs/setup_B_block_08/run_manifest.json",
+      "sha256": "b5f9b7e6c8b82cbe6363e4cb39e81c1dc3cb1f5ff5f6a97c8e516d62f2dbf589"
+    },
+    {
+      "path": "results/reproduced/figure7-vertical-v2/notebook_run/intel_workload_orders/runs/setup_B_block_09/run_manifest.json",
+      "sha256": "86d2c5f3fea2ed485060c3cb258206b4c3c3b4ca60f6e4edef1a6175682d6394"
+    },
+    {
+      "path": "results/reproduced/figure7-vertical-v2/notebook_run/intel_workload_orders/runs/setup_B_block_10/run_manifest.json",
+      "sha256": "38b0de6d52bb0a1b48ea0e5820be20bd804cfa644e452b5192503eed0fe5c8e7"
+    }
+  ],
+  "status": "complete"
+}

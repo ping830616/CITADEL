@@ -14,7 +14,7 @@
         "claim_status": "PASS"
       },
       "intel_figure_7": {
-        "source_commit": "2a496d24051a5b4b72e867a9a4cc66d1a53bc07a",
+        "source_commit": "c0a31de0b58ca2cb5c806dbb608e636fc2648f85",
         "clean_full_runs": 2,
         "repeat_compared_scientific_files": 166,
         "repeat_status": "PASS",
@@ -318,7 +318,7 @@
         "runs/setup_<A-or-B>_block_<01-through-10>/*"
       ],
       "manifest": "reproducibility/paper_results/intel/evidence_manifest.json",
-      "legacy_provenance": "Post-audit clean Figure 7 replacement: two complete runs from clean source commit 2a496d24051a5b4b72e867a9a4cc66d1a53bc07a compared all 166 scientific CSV outputs with zero failures or unverified files. The compact archive retains the two plot-source tables, figure, exact runtime/input/source hashes, and a passing paper-claim audit.",
+      "legacy_provenance": "Post-audit clean Figure 7 replacement: two complete runs from clean source commit c0a31de0b58ca2cb5c806dbb608e636fc2648f85 compared all 166 scientific CSV outputs with zero failures or unverified files. The compact archive retains the two plot-source tables, portrait three-panel figure, both run receipts, both analyzer manifests, exact runtime/input/source hashes, and a passing paper-claim audit.",
       "reproduction_boundary": "The compact committed bundle is sufficient for Figure 7 and its reported values; per-block diagnostic files are regenerated rather than archived. Constructed order boundaries do not establish continuously measured switch-transient behavior."
     },
     {

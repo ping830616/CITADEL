@@ -29,8 +29,9 @@ uv run --frozen python scripts/reproduce.py intel-orders \
 
 CSV values are the cross-machine comparison target. Raster bytes are not
 required to be identical because font and rendering backends can differ; the
-new PNG must exist and be nonempty, and it must be generated from the verified
-tables by the archived analyzer.
+new PNG must decode, be nonuniform, and use the manuscript's portrait
+three-panel layout. It must be generated from the verified tables by the
+archived analyzer.
 
 The preserved inputs were collected separately. Consequently, this evidence
 supports workload-order and distribution sensitivity, not the transient time

@@ -1,7 +1,7 @@
 {
   "algorithm": "sha256",
   "description": "Deterministic inventory of every tracked source, input, and archived output. Git-LFS entries use the content OID and declared object size.",
-  "file_count": 612,
+  "file_count": 616,
   "files": [
     {
       "path": ".dockerignore",
@@ -3075,8 +3075,8 @@
       "scopes": [
         "source"
       ],
-      "sha256": "351f8645e757f43ac022cabc08a75f667d4b6dceac817e66c351a816fc4b2663",
-      "size_bytes": 21595,
+      "sha256": "acd32950b024811949b42f0d315a0e1099e83a42040fa66f6d526dc7078db1ae",
+      "size_bytes": 21660,
       "storage": "git"
     },
     {
@@ -3084,8 +3084,8 @@
       "scopes": [
         "source"
       ],
-      "sha256": "16f96d9c2de26853195e7054f61b1fd0756cdd727b564d72f4bd6cdebb56db0c",
-      "size_bytes": 16856,
+      "sha256": "5a4598b5a6e6a181baa08cd6830c0bd771a3bfbe674bbeb2da392a272352656d",
+      "size_bytes": 17052,
       "storage": "git"
     },
     {
@@ -3327,8 +3327,8 @@
         "intel",
         "source"
       ],
-      "sha256": "50806bfa0ed7a2e92aca7f749515ae1c6641872b0539c9f101149861409d81c6",
-      "size_bytes": 1854,
+      "sha256": "6807a58b493597c8265149ad4d2f8f487254db642f1595607ba24087e598b3c0",
+      "size_bytes": 1904,
       "storage": "git"
     },
     {
@@ -3337,8 +3337,8 @@
         "intel",
         "source"
       ],
-      "sha256": "9cbf3725694963435fde4699699de15a65318fe0659784b4e2580354cb504b52",
-      "size_bytes": 13653,
+      "sha256": "344fb1fd91e1bf6404927af9cfd9a30d8857f4685ba2d062f16c1618d45a7f47",
+      "size_bytes": 15360,
       "storage": "git"
     },
     {
@@ -3347,8 +3347,8 @@
         "intel",
         "source"
       ],
-      "sha256": "2cd14cc690988cd0a48a2d4d8bf48d0f78ccf67606087c9b6794f0573711733c",
-      "size_bytes": 1746,
+      "sha256": "c40acda9fdaa779cd029302f020315898cc6243af918699543bd0d4735a1cdb7",
+      "size_bytes": 2745,
       "storage": "git"
     },
     {
@@ -3357,8 +3357,8 @@
         "intel",
         "source"
       ],
-      "sha256": "6befe23f21aa5acecfdd2c7f8c85bb25a3ad33ae93f6fcb814bd80a85707e77e",
-      "size_bytes": 207705,
+      "sha256": "ae2f39c7841c85145644dffb3f54d68c81db857aa9abea0cbbfe01a2ccb04aac",
+      "size_bytes": 232501,
       "storage": "git"
     },
     {
@@ -3379,6 +3379,46 @@
       ],
       "sha256": "30cd6db17dbfaabfb931ad18373e253ee17c3fba3fe4c3681e0fb0019215c125",
       "size_bytes": 1914,
+      "storage": "git"
+    },
+    {
+      "path": "reproducibility/paper_results/intel/provenance/primary_analyzer_manifest.json",
+      "scopes": [
+        "intel",
+        "source"
+      ],
+      "sha256": "87b808d84d54651491d17e539d5b867b43670c6311733f985497a245d7bdb53e",
+      "size_bytes": 13332,
+      "storage": "git"
+    },
+    {
+      "path": "reproducibility/paper_results/intel/provenance/primary_run_receipt.json",
+      "scopes": [
+        "intel",
+        "source"
+      ],
+      "sha256": "98e5917be8f8b7ca9a25b2502fe927cdb65cc68bdecb9f579adac1d10f749047",
+      "size_bytes": 14192,
+      "storage": "git"
+    },
+    {
+      "path": "reproducibility/paper_results/intel/provenance/repeat_analyzer_manifest.json",
+      "scopes": [
+        "intel",
+        "source"
+      ],
+      "sha256": "8a0f907cf882ee3ea8a2df8895e64fc0598776a5456a297e5ccb9ad1150d48cc",
+      "size_bytes": 13528,
+      "storage": "git"
+    },
+    {
+      "path": "reproducibility/paper_results/intel/provenance/repeat_run_receipt.json",
+      "scopes": [
+        "intel",
+        "source"
+      ],
+      "sha256": "e0752f8caccb669cb54a5709db4ece5331a5622571373b3a30201fafae2deeb3",
+      "size_bytes": 14220,
       "storage": "git"
     },
     {
